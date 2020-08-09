@@ -12,5 +12,6 @@ public class QuarkusInboxConfig
         implements InboxConfig {
 
     private String period;
+    private String routingSlip;
 
 }

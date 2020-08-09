@@ -10,12 +10,17 @@ import javax.inject.Inject;
 public class InboxRoutes
         extends RouteBuilder {
 
+    private static final String ROUTING_SLIP = "Slushy.Inbox.RoutingSlip";
+
     @Inject InboxConfig inboxConfig;
 
     @Override
-    public void configure() throws Exception {
-        fromF("timer:foo?period=%s", inboxConfig.getPeriod())
-        .setBody(exchange -> "Tick!")
-        .to("log:slushy-inbox");
+    public void configure() {
+        fromF("timer:inbox?period=%s", inboxConfig.getPeriod())
+                .routeId("Slushy.Inbox")
+                .setBody(exchange -> InboxContext.empty())
+                .setHeader(ROUTING_SLIP, inboxConfig::getRoutingSlip)
+                .routingSlip(header(ROUTING_SLIP))
+        ;
     }
 }
