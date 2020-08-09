@@ -11,7 +11,8 @@ import net.kemitix.slushy.spi.InboxConfig;
 public class QuarkusInboxConfig
         implements InboxConfig {
 
-    private String period;
+    private String scanPeriod;
     private String routingSlip;
+    private String listName;
 
 }

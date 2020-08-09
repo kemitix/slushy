@@ -1,7 +1,9 @@
 package net.kemitix.slushy.spi;
 
 public interface InboxConfig {
-    String getPeriod();
+    String getScanPeriod();
 
     String getRoutingSlip();
+
+    String getListName();
 }
