@@ -28,7 +28,7 @@ public class TrelloProducers {
     }
 
     @Produces
-    Board board(
+    Supplier<Board> board(
             TrelloConfig trelloConfig,
             Trello trello
     ) {
@@ -36,30 +36,57 @@ public class TrelloProducers {
         log.info("User: " + userName);
         String boardName = trelloConfig.getBoardName();
         log.info("Loading Board: " + boardName);
-        return trello
-                .getMemberBoards(userName)
-                .stream()
-                .filter(board -> board.getName().equals(boardName))
-                .findFirst()
-                .orElseThrow(() -> new NotFoundException("Board: " + boardName));
+        return () ->
+                trello
+                        .getMemberBoards(userName)
+                        .stream()
+                        .filter(board -> board.getName().equals(boardName))
+                        .findFirst()
+                        .orElseThrow(() -> new NotFoundException("Board: " + boardName));
+    }
+
+    @Produces
+    @Inbox
+    String inboxName(InboxConfig inboxConfig) {
+        return inboxConfig.getListName();
+    }
+
+    @Produces
+    Supplier<List<TList>> boardLists(
+            Supplier<Board> board,
+            Trello trello
+    ) {
+        return () -> trello.getBoardLists(board.get().getId());
+    }
+
+    @Produces
+    @Inbox
+    Supplier<TList> inboxList(
+            @Inbox String inboxName,
+            Supplier<List<TList>> boardLists
+    ) {
+        return () -> {
+            List<TList> lists = boardLists.get();
+            log.info("Lists: " + lists.size());
+            return lists
+                    .stream()
+                    .filter(list -> list.getName().equals(inboxName))
+                    .peek(list -> log.info("List: " + list.getName()))
+                    .findAny()
+                    .orElseThrow(() -> new NotFoundException("List: " + inboxName));
+        };
     }
 
     @Produces
     @Inbox
     Supplier<List<Card>> inboxCards(
-            Trello trello,
-            Board board,
-            InboxConfig inboxConfig
+            @Inbox Supplier<TList> inboxList,
+            Trello trello
     ) {
-        String listName = inboxConfig.getListName();
         return () -> {
-            List<TList> lists = trello.getBoardLists(board.getId());
-            return lists
-                    .stream()
-                    .filter(list -> list.getName().equals(listName))
-                    .findAny()
-                    .orElseThrow(() -> new NotFoundException("List: " + listName))
-                    .getCards();
+            List<Card> cards = trello.getListCards(inboxList.get().getId());
+            log.info("Cards: " + cards.size());
+            return cards;
         };
     }
 
