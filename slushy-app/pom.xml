@@ -26,11 +26,21 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-core</artifactId>
+            <version>${camel.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-api</artifactId>
             <version>8.0.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
+    <properties>
+        <camel.version>3.4.2</camel.version>
+    </properties>
 
 </project>
