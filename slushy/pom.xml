@@ -17,6 +17,7 @@
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
     <quarkus.platform.version>1.6.1.Final</quarkus.platform.version>
     <surefire-plugin.version>2.22.1</surefire-plugin.version>
+    <lombok.version>1.18.12</lombok.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -38,6 +39,12 @@
       <groupId>net.kemitix.slushy</groupId>
       <artifactId>slushy-app</artifactId>
       <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${lombok.version}</version>
+      <optional>true</optional>
     </dependency>
   </dependencies>
   <build>
