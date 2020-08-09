@@ -17,19 +17,21 @@ public class InboxRoutes
 
     @Inject InboxConfig inboxConfig;
     @Inject @Inbox Supplier<List<Card>> inboxCards;
+    @Inject ValidateSubmission validateSubmission;
 
     @Override
     public void configure() {
         fromF("timer:inbox?period=%s", inboxConfig.getScanPeriod())
                 .routeId("Slushy.Inbox")
+                .setBody(exchange -> inboxCards.get())
+                .split(body())
                 .setHeader(ROUTING_SLIP, inboxConfig::getRoutingSlip)
                 .routingSlip(header(ROUTING_SLIP))
         ;
 
-        from("direct:Slushy.Inbox.Load")
-                .routeId("Slushy.Inbox.Load")
-                .setBody(exchange -> inboxCards.get())
-                .split(body())
-                .to("log:load");
+        from("direct:Slushy.Inbox.Validate")
+                .routeId("Slushy.Inbox.Validate")
+                .bean(validateSubmission)
+        ;
     }
 }
