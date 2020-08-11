@@ -17,7 +17,7 @@ public class InboxRoutes
 
     @Inject InboxConfig inboxConfig;
     @Inject @Inbox Supplier<List<Card>> inboxCards;
-    @Inject ValidateSubmission validateSubmission;
+    @Inject SubmissionParser submissionParser;
 
     @Override
     public void configure() {
@@ -29,9 +29,9 @@ public class InboxRoutes
                 .routingSlip(header(ROUTING_SLIP))
         ;
 
-        from("direct:Slushy.Inbox.Validate")
-                .routeId("Slushy.Inbox.Validate")
-                .bean(validateSubmission)
+        from("direct:Slushy.Inbox.Parse")
+                .routeId("Slushy.Inbox.Parse")
+                .bean(submissionParser)
         ;
     }
 }
