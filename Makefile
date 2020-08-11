@@ -7,7 +7,7 @@ install: .install
 
 clean:
 	mvn clean
-	rm .install
+	if [ -f .install ];then rm .install;fi
 
 dev:
 	mvn quarkus:dev -pl slushy
