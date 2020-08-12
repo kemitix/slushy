@@ -6,4 +6,6 @@ public interface InboxConfig {
     String getRoutingSlip();
 
     String getListName();
+
+    long getDueDays();
 }

@@ -18,6 +18,7 @@ public class InboxRoutes
     @Inject InboxConfig inboxConfig;
     @Inject @Inbox Supplier<List<Card>> inboxCards;
     @Inject SubmissionParser submissionParser;
+    @Inject CardFormatter cardFormatter;
 
     @Override
     public void configure() {
@@ -31,7 +32,14 @@ public class InboxRoutes
 
         from("direct:Slushy.Inbox.Parse")
                 .routeId("Slushy.Inbox.Parse")
+                .setHeader("Slushy.Inbox.Card", body())
                 .bean(submissionParser)
+        ;
+
+        from("direct:Slushy.Inbox.Reformat")
+                .routeId("Slushy.Inbox.Reformat")
+                .bean(cardFormatter,
+                        "reformat(${body}, ${header[Slushy.Inbox.Card]})")
         ;
     }
 }
