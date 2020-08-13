@@ -3,7 +3,6 @@ package net.kemitix.slushy.app;
 import com.julienvey.trello.NotFoundException;
 import com.julienvey.trello.Trello;
 import com.julienvey.trello.domain.Board;
-import com.julienvey.trello.domain.Card;
 import com.julienvey.trello.domain.TList;
 import com.julienvey.trello.impl.TrelloImpl;
 import com.julienvey.trello.impl.http.ApacheHttpClient;
@@ -14,7 +13,6 @@ import net.kemitix.slushy.spi.TrelloConfig;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import java.util.List;
-import java.util.function.Supplier;
 
 @Log
 @ApplicationScoped
@@ -28,7 +26,19 @@ public class TrelloProducers {
     }
 
     @Produces
-    Supplier<Board> board(
+    TrelloBoard trelloBoard(
+            Trello trello,
+            TrelloConfig trelloConfig,
+            InboxConfig inboxConfig
+    ) {
+        Board board = board(trelloConfig, trello);
+        List<TList> lists = board.fetchLists();
+        TList inbox = getList(inboxConfig.getListName(), lists);
+        TList slush = getList(inboxConfig.getSlushName(), lists);
+        return new TrelloBoard(trello, inbox.getId(), slush.getId());
+    }
+
+    private Board board(
             TrelloConfig trelloConfig,
             Trello trello
     ) {
@@ -36,58 +46,23 @@ public class TrelloProducers {
         log.info("User: " + userName);
         String boardName = trelloConfig.getBoardName();
         log.info("Loading Board: " + boardName);
-        return () ->
-                trello
-                        .getMemberBoards(userName)
-                        .stream()
-                        .filter(board -> board.getName().equals(boardName))
-                        .findFirst()
-                        .orElseThrow(() -> new NotFoundException("Board: " + boardName));
+        return trello
+                .getMemberBoards(userName)
+                .stream()
+                .filter(board -> board.getName().equals(boardName))
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException("Board: " + boardName));
     }
 
-    @Produces
-    @Inbox
-    String inboxName(InboxConfig inboxConfig) {
-        return inboxConfig.getListName();
-    }
-
-    @Produces
-    Supplier<List<TList>> boardLists(
-            Supplier<Board> board,
-            Trello trello
+    private TList getList(
+            String listName,
+            List<TList> lists
     ) {
-        return () -> trello.getBoardLists(board.get().getId());
-    }
-
-    @Produces
-    @Inbox
-    Supplier<TList> inboxList(
-            @Inbox String inboxName,
-            Supplier<List<TList>> boardLists
-    ) {
-        return () -> {
-            List<TList> lists = boardLists.get();
-            log.info("Lists: " + lists.size());
-            return lists
-                    .stream()
-                    .filter(list -> list.getName().equals(inboxName))
-                    .peek(list -> log.info("List: " + list.getName()))
-                    .findAny()
-                    .orElseThrow(() -> new NotFoundException("List: " + inboxName));
-        };
-    }
-
-    @Produces
-    @Inbox
-    Supplier<List<Card>> inboxCards(
-            @Inbox Supplier<TList> inboxList,
-            Trello trello
-    ) {
-        return () -> {
-            List<Card> cards = trello.getListCards(inboxList.get().getId());
-            log.info("Cards: " + cards.size());
-            return cards;
-        };
+        return lists
+                .stream()
+                .filter(list -> list.getName().equals(listName))
+                .findAny()
+                .orElseThrow(() -> new NotFoundException("List: " + listName));
     }
 
 }

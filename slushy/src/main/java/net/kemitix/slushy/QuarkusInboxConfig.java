@@ -15,5 +15,6 @@ public class QuarkusInboxConfig
     private String routingSlip;
     private String listName;
     private long dueDays;
+    private String slushName;
 
 }

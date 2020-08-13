@@ -16,7 +16,7 @@ public class InboxRoutes
     private static final String ROUTING_SLIP = "Slushy.Inbox.RoutingSlip";
 
     @Inject InboxConfig inboxConfig;
-    @Inject @Inbox Supplier<List<Card>> inboxCards;
+    @Inject TrelloBoard trelloBoard;
     @Inject SubmissionParser submissionParser;
     @Inject CardFormatter cardFormatter;
 
@@ -24,7 +24,7 @@ public class InboxRoutes
     public void configure() {
         fromF("timer:inbox?period=%s", inboxConfig.getScanPeriod())
                 .routeId("Slushy.Inbox")
-                .setBody(exchange -> inboxCards.get())
+                .setBody(exchange -> trelloBoard.getInboxCards())
                 .split(body())
                 .setHeader(ROUTING_SLIP, inboxConfig::getRoutingSlip)
                 .routingSlip(header(ROUTING_SLIP))

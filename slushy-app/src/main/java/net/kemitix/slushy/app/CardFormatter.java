@@ -19,8 +19,7 @@ public class CardFormatter {
 
     @Inject Supplier<Instant> nowSupplier;
     @Inject InboxConfig inboxConfig;
-    @Inject
-    Trello trello;
+    @Inject TrelloBoard trelloBoard;
 
     Submission reformat(Submission submission, Card card) {
         // Name
@@ -33,7 +32,7 @@ public class CardFormatter {
                 .plus(inboxConfig.getDueDays(), ChronoUnit.DAYS)
                 .atZone(ZoneOffset.ofHours(0)).toEpochSecond() * 1000));
         // Save
-        trello.updateCard(card);
+        trelloBoard.updateCard(card);
 
         return submission;
     }
