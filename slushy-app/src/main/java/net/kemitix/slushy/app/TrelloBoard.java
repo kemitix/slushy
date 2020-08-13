@@ -2,6 +2,7 @@ package net.kemitix.slushy.app;
 
 import com.julienvey.trello.NotFoundException;
 import com.julienvey.trello.Trello;
+import com.julienvey.trello.domain.Attachment;
 import com.julienvey.trello.domain.Board;
 import com.julienvey.trello.domain.Card;
 import com.julienvey.trello.domain.TList;
@@ -68,6 +69,10 @@ public class TrelloBoard {
 
     public List<Card> getInboxCards() {
         return trello.getListCards(inbox.getId());
+    }
+
+    public List<Attachment> getAttachments(Card card) {
+        return trello.getCardAttachments(card.getId());
     }
 
 }

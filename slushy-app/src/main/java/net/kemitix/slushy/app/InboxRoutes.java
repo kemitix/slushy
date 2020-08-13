@@ -5,6 +5,9 @@ import org.apache.camel.builder.RouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.function.Supplier;
+
+import static org.apache.camel.builder.Builder.bean;
 
 @ApplicationScoped
 public class InboxRoutes
@@ -17,6 +20,7 @@ public class InboxRoutes
     @Inject SubmissionParser submissionParser;
     @Inject CardFormatter cardFormatter;
     @Inject CardMover cardMover;
+    @Inject AttachmentLoader attachmentLoader;
 
     @Override
     public void configure() {
@@ -44,6 +48,13 @@ public class InboxRoutes
                 .routeId("Slushy.Inbox.MoveToSlushPile")
                 .setHeader("Slushy.Inbox.Destination", trelloBoard::getSlush)
                 .bean(cardMover, "move(${header[Slushy.Inbox.Card]}, ${header[Slushy.Inbox.Destination]})")
+        ;
+
+        from("direct:Slushy.Inbox.LoadAttachment")
+                .routeId("Slushy.Inbox.LoadAttachment")
+                .setHeader("Slushy.Inbox.Attachment",
+                        bean(attachmentLoader,
+                                "load(${header[Slushy.Inbox.Card]})"))
         ;
     }
 }

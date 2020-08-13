@@ -1,5 +1,6 @@
 package net.kemitix.slushy.app;
 
+import com.julienvey.trello.domain.Attachment;
 import com.julienvey.trello.domain.Card;
 import lombok.extern.java.Log;
 
@@ -8,6 +9,7 @@ import javax.inject.Inject;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
@@ -23,9 +25,41 @@ public class SubmissionParser {
                     Pattern.MULTILINE);
 
     @Inject Supplier<Instant> nowSupplier;
+    @Inject TrelloBoard trelloBoard;
+    List<String> acceptedFileExtensions = List.of("docx", "doc", "odt");
 
     Submission parse(Card card) {
         log.info("CARD " + card.getName());
+        Map<String, String> body = parseBody(card);
+        return Submission.builder()
+                .title(body.get("storytitle"))
+                .byline(body.get("byline"))
+                .realName(body.get("name"))
+                .email(body.get("email"))
+                .paypal(body.get("paypal"))
+                .wordLength(WordLengthBand.parse(body.get("wordcount")))
+                .coverLetter(body.get("coverletter"))
+                .contract(Contract.parse(body.get("contract")))
+                .submittedDate(nowSupplier.get())
+                .document(getAttachmentUrl(card));
+    }
+
+    private String getAttachmentUrl(Card card) {
+        return trelloBoard.getAttachments(card)
+                .stream()
+                .map(Attachment::getUrl)
+                .filter(this::validExtension)
+                .findFirst()
+                .orElseThrow();
+    }
+
+    private boolean validExtension(String url) {
+        return acceptedFileExtensions
+                .stream()
+                .anyMatch(extension -> url.endsWith("." + extension));
+    }
+
+    private Map<String, String> parseBody(Card card) {
         String body = card.getDesc();
         Map<String, String> values = new HashMap<>();
         AtomicReference<String> header = new AtomicReference<>("preamble");
@@ -45,15 +79,6 @@ public class SubmissionParser {
                         }
                     }
                 });
-        return Submission.builder()
-                .title(values.get("storytitle"))
-                .byline(values.get("byline"))
-                .realName(values.get("name"))
-                .email(values.get("email"))
-                .paypal(values.get("paypal"))
-                .wordLength(WordLengthBand.parse(values.get("wordcount")))
-                .coverLetter(values.get("coverletter"))
-                .contract(Contract.parse(values.get("contract")))
-                .submittedDate(nowSupplier.get());
+        return values;
     }
 }

@@ -1,11 +1,15 @@
 package net.kemitix.slushy.app;
 
+import com.julienvey.trello.domain.Attachment;
 import com.julienvey.trello.domain.Card;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -13,8 +17,12 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Instant;
+import java.util.List;
 import java.util.function.Supplier;
 
+import static org.mockito.BDDMockito.given;
+
+@ExtendWith(MockitoExtension.class)
 public class SubmissionParserTest
         implements WithAssertions {
 
@@ -23,9 +31,13 @@ public class SubmissionParserTest
     private final Instant now = Instant.ofEpochSecond(123456789);
     private final Supplier<Instant> nowSupplier = () -> now;
 
+    @Mock
+    TrelloBoard trelloBoard;
+
     @BeforeEach
     public void setUp() {
         submissionParser.nowSupplier = nowSupplier;
+        submissionParser.trelloBoard = trelloBoard;
     }
 
     @Nested
@@ -107,5 +119,20 @@ public class SubmissionParserTest
                     .isEqualTo(now);
         }
 
+        @Test
+        @DisplayName("Attachment")
+        public void attachment() {
+            String documentUrl = "document.docx";
+            given(trelloBoard.getAttachments(card))
+                    .willReturn(List.of(new Attachment(documentUrl)));
+            assertThat(submissionParser.parse(card).getDocument())
+                    .isEqualTo(documentUrl);
+        }
+    }
+
+    @Nested
+    @DisplayName("Invalid Submission")
+    public class InvalidSubmissionTests {
+        //TODO
     }
 }

@@ -19,12 +19,14 @@ public class Submission {
     private final String coverLetter;
     private final Contract contract;
     private final Instant date;
+    private final String document;
 
     public static Builder builder() {
         return title -> byline -> realName -> email -> paypal
                 -> wordLengthBand -> coverLetter -> contract -> date
+                -> document
                 -> new Submission(title, byline, realName, email, paypal,
-                wordLengthBand, coverLetter, contract, date);
+                wordLengthBand, coverLetter, contract, date, document);
     }
 
     public interface Builder {
@@ -36,6 +38,7 @@ public class Submission {
         interface Stage5 {Stage6 wordLength(WordLengthBand wordLength);}
         interface Stage6 {Stage7 coverLetter(String coverLetter);}
         interface Stage7 {Stage8 contract(Contract contract);}
-        interface Stage8 {Submission submittedDate(Instant submittedDate);}
+        interface Stage8 {Stage9 submittedDate(Instant submittedDate);}
+        interface Stage9 {Submission document(String document);}
     }
 }
