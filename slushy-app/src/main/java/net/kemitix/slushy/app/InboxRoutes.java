@@ -1,13 +1,10 @@
 package net.kemitix.slushy.app;
 
-import com.julienvey.trello.domain.Card;
 import net.kemitix.slushy.spi.InboxConfig;
 import org.apache.camel.builder.RouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.List;
-import java.util.function.Supplier;
 
 @ApplicationScoped
 public class InboxRoutes
@@ -19,6 +16,7 @@ public class InboxRoutes
     @Inject TrelloBoard trelloBoard;
     @Inject SubmissionParser submissionParser;
     @Inject CardFormatter cardFormatter;
+    @Inject CardMover cardMover;
 
     @Override
     public void configure() {
@@ -40,6 +38,12 @@ public class InboxRoutes
                 .routeId("Slushy.Inbox.Reformat")
                 .bean(cardFormatter,
                         "reformat(${body}, ${header[Slushy.Inbox.Card]})")
+        ;
+
+        from("direct:Slushy.Inbox.MoveToSlushPile")
+                .routeId("Slushy.Inbox.MoveToSlushPile")
+                .setHeader("Slushy.Inbox.Destination", trelloBoard::getSlush)
+                .bean(cardMover, "move(${header[Slushy.Inbox.Card]}, ${header[Slushy.Inbox.Destination]})")
         ;
     }
 }
