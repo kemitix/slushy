@@ -44,8 +44,9 @@ public class SubmissionParserTest
     @DisplayName("Valid Submission")
     public class ValidSubmissionTests {
 
-        private Card card;
+        Card card;
         URL validResource = this.getClass().getResource("valid-submission.txt");
+        String documentUrl = "document.docx";
 
         @BeforeEach
         public void setUp() throws URISyntaxException, IOException {
@@ -54,6 +55,8 @@ public class SubmissionParserTest
                     String.join("\n",
                             Files.readAllLines(Paths.get(validResource.toURI())));
             card.setDesc(validCardDescription);
+            given(trelloBoard.getAttachments(card))
+                    .willReturn(List.of(new Attachment(documentUrl)));
         }
 
         @Test
@@ -122,9 +125,6 @@ public class SubmissionParserTest
         @Test
         @DisplayName("Attachment")
         public void attachment() {
-            String documentUrl = "document.docx";
-            given(trelloBoard.getAttachments(card))
-                    .willReturn(List.of(new Attachment(documentUrl)));
             assertThat(submissionParser.parse(card).getDocument())
                     .isEqualTo(documentUrl);
         }
