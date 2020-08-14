@@ -40,8 +40,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.taskadapter</groupId>
-            <artifactId>trello-java-wrapper</artifactId>
+            <groupId>net.kemitix.ugiggle</groupId>
+            <artifactId>ugiggle-trello</artifactId>
         </dependency>
 
         <dependency>
