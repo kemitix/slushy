@@ -16,7 +16,7 @@ public class AttachmentLoader {
     Trello trello;
     private List<String> acceptedMimes;
 
-    File load(Card card) {
+    File load(Submission submission) {
         //TODO
         // list all attachments
         // Move this over to Submission

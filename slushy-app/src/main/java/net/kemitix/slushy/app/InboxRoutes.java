@@ -54,7 +54,7 @@ public class InboxRoutes
                 .routeId("Slushy.Inbox.LoadAttachment")
                 .setHeader("Slushy.Inbox.Attachment",
                         bean(attachmentLoader,
-                                "load(${header[Slushy.Inbox.Card]})"))
+                                "load(${header[Slushy.Inbox.Submission]})"))
         ;
     }
 }
