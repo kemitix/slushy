@@ -1,8 +1,6 @@
 package net.kemitix.slushy.app;
 
-import com.julienvey.trello.Trello;
 import com.julienvey.trello.domain.Card;
-import com.julienvey.trello.domain.Label;
 import net.kemitix.slushy.spi.InboxConfig;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -11,7 +9,6 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import java.util.Map;
 import java.util.function.Supplier;
 
 @ApplicationScoped
