@@ -1,9 +1,7 @@
 package net.kemitix.slushy.app;
 
-import com.julienvey.trello.Trello;
-import com.julienvey.trello.impl.TrelloImpl;
-import com.julienvey.trello.impl.http.ApacheHttpClient;
 import lombok.extern.java.Log;
+import net.kemitix.ugiggle.trello.TrelloConfig;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
@@ -13,10 +11,18 @@ import javax.enterprise.inject.Produces;
 public class TrelloProducers {
 
     @Produces
-    Trello trello() {
-        String key = System.getenv("TRELLO_KEY");
-        String secret = System.getenv("TRELLO_SECRET");
-        return new TrelloImpl(key, secret, new ApacheHttpClient());
+    TrelloConfig trelloConfig() {
+        return new TrelloConfig() {
+            @Override
+            public String getTrelloKey() {
+                return System.getenv("TRELLO_KEY");
+            }
+
+            @Override
+            public String getTrelloAccessToken() {
+                return System.getenv("TRELLO_SECRET");
+            }
+        };
     }
 
 }

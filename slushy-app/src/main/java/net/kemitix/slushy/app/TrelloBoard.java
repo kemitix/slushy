@@ -9,7 +9,7 @@ import com.julienvey.trello.domain.TList;
 import lombok.Getter;
 import lombok.extern.java.Log;
 import net.kemitix.slushy.spi.InboxConfig;
-import net.kemitix.slushy.spi.TrelloConfig;
+import net.kemitix.slushy.spi.SlushyTrelloConfig;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -21,7 +21,7 @@ import java.util.List;
 public class TrelloBoard {
 
     @Inject private Trello trello;
-    @Inject private TrelloConfig trelloConfig;
+    @Inject private SlushyTrelloConfig trelloConfig;
     @Inject private InboxConfig inboxConfig;
 
     @Getter private TList inbox;
@@ -36,7 +36,7 @@ public class TrelloBoard {
     }
 
     private Board board(
-            TrelloConfig trelloConfig,
+            SlushyTrelloConfig trelloConfig,
             Trello trello
     ) {
         String userName = trelloConfig.getUserName();
