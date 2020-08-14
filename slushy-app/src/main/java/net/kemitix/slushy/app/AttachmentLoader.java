@@ -1,35 +1,31 @@
 package net.kemitix.slushy.app;
 
-import com.julienvey.trello.NotFoundException;
 import com.julienvey.trello.Trello;
-import com.julienvey.trello.domain.Attachment;
 import com.julienvey.trello.domain.Card;
+import net.kemitix.ugiggle.trello.Attachment;
+import net.kemitix.ugiggle.trello.AttachmentDirectory;
+import net.kemitix.ugiggle.trello.TrelloCard;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.io.File;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class AttachmentLoader {
 
+    @Inject
     Trello trello;
-    private List<String> acceptedMimes;
 
-    File load(Submission submission) {
-        //TODO
-        // list all attachments
-        // Move this over to Submission
-        List<Attachment> cardAttachments = trello.getCardAttachments(card.getId());
-        // find the first that matches accepted extension
-        Attachment att = cardAttachments.stream()
-                .filter(attachment -> acceptedMimes.contains(attachment.getMimeType()))
+    @Inject
+    AttachmentDirectory attachmentDirectory;
+
+    File load(Card card) {
+        return TrelloCard.create(card, trello, attachmentDirectory)
+                .findAttachments()
+                .map(Attachment::download)
+                .map(Attachment::getFileName)
                 .findFirst()
-                .orElseThrow(() -> new NotFoundException("No valid attachment found"));
-        // download
-
-        // return File
-        return null;
+                .orElseThrow();
     }
 
 }
