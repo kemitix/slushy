@@ -26,6 +26,16 @@
         </dependency>
 
         <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-ses</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-core</artifactId>
             <version>${camel.version}</version>
@@ -38,12 +48,14 @@
             <version>8.0.0</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
-            <groupId>net.kemitix.ugiggle</groupId>
-            <artifactId>ugiggle-trello</artifactId>
+            <groupId>com.taskadapter</groupId>
+            <artifactId>trello-java-wrapper</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>fr.opensagres.xdocreport</groupId>
+            <artifactId>org.odftoolkit.odfdom.converter.xhtml</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
