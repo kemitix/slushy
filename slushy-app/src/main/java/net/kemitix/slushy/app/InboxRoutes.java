@@ -5,7 +5,6 @@ import org.apache.camel.builder.RouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.function.Supplier;
 
 import static org.apache.camel.builder.Builder.bean;
 
