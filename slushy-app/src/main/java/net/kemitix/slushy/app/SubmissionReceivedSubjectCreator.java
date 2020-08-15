@@ -3,7 +3,6 @@ package net.kemitix.slushy.app;
 import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-@SubmissionReceived
 public class SubmissionReceivedSubjectCreator
         implements SubjectCreator<Submission> {
 

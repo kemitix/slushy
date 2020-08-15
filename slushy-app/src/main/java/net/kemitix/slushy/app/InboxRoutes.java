@@ -22,10 +22,8 @@ public class InboxRoutes
     @Inject AttachmentLoader attachmentLoader;
     @Inject ConversionService conversionService;
     @Inject EmailService emailService;
-    @Inject @SubmissionReceived
-    SubjectCreator<Submission> subjectCreator;
-    @Inject @SubmissionReceived
-    BodyCreator<Submission> bodyCreator;
+    @Inject SubmissionReceivedSubjectCreator subjectCreator;
+    @Inject SubmissionReceivedBodyCreator bodyCreator;
 
     @Override
     public void configure() {
