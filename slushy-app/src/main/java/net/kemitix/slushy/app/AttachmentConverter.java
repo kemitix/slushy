@@ -1,6 +1,4 @@
-package net.kemitix.slushy.app.ugiggle;
-
-import net.kemitix.slushy.app.Attachment;
+package net.kemitix.slushy.app;
 
 import java.util.Optional;
 

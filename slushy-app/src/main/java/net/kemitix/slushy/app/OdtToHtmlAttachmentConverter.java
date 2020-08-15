@@ -1,8 +1,5 @@
-package net.kemitix.slushy.app.ugiggle;
+package net.kemitix.slushy.app;
 
-import net.kemitix.slushy.app.Attachment;
-import net.kemitix.slushy.app.AttachmentDirectory;
-import net.kemitix.slushy.app.LocalAttachment;
 import org.odftoolkit.odfdom.converter.xhtml.XHTMLConverter;
 import org.odftoolkit.odfdom.converter.xhtml.XHTMLOptions;
 import org.odftoolkit.odfdom.doc.OdfTextDocument;

@@ -1,6 +1,7 @@
 package net.kemitix.slushy.app.ugiggle;
 
 import net.kemitix.slushy.app.Attachment;
+import net.kemitix.slushy.app.ConversionService;
 import net.kemitix.slushy.app.TrelloCard;
 
 import javax.enterprise.context.ApplicationScoped;

@@ -1,11 +1,11 @@
-package net.kemitix.slushy.app.ugiggle;
+package net.kemitix.slushy.app;
 
-import net.kemitix.slushy.app.Attachment;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 

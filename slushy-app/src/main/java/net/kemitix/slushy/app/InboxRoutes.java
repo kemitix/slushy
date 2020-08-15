@@ -19,8 +19,8 @@ public class InboxRoutes
     @Inject SubmissionParser submissionParser;
     @Inject CardFormatter cardFormatter;
     @Inject CardMover cardMover;
-    @Inject
-    AttachmentLoader attachmentLoader;
+    @Inject AttachmentLoader attachmentLoader;
+    @Inject ConversionService conversionService;
 
     @Override
     public void configure() {
@@ -55,6 +55,12 @@ public class InboxRoutes
                 .setHeader("Slushy.Inbox.Attachment",
                         bean(attachmentLoader,
                                 "load(${header[Slushy.Inbox.Card]})"))
+        ;
+
+        from("direct:Slushy.Inbox.FormatForReader")
+                .routeId("Slushy.Inbox.FormatForReader")
+                .setHeader("Slushy.Inbox.ReadableAttachment",
+                        bean(conversionService, "convert(${header[Slushy.Inbox.Attachment]})"))
         ;
     }
 }
