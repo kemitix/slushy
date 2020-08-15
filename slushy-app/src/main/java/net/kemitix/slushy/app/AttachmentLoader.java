@@ -5,7 +5,6 @@ import com.julienvey.trello.domain.Card;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.io.File;
 
 @ApplicationScoped
 public class AttachmentLoader {
@@ -16,11 +15,10 @@ public class AttachmentLoader {
     @Inject
     AttachmentDirectory attachmentDirectory;
 
-    File load(Card card) {
+    Attachment load(Card card) {
         return TrelloCard.create(card, trello, attachmentDirectory)
                 .findAttachments()
                 .map(Attachment::download)
-                .map(Attachment::getFileName)
                 .findFirst()
                 .orElseThrow();
     }
