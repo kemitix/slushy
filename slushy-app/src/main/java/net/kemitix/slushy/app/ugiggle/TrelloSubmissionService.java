@@ -4,6 +4,8 @@ import com.julienvey.trello.Trello;
 import com.julienvey.trello.domain.Board;
 import com.julienvey.trello.domain.Card;
 import com.julienvey.trello.domain.TList;
+import net.kemitix.slushy.app.AttachmentDirectory;
+import net.kemitix.slushy.app.TrelloCard;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

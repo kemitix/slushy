@@ -1,5 +1,7 @@
 package net.kemitix.slushy.app.ugiggle;
 
+import net.kemitix.slushy.app.Attachment;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;

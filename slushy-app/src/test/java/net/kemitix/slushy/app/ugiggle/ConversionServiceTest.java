@@ -1,8 +1,6 @@
 package net.kemitix.slushy.app.ugiggle;
 
-import net.kemitix.slushy.app.ugiggle.Attachment;
-import net.kemitix.slushy.app.ugiggle.AttachmentConverter;
-import net.kemitix.slushy.app.ugiggle.ConversionService;
+import net.kemitix.slushy.app.Attachment;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

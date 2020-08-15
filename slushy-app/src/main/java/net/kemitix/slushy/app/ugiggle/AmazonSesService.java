@@ -2,6 +2,7 @@ package net.kemitix.slushy.app.ugiggle;
 
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.amazonaws.services.simpleemail.model.*;
+import net.kemitix.slushy.app.Attachment;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

@@ -1,4 +1,4 @@
-package net.kemitix.slushy.app.ugiggle;
+package net.kemitix.slushy.app;
 
 import com.julienvey.trello.domain.Card;
 
