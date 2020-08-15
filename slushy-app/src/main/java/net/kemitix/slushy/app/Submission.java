@@ -13,7 +13,7 @@ public class Submission {
     private final String title;
     private final String byline;
     private final String realName;
-    private final String email;
+    final String email;
     private final String paypal;
     private final WordLengthBand wordLengthBand;
     private final String coverLetter;

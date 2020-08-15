@@ -39,6 +39,6 @@ public interface InboxConfig {
      *
      * <p>If sending to Kindle, then ensure this address is listed as a valid sender.</p>
      */
-    String getRecipient();
+    String getReader();
 
 }

@@ -10,7 +10,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 
 @Log
-@ApplicationScoped
+//@ApplicationScoped
 public class TrelloProducers {
 
     @Produces

@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import javax.mail.MessagingException;
 import java.io.IOException;
 
-@ApplicationScoped
+//@ApplicationScoped
 public class SendReadingListService {
 
     @Inject
@@ -29,7 +29,7 @@ public class SendReadingListService {
 
     private void sendEmail(Attachment attachment) {
         try {
-            emailService.send(attachment);
+            emailService.sendAttachmentOnly("", "", attachment);
         } catch (MessagingException | IOException e) {
             e.printStackTrace();
         }

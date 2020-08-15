@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 
-@ApplicationScoped
+//@ApplicationScoped
 public class TrelloSubmissionService implements ReadingListService {
 
     private static final Logger LOG =
