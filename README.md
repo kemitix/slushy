@@ -13,6 +13,15 @@ https://oss.sonatype.org/content/repositories/releases/net/kemitix/slushy/slushy
 https://img.shields.io/maven-central/v/net.kemitix.slushy/slushy.svg?style=for-the-badge)](
 https://search.maven.org/search?q=g:net.kemitix.slushy%20a:slushy)
 
+# Configuration
+
+Define the following environment variables to configure Slushy:
+
+* `SLUSHY_BOARD` - the Trello Board
+* `SLUSHY_USER` - the Trello User name
+* `SLUSHY_READER` - the email to send attachements to
+* `SLUSHY_SENDER` - the email to send emails from and to receive cc'd copies
+
 # Structure/Dependencies
 
 ![Dependency Graph](docs/images/reactor-graph.png)
