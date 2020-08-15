@@ -1,15 +1,7 @@
 package net.kemitix.slushy.app;
 
-import javax.enterprise.context.ApplicationScoped;
+public interface SubjectCreator<T> {
 
-@ApplicationScoped
-public class SubjectCreator {
-
-    String subject(Submission submission) {
-        return String.format(
-                "Submission Received: %s by %s",
-                submission.getTitle(),
-                submission.getByline());
-    }
+    String subject(T source);
 
 }
