@@ -1,10 +1,7 @@
-package net.kemitix.slushy.app;
+package net.kemitix.slushy.app.ugiggle;
 
 import com.julienvey.trello.Trello;
 import com.julienvey.trello.domain.Card;
-import net.kemitix.ugiggle.trello.Attachment;
-import net.kemitix.ugiggle.trello.AttachmentDirectory;
-import net.kemitix.ugiggle.trello.TrelloCard;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

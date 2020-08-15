@@ -1,5 +1,6 @@
 package net.kemitix.slushy.app;
 
+import net.kemitix.slushy.app.ugiggle.AttachmentLoader;
 import net.kemitix.slushy.spi.InboxConfig;
 import org.apache.camel.builder.RouteBuilder;
 
@@ -19,7 +20,8 @@ public class InboxRoutes
     @Inject SubmissionParser submissionParser;
     @Inject CardFormatter cardFormatter;
     @Inject CardMover cardMover;
-    @Inject AttachmentLoader attachmentLoader;
+    @Inject
+    AttachmentLoader attachmentLoader;
 
     @Override
     public void configure() {
