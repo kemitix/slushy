@@ -21,6 +21,7 @@ public class InboxRoutes
     @Inject CardMover cardMover;
     @Inject AttachmentLoader attachmentLoader;
     @Inject ConversionService conversionService;
+    @Inject EmailService emailService;
 
     @Override
     public void configure() {
@@ -61,6 +62,14 @@ public class InboxRoutes
                 .routeId("Slushy.Inbox.FormatForReader")
                 .setHeader("Slushy.Inbox.ReadableAttachment",
                         bean(conversionService, "convert(${header[Slushy.Inbox.Attachment]})"))
+        ;
+
+        from("direct:Slushy.Inbox.SendToReader")
+                .routeId("direct:Slushy.Inbox.SendToReader")
+                .setHeader("Slushy.Inbox.Sender", inboxConfig::getSender)
+                .setHeader("Slushy.Inbox.Recipient", inboxConfig::getRecipient)
+                .bean(emailService, "send(${header[Slushy.Inbox.Attachment]}, " +
+                        "${header[Slushy.Inbox.Sender]}, $header[Slushy.Inbox.Recipient])")
         ;
     }
 }
