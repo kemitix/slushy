@@ -27,18 +27,4 @@ public interface InboxConfig {
      */
     String getSlushName();
 
-    /**
-     * The email address to send submission attachments to.
-     *
-     * <p>e.g. the kindle address</p>
-     */
-    String getSender();
-
-    /**
-     * The email address to send emails from.
-     *
-     * <p>If sending to Kindle, then ensure this address is listed as a valid sender.</p>
-     */
-    String getReader();
-
 }

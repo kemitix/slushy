@@ -1,6 +1,7 @@
  package net.kemitix.slushy.app;
 
  import net.kemitix.slushy.spi.InboxConfig;
+ import net.kemitix.slushy.spi.SlushyConfig;
  import org.apache.camel.builder.RouteBuilder;
  import org.apache.camel.builder.SimpleBuilder;
  import org.apache.camel.builder.ValueBuilder;
@@ -14,6 +15,7 @@
 public class InboxRoutes
         extends RouteBuilder {
 
+    @Inject SlushyConfig slushyConfig;
     @Inject InboxConfig inboxConfig;
     @Inject TrelloBoard trelloBoard;
     @Inject SubmissionParser submissionParser;
@@ -71,8 +73,8 @@ public class InboxRoutes
 
         from("direct:Slushy.Inbox.SendToReader")
                 .routeId("Slushy.Inbox.SendToReader")
-                .setHeader("Slushy.Inbox.Recipient", inboxConfig::getReader)
-                .setHeader("Slushy.Inbox.Sender", inboxConfig::getSender)
+                .setHeader("Slushy.Inbox.Recipient", slushyConfig::getReader)
+                .setHeader("Slushy.Inbox.Sender", slushyConfig::getSender)
                 .bean(emailService, "sendAttachmentOnly(" +
                         "${header[Slushy.Inbox.Recipient]}, " +
                         "${header[Slushy.Inbox.Sender]}, " +
@@ -83,7 +85,7 @@ public class InboxRoutes
         from("direct:Slushy.Inbox.SendEmailConfirmation")
                 .routeId("Slushy.Inbox.SendEmailConfirmation")
                 .setHeader("Slushy.Inbox.Recipient", submissionEmail())
-                .setHeader("Slushy.Inbox.Sender", inboxConfig::getSender)
+                .setHeader("Slushy.Inbox.Sender", slushyConfig::getSender)
                 .setHeader("Slushy.Inbox.Subject", subject())
                 .setHeader("Slushy.Inbox.Body", bodyText())
                 .setHeader("Slushy.Inbox.BodyHtml", bodyHtml())

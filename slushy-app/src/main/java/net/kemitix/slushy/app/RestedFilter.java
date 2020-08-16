@@ -9,18 +9,17 @@ import javax.inject.Inject;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.function.Supplier;
 
 @Log
 @ApplicationScoped
 public class RestedFilter {
 
     @Inject RejectConfig rejectConfig;
-    @Inject Supplier<Instant> nowSupplier;
+    @Inject Now now;
 
     boolean isRested(Card card) {
-        Instant now = nowSupplier.get();
-        Instant requiredAge = now.minus(rejectConfig.getRequiredAgeHours(), ChronoUnit.HOURS);
+        Instant requiredAge = now.get()
+                .minus(rejectConfig.getRequiredAgeHours(), ChronoUnit.HOURS);
         Instant dateLastActivity = card.getDateLastActivity().toInstant();
         boolean rested = dateLastActivity.isBefore(requiredAge);
         if (rested) {
