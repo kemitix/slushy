@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 public class TimeProducers {
 
     @Produces
-    Supplier<Instant> nowSupplier() {
+    Now now() {
         return Instant::now;
     }
 
