@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-docker run -i --rm \
+docker run -d --rm \
        -e TRELLO_KEY \
        -e TRELLO_SECRET \
        -e SLUSHY_USER \
