@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 docker run -d --rm \
+       --name slushy \
        -e TRELLO_KEY \
        -e TRELLO_SECRET \
        -e SLUSHY_USER \
