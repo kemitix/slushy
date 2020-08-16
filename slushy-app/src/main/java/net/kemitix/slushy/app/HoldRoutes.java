@@ -1,5 +1,6 @@
 package net.kemitix.slushy.app;
 
+import net.kemitix.slushy.spi.HoldConfig;
 import net.kemitix.slushy.spi.InboxConfig;
 import net.kemitix.slushy.spi.RejectConfig;
 import net.kemitix.slushy.spi.SlushyConfig;
@@ -13,52 +14,52 @@ import javax.inject.Inject;
 import static org.apache.camel.builder.Builder.bean;
 
 @ApplicationScoped
-public class RejectRoutes
+public class HoldRoutes
         extends RouteBuilder {
 
     @Inject SlushyConfig slushyConfig;
-    @Inject RejectConfig rejectConfig;
+    @Inject HoldConfig holdConfig;
     @Inject TrelloBoard trelloBoard;
     @Inject CardMover cardMover;
     @Inject EmailService emailService;
-    @Inject SubmissionRejectedSubjectCreator subjectCreator;
-    @Inject SubmissionRejectedBodyCreator bodyCreator;
+    @Inject SubmissionHoldSubjectCreator subjectCreator;
+    @Inject SubmissionHoldBodyCreator bodyCreator;
     @Inject RestedFilter restedFilter;
 
     @Override
     public void configure() {
-        fromF("timer:reject?period=%s", rejectConfig.getScanPeriod())
-                .routeId("Slushy.Reject")
-                .setBody(exchange -> trelloBoard.getRejectCards())
+        fromF("timer:hold?period=%s", holdConfig.getScanPeriod())
+                .routeId("Slushy.Hold")
+                .setBody(exchange -> trelloBoard.getHoldCards())
                 .split(body())
-                .setHeader("Slushy.Reject.Age", rejectConfig::getRequiredAgeHours)
-                .filter(bean(restedFilter, "isRested(${body}, ${header[Slushy.Reject.Age]})"))
-                .setHeader("Slushy.RoutingSlip", rejectConfig::getRoutingSlip)
+                .setHeader("Slushy.Hold.Age", holdConfig::getRequiredAgeHours)
+                .filter(bean(restedFilter, "isRested(${body}, ${header[Slushy.Hold.Age]})"))
+                .setHeader("Slushy.RoutingSlip", holdConfig::getRoutingSlip)
                 .routingSlip(header("Slushy.RoutingSlip"))
         ;
 
-        from("direct:Slushy.Reject.SendEmailRejection")
-                .routeId("Slushy.Reject.SendEmailRejection")
-                .setHeader("Slushy.Inbox.Recipient", submissionEmail())
-                .setHeader("Slushy.Inbox.Sender", slushyConfig::getSender)
-                .setHeader("Slushy.Inbox.Subject", subject())
-                .setHeader("Slushy.Inbox.Body", bodyText())
-                .setHeader("Slushy.Inbox.BodyHtml", bodyHtml())
+        from("direct:Slushy.Hold.SendEmailNotification")
+                .routeId("Slushy.Hold.SendEmailNotification")
+                .setHeader("Slushy.Email.Recipient", submissionEmail())
+                .setHeader("Slushy.Email.Sender", slushyConfig::getSender)
+                .setHeader("Slushy.Email.Subject", subject())
+                .setHeader("Slushy.Email.Body", bodyText())
+                .setHeader("Slushy.Email.BodyHtml", bodyHtml())
                 .bean(emailService, "send(" +
-                        "${header[Slushy.Inbox.Recipient]}, " +
-                        "${header[Slushy.Inbox.Sender]}, " +
-                        "${header[Slushy.Inbox.Subject]}, " +
-                        "${header[Slushy.Inbox.Body]}, " +
-                        "${header[Slushy.Inbox.BodyHtml]}" +
+                        "${header[Slushy.Email.Recipient]}, " +
+                        "${header[Slushy.Email.Sender]}, " +
+                        "${header[Slushy.Email.Subject]}, " +
+                        "${header[Slushy.Email.Body]}, " +
+                        "${header[Slushy.Email.BodyHtml]}" +
                         ")")
         ;
 
-        from("direct:Slushy.Reject.MoveToRejected")
-                .routeId("Slushy.Reject.MoveToRejected")
-                .setHeader("Slushy.Reject.Destination", trelloBoard::getRejected)
+        from("direct:Slushy.Hold.MoveToHeld")
+                .routeId("Slushy.Hold.MoveToHeld")
+                .setHeader("Slushy.Hold.Destination", trelloBoard::getHeld)
                 .bean(cardMover, "move(" +
                         "${header[Slushy.Inbox.Card]}, " +
-                        "${header[Slushy.Reject.Destination]}" +
+                        "${header[Slushy.Hold.Destination]}" +
                         ")")
         ;
 

@@ -1,6 +1,6 @@
 package net.kemitix.slushy.spi;
 
-public interface RejectConfig {
+public interface HoldConfig {
 
     /**
      * How often, in seconds, to scan the reject list.
@@ -10,12 +10,12 @@ public interface RejectConfig {
     /**
      * The name of the list of submissions to be rejected.
      */
-    String getRejectName();
+    String getHoldName();
 
     /**
      * The name of the list to move rejected submissions to.
      */
-    String getRejectedName();
+    String getHeldName();
 
     /**
      * The Route to process cards from the reject list with.
