@@ -18,7 +18,6 @@ public class RejectRoutes
 
     @Inject SlushyConfig slushyConfig;
     @Inject RejectConfig rejectConfig;
-    @Inject InboxConfig inboxConfig;
     @Inject TrelloBoard trelloBoard;
     @Inject CardMover cardMover;
     @Inject EmailService emailService;
