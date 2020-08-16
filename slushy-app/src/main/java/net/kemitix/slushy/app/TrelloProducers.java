@@ -1,32 +1,17 @@
-package net.kemitix.slushy.app.ugiggle;
+package net.kemitix.slushy.app;
 
 import com.julienvey.trello.Trello;
 import com.julienvey.trello.TrelloHttpClient;
 import com.julienvey.trello.impl.TrelloImpl;
 import com.julienvey.trello.impl.http.JDKTrelloHttpClient;
 import lombok.extern.java.Log;
+import net.kemitix.slushy.spi.SlushyConfig;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 
-@Log
-//@ApplicationScoped
+@ApplicationScoped
 public class TrelloProducers {
-
-    @Produces
-    TrelloConfig trelloConfig() {
-        return new TrelloConfig() {
-            @Override
-            public String getTrelloKey() {
-                return System.getenv("TRELLO_KEY");
-            }
-
-            @Override
-            public String getTrelloAccessToken() {
-                return System.getenv("TRELLO_SECRET");
-            }
-        };
-    }
 
     @Produces
     @ApplicationScoped
@@ -37,12 +22,12 @@ public class TrelloProducers {
     @Produces
     @ApplicationScoped
     Trello trello(
-            TrelloConfig config,
+            SlushyConfig config,
             TrelloHttpClient httpClient
     ) {
         return new TrelloImpl(
                 config.getTrelloKey(),
-                config.getTrelloAccessToken(),
+                config.getTrelloSecret(),
                 httpClient);
     }
 

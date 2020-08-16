@@ -2,6 +2,7 @@ package net.kemitix.slushy.app;
 
 import net.kemitix.slushy.spi.InboxConfig;
 import net.kemitix.slushy.spi.RejectConfig;
+import net.kemitix.slushy.spi.SlushyConfig;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.builder.SimpleBuilder;
 import org.apache.camel.builder.ValueBuilder;
@@ -15,6 +16,7 @@ import static org.apache.camel.builder.Builder.bean;
 public class RejectRoutes
         extends RouteBuilder {
 
+    @Inject SlushyConfig slushyConfig;
     @Inject RejectConfig rejectConfig;
     @Inject InboxConfig inboxConfig;
     @Inject TrelloBoard trelloBoard;
@@ -30,7 +32,7 @@ public class RejectRoutes
                 .routeId("Slushy.Reject")
                 .setBody(exchange -> trelloBoard.getRejectCards())
                 .split(body())
-                .filter(bean(restedFilter, "isRested"))
+                .filter(bean(restedFilter))
                 .setHeader("Slushy.Inbox.RoutingSlip", rejectConfig::getRoutingSlip)
                 .routingSlip(header("Slushy.Inbox.RoutingSlip"))
         ;
@@ -38,7 +40,7 @@ public class RejectRoutes
         from("direct:Slushy.Reject.SendEmailRejection")
                 .routeId("Slushy.Reject.SendEmailRejection")
                 .setHeader("Slushy.Inbox.Recipient", submissionEmail())
-                .setHeader("Slushy.Inbox.Sender", inboxConfig::getSender)
+                .setHeader("Slushy.Inbox.Sender", slushyConfig::getSender)
                 .setHeader("Slushy.Inbox.Subject", subject())
                 .setHeader("Slushy.Inbox.Body", bodyText())
                 .setHeader("Slushy.Inbox.BodyHtml", bodyHtml())
