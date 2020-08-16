@@ -17,6 +17,8 @@ https://search.maven.org/search?q=g:net.kemitix.slushy%20a:slushy)
 
 Define the following environment variables to configure Slushy:
 
+* `TRELLO_KEY` - the Trello API access key
+* `TRELLO_SECRET` - the Trello API secret key
 * `SLUSHY_BOARD` - the Trello Board
 * `SLUSHY_USER` - the Trello User name
 * `SLUSHY_READER` - the email to send attachements to
