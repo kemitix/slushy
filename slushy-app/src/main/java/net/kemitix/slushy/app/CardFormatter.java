@@ -5,16 +5,14 @@ import net.kemitix.slushy.spi.InboxConfig;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import java.util.function.Supplier;
 
 @ApplicationScoped
 public class CardFormatter {
 
-    @Inject Supplier<Instant> nowSupplier;
+    @Inject Now now;
     @Inject InboxConfig inboxConfig;
     @Inject TrelloBoard trelloBoard;
 
@@ -25,7 +23,7 @@ public class CardFormatter {
                 submission.getTitle(),
                 submission.getByline()));
         // Due Date
-        card.setDue(new Date(nowSupplier.get()
+        card.setDue(new Date(now.get()
                 .plus(inboxConfig.getDueDays(), ChronoUnit.DAYS)
                 .atZone(ZoneOffset.ofHours(0)).toEpochSecond() * 1000));
         // Save

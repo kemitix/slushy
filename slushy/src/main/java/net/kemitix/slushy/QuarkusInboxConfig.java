@@ -16,7 +16,5 @@ public class QuarkusInboxConfig
     private String listName;
     private long dueDays;
     private String slushName;
-    private String sender = System.getenv("SLUSHY_SENDER");
-    private String reader = System.getenv("SLUSHY_READER");
 
 }

@@ -18,7 +18,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.List;
-import java.util.function.Supplier;
 
 import static org.mockito.BDDMockito.given;
 
@@ -28,15 +27,14 @@ public class SubmissionParserTest
 
     private final SubmissionParser submissionParser = new SubmissionParser();
 
-    private final Instant now = Instant.ofEpochSecond(123456789);
-    private final Supplier<Instant> nowSupplier = () -> now;
+    private final Now now = () -> Instant.ofEpochSecond(123456789);
 
     @Mock
     TrelloBoard trelloBoard;
 
     @BeforeEach
     public void setUp() {
-        submissionParser.nowSupplier = nowSupplier;
+        submissionParser.now = now;
         submissionParser.trelloBoard = trelloBoard;
     }
 
@@ -119,7 +117,7 @@ public class SubmissionParserTest
         @DisplayName("Parse Submitted Date")
         public void parseSubmittedDate() {
             assertThat(submissionParser.parse(card).getDate())
-                    .isEqualTo(now);
+                    .isEqualTo(Instant.ofEpochSecond(123456789));
         }
 
         @Test

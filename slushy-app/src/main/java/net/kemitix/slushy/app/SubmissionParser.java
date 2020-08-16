@@ -6,13 +6,11 @@ import lombok.extern.java.Log;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.time.Instant;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,7 +22,7 @@ public class SubmissionParser {
             Pattern.compile("^\\*\\*(?<heading>.*?):\\*\\*$",
                     Pattern.MULTILINE);
 
-    @Inject Supplier<Instant> nowSupplier;
+    @Inject Now now;
     @Inject TrelloBoard trelloBoard;
     List<String> acceptedFileExtensions = List.of("docx", "doc", "odt");
 
@@ -40,7 +38,7 @@ public class SubmissionParser {
                 .wordLength(WordLengthBand.parse(body.get("wordcount")))
                 .coverLetter(body.get("coverletter"))
                 .contract(Contract.parse(body.get("contract")))
-                .submittedDate(nowSupplier.get())
+                .submittedDate(now.get())
                 .document(getAttachmentUrl(card));
     }
 

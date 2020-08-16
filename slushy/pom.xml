@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.kemitix.slushy</groupId>
   <artifactId>slushy</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.2</version>
   <properties>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <maven.compiler.parameters>true</maven.compiler.parameters>
@@ -69,6 +69,7 @@
     </dependency>
   </dependencies>
   <build>
+    <finalName>slushy</finalName>
     <plugins>
       <plugin>
         <groupId>io.quarkus</groupId>
