@@ -33,8 +33,8 @@ public class InboxRoutes
                 .routeId("Slushy.Inbox")
                 .setBody(exchange -> trelloBoard.getInboxCards())
                 .split(body())
-                .setHeader("Slushy.Inbox.RoutingSlip", inboxConfig::getRoutingSlip)
-                .routingSlip(header("Slushy.Inbox.RoutingSlip"))
+                .setHeader("Slushy.RoutingSlip", inboxConfig::getRoutingSlip)
+                .routingSlip(header("Slushy.RoutingSlip"))
         ;
 
         from("direct:Slushy.Inbox.Parse")

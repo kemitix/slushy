@@ -10,7 +10,7 @@ public class SubmissionReceivedBodyCreator
     public String bodyText(Submission submission) {
         String template = "" +
                 "Dear %s,\n\n" +
-                "Thank you for submitting your story, \"%s\".\n\n" +
+                "Thank you for submitting your story, \"%s by %s\".\n\n" +
                 "It has been added to our system and we look forward to reading it.\n\n" +
                 "Please allow 30 days for a reply.\n\n" +
                 "Yours,\n" +
@@ -18,7 +18,9 @@ public class SubmissionReceivedBodyCreator
                 "Cossmass Infinities - https://www.cossmass.com/";
         return String.format(template,
                 submission.getByline(),
-                submission.getTitle());
+                submission.getTitle(),
+                submission.getByline()
+        );
     }
 
     @Override
@@ -27,7 +29,7 @@ public class SubmissionReceivedBodyCreator
                 "<html><head></head>\n" +
                 "<body>\n" +
                 "<p>Dear %s,</p>\n" +
-                "<p>Thank you for submitting your story, \"<strong>%s</strong>\".</p>\n" +
+                "<p>Thank you for submitting your story, \"<strong>%s by %s</strong>\".</p>\n" +
                 "<p>It has been added to our system and we look forward to reading it.</p>\n" +
                 "<p>Please allow 30 days for a reply.</p>\n" +
                 "<p>Yours,<br/>\n" +
@@ -36,7 +38,9 @@ public class SubmissionReceivedBodyCreator
                 "</body></html>";
         return String.format(template,
                 submission.getByline(),
-                submission.getTitle());
+                submission.getTitle(),
+                submission.getByline()
+        );
     }
 
 }

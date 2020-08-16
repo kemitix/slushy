@@ -8,6 +8,7 @@ import com.julienvey.trello.domain.Card;
 import com.julienvey.trello.domain.TList;
 import lombok.Getter;
 import lombok.extern.java.Log;
+import net.kemitix.slushy.spi.HoldConfig;
 import net.kemitix.slushy.spi.InboxConfig;
 import net.kemitix.slushy.spi.RejectConfig;
 import net.kemitix.slushy.spi.SlushyConfig;
@@ -25,11 +26,14 @@ public class TrelloBoard {
     @Inject private SlushyConfig trelloConfig;
     @Inject private InboxConfig inboxConfig;
     @Inject private RejectConfig rejectConfig;
+    @Inject private HoldConfig holdConfig;
 
     @Getter private TList inbox;
     @Getter private TList slush;
     @Getter private TList reject;
     @Getter private TList rejected;
+    @Getter private TList hold;
+    @Getter private TList held;
 
     @PostConstruct
     void init () {
@@ -39,6 +43,8 @@ public class TrelloBoard {
         slush = getList(inboxConfig.getSlushName(), lists);
         reject = getList(rejectConfig.getRejectName(), lists);
         rejected = getList(rejectConfig.getRejectedName(), lists);
+        hold = getList(holdConfig.getHoldName(), lists);
+        held = getList(holdConfig.getHeldName(), lists);
     }
 
     private Board board(
@@ -81,8 +87,11 @@ public class TrelloBoard {
         return trello.getListCards(reject.getId());
     }
 
+    public List<Card> getHoldCards() {
+        return trello.getListCards(hold.getId());
+    }
+
     public List<Attachment> getAttachments(Card card) {
         return trello.getCardAttachments(card.getId());
     }
-
 }

@@ -2,7 +2,6 @@ package net.kemitix.slushy.app;
 
 import com.julienvey.trello.domain.Card;
 import lombok.extern.java.Log;
-import net.kemitix.slushy.spi.RejectConfig;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -14,12 +13,11 @@ import java.time.temporal.ChronoUnit;
 @ApplicationScoped
 public class RestedFilter {
 
-    @Inject RejectConfig rejectConfig;
     @Inject Now now;
 
-    boolean isRested(Card card) {
+    boolean isRested(Card card, int requiredAgeHours) {
         Instant requiredAge = now.get()
-                .minus(rejectConfig.getRequiredAgeHours(), ChronoUnit.HOURS);
+                .minus(requiredAgeHours, ChronoUnit.HOURS);
         Instant dateLastActivity = card.getDateLastActivity().toInstant();
         boolean rested = dateLastActivity.isBefore(requiredAge);
         if (rested) {
