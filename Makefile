@@ -13,4 +13,4 @@ dev:
 	mvn quarkus:dev -pl slushy
 
 docker: clean install
-	cd slushy && docker build -f src/main/docker/Dockerfile.jvm -t kemitix/slushy .
+	cd slushy && docker build -f src/main/docker/Dockerfile -t kemitix/slushy .
