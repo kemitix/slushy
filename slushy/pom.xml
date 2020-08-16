@@ -69,6 +69,7 @@
     </dependency>
   </dependencies>
   <build>
+    <finalName>slushy</finalName>
     <plugins>
       <plugin>
         <groupId>io.quarkus</groupId>
