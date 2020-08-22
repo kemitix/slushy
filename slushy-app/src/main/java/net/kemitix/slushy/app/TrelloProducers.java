@@ -2,9 +2,9 @@ package net.kemitix.slushy.app;
 
 import com.julienvey.trello.Trello;
 import com.julienvey.trello.TrelloHttpClient;
+import com.julienvey.trello.domain.Member;
 import com.julienvey.trello.impl.TrelloImpl;
 import com.julienvey.trello.impl.http.JDKTrelloHttpClient;
-import lombok.extern.java.Log;
 import net.kemitix.slushy.spi.SlushyConfig;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -29,6 +29,12 @@ public class TrelloProducers {
                 config.getTrelloKey(),
                 config.getTrelloSecret(),
                 httpClient);
+    }
+
+    @Produces
+    @ApplicationScoped
+    Member member(Trello trello, SlushyConfig slushyConfig) {
+        return trello.getMemberInformation(slushyConfig.getUserName());
     }
 
 }

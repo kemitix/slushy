@@ -3,8 +3,16 @@ package net.kemitix.slushy.app;
 import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class SubmissionRejectedBodyCreator
-        implements BodyCreator<Submission> {
+public class SubmissionRejectedEmailCreator
+        implements SubjectCreator<Submission>, BodyCreator<Submission> {
+
+    @Override
+    public String subject(Submission source) {
+        return String.format(
+                "Submission Rejected: %s by %s",
+                source.getTitle(),
+                source.getByline());
+    }
 
     @Override
     public String bodyText(Submission source) {

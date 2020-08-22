@@ -2,10 +2,8 @@ package net.kemitix.slushy.app;
 
 import com.julienvey.trello.NotFoundException;
 import com.julienvey.trello.Trello;
+import com.julienvey.trello.domain.*;
 import com.julienvey.trello.domain.Attachment;
-import com.julienvey.trello.domain.Board;
-import com.julienvey.trello.domain.Card;
-import com.julienvey.trello.domain.TList;
 import lombok.Getter;
 import lombok.extern.java.Log;
 import net.kemitix.slushy.spi.HoldConfig;
@@ -18,12 +16,14 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
 
+import static net.kemitix.slushy.app.ListUtils.map;
+
 @Log
 @ApplicationScoped
 public class TrelloBoard {
 
     @Inject private Trello trello;
-    @Inject private SlushyConfig trelloConfig;
+    @Inject private SlushyConfig slushyConfig;
     @Inject private InboxConfig inboxConfig;
     @Inject private RejectConfig rejectConfig;
     @Inject private HoldConfig holdConfig;
@@ -37,7 +37,7 @@ public class TrelloBoard {
 
     @PostConstruct
     void init () {
-        Board board = board(trelloConfig, trello);
+        Board board = board(slushyConfig, trello);
         List<TList> lists = board.fetchLists();
         inbox = getList(inboxConfig.getListName(), lists);
         slush = getList(inboxConfig.getSlushName(), lists);
@@ -102,4 +102,19 @@ public class TrelloBoard {
     public List<Attachment> getAttachments(Card card) {
         return trello.getCardAttachments(card.getId());
     }
+
+    public Card addMemberToCard(Card card, Member member) {
+        var members = trello.addMemberToCard(card.getId(), member.getId());
+        card.setIdMembers(map(members, Member::getId));
+        trello.updateCard(card);
+        return card;
+    }
+
+    public Card removeMemberFromCard(Card card, Member member) {
+        var members = trello.removeMemberFromCard(card.getId(), member.getId());
+        card.setIdMembers(map(members, Member::getId));
+        trello.updateCard(card);
+        return card;
+    }
+
 }

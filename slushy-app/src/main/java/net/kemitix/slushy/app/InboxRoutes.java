@@ -24,8 +24,7 @@ public class InboxRoutes
     @Inject AttachmentLoader attachmentLoader;
     @Inject ConversionService conversionService;
     @Inject EmailService emailService;
-    @Inject SubmissionReceivedSubjectCreator subjectCreator;
-    @Inject SubmissionReceivedBodyCreator bodyCreator;
+    @Inject SubmissionReceivedEmailCreator emailCreator;
 
     @Override
     public void configure() {
@@ -117,19 +116,19 @@ public class InboxRoutes
     }
 
     private ValueBuilder bodyHtml() {
-        return bean(bodyCreator, "bodyHtml(" +
+        return bean(emailCreator, "bodyHtml(" +
                 "${header[Slushy.Inbox.Submission]}" +
                 ")");
     }
 
     private ValueBuilder bodyText() {
-        return bean(bodyCreator, "bodyText(" +
+        return bean(emailCreator, "bodyText(" +
                 "${header[Slushy.Inbox.Submission]}" +
                 ")");
     }
 
     private ValueBuilder subject() {
-        return bean(subjectCreator, "subject(" +
+        return bean(emailCreator, "subject(" +
                 "${header[Slushy.Inbox.Submission]}" +
                 ")");
     }
