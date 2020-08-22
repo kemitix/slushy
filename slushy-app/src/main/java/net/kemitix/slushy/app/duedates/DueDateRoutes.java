@@ -23,6 +23,16 @@ public class DueDateRoutes
                         bean(dueDates,
                                 "setDueDate(${header[Slushy.Inbox.Card]}, ${header[Slushy.Due]})"))
         ;
+
+        from("direct:Slushy.DueIn60Days")
+                .routeId("Slushy.DueIn60Days")
+                .setHeader("Slushy.Due",
+                        bean(dueDates, "nowPlusDays(60)"))
+                .setHeader("Slushy.Inbox.Card",
+                        bean(dueDates,
+                                "setDueDate(${header[Slushy.Inbox.Card]}, ${header[Slushy.Due]})"))
+        ;
+
     }
 
 }
