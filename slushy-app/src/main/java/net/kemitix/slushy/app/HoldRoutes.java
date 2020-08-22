@@ -22,6 +22,7 @@ public class HoldRoutes
     @Inject EmailService emailService;
     @Inject SubmissionHoldEmailCreator emailCreator;
     @Inject RestedFilter restedFilter;
+    @Inject Comments comments;
 
     @Override
     public void configure() {
@@ -48,6 +49,12 @@ public class HoldRoutes
                         "${header[Slushy.Email.Subject]}, " +
                         "${header[Slushy.Email.Body]}, " +
                         "${header[Slushy.Email.BodyHtml]}" +
+                        ")")
+                .setHeader("Slushy.Comment",
+                        () -> "Sent held notification to author")
+                .bean(comments, "add(" +
+                        "${header[Slushy.Inbox.Card]}, " +
+                        "${header[Slushy.Comment]}" +
                         ")")
         ;
 

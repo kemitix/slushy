@@ -1,5 +1,6 @@
 package net.kemitix.slushy.app.multisub;
 
+import net.kemitix.slushy.app.Comments;
 import net.kemitix.slushy.app.EmailService;
 import net.kemitix.slushy.spi.SlushyConfig;
 import org.apache.camel.builder.RouteBuilder;
@@ -17,10 +18,10 @@ public class MultiSubmissionRoute
 
     @Inject SlushyConfig slushyConfig;
     @Inject MultiSubmission multiSubmission;
-    @Inject
-    EmailService emailService;
+    @Inject EmailService emailService;
     @Inject MultiSubmissionSubjectCreator subjectCreator;
     @Inject MultiSubmissionBodyCreator bodyCreator;
+    @Inject Comments comments;
 
     @Override
     public void configure() {
@@ -50,6 +51,12 @@ public class MultiSubmissionRoute
                                 "${header[Slushy.Inbox.Subject]}, " +
                                 "${header[Slushy.Inbox.Body]}, " +
                                 "${header[Slushy.Inbox.BodyHtml]})")
+                .setHeader("Slushy.Comment",
+                        () -> "Sent multi-submission rejection notification to author")
+                .bean(comments, "add(" +
+                        "${header[Slushy.Inbox.Card]}, " +
+                        "${header[Slushy.Comment]}" +
+                        ")")
                 // move card to rejected
                 .to("direct:Slushy.Reject.MoveToRejected")
         ;
