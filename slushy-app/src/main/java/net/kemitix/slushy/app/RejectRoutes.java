@@ -22,6 +22,7 @@ public class RejectRoutes
     @Inject EmailService emailService;
     @Inject SubmissionRejectedEmailCreator emailCreator;
     @Inject RestedFilter restedFilter;
+    @Inject Comments comments;
 
     @Override
     public void configure() {
@@ -48,6 +49,12 @@ public class RejectRoutes
                         "${header[Slushy.Inbox.Subject]}, " +
                         "${header[Slushy.Inbox.Body]}, " +
                         "${header[Slushy.Inbox.BodyHtml]}" +
+                        ")")
+                .setHeader("Slushy.Comment",
+                        () -> "Sent rejection notification to author")
+                .bean(comments, "add(" +
+                        "${header[Slushy.Inbox.Card]}, " +
+                        "${header[Slushy.Comment]}" +
                         ")")
         ;
 

@@ -25,6 +25,7 @@ public class InboxRoutes
     @Inject ConversionService conversionService;
     @Inject EmailService emailService;
     @Inject SubmissionReceivedEmailCreator emailCreator;
+    @Inject Comments comments;
 
     @Override
     public void configure() {
@@ -79,6 +80,12 @@ public class InboxRoutes
                         "${header[Slushy.Inbox.Sender]}, " +
                         "${header[Slushy.Inbox.Readable]}" +
                         ")")
+                .setHeader("Slushy.Comment",
+                        () -> "Sent attachment to reader")
+                .bean(comments, "add(" +
+                        "${header[Slushy.Inbox.Card]}, " +
+                        "${header[Slushy.Comment]}" +
+                        ")")
         ;
 
         from("direct:Slushy.Inbox.SendEmailConfirmation")
@@ -96,6 +103,12 @@ public class InboxRoutes
                                 "${header[Slushy.Inbox.BodyHtml]}" +
                                 ")"
                         )
+                .setHeader("Slushy.Comment",
+                        () -> "Sent received notification to author")
+                .bean(comments, "add(" +
+                        "${header[Slushy.Inbox.Card]}, " +
+                        "${header[Slushy.Comment]}" +
+                        ")")
         ;
     }
 
