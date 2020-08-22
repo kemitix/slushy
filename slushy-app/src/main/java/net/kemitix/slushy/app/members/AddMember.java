@@ -18,6 +18,9 @@ public class AddMember {
     Card addToCard(Card card) {
         log.info(String.format("Add %s to %s",
                 member.getFullName(), card.getName()));
+        if (card.getIdMembers().contains(member.getId())) {
+            return card;
+        }
         return trelloBoard.addMemberToCard(card, member);
     }
 

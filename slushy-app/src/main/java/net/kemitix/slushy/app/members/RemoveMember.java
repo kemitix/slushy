@@ -18,7 +18,10 @@ public class RemoveMember {
     Card removeFromCard(Card card) {
         log.info(String.format("Remove %s from %s",
                 member.getFullName(), card.getName()));
-        return trelloBoard.removeMemberFromCard(card, member);
+        if (card.getIdMembers().contains(member.getId())) {
+            return trelloBoard.removeMemberFromCard(card, member);
+        }
+        return card;
     }
 
 }
