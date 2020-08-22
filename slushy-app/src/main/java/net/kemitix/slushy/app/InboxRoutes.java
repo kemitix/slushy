@@ -47,7 +47,7 @@ public class InboxRoutes
         from("direct:Slushy.Inbox.Reformat")
                 .routeId("Slushy.Inbox.Reformat")
                 .bean(cardFormatter, "reformat(" +
-                        "${body}, " +
+                        "${header[Slushy.Inbox.Submission]}, " +
                         "${header[Slushy.Inbox.Card]}" +
                         ")")
         ;
