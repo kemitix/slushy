@@ -1,8 +1,6 @@
 package net.kemitix.slushy.app;
 
 import net.kemitix.slushy.spi.HoldConfig;
-import net.kemitix.slushy.spi.InboxConfig;
-import net.kemitix.slushy.spi.RejectConfig;
 import net.kemitix.slushy.spi.SlushyConfig;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.builder.SimpleBuilder;
@@ -22,8 +20,7 @@ public class HoldRoutes
     @Inject TrelloBoard trelloBoard;
     @Inject CardMover cardMover;
     @Inject EmailService emailService;
-    @Inject SubmissionHoldSubjectCreator subjectCreator;
-    @Inject SubmissionHoldBodyCreator bodyCreator;
+    @Inject SubmissionHoldEmailCreator emailCreator;
     @Inject RestedFilter restedFilter;
 
     @Override
@@ -70,19 +67,19 @@ public class HoldRoutes
     }
 
     private ValueBuilder bodyHtml() {
-        return bean(bodyCreator, "bodyHtml(" +
+        return bean(emailCreator, "bodyHtml(" +
                 "${header[Slushy.Inbox.Submission]}" +
                 ")");
     }
 
     private ValueBuilder bodyText() {
-        return bean(bodyCreator, "bodyText(" +
+        return bean(emailCreator, "bodyText(" +
                 "${header[Slushy.Inbox.Submission]}" +
                 ")");
     }
 
     private ValueBuilder subject() {
-        return bean(subjectCreator, "subject(" +
+        return bean(emailCreator, "subject(" +
                 "${header[Slushy.Inbox.Submission]}" +
                 ")");
     }
