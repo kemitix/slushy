@@ -26,7 +26,7 @@ public class SubmissionParser {
     @Inject TrelloBoard trelloBoard;
     List<String> acceptedFileExtensions = List.of("docx", "doc", "odt");
 
-    Submission parse(Card card) {
+    public Submission parse(Card card) {
         log.info("CARD " + card.getName());
         Map<String, String> body = parseBody(card);
         return Submission.builder()

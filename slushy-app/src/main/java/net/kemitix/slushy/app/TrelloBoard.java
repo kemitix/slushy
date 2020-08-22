@@ -83,12 +83,20 @@ public class TrelloBoard {
         return trello.getListCards(inbox.getId());
     }
 
+    public List<Card> getSlushCards() {
+        return trello.getListCards(slush.getId());
+    }
+
     public List<Card> getRejectCards() {
         return trello.getListCards(reject.getId());
     }
 
     public List<Card> getHoldCards() {
         return trello.getListCards(hold.getId());
+    }
+
+    public List<Card> getHeldCards() {
+        return trello.getListCards(held.getId());
     }
 
     public List<Attachment> getAttachments(Card card) {
