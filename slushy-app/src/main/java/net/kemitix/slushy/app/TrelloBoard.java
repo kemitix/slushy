@@ -110,4 +110,11 @@ public class TrelloBoard {
         return card;
     }
 
+    public Card removeMemberFromCard(Card card, Member member) {
+        var members = trello.removeMemberFromCard(card.getId(), member.getId());
+        card.setIdMembers(map(members, Member::getId));
+        trello.updateCard(card);
+        return card;
+    }
+
 }
