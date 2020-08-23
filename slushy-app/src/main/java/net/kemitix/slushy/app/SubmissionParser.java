@@ -24,7 +24,19 @@ public class SubmissionParser {
 
     @Inject Now now;
     @Inject TrelloBoard trelloBoard;
-    List<String> acceptedFileExtensions = List.of("docx", "doc", "odt");
+    @Inject ConversionService conversionService;
+
+    // Amazon supports sending to a Kindle:
+    // https://www.amazon.co.uk/gp/help/customer/display.html?nodeId=200767340
+    List<String> acceptedFileExtensions = List.of(
+            "docx", "doc",
+            "pdf",
+            "txt",
+            "azw",
+            "mobi",
+            "html", "htm",
+            "rtf"
+    );
 
     public Submission parse(Card card) {
         log.info("CARD " + card.getName());
@@ -51,10 +63,13 @@ public class SubmissionParser {
                 .orElseThrow();
     }
 
+    // Kindle can handle directly or that can be converted
     private boolean validExtension(String url) {
         return acceptedFileExtensions
                 .stream()
-                .anyMatch(extension -> url.endsWith("." + extension));
+                .anyMatch(extension -> url.endsWith("." + extension))
+                ||
+                conversionService.canConvert(url);
     }
 
     private Map<String, String> parseBody(Card card) {
