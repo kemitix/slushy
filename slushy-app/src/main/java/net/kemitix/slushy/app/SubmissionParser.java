@@ -8,7 +8,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
@@ -24,7 +23,7 @@ public class SubmissionParser {
 
     @Inject Now now;
     @Inject TrelloBoard trelloBoard;
-    List<String> acceptedFileExtensions = List.of("docx", "doc", "odt");
+    @Inject ValidFileTypes validFileTypes;
 
     public Submission parse(Card card) {
         log.info("CARD " + card.getName());
@@ -48,13 +47,16 @@ public class SubmissionParser {
                 .map(Attachment::getUrl)
                 .filter(this::validExtension)
                 .findFirst()
-                .orElseThrow();
+                .orElse(null);
     }
 
+    // Kindle can handle directly or that can be converted
     private boolean validExtension(String url) {
-        return acceptedFileExtensions
-                .stream()
-                .anyMatch(extension -> url.endsWith("." + extension));
+        String filename = url.toLowerCase();
+        return validFileTypes.get().stream()
+                .map(String::toLowerCase)
+                .map(e -> "." + e)
+                .anyMatch(filename::endsWith);
     }
 
     private Map<String, String> parseBody(Card card) {
