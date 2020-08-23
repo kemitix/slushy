@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-docker run -d --rm \
+docker run -d \
        --name slushy \
+       --restart always \
        -e TRELLO_KEY \
        -e TRELLO_SECRET \
        -e SLUSHY_USER \
