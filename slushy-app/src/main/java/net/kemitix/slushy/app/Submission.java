@@ -29,6 +29,10 @@ public class Submission {
                 wordLengthBand, coverLetter, contract, date, document);
     }
 
+    public boolean isValid() {
+        return document != null;
+    }
+
     public interface Builder {
         Stage1 title(String title);
         interface Stage1 {Stage2 byline(String byline);}

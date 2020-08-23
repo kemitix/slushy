@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import java.io.*;
 import java.util.Optional;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 @ApplicationScoped
 public class OdtToHtmlAttachmentConverter
@@ -52,4 +53,10 @@ public class OdtToHtmlAttachmentConverter
             return Optional.empty();
         }
     }
+
+    @Override
+    public Stream<String> canConvertFrom() {
+        return Stream.of("odt");
+    }
+
 }

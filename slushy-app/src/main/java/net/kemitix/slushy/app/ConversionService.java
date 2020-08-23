@@ -4,6 +4,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.io.File;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class ConversionService {
@@ -32,6 +34,12 @@ public class ConversionService {
         };
         return attachmentConverters.stream()
                 .anyMatch(converter -> converter.canHandle(attachment));
+    }
+
+    public List<String> canConvertFrom() {
+        return attachmentConverters.stream()
+                .flatMap(AttachmentConverter::canConvertFrom)
+                .collect(Collectors.toList());
     }
 
 }

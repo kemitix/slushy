@@ -8,7 +8,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
@@ -24,19 +23,7 @@ public class SubmissionParser {
 
     @Inject Now now;
     @Inject TrelloBoard trelloBoard;
-    @Inject ConversionService conversionService;
-
-    // Amazon supports sending to a Kindle:
-    // https://www.amazon.co.uk/gp/help/customer/display.html?nodeId=200767340
-    List<String> acceptedFileExtensions = List.of(
-            "docx", "doc",
-            "pdf",
-            "txt",
-            "azw",
-            "mobi",
-            "html", "htm",
-            "rtf"
-    );
+    @Inject ValidFileTypes validFileTypes;
 
     public Submission parse(Card card) {
         log.info("CARD " + card.getName());
@@ -60,16 +47,16 @@ public class SubmissionParser {
                 .map(Attachment::getUrl)
                 .filter(this::validExtension)
                 .findFirst()
-                .orElseThrow();
+                .orElse(null);
     }
 
     // Kindle can handle directly or that can be converted
     private boolean validExtension(String url) {
-        return acceptedFileExtensions
-                .stream()
-                .anyMatch(extension -> url.endsWith("." + extension))
-                ||
-                conversionService.canConvert(url);
+        String filename = url.toLowerCase();
+        return validFileTypes.get().stream()
+                .map(String::toLowerCase)
+                .map(e -> "." + e)
+                .anyMatch(filename::endsWith);
     }
 
     private Map<String, String> parseBody(Card card) {

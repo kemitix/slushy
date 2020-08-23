@@ -8,6 +8,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -28,14 +30,21 @@ public class SubmissionParserTest
     private final SubmissionParser submissionParser = new SubmissionParser();
 
     private final Now now = () -> Instant.ofEpochSecond(123456789);
+    private ValidFileTypes validFileTypes = new ValidFileTypes();
 
     @Mock
     TrelloBoard trelloBoard;
+
+    @Mock
+    ConversionService conversionService;
 
     @BeforeEach
     public void setUp() {
         submissionParser.now = now;
         submissionParser.trelloBoard = trelloBoard;
+        submissionParser.validFileTypes = validFileTypes;
+        validFileTypes.conversionService = conversionService;
+        given(conversionService.canConvertFrom()).willReturn(List.of("ODT"));
     }
 
     @Nested
@@ -125,6 +134,51 @@ public class SubmissionParserTest
         public void attachment() {
             assertThat(submissionParser.parse(card).getDocument())
                     .isEqualTo(documentUrl);
+        }
+
+        // Kindle Personal Documents Service:
+        // https://www.amazon.co.uk/gp/help/customer/display.html?nodeId=200767340
+        //        Kindle Format (.MOBI, .AZW)
+        //        Microsoft Word (.DOC, .DOCX)
+        //        HTML (.HTML, .HTM)
+        //        RTF (.RTF)
+        //        Text (.TXT)
+        //        PDF (.PDF)
+        // The following types are supported by Kindle, but we don't want them
+        //        JPEG (.JPEG, .JPG)
+        //        GIF (.GIF)
+        //        PNG (.PNG)
+        //        BMP (.BMP)
+        @ParameterizedTest
+        @DisplayName("Accepts Kindle supported types")
+        @ValueSource(strings = {"MOBI", "AZW", "DOC", "DOCX", "HTML", "HTM", "RTF", "TXT", "PDF"})
+        public void acceptsKindleTypes(String type) {
+            documentUrl = "document." + type;
+            given(trelloBoard.getAttachments(card))
+                    .willReturn(List.of(new Attachment(documentUrl)));
+            assertThat(submissionParser.parse(card).getDocument())
+                    .isEqualTo(documentUrl);
+        }
+
+        @ParameterizedTest
+        @DisplayName("Accepts convertable types")
+        @ValueSource(strings = {"ODT"})
+        public void acceptsConvertableTypes(String type) {
+            documentUrl = "document." + type;
+            given(trelloBoard.getAttachments(card))
+                    .willReturn(List.of(new Attachment(documentUrl)));
+            assertThat(submissionParser.parse(card).getDocument())
+                    .isEqualTo(documentUrl);
+        }
+
+        @Test
+        @DisplayName("Reject invalid file type")
+        public void rejectInvalidType() {
+            documentUrl = "document.JPG";
+            given(trelloBoard.getAttachments(card))
+                    .willReturn(List.of(new Attachment(documentUrl)));
+            assertThat(submissionParser.parse(card).getDocument())
+                    .isNull();
         }
     }
 
