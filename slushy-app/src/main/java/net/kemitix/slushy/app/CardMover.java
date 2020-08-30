@@ -13,7 +13,7 @@ public class CardMover {
 
     @Inject TrelloBoard trelloBoard;
 
-    void move(Card card, TList destination) {
+    void move(SlushyCard card, TList destination) {
         card.setIdList(destination.getId());
         trelloBoard.updateCard(card);
         log.info("Moved card to [" + destination.getName() + "] - " + card.getName());

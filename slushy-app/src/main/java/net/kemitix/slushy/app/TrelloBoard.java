@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static net.kemitix.slushy.app.ListUtils.map;
 
@@ -75,28 +76,34 @@ public class TrelloBoard {
     }
 
 
-    public void updateCard(Card card) {
+    public void updateCard(SlushyCard card) {
         trello.updateCard(card);
     }
 
-    public List<Card> getInboxCards() {
-        return trello.getListCards(inbox.getId());
+    public List<SlushyCard> getInboxCards() {
+        return getListCards(inbox.getId());
     }
 
-    public List<Card> getSlushCards() {
-        return trello.getListCards(slush.getId());
+    private List<SlushyCard> getListCards(String listId) {
+        return trello.getListCards(listId).stream()
+                .map(card -> SlushyCard.from(card, trello))
+                .collect(Collectors.toList());
     }
 
-    public List<Card> getRejectCards() {
-        return trello.getListCards(reject.getId());
+    public List<SlushyCard> getSlushCards() {
+        return getListCards(slush.getId());
     }
 
-    public List<Card> getHoldCards() {
-        return trello.getListCards(hold.getId());
+    public List<SlushyCard> getRejectCards() {
+        return getListCards(reject.getId());
     }
 
-    public List<Card> getHeldCards() {
-        return trello.getListCards(held.getId());
+    public List<SlushyCard> getHoldCards() {
+        return getListCards(hold.getId());
+    }
+
+    public List<SlushyCard> getHeldCards() {
+        return getListCards(held.getId());
     }
 
     public List<Attachment> getAttachments(Card card) {

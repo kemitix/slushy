@@ -33,6 +33,10 @@ public class DueDateRoutes
                                 "setDueDate(${header[Slushy.Inbox.Card]}, ${header[Slushy.Due]})"))
         ;
 
+        from("direct:Slushy.DueCompleted")
+                .routeId("Slushy.DueCompleted")
+                .bean(dueDates, "completed(${header[Slushy.Inbox.Card]})")
+        ;
     }
 
 }

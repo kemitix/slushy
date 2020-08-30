@@ -30,6 +30,7 @@ public class RejectRoutes
                 .routeId("Slushy.Reject")
                 .setBody(exchange -> trelloBoard.getRejectCards())
                 .split(body())
+                .convertBodyTo(SlushyCard.class)
                 .setHeader("Slushy.Reject.Age", rejectConfig::getRequiredAgeHours)
                 .filter(bean(restedFilter, "isRested(${body}, ${header[Slushy.Reject.Age]})"))
                 .setHeader("Slushy.RoutingSlip", rejectConfig::getRoutingSlip)

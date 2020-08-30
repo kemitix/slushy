@@ -2,6 +2,7 @@ package net.kemitix.slushy.app.duedates;
 
 import com.julienvey.trello.domain.Card;
 import net.kemitix.slushy.app.Now;
+import net.kemitix.slushy.app.SlushyCard;
 import net.kemitix.slushy.app.TrelloBoard;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -16,7 +17,7 @@ public class DueDates {
     @Inject TrelloBoard trelloBoard;
     @Inject Now now;
 
-    Card setDueDate(Card card, Instant due) {
+    Card setDueDate(SlushyCard card, Instant due) {
         var date = Date.from(due);
         card.setDue(date);
         trelloBoard.updateCard(card);
@@ -25,6 +26,11 @@ public class DueDates {
 
     Instant nowPlusDays(int days) {
         return now.get().plus(days, ChronoUnit.DAYS);
+    }
+
+    void completed(SlushyCard card) {
+        card.setDueComplete(true);
+        trelloBoard.updateCard(card);
     }
 
 }

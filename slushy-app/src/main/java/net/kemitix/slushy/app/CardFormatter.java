@@ -16,7 +16,7 @@ public class CardFormatter {
     @Inject InboxConfig inboxConfig;
     @Inject TrelloBoard trelloBoard;
 
-    Submission reformat(Submission submission, Card card) {
+    Submission reformat(Submission submission, SlushyCard card) {
         // Name
         card.setName(String.format(
                 "%s by %s",
