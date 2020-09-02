@@ -56,8 +56,8 @@ public class TrelloBoard {
     void init () {
         Board board = board(slushyConfig, trello);
         List<TList> lists = board.fetchLists();
-        inbox = getList(inboxConfig.getListName(), lists);
-        slush = getList(inboxConfig.getSlushName(), lists);
+        inbox = getList(inboxConfig.getSourceList(), lists);
+        slush = getList(inboxConfig.getTargetList(), lists);
         reject = getList(rejectConfig.getRejectName(), lists);
         rejected = getList(rejectConfig.getRejectedName(), lists);
         hold = getList(holdConfig.getHoldName(), lists);
