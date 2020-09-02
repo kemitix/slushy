@@ -24,11 +24,11 @@ import static net.kemitix.slushy.app.ListUtils.map;
 @ApplicationScoped
 public class TrelloBoard {
 
-    @Inject private Trello trello;
-    @Inject private SlushyConfig slushyConfig;
-    @Inject private InboxConfig inboxConfig;
-    @Inject private RejectConfig rejectConfig;
-    @Inject private HoldConfig holdConfig;
+    private final Trello trello;
+    private final SlushyConfig slushyConfig;
+    private final InboxConfig inboxConfig;
+    private final RejectConfig rejectConfig;
+    private final HoldConfig holdConfig;
 
     @Getter private TList inbox;
     @Getter private TList slush;
@@ -36,6 +36,21 @@ public class TrelloBoard {
     @Getter private TList rejected;
     @Getter private TList hold;
     @Getter private TList held;
+
+    @Inject
+    public TrelloBoard(
+            Trello trello,
+            SlushyConfig slushyConfig,
+            InboxConfig inboxConfig,
+            RejectConfig rejectConfig,
+            HoldConfig holdConfig
+    ) {
+        this.trello = trello;
+        this.slushyConfig = slushyConfig;
+        this.inboxConfig = inboxConfig;
+        this.rejectConfig = rejectConfig;
+        this.holdConfig = holdConfig;
+    }
 
     @PostConstruct
     void init () {
