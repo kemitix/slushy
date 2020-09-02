@@ -100,7 +100,7 @@ public class TrelloBoard {
         return getListCards(inbox.getId());
     }
 
-    private List<SlushyCard> getListCards(String listId) {
+    public List<SlushyCard> getListCards(String listId) {
         return trello.getListCards(listId).stream()
                 .map(card -> SlushyCard.from(card, trello))
                 .collect(Collectors.toList());
