@@ -24,21 +24,15 @@ public class InboxRoutes
     @Inject CamelContext camelContext;
     @Inject SlushyConfig slushyConfig;
     @Inject InboxConfig inboxConfig;
-    @Inject
-    TrelloBoard trelloBoard;
+    @Inject TrelloBoard trelloBoard;
     @Inject SubmissionParser submissionParser;
     @Inject CardFormatter cardFormatter;
-    @Inject
-    CardMover cardMover;
-    @Inject
-    AttachmentLoader attachmentLoader;
-    @Inject
-    ConversionService conversionService;
-    @Inject
-    EmailService emailService;
+    @Inject CardMover cardMover;
+    @Inject AttachmentLoader attachmentLoader;
+    @Inject ConversionService conversionService;
+    @Inject EmailService emailService;
     @Inject SubmissionReceivedEmailCreator emailCreator;
-    @Inject
-    Comments comments;
+    @Inject Comments comments;
 
     @Override
     public void configure() {
