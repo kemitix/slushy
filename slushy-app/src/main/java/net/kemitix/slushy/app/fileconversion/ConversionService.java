@@ -1,4 +1,7 @@
-package net.kemitix.slushy.app;
+package net.kemitix.slushy.app.fileconversion;
+
+import net.kemitix.slushy.app.Attachment;
+import net.kemitix.slushy.app.fileconversion.AttachmentConverter;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;

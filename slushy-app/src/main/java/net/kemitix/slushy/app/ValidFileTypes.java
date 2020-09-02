@@ -1,5 +1,7 @@
 package net.kemitix.slushy.app;
 
+import net.kemitix.slushy.app.fileconversion.ConversionService;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -20,7 +22,8 @@ public class ValidFileTypes {
             "rtf"
     );
 
-    @Inject ConversionService conversionService;
+    @Inject
+    ConversionService conversionService;
 
     public List<String> get() {
         List<String> supported = new ArrayList<>(KINDLE_SUPPORTED);

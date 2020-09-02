@@ -1,7 +1,7 @@
 package net.kemitix.slushy.app.ugiggle;
 
 import net.kemitix.slushy.app.Attachment;
-import net.kemitix.slushy.app.ConversionService;
+import net.kemitix.slushy.app.fileconversion.ConversionService;
 import net.kemitix.slushy.app.email.EmailService;
 import net.kemitix.slushy.app.trello.TrelloCard;
 

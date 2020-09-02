@@ -1,5 +1,8 @@
-package net.kemitix.slushy.app;
+package net.kemitix.slushy.app.fileconversion;
 
+import net.kemitix.slushy.app.Attachment;
+import net.kemitix.slushy.app.AttachmentDirectory;
+import net.kemitix.slushy.app.LocalAttachment;
 import org.odftoolkit.odfdom.converter.xhtml.XHTMLConverter;
 import org.odftoolkit.odfdom.converter.xhtml.XHTMLOptions;
 import org.odftoolkit.odfdom.doc.OdfTextDocument;
