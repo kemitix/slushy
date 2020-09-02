@@ -1,6 +1,6 @@
 package net.kemitix.slushy.app.multisub;
 
-import net.kemitix.slushy.app.SubjectCreator;
+import net.kemitix.slushy.app.email.SubjectCreator;
 
 import javax.enterprise.context.ApplicationScoped;
 

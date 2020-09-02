@@ -1,6 +1,9 @@
-package net.kemitix.slushy.app;
+package net.kemitix.slushy.app.trello;
 
 import com.julienvey.trello.domain.Card;
+import net.kemitix.slushy.app.Attachment;
+import net.kemitix.slushy.app.AttachmentDirectory;
+import net.kemitix.slushy.app.LocalAttachment;
 
 import java.io.File;
 import java.io.FileOutputStream;

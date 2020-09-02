@@ -1,6 +1,11 @@
-package net.kemitix.slushy.app;
+package net.kemitix.slushy.app.reject;
 
-import net.kemitix.slushy.spi.RejectConfig;
+import net.kemitix.slushy.app.CardMover;
+import net.kemitix.slushy.app.Comments;
+import net.kemitix.slushy.app.RestedFilter;
+import net.kemitix.slushy.app.SlushyCard;
+import net.kemitix.slushy.app.email.EmailService;
+import net.kemitix.slushy.app.trello.TrelloBoard;
 import net.kemitix.slushy.spi.SlushyConfig;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.builder.SimpleBuilder;
@@ -17,12 +22,17 @@ public class RejectRoutes
 
     @Inject SlushyConfig slushyConfig;
     @Inject RejectConfig rejectConfig;
-    @Inject TrelloBoard trelloBoard;
-    @Inject CardMover cardMover;
-    @Inject EmailService emailService;
+    @Inject
+    TrelloBoard trelloBoard;
+    @Inject
+    CardMover cardMover;
+    @Inject
+    EmailService emailService;
     @Inject SubmissionRejectedEmailCreator emailCreator;
-    @Inject RestedFilter restedFilter;
-    @Inject Comments comments;
+    @Inject
+    RestedFilter restedFilter;
+    @Inject
+    Comments comments;
 
     @Override
     public void configure() {

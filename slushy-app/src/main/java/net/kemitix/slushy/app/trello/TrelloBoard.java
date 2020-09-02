@@ -1,4 +1,4 @@
-package net.kemitix.slushy.app;
+package net.kemitix.slushy.app.trello;
 
 import com.julienvey.trello.NotFoundException;
 import com.julienvey.trello.Trello;
@@ -6,9 +6,10 @@ import com.julienvey.trello.domain.*;
 import com.julienvey.trello.domain.Attachment;
 import lombok.Getter;
 import lombok.extern.java.Log;
-import net.kemitix.slushy.spi.HoldConfig;
-import net.kemitix.slushy.spi.InboxConfig;
-import net.kemitix.slushy.spi.RejectConfig;
+import net.kemitix.slushy.app.SlushyCard;
+import net.kemitix.slushy.app.hold.HoldConfig;
+import net.kemitix.slushy.app.inbox.InboxConfig;
+import net.kemitix.slushy.app.reject.RejectConfig;
 import net.kemitix.slushy.spi.SlushyConfig;
 
 import javax.annotation.PostConstruct;
@@ -23,11 +24,11 @@ import static net.kemitix.slushy.app.ListUtils.map;
 @ApplicationScoped
 public class TrelloBoard {
 
-    @Inject private Trello trello;
-    @Inject private SlushyConfig slushyConfig;
-    @Inject private InboxConfig inboxConfig;
-    @Inject private RejectConfig rejectConfig;
-    @Inject private HoldConfig holdConfig;
+    private final Trello trello;
+    private final SlushyConfig slushyConfig;
+    private final InboxConfig inboxConfig;
+    private final RejectConfig rejectConfig;
+    private final HoldConfig holdConfig;
 
     @Getter private TList inbox;
     @Getter private TList slush;
@@ -35,6 +36,21 @@ public class TrelloBoard {
     @Getter private TList rejected;
     @Getter private TList hold;
     @Getter private TList held;
+
+    @Inject
+    public TrelloBoard(
+            Trello trello,
+            SlushyConfig slushyConfig,
+            InboxConfig inboxConfig,
+            RejectConfig rejectConfig,
+            HoldConfig holdConfig
+    ) {
+        this.trello = trello;
+        this.slushyConfig = slushyConfig;
+        this.inboxConfig = inboxConfig;
+        this.rejectConfig = rejectConfig;
+        this.holdConfig = holdConfig;
+    }
 
     @PostConstruct
     void init () {
@@ -84,7 +100,7 @@ public class TrelloBoard {
         return getListCards(inbox.getId());
     }
 
-    private List<SlushyCard> getListCards(String listId) {
+    public List<SlushyCard> getListCards(String listId) {
         return trello.getListCards(listId).stream()
                 .map(card -> SlushyCard.from(card, trello))
                 .collect(Collectors.toList());

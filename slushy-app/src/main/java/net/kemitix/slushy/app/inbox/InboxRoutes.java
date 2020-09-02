@@ -1,9 +1,13 @@
- package net.kemitix.slushy.app;
+ package net.kemitix.slushy.app.inbox;
 
- import net.kemitix.slushy.spi.InboxConfig;
+ import net.kemitix.slushy.app.AttachmentLoader;
+ import net.kemitix.slushy.app.CardMover;
+ import net.kemitix.slushy.app.Comments;
+ import net.kemitix.slushy.app.email.EmailService;
+ import net.kemitix.slushy.app.fileconversion.ConversionService;
+ import net.kemitix.slushy.app.trello.TrelloBoard;
  import net.kemitix.slushy.spi.SlushyConfig;
  import org.apache.camel.CamelContext;
- import org.apache.camel.TypeConverters;
  import org.apache.camel.builder.RouteBuilder;
  import org.apache.camel.builder.SimpleBuilder;
  import org.apache.camel.builder.ValueBuilder;

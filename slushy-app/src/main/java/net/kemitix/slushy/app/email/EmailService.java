@@ -1,4 +1,6 @@
-package net.kemitix.slushy.app;
+package net.kemitix.slushy.app.email;
+
+import net.kemitix.slushy.app.Attachment;
 
 import javax.mail.MessagingException;
 import java.io.IOException;

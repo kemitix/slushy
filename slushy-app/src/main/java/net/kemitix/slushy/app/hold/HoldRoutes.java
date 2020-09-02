@@ -1,6 +1,10 @@
-package net.kemitix.slushy.app;
+package net.kemitix.slushy.app.hold;
 
-import net.kemitix.slushy.spi.HoldConfig;
+import net.kemitix.slushy.app.CardMover;
+import net.kemitix.slushy.app.Comments;
+import net.kemitix.slushy.app.RestedFilter;
+import net.kemitix.slushy.app.email.EmailService;
+import net.kemitix.slushy.app.trello.TrelloBoard;
 import net.kemitix.slushy.spi.SlushyConfig;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.builder.SimpleBuilder;

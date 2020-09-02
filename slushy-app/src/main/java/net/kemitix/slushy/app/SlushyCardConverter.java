@@ -7,7 +7,6 @@ import org.apache.camel.TypeConverters;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.Objects;
 
 @ApplicationScoped
 public class SlushyCardConverter implements TypeConverters {
@@ -16,8 +15,6 @@ public class SlushyCardConverter implements TypeConverters {
 
     @Converter
     public SlushyCard toSlushyCard(Card card) {
-//        System.out.println("trello = " + trello);
-//        Objects.requireNonNull(trello, "Trello Service");
         return SlushyCard.from(card, trello);
     }
 

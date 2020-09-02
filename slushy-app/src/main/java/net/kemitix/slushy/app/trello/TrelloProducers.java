@@ -1,4 +1,4 @@
-package net.kemitix.slushy.app;
+package net.kemitix.slushy.app.trello;
 
 import com.julienvey.trello.Trello;
 import com.julienvey.trello.TrelloHttpClient;
@@ -21,11 +21,11 @@ public class TrelloProducers {
 
     @Produces
     @ApplicationScoped
-    Trello trello(
+    TrelloClient trello(
             SlushyConfig config,
             TrelloHttpClient httpClient
     ) {
-        return new TrelloImpl(
+        return new SlushyTrelloClient(
                 config.getTrelloKey(),
                 config.getTrelloSecret(),
                 httpClient);
