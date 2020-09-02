@@ -3,6 +3,7 @@ package net.kemitix.slushy.app;
 import com.julienvey.trello.domain.Attachment;
 import com.julienvey.trello.domain.Card;
 import lombok.extern.java.Log;
+import net.kemitix.slushy.app.trello.TrelloBoard;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -22,7 +23,8 @@ public class SubmissionParser {
                     Pattern.MULTILINE);
 
     @Inject Now now;
-    @Inject TrelloBoard trelloBoard;
+    @Inject
+    TrelloBoard trelloBoard;
     @Inject ValidFileTypes validFileTypes;
 
     public Submission parse(Card card) {

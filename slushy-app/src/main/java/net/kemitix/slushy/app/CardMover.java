@@ -1,8 +1,8 @@
 package net.kemitix.slushy.app;
 
-import com.julienvey.trello.domain.Card;
 import com.julienvey.trello.domain.TList;
 import lombok.extern.java.Log;
+import net.kemitix.slushy.app.trello.TrelloBoard;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -11,7 +11,8 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class CardMover {
 
-    @Inject TrelloBoard trelloBoard;
+    @Inject
+    TrelloBoard trelloBoard;
 
     void move(SlushyCard card, TList destination) {
         card.setIdList(destination.getId());

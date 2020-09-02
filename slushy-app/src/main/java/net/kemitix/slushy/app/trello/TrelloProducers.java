@@ -1,4 +1,4 @@
-package net.kemitix.slushy.app;
+package net.kemitix.slushy.app.trello;
 
 import com.julienvey.trello.Trello;
 import com.julienvey.trello.TrelloHttpClient;

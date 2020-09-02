@@ -2,7 +2,7 @@ package net.kemitix.slushy.app.multisub;
 
 import net.kemitix.slushy.app.Submission;
 import net.kemitix.slushy.app.SubmissionParser;
-import net.kemitix.slushy.app.TrelloBoard;
+import net.kemitix.slushy.app.trello.TrelloBoard;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

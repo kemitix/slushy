@@ -3,7 +3,7 @@ package net.kemitix.slushy.app.duedates;
 import com.julienvey.trello.domain.Card;
 import net.kemitix.slushy.app.Now;
 import net.kemitix.slushy.app.SlushyCard;
-import net.kemitix.slushy.app.TrelloBoard;
+import net.kemitix.slushy.app.trello.TrelloBoard;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

@@ -1,5 +1,6 @@
 package net.kemitix.slushy.app;
 
+import net.kemitix.slushy.app.trello.TrelloBoard;
 import net.kemitix.slushy.spi.RejectConfig;
 import net.kemitix.slushy.spi.SlushyConfig;
 import org.apache.camel.builder.RouteBuilder;
@@ -17,7 +18,8 @@ public class RejectRoutes
 
     @Inject SlushyConfig slushyConfig;
     @Inject RejectConfig rejectConfig;
-    @Inject TrelloBoard trelloBoard;
+    @Inject
+    TrelloBoard trelloBoard;
     @Inject CardMover cardMover;
     @Inject EmailService emailService;
     @Inject SubmissionRejectedEmailCreator emailCreator;

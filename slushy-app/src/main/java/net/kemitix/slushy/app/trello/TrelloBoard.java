@@ -1,4 +1,4 @@
-package net.kemitix.slushy.app;
+package net.kemitix.slushy.app.trello;
 
 import com.julienvey.trello.NotFoundException;
 import com.julienvey.trello.Trello;
@@ -6,6 +6,7 @@ import com.julienvey.trello.domain.*;
 import com.julienvey.trello.domain.Attachment;
 import lombok.Getter;
 import lombok.extern.java.Log;
+import net.kemitix.slushy.app.SlushyCard;
 import net.kemitix.slushy.spi.HoldConfig;
 import net.kemitix.slushy.spi.InboxConfig;
 import net.kemitix.slushy.spi.RejectConfig;

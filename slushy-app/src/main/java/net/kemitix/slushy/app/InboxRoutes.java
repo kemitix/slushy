@@ -1,9 +1,9 @@
  package net.kemitix.slushy.app;
 
+ import net.kemitix.slushy.app.trello.TrelloBoard;
  import net.kemitix.slushy.spi.InboxConfig;
  import net.kemitix.slushy.spi.SlushyConfig;
  import org.apache.camel.CamelContext;
- import org.apache.camel.TypeConverters;
  import org.apache.camel.builder.RouteBuilder;
  import org.apache.camel.builder.SimpleBuilder;
  import org.apache.camel.builder.ValueBuilder;
@@ -20,7 +20,8 @@ public class InboxRoutes
     @Inject CamelContext camelContext;
     @Inject SlushyConfig slushyConfig;
     @Inject InboxConfig inboxConfig;
-    @Inject TrelloBoard trelloBoard;
+    @Inject
+    TrelloBoard trelloBoard;
     @Inject SubmissionParser submissionParser;
     @Inject CardFormatter cardFormatter;
     @Inject CardMover cardMover;

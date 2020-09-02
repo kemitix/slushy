@@ -1,6 +1,6 @@
 package net.kemitix.slushy.app;
 
-import com.julienvey.trello.domain.Card;
+import net.kemitix.slushy.app.trello.TrelloBoard;
 import net.kemitix.slushy.spi.InboxConfig;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -14,7 +14,8 @@ public class CardFormatter {
 
     @Inject Now now;
     @Inject InboxConfig inboxConfig;
-    @Inject TrelloBoard trelloBoard;
+    @Inject
+    TrelloBoard trelloBoard;
 
     Submission reformat(Submission submission, SlushyCard card) {
         // Name
