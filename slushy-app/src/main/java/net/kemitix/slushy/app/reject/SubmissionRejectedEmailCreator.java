@@ -1,5 +1,6 @@
-package net.kemitix.slushy.app;
+package net.kemitix.slushy.app.reject;
 
+import net.kemitix.slushy.app.Submission;
 import net.kemitix.slushy.app.email.BodyCreator;
 import net.kemitix.slushy.app.email.SubjectCreator;
 

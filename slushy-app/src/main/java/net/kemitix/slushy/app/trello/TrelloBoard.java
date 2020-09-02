@@ -9,7 +9,7 @@ import lombok.extern.java.Log;
 import net.kemitix.slushy.app.SlushyCard;
 import net.kemitix.slushy.app.hold.HoldConfig;
 import net.kemitix.slushy.spi.InboxConfig;
-import net.kemitix.slushy.spi.RejectConfig;
+import net.kemitix.slushy.app.reject.RejectConfig;
 import net.kemitix.slushy.spi.SlushyConfig;
 
 import javax.annotation.PostConstruct;
