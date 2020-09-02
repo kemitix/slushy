@@ -1,9 +1,11 @@
- package net.kemitix.slushy.app;
+ package net.kemitix.slushy.app.inbox;
 
+ import net.kemitix.slushy.app.AttachmentLoader;
+ import net.kemitix.slushy.app.CardMover;
+ import net.kemitix.slushy.app.Comments;
  import net.kemitix.slushy.app.email.EmailService;
  import net.kemitix.slushy.app.fileconversion.ConversionService;
  import net.kemitix.slushy.app.trello.TrelloBoard;
- import net.kemitix.slushy.spi.InboxConfig;
  import net.kemitix.slushy.spi.SlushyConfig;
  import org.apache.camel.CamelContext;
  import org.apache.camel.builder.RouteBuilder;
@@ -26,14 +28,17 @@ public class InboxRoutes
     TrelloBoard trelloBoard;
     @Inject SubmissionParser submissionParser;
     @Inject CardFormatter cardFormatter;
-    @Inject CardMover cardMover;
-    @Inject AttachmentLoader attachmentLoader;
+    @Inject
+    CardMover cardMover;
+    @Inject
+    AttachmentLoader attachmentLoader;
     @Inject
     ConversionService conversionService;
     @Inject
     EmailService emailService;
     @Inject SubmissionReceivedEmailCreator emailCreator;
-    @Inject Comments comments;
+    @Inject
+    Comments comments;
 
     @Override
     public void configure() {

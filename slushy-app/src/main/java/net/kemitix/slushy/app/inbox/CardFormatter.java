@@ -1,7 +1,9 @@
-package net.kemitix.slushy.app;
+package net.kemitix.slushy.app.inbox;
 
+import net.kemitix.slushy.app.Now;
+import net.kemitix.slushy.app.SlushyCard;
+import net.kemitix.slushy.app.Submission;
 import net.kemitix.slushy.app.trello.TrelloBoard;
-import net.kemitix.slushy.spi.InboxConfig;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -12,7 +14,8 @@ import java.util.Date;
 @ApplicationScoped
 public class CardFormatter {
 
-    @Inject Now now;
+    @Inject
+    Now now;
     @Inject InboxConfig inboxConfig;
     @Inject
     TrelloBoard trelloBoard;

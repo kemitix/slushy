@@ -1,7 +1,8 @@
-package net.kemitix.slushy.app;
+package net.kemitix.slushy.app.inbox;
 
 import com.julienvey.trello.domain.Attachment;
 import com.julienvey.trello.domain.Card;
+import net.kemitix.slushy.app.*;
 import net.kemitix.slushy.app.fileconversion.ConversionService;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.assertj.core.api.WithAssertions;
@@ -32,7 +33,7 @@ public class SubmissionParserTest
     private final SubmissionParser submissionParser = new SubmissionParser();
 
     private final Now now = () -> Instant.ofEpochSecond(123456789);
-    private ValidFileTypes validFileTypes = new ValidFileTypes();
+    private ValidFileTypes validFileTypes;
 
     @Mock
     TrelloBoard trelloBoard;
@@ -44,8 +45,8 @@ public class SubmissionParserTest
     public void setUp() {
         submissionParser.now = now;
         submissionParser.trelloBoard = trelloBoard;
+        validFileTypes = new ValidFileTypes(conversionService);
         submissionParser.validFileTypes = validFileTypes;
-        validFileTypes.conversionService = conversionService;
         given(conversionService.canConvertFrom()).willReturn(List.of("ODT"));
     }
 

@@ -1,8 +1,9 @@
-package net.kemitix.slushy.app;
+package net.kemitix.slushy.app.inbox;
 
 import com.julienvey.trello.domain.Attachment;
 import com.julienvey.trello.domain.Card;
 import lombok.extern.java.Log;
+import net.kemitix.slushy.app.*;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -22,10 +23,12 @@ public class SubmissionParser {
             Pattern.compile("^\\*\\*(?<heading>.*?):\\*\\*$",
                     Pattern.MULTILINE);
 
-    @Inject Now now;
+    @Inject
+    Now now;
     @Inject
     TrelloBoard trelloBoard;
-    @Inject ValidFileTypes validFileTypes;
+    @Inject
+    ValidFileTypes validFileTypes;
 
     public Submission parse(Card card) {
         log.info("CARD " + card.getName());

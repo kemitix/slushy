@@ -1,4 +1,4 @@
-package net.kemitix.slushy.spi;
+package net.kemitix.slushy.app.inbox;
 
 public interface InboxConfig {
 

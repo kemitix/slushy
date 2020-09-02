@@ -22,8 +22,12 @@ public class ValidFileTypes {
             "rtf"
     );
 
+    private final ConversionService conversionService;
+
     @Inject
-    ConversionService conversionService;
+    public ValidFileTypes(ConversionService conversionService) {
+        this.conversionService = conversionService;
+    }
 
     public List<String> get() {
         List<String> supported = new ArrayList<>(KINDLE_SUPPORTED);
