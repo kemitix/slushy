@@ -7,7 +7,7 @@ import com.julienvey.trello.domain.Attachment;
 import lombok.Getter;
 import lombok.extern.java.Log;
 import net.kemitix.slushy.app.SlushyCard;
-import net.kemitix.slushy.spi.HoldConfig;
+import net.kemitix.slushy.app.hold.HoldConfig;
 import net.kemitix.slushy.spi.InboxConfig;
 import net.kemitix.slushy.spi.RejectConfig;
 import net.kemitix.slushy.spi.SlushyConfig;
