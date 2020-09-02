@@ -1,4 +1,4 @@
-package net.kemitix.slushy.app;
+package net.kemitix.slushy.app.email;
 
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder;

@@ -1,8 +1,9 @@
-package net.kemitix.slushy.app;
+package net.kemitix.slushy.app.email;
 
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.amazonaws.services.simpleemail.model.*;
 import lombok.extern.java.Log;
+import net.kemitix.slushy.app.Attachment;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

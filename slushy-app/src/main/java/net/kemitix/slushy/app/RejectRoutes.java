@@ -1,5 +1,6 @@
 package net.kemitix.slushy.app;
 
+import net.kemitix.slushy.app.email.EmailService;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 import net.kemitix.slushy.spi.RejectConfig;
 import net.kemitix.slushy.spi.SlushyConfig;
@@ -21,7 +22,8 @@ public class RejectRoutes
     @Inject
     TrelloBoard trelloBoard;
     @Inject CardMover cardMover;
-    @Inject EmailService emailService;
+    @Inject
+    EmailService emailService;
     @Inject SubmissionRejectedEmailCreator emailCreator;
     @Inject RestedFilter restedFilter;
     @Inject Comments comments;

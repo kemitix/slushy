@@ -1,5 +1,6 @@
 package net.kemitix.slushy.app;
 
+import net.kemitix.slushy.app.email.EmailService;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 import net.kemitix.slushy.spi.HoldConfig;
 import net.kemitix.slushy.spi.SlushyConfig;
@@ -21,7 +22,8 @@ public class HoldRoutes
     @Inject
     TrelloBoard trelloBoard;
     @Inject CardMover cardMover;
-    @Inject EmailService emailService;
+    @Inject
+    EmailService emailService;
     @Inject SubmissionHoldEmailCreator emailCreator;
     @Inject RestedFilter restedFilter;
     @Inject Comments comments;

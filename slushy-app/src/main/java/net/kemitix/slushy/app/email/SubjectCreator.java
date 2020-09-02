@@ -1,4 +1,4 @@
-package net.kemitix.slushy.app;
+package net.kemitix.slushy.app.email;
 
 public interface SubjectCreator<T> {
 

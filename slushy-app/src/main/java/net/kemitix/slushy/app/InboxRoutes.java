@@ -1,5 +1,6 @@
  package net.kemitix.slushy.app;
 
+ import net.kemitix.slushy.app.email.EmailService;
  import net.kemitix.slushy.app.trello.TrelloBoard;
  import net.kemitix.slushy.spi.InboxConfig;
  import net.kemitix.slushy.spi.SlushyConfig;
@@ -27,7 +28,8 @@ public class InboxRoutes
     @Inject CardMover cardMover;
     @Inject AttachmentLoader attachmentLoader;
     @Inject ConversionService conversionService;
-    @Inject EmailService emailService;
+    @Inject
+    EmailService emailService;
     @Inject SubmissionReceivedEmailCreator emailCreator;
     @Inject Comments comments;
 

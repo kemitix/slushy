@@ -1,5 +1,8 @@
 package net.kemitix.slushy.app;
 
+import net.kemitix.slushy.app.email.BodyCreator;
+import net.kemitix.slushy.app.email.SubjectCreator;
+
 import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
