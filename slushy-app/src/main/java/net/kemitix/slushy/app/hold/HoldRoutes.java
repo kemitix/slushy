@@ -34,8 +34,8 @@ public class HoldRoutes
                 .routeId("Slushy.Hold")
                 .setBody(exchange -> trelloBoard.getListCards(holdConfig.getHoldName()))
                 .split(body())
-                .setHeader("Slushy.Hold.Age", holdConfig::getRequiredAgeHours)
-                .filter(bean(restedFilter, "isRested(${body}, ${header[Slushy.Hold.Age]})"))
+                .setHeader("SlushyRequiredAge", holdConfig::getRequiredAgeHours)
+                .filter(bean(restedFilter, "isRested(${body}, ${header.SlushyRequiredAge})"))
                 .setHeader("SlushyRoutingSlip", holdConfig::getRoutingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))
         ;
