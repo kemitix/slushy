@@ -14,7 +14,7 @@ public class ReaderRoutes
     @Inject CardMover cardMover;
 
     @Override
-    public void configure() throws Exception {
+    public void configure() {
         from("direct:Slushy.Reader.MoveToTargetList")
                 .routeId("Slushy.Reader.MoveToTargetList")
                 .setHeader("Slushy.TargetList", readerConfig::getTargetList)
