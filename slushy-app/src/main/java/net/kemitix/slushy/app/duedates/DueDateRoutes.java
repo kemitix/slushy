@@ -17,20 +17,20 @@ public class DueDateRoutes
     public void configure() {
         from("direct:Slushy.DueIn30Days")
                 .routeId("Slushy.DueIn30Days")
-                .setHeader("Slushy.Due",
+                .setHeader("SlushyDue",
                         bean(dueDates, "nowPlusDays(30)"))
                 .setHeader("SlushyCard",
                         bean(dueDates,
-                                "setDueDate(${header.SlushyCard}, ${header[Slushy.Due]})"))
+                                "setDueDate(${header.SlushyCard}, ${header.SlushyDue})"))
         ;
 
         from("direct:Slushy.DueIn60Days")
                 .routeId("Slushy.DueIn60Days")
-                .setHeader("Slushy.Due",
+                .setHeader("SlushyDue",
                         bean(dueDates, "nowPlusDays(60)"))
                 .setHeader("SlushyCard",
                         bean(dueDates,
-                                "setDueDate(${header.SlushyCard}, ${header[Slushy.Due]})"))
+                                "setDueDate(${header.SlushyCard}, ${header.SlushyDue})"))
         ;
 
         from("direct:Slushy.DueCompleted")
