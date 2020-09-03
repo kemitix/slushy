@@ -32,7 +32,7 @@ public class HoldRoutes
     public void configure() {
         fromF("timer:hold?period=%s", holdConfig.getScanPeriod())
                 .routeId("Slushy.Hold")
-                .setBody(exchange -> trelloBoard.getHoldCards())
+                .setBody(exchange -> trelloBoard.getListCards(holdConfig.getHoldName()))
                 .split(body())
                 .setHeader("Slushy.Hold.Age", holdConfig::getRequiredAgeHours)
                 .filter(bean(restedFilter, "isRested(${body}, ${header[Slushy.Hold.Age]})"))
@@ -40,8 +40,8 @@ public class HoldRoutes
                 .routingSlip(header("Slushy.RoutingSlip"))
         ;
 
-        from("direct:Slushy.Hold.SendEmailNotification")
-                .routeId("Slushy.Hold.SendEmailNotification")
+        from("direct:Slushy.Hold.SendEmail")
+                .routeId("Slushy.Hold.SendEmail")
                 .setHeader("Slushy.Email.Recipient", submissionEmail())
                 .setHeader("Slushy.Email.Sender", slushyConfig::getSender)
                 .setHeader("Slushy.Email.Subject", subject())
@@ -64,10 +64,10 @@ public class HoldRoutes
 
         from("direct:Slushy.Hold.MoveToHeld")
                 .routeId("Slushy.Hold.MoveToHeld")
-                .setHeader("Slushy.Hold.Destination", trelloBoard::getHeld)
+                .setHeader("Slushy.TargetList", holdConfig::getHeldName)
                 .bean(cardMover, "move(" +
                         "${header[Slushy.Inbox.Card]}, " +
-                        "${header[Slushy.Hold.Destination]}" +
+                        "${header[Slushy.TargetList]}" +
                         ")")
         ;
 

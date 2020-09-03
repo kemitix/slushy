@@ -26,42 +26,22 @@ public class TrelloBoard {
 
     private final Trello trello;
     private final SlushyConfig slushyConfig;
-    private final InboxConfig inboxConfig;
-    private final RejectConfig rejectConfig;
-    private final HoldConfig holdConfig;
 
-    @Getter private TList inbox;
-    @Getter private TList slush;
-    @Getter private TList reject;
-    @Getter private TList rejected;
-    @Getter private TList hold;
-    @Getter private TList held;
+    private List<TList> lists;
 
     @Inject
     public TrelloBoard(
             Trello trello,
-            SlushyConfig slushyConfig,
-            InboxConfig inboxConfig,
-            RejectConfig rejectConfig,
-            HoldConfig holdConfig
+            SlushyConfig slushyConfig
     ) {
         this.trello = trello;
         this.slushyConfig = slushyConfig;
-        this.inboxConfig = inboxConfig;
-        this.rejectConfig = rejectConfig;
-        this.holdConfig = holdConfig;
     }
 
     @PostConstruct
     void init () {
         Board board = board(slushyConfig, trello);
-        List<TList> lists = board.fetchLists();
-        inbox = getList(inboxConfig.getListName(), lists);
-        slush = getList(inboxConfig.getSlushName(), lists);
-        reject = getList(rejectConfig.getRejectName(), lists);
-        rejected = getList(rejectConfig.getRejectedName(), lists);
-        hold = getList(holdConfig.getHoldName(), lists);
-        held = getList(holdConfig.getHeldName(), lists);
+        lists = board.fetchLists();
     }
 
     private Board board(
@@ -80,10 +60,7 @@ public class TrelloBoard {
                 .orElseThrow(() -> new NotFoundException("Board: " + boardName));
     }
 
-    private TList getList(
-            String listName,
-            List<TList> lists
-    ) {
+    private TList getList(String listName) {
         return lists
                 .stream()
                 .filter(list -> list.getName().equals(listName))
@@ -96,30 +73,10 @@ public class TrelloBoard {
         trello.updateCard(card);
     }
 
-    public List<SlushyCard> getInboxCards() {
-        return getListCards(inbox.getId());
-    }
-
-    public List<SlushyCard> getListCards(String listId) {
-        return trello.getListCards(listId).stream()
+    public List<SlushyCard> getListCards(String listName) {
+        return trello.getListCards(getListId(listName)).stream()
                 .map(card -> SlushyCard.from(card, trello))
                 .collect(Collectors.toList());
-    }
-
-    public List<SlushyCard> getSlushCards() {
-        return getListCards(slush.getId());
-    }
-
-    public List<SlushyCard> getRejectCards() {
-        return getListCards(reject.getId());
-    }
-
-    public List<SlushyCard> getHoldCards() {
-        return getListCards(hold.getId());
-    }
-
-    public List<SlushyCard> getHeldCards() {
-        return getListCards(held.getId());
     }
 
     public List<Attachment> getAttachments(Card card) {
@@ -140,4 +97,7 @@ public class TrelloBoard {
         return card;
     }
 
+    public String getListId(String listName) {
+        return getList(listName).getId();
+    }
 }

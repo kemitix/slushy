@@ -7,7 +7,6 @@
  import net.kemitix.slushy.app.fileconversion.ConversionService;
  import net.kemitix.slushy.app.trello.TrelloBoard;
  import net.kemitix.slushy.spi.SlushyConfig;
- import org.apache.camel.CamelContext;
  import org.apache.camel.builder.RouteBuilder;
  import org.apache.camel.builder.SimpleBuilder;
  import org.apache.camel.builder.ValueBuilder;
@@ -21,7 +20,6 @@
 public class InboxRoutes
         extends RouteBuilder {
 
-    @Inject CamelContext camelContext;
     @Inject SlushyConfig slushyConfig;
     @Inject InboxConfig inboxConfig;
     @Inject TrelloBoard trelloBoard;
@@ -38,14 +36,14 @@ public class InboxRoutes
     public void configure() {
         fromF("timer:inbox?period=%s", inboxConfig.getScanPeriod())
                 .routeId("Slushy.Inbox")
-                .setBody(exchange -> trelloBoard.getInboxCards())
+                .setBody(exchange -> trelloBoard.getListCards(inboxConfig.getSourceList()))
                 .split(body())
                 .setHeader("Slushy.RoutingSlip", inboxConfig::getRoutingSlip)
                 .routingSlip(header("Slushy.RoutingSlip"))
         ;
 
-        from("direct:Slushy.Inbox.Parse")
-                .routeId("Slushy.Inbox.Parse")
+        from("direct:Slushy.Parse")
+                .routeId("Slushy.Parse")
                 .setHeader("Slushy.Inbox.Card", body())
                 .bean(submissionParser)
                 .setHeader("Slushy.Inbox.Submission", body())
@@ -57,35 +55,35 @@ public class InboxRoutes
                 .end()
         ;
 
-        from("direct:Slushy.Inbox.Reformat")
-                .routeId("Slushy.Inbox.Reformat")
+        from("direct:Slushy.Reformat")
+                .routeId("Slushy.Reformat")
                 .bean(cardFormatter, "reformat(" +
                         "${header[Slushy.Inbox.Submission]}, " +
                         "${header[Slushy.Inbox.Card]}" +
                         ")")
         ;
 
-        from("direct:Slushy.Inbox.MoveToSlushPile")
-                .routeId("Slushy.Inbox.MoveToSlushPile")
-                .setHeader("Slushy.Inbox.Destination", trelloBoard::getSlush)
+        from("direct:Slushy.Inbox.MoveToTargetList")
+                .routeId("Slushy.Inbox.MoveToTargetList")
+                .setHeader("Slushy.TargetList", inboxConfig::getTargetList)
                 .bean(cardMover, "move(" +
                         "${header[Slushy.Inbox.Card]}, " +
-                        "${header[Slushy.Inbox.Destination]}" +
+                        "${header[Slushy.TargetList]}" +
                         ")")
         ;
 
-        from("direct:Slushy.Inbox.LoadAttachment")
-                .routeId("Slushy.Inbox.LoadAttachment")
+        from("direct:Slushy.LoadAttachment")
+                .routeId("Slushy.LoadAttachment")
                 .setHeader("Slushy.Inbox.Attachment", loadAttachment())
         ;
 
-        from("direct:Slushy.Inbox.FormatForReader")
-                .routeId("Slushy.Inbox.FormatForReader")
+        from("direct:Slushy.FormatForReader")
+                .routeId("Slushy.FormatForReader")
                 .setHeader("Slushy.Inbox.Readable", convertAttachment())
         ;
 
-        from("direct:Slushy.Inbox.SendToReader")
-                .routeId("Slushy.Inbox.SendToReader")
+        from("direct:Slushy.SendToReader")
+                .routeId("Slushy.SendToReader")
                 .setHeader("Slushy.Inbox.Recipient", slushyConfig::getReader)
                 .setHeader("Slushy.Inbox.Sender", slushyConfig::getSender)
                 .bean(emailService, "sendAttachmentOnly(" +

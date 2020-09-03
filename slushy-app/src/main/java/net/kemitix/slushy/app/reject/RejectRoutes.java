@@ -22,23 +22,18 @@ public class RejectRoutes
 
     @Inject SlushyConfig slushyConfig;
     @Inject RejectConfig rejectConfig;
-    @Inject
-    TrelloBoard trelloBoard;
-    @Inject
-    CardMover cardMover;
-    @Inject
-    EmailService emailService;
+    @Inject TrelloBoard trelloBoard;
+    @Inject CardMover cardMover;
+    @Inject EmailService emailService;
     @Inject SubmissionRejectedEmailCreator emailCreator;
-    @Inject
-    RestedFilter restedFilter;
-    @Inject
-    Comments comments;
+    @Inject RestedFilter restedFilter;
+    @Inject Comments comments;
 
     @Override
     public void configure() {
         fromF("timer:reject?period=%s", rejectConfig.getScanPeriod())
                 .routeId("Slushy.Reject")
-                .setBody(exchange -> trelloBoard.getRejectCards())
+                .setBody(exchange -> trelloBoard.getListCards(rejectConfig.getSourceList()))
                 .split(body())
                 .convertBodyTo(SlushyCard.class)
                 .setHeader("Slushy.Reject.Age", rejectConfig::getRequiredAgeHours)
@@ -47,8 +42,8 @@ public class RejectRoutes
                 .routingSlip(header("Slushy.RoutingSlip"))
         ;
 
-        from("direct:Slushy.Reject.SendEmailRejection")
-                .routeId("Slushy.Reject.SendEmailRejection")
+        from("direct:Slushy.Reject.SendEmail")
+                .routeId("Slushy.Reject.SendEmail")
                 .setHeader("Slushy.Inbox.Recipient", submissionEmail())
                 .setHeader("Slushy.Inbox.Sender", slushyConfig::getSender)
                 .setHeader("Slushy.Inbox.Subject", subject())
@@ -71,10 +66,10 @@ public class RejectRoutes
 
         from("direct:Slushy.Reject.MoveToRejected")
                 .routeId("Slushy.Reject.MoveToRejected")
-                .setHeader("Slushy.Reject.Destination", trelloBoard::getRejected)
+                .setHeader("Slushy.TargetList", rejectConfig::getTargetList)
                 .bean(cardMover, "move(" +
                         "${header[Slushy.Inbox.Card]}, " +
-                        "${header[Slushy.Reject.Destination]}" +
+                        "${header[Slushy.TargetList]}" +
                         ")")
         ;
 

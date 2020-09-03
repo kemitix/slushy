@@ -12,9 +12,10 @@ public class QuarkusInboxConfig
         implements InboxConfig {
 
     private String scanPeriod;
-    private String routingSlip;
-    private String listName;
+    private String sourceList;
+    private String targetList;
+    private int requiredAgeHours;
     private long dueDays;
-    private String slushName;
+    private String routingSlip;
 
 }
