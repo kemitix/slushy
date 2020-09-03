@@ -25,7 +25,7 @@
 
         <lombok.version>1.18.12</lombok.version>
         <javax.mail.version>1.5.0-b01</javax.mail.version>
-        <aws-java-sdk-ses.version>1.11.840</aws-java-sdk-ses.version>
+        <aws-java-sdk-ses.version>1.11.853</aws-java-sdk-ses.version>
         <assertj.version>3.16.1</assertj.version>
         <junit.version>5.6.2</junit.version>
         <mockito-junit-jupiter.version>3.4.6</mockito-junit-jupiter.version>
@@ -65,8 +65,8 @@
             </dependency>
 
             <dependency>
-                <groupId>com.amazonaws</groupId>
-                <artifactId>aws-java-sdk-ses</artifactId>
+                <groupId>net.kemitix.aws</groupId>
+                <artifactId>kemitix-aws-java-sdk-ses-wrapper</artifactId>
                 <version>${aws-java-sdk-ses.version}</version>
             </dependency>
 
