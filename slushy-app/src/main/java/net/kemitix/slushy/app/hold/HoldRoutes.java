@@ -64,10 +64,10 @@ public class HoldRoutes
 
         from("direct:Slushy.Hold.MoveToHeld")
                 .routeId("Slushy.Hold.MoveToHeld")
-                .setHeader("Slushy.TargetList", holdConfig::getHeldName)
+                .setHeader("SlushyTargetList", holdConfig::getHeldName)
                 .bean(cardMover, "move(" +
                         "${header.SlushyCard}, " +
-                        "${header[Slushy.TargetList]}" +
+                        "${header.SlushyTargetList}" +
                         ")")
         ;
 

@@ -27,10 +27,10 @@ public class ReaderRoutes
 
         from("direct:Slushy.Reader.MoveToTargetList")
                 .routeId("Slushy.Reader.MoveToTargetList")
-                .setHeader("Slushy.TargetList", readerConfig::getTargetList)
+                .setHeader("SlushyTargetList", readerConfig::getTargetList)
                 .bean(cardMover, "move(" +
                         "${header.SlushyCard}, " +
-                        "${header[Slushy.TargetList]}" +
+                        "${header.SlushyTargetList}" +
                         ")")
         ;
     }

@@ -66,10 +66,10 @@ public class RejectRoutes
 
         from("direct:Slushy.Reject.MoveToRejected")
                 .routeId("Slushy.Reject.MoveToRejected")
-                .setHeader("Slushy.TargetList", rejectConfig::getTargetList)
+                .setHeader("SlushyTargetList", rejectConfig::getTargetList)
                 .bean(cardMover, "move(" +
                         "${header.SlushyCard}, " +
-                        "${header[Slushy.TargetList]}" +
+                        "${header.SlushyTargetList}" +
                         ")")
         ;
 

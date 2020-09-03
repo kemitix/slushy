@@ -65,10 +65,10 @@ public class InboxRoutes
 
         from("direct:Slushy.Inbox.MoveToTargetList")
                 .routeId("Slushy.Inbox.MoveToTargetList")
-                .setHeader("Slushy.TargetList", inboxConfig::getTargetList)
+                .setHeader("SlushyTargetList", inboxConfig::getTargetList)
                 .bean(cardMover, "move(" +
                         "${header.SlushyCard}, " +
-                        "${header[Slushy.TargetList]}" +
+                        "${header.SlushyTargetList}" +
                         ")")
         ;
 
