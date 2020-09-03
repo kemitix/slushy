@@ -22,17 +22,12 @@ public class RejectRoutes
 
     @Inject SlushyConfig slushyConfig;
     @Inject RejectConfig rejectConfig;
-    @Inject
-    TrelloBoard trelloBoard;
-    @Inject
-    CardMover cardMover;
-    @Inject
-    EmailService emailService;
+    @Inject TrelloBoard trelloBoard;
+    @Inject CardMover cardMover;
+    @Inject EmailService emailService;
     @Inject SubmissionRejectedEmailCreator emailCreator;
-    @Inject
-    RestedFilter restedFilter;
-    @Inject
-    Comments comments;
+    @Inject RestedFilter restedFilter;
+    @Inject Comments comments;
 
     @Override
     public void configure() {
