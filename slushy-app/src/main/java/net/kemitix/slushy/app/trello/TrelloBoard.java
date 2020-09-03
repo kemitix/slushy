@@ -4,13 +4,9 @@ import com.julienvey.trello.NotFoundException;
 import com.julienvey.trello.Trello;
 import com.julienvey.trello.domain.*;
 import com.julienvey.trello.domain.Attachment;
-import lombok.Getter;
 import lombok.extern.java.Log;
 import net.kemitix.slushy.app.SlushyCard;
-import net.kemitix.slushy.app.hold.HoldConfig;
-import net.kemitix.slushy.app.inbox.InboxConfig;
-import net.kemitix.slushy.app.reject.RejectConfig;
-import net.kemitix.slushy.spi.SlushyConfig;
+import net.kemitix.slushy.app.SlushyConfig;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
