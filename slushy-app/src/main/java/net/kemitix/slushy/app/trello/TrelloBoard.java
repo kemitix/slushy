@@ -36,6 +36,7 @@ public class TrelloBoard {
     @Getter private TList rejected;
     @Getter private TList hold;
     @Getter private TList held;
+    private List<TList> lists;
 
     @Inject
     public TrelloBoard(
@@ -55,13 +56,13 @@ public class TrelloBoard {
     @PostConstruct
     void init () {
         Board board = board(slushyConfig, trello);
-        List<TList> lists = board.fetchLists();
-        inbox = getList(inboxConfig.getSourceList(), lists);
-        slush = getList(inboxConfig.getTargetList(), lists);
-        reject = getList(rejectConfig.getRejectName(), lists);
-        rejected = getList(rejectConfig.getRejectedName(), lists);
-        hold = getList(holdConfig.getHoldName(), lists);
-        held = getList(holdConfig.getHeldName(), lists);
+        lists = board.fetchLists();
+        inbox = getList(inboxConfig.getSourceList());
+        slush = getList(inboxConfig.getTargetList());
+        reject = getList(rejectConfig.getRejectName());
+        rejected = getList(rejectConfig.getRejectedName());
+        hold = getList(holdConfig.getHoldName());
+        held = getList(holdConfig.getHeldName());
     }
 
     private Board board(
@@ -80,10 +81,7 @@ public class TrelloBoard {
                 .orElseThrow(() -> new NotFoundException("Board: " + boardName));
     }
 
-    private TList getList(
-            String listName,
-            List<TList> lists
-    ) {
+    private TList getList(String listName) {
         return lists
                 .stream()
                 .filter(list -> list.getName().equals(listName))
@@ -140,4 +138,7 @@ public class TrelloBoard {
         return card;
     }
 
+    public String getListId(String listName) {
+        return getList(listName).getId();
+    }
 }

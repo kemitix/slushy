@@ -64,10 +64,10 @@ public class HoldRoutes
 
         from("direct:Slushy.Hold.MoveToHeld")
                 .routeId("Slushy.Hold.MoveToHeld")
-                .setHeader("Slushy.Hold.Destination", trelloBoard::getHeld)
+                .setHeader("Slushy.TargetList", holdConfig::getHeldName)
                 .bean(cardMover, "move(" +
                         "${header[Slushy.Inbox.Card]}, " +
-                        "${header[Slushy.Hold.Destination]}" +
+                        "${header[Slushy.TargetList]}" +
                         ")")
         ;
 

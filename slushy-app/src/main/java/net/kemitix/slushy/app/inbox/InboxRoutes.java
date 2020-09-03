@@ -65,12 +65,12 @@ public class InboxRoutes
                         ")")
         ;
 
-        from("direct:Slushy.Inbox.MoveToSlushPile")
-                .routeId("Slushy.Inbox.MoveToSlushPile")
-                .setHeader("Slushy.Inbox.Destination", trelloBoard::getSlush)
+        from("direct:Slushy.Inbox.MoveToTargetList")
+                .routeId("Slushy.Inbox.MoveToTargetList")
+                .setHeader("Slushy.TargetList", inboxConfig::getTargetList)
                 .bean(cardMover, "move(" +
                         "${header[Slushy.Inbox.Card]}, " +
-                        "${header[Slushy.Inbox.Destination]}" +
+                        "${header[Slushy.TargetList]}" +
                         ")")
         ;
 

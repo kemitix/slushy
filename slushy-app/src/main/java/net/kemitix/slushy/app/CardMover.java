@@ -1,7 +1,6 @@
 package net.kemitix.slushy.app;
 
 import com.julienvey.trello.domain.Card;
-import com.julienvey.trello.domain.TList;
 import lombok.extern.java.Log;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 
@@ -12,18 +11,18 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class CardMover {
 
-    @Inject
-    TrelloBoard trelloBoard;
+    @Inject TrelloBoard trelloBoard;
 
-    void move(SlushyCard card, TList destination) {
-        card.setIdList(destination.getId());
-        card.setPos(getLastPos(destination));
+    void move(SlushyCard card, String targetList) {
+        String listId = trelloBoard.getListId(targetList);
+        card.setIdList(listId);
+        card.setPos(getLastPos(listId));
         trelloBoard.updateCard(card);
-        log.info("Moved card to [" + destination.getName() + "] - " + card.getName());
+        log.info("Moved card to [" + targetList + "] - " + card.getName());
     }
 
-    private int getLastPos(TList destination) {
-        return trelloBoard.getListCards(destination.getId()).stream()
+    private int getLastPos(String listId) {
+        return trelloBoard.getListCards(listId).stream()
                 .map(Card::getPos)
                 .max(Integer::compareTo)
                 .orElse(1000) + 1;
