@@ -9,12 +9,7 @@ import net.kemitix.slushy.app.reader.ReaderConfig;
 @Getter
 @ConfigProperties(prefix = "slushy.reader")
 public class QuarkusReaderConfig
+        extends AbstractQuarkusListProcessingConfig
         implements ReaderConfig {
-
-    String scanPeriod;
-    String sourceList;
-    String targetList;
-    String routingSlip;
-    int requiredAgeHours;
 
 }

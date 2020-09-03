@@ -10,12 +10,7 @@ import net.kemitix.slushy.app.reject.RejectConfig;
 @Getter
 @ConfigProperties(prefix = "slushy.reject")
 public class QuarkusRejectConfig
+        extends AbstractQuarkusListProcessingConfig
         implements RejectConfig {
-
-    String scanPeriod;
-    String sourceList;
-    String targetList;
-    String routingSlip;
-    int requiredAgeHours;
 
 }
