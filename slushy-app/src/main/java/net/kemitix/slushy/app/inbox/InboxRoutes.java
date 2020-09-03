@@ -74,7 +74,7 @@ public class InboxRoutes
 
         from("direct:Slushy.LoadAttachment")
                 .routeId("Slushy.LoadAttachment")
-                .setHeader("Slushy.Inbox.Attachment", loadAttachment())
+                .setHeader("SlushyAttachment", loadAttachment())
         ;
 
         from("direct:Slushy.FormatForReader")
@@ -131,7 +131,7 @@ public class InboxRoutes
 
     private ValueBuilder convertAttachment() {
         return bean(conversionService, "convert(" +
-                "${header[Slushy.Inbox.Attachment]}" +
+                "${header.SlushyAttachment}" +
                 ")");
     }
 
