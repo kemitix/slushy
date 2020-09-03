@@ -74,7 +74,7 @@
 
     </dependencies>
     <properties>
-        <camel.version>3.4.2</camel.version>
+        <camel.version>3.4.3</camel.version>
     </properties>
 
 </project>

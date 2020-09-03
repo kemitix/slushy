@@ -3,9 +3,8 @@ package net.kemitix.slushy.app.trello;
 import com.julienvey.trello.Trello;
 import com.julienvey.trello.TrelloHttpClient;
 import com.julienvey.trello.domain.Member;
-import com.julienvey.trello.impl.TrelloImpl;
 import com.julienvey.trello.impl.http.JDKTrelloHttpClient;
-import net.kemitix.slushy.spi.SlushyConfig;
+import net.kemitix.slushy.app.SlushyConfig;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;

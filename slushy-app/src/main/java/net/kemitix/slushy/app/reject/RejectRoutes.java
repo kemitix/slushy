@@ -6,7 +6,7 @@ import net.kemitix.slushy.app.RestedFilter;
 import net.kemitix.slushy.app.SlushyCard;
 import net.kemitix.slushy.app.email.EmailService;
 import net.kemitix.slushy.app.trello.TrelloBoard;
-import net.kemitix.slushy.spi.SlushyConfig;
+import net.kemitix.slushy.app.SlushyConfig;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.builder.SimpleBuilder;
 import org.apache.camel.builder.ValueBuilder;

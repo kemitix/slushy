@@ -3,7 +3,7 @@ package net.kemitix.slushy;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.java.Log;
-import net.kemitix.slushy.spi.SlushyConfig;
+import net.kemitix.slushy.app.SlushyConfig;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
