@@ -59,7 +59,7 @@ public class RejectRoutes
                 .setHeader("Slushy.Comment",
                         () -> "Sent rejection notification to author")
                 .bean(comments, "add(" +
-                        "${header[Slushy.Inbox.Card]}, " +
+                        "${header.SlushyCard}, " +
                         "${header[Slushy.Comment]}" +
                         ")")
         ;
@@ -68,7 +68,7 @@ public class RejectRoutes
                 .routeId("Slushy.Reject.MoveToRejected")
                 .setHeader("Slushy.TargetList", rejectConfig::getTargetList)
                 .bean(cardMover, "move(" +
-                        "${header[Slushy.Inbox.Card]}, " +
+                        "${header.SlushyCard}, " +
                         "${header[Slushy.TargetList]}" +
                         ")")
         ;

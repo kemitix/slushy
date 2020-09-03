@@ -57,7 +57,7 @@ public class HoldRoutes
                 .setHeader("Slushy.Comment",
                         () -> "Sent held notification to author")
                 .bean(comments, "add(" +
-                        "${header[Slushy.Inbox.Card]}, " +
+                        "${header.SlushyCard}, " +
                         "${header[Slushy.Comment]}" +
                         ")")
         ;
@@ -66,7 +66,7 @@ public class HoldRoutes
                 .routeId("Slushy.Hold.MoveToHeld")
                 .setHeader("Slushy.TargetList", holdConfig::getHeldName)
                 .bean(cardMover, "move(" +
-                        "${header[Slushy.Inbox.Card]}, " +
+                        "${header.SlushyCard}, " +
                         "${header[Slushy.TargetList]}" +
                         ")")
         ;

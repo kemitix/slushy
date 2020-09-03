@@ -29,7 +29,7 @@ public class ReaderRoutes
                 .routeId("Slushy.Reader.MoveToTargetList")
                 .setHeader("Slushy.TargetList", readerConfig::getTargetList)
                 .bean(cardMover, "move(" +
-                        "${header[Slushy.Inbox.Card]}, " +
+                        "${header.SlushyCard}, " +
                         "${header[Slushy.TargetList]}" +
                         ")")
         ;

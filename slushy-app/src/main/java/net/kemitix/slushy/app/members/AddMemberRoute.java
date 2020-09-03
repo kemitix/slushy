@@ -17,9 +17,9 @@ public class AddMemberRoute
     public void configure() {
         from("direct:Slushy.AddMember")
                 .routeId("Slushy.AddMember")
-                .setHeader("Slushy.Inbox.Card",
+                .setHeader("SlushyCard",
                         bean(addMember,
-                                "addToCard(${header[Slushy.Inbox.Card]})"))
+                                "addToCard(${header.SlushyCard})"))
         ;
     }
 

@@ -42,7 +42,7 @@ public class InvalidAttachmentRoute
                 .setHeader("Slushy.Comment",
                         () -> "Sent invalid attachment rejection notification to author")
                 .bean(comments, "add(" +
-                        "${header[Slushy.Inbox.Card]}, " +
+                        "${header.SlushyCard}, " +
                         "${header[Slushy.Comment]}" +
                         ")")
                 // move card to rejected

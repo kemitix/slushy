@@ -19,23 +19,23 @@ public class DueDateRoutes
                 .routeId("Slushy.DueIn30Days")
                 .setHeader("Slushy.Due",
                         bean(dueDates, "nowPlusDays(30)"))
-                .setHeader("Slushy.Inbox.Card",
+                .setHeader("SlushyCard",
                         bean(dueDates,
-                                "setDueDate(${header[Slushy.Inbox.Card]}, ${header[Slushy.Due]})"))
+                                "setDueDate(${header.SlushyCard}, ${header[Slushy.Due]})"))
         ;
 
         from("direct:Slushy.DueIn60Days")
                 .routeId("Slushy.DueIn60Days")
                 .setHeader("Slushy.Due",
                         bean(dueDates, "nowPlusDays(60)"))
-                .setHeader("Slushy.Inbox.Card",
+                .setHeader("SlushyCard",
                         bean(dueDates,
-                                "setDueDate(${header[Slushy.Inbox.Card]}, ${header[Slushy.Due]})"))
+                                "setDueDate(${header.SlushyCard}, ${header[Slushy.Due]})"))
         ;
 
         from("direct:Slushy.DueCompleted")
                 .routeId("Slushy.DueCompleted")
-                .bean(dueDates, "completed(${header[Slushy.Inbox.Card]})")
+                .bean(dueDates, "completed(${header.SlushyCard})")
         ;
     }
 

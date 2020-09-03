@@ -44,7 +44,7 @@ public class InboxRoutes
 
         from("direct:Slushy.Parse")
                 .routeId("Slushy.Parse")
-                .setHeader("Slushy.Inbox.Card", body())
+                .setHeader("SlushyCard", body())
                 .bean(submissionParser)
                 .setHeader("Slushy.Inbox.Submission", body())
                 .choice()
@@ -59,7 +59,7 @@ public class InboxRoutes
                 .routeId("Slushy.Reformat")
                 .bean(cardFormatter, "reformat(" +
                         "${header[Slushy.Inbox.Submission]}, " +
-                        "${header[Slushy.Inbox.Card]}" +
+                        "${header.SlushyCard}" +
                         ")")
         ;
 
@@ -67,7 +67,7 @@ public class InboxRoutes
                 .routeId("Slushy.Inbox.MoveToTargetList")
                 .setHeader("Slushy.TargetList", inboxConfig::getTargetList)
                 .bean(cardMover, "move(" +
-                        "${header[Slushy.Inbox.Card]}, " +
+                        "${header.SlushyCard}, " +
                         "${header[Slushy.TargetList]}" +
                         ")")
         ;
@@ -94,7 +94,7 @@ public class InboxRoutes
                 .setHeader("Slushy.Comment",
                         () -> "Sent attachment to reader")
                 .bean(comments, "add(" +
-                        "${header[Slushy.Inbox.Card]}, " +
+                        "${header.SlushyCard}, " +
                         "${header[Slushy.Comment]}" +
                         ")")
         ;
@@ -117,7 +117,7 @@ public class InboxRoutes
                 .setHeader("Slushy.Comment",
                         () -> "Sent received notification to author")
                 .bean(comments, "add(" +
-                        "${header[Slushy.Inbox.Card]}, " +
+                        "${header.SlushyCard}, " +
                         "${header[Slushy.Comment]}" +
                         ")")
         ;
@@ -125,7 +125,7 @@ public class InboxRoutes
 
     private ValueBuilder loadAttachment() {
         return bean(attachmentLoader, "load(" +
-                "${header[Slushy.Inbox.Card]}" +
+                "${header.SlushyCard}" +
                 ")");
     }
 

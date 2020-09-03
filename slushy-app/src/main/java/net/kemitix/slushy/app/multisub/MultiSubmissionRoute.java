@@ -54,7 +54,7 @@ public class MultiSubmissionRoute
                 .setHeader("Slushy.Comment",
                         () -> "Sent multi-submission rejection notification to author")
                 .bean(comments, "add(" +
-                        "${header[Slushy.Inbox.Card]}, " +
+                        "${header.SlushyCard}, " +
                         "${header[Slushy.Comment]}" +
                         ")")
                 // move card to rejected
