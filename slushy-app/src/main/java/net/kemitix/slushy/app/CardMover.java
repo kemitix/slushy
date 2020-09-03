@@ -14,15 +14,14 @@ public class CardMover {
     @Inject TrelloBoard trelloBoard;
 
     void move(SlushyCard card, String targetList) {
-        String listId = trelloBoard.getListId(targetList);
-        card.setIdList(listId);
-        card.setPos(getLastPos(listId));
+        card.setIdList(trelloBoard.getListId(targetList));
+        card.setPos(getLastPos(targetList));
         trelloBoard.updateCard(card);
         log.info("Moved card to [" + targetList + "] - " + card.getName());
     }
 
-    private int getLastPos(String listId) {
-        return trelloBoard.getListCards(listId).stream()
+    private int getLastPos(String listName) {
+        return trelloBoard.getListCards(listName).stream()
                 .map(Card::getPos)
                 .max(Integer::compareTo)
                 .orElse(1000) + 1;

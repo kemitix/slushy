@@ -36,7 +36,7 @@ public class InboxRoutes
     public void configure() {
         fromF("timer:inbox?period=%s", inboxConfig.getScanPeriod())
                 .routeId("Slushy.Inbox")
-                .setBody(exchange -> trelloBoard.getInboxCards())
+                .setBody(exchange -> trelloBoard.getListCards(inboxConfig.getSourceList()))
                 .split(body())
                 .setHeader("Slushy.RoutingSlip", inboxConfig::getRoutingSlip)
                 .routingSlip(header("Slushy.RoutingSlip"))

@@ -6,6 +6,7 @@ import net.kemitix.slushy.app.trello.TrelloBoard;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -13,22 +14,18 @@ import java.util.stream.Stream;
 @ApplicationScoped
 public class MultiSubmission {
 
-    @Inject
-    TrelloBoard trelloBoard;
-    @Inject
-    SubmissionParser parser;
+    @Inject TrelloBoard trelloBoard;
+    @Inject SubmissionParser parser;
+    @Inject MultiSubConfig multiSubConfig;
 
     // if email or paypal in any of slush, reject, hold, held
     RejectedMultipleSubmission test(
             Submission submission
     ) {
         var matchSubmission = subComparator(submission);
-        return Stream.of(
-                trelloBoard.getSlushCards(),
-                trelloBoard.getRejectCards(),
-                trelloBoard.getHoldCards(),
-                trelloBoard.getHeldCards()
-        )
+        return Arrays.stream(multiSubConfig.getLists().split(","))
+                .map(String::trim)
+                .map(trelloBoard::getListCards)
                 .flatMap(Collection::stream)
                 .map(parser::parse)
                 .filter(matchSubmission::apply)

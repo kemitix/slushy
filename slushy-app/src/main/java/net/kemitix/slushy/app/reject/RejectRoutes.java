@@ -33,7 +33,7 @@ public class RejectRoutes
     public void configure() {
         fromF("timer:reject?period=%s", rejectConfig.getScanPeriod())
                 .routeId("Slushy.Reject")
-                .setBody(exchange -> trelloBoard.getRejectCards())
+                .setBody(exchange -> trelloBoard.getListCards(rejectConfig.getSourceList()))
                 .split(body())
                 .convertBodyTo(SlushyCard.class)
                 .setHeader("Slushy.Reject.Age", rejectConfig::getRequiredAgeHours)

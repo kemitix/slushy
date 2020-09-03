@@ -32,7 +32,7 @@ public class HoldRoutes
     public void configure() {
         fromF("timer:hold?period=%s", holdConfig.getScanPeriod())
                 .routeId("Slushy.Hold")
-                .setBody(exchange -> trelloBoard.getHoldCards())
+                .setBody(exchange -> trelloBoard.getListId(holdConfig.getHoldName()))
                 .split(body())
                 .setHeader("Slushy.Hold.Age", holdConfig::getRequiredAgeHours)
                 .filter(bean(restedFilter, "isRested(${body}, ${header[Slushy.Hold.Age]})"))
