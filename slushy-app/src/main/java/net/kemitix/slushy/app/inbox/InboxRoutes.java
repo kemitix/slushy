@@ -38,15 +38,15 @@ public class InboxRoutes
                 .routeId("Slushy.Inbox")
                 .setBody(exchange -> trelloBoard.getListCards(inboxConfig.getSourceList()))
                 .split(body())
-                .setHeader("Slushy.RoutingSlip", inboxConfig::getRoutingSlip)
-                .routingSlip(header("Slushy.RoutingSlip"))
+                .setHeader("SlushyRoutingSlip", inboxConfig::getRoutingSlip)
+                .routingSlip(header("SlushyRoutingSlip"))
         ;
 
         from("direct:Slushy.Parse")
                 .routeId("Slushy.Parse")
-                .setHeader("Slushy.Inbox.Card", body())
+                .setHeader("SlushyCard", body())
                 .bean(submissionParser)
-                .setHeader("Slushy.Inbox.Submission", body())
+                .setHeader("SlushySubmission", body())
                 .choice()
                 .when(simple("${body.isValid}"))
                 .otherwise()
@@ -58,102 +58,102 @@ public class InboxRoutes
         from("direct:Slushy.Reformat")
                 .routeId("Slushy.Reformat")
                 .bean(cardFormatter, "reformat(" +
-                        "${header[Slushy.Inbox.Submission]}, " +
-                        "${header[Slushy.Inbox.Card]}" +
+                        "${header.SlushySubmission}, " +
+                        "${header.SlushyCard}" +
                         ")")
         ;
 
         from("direct:Slushy.Inbox.MoveToTargetList")
                 .routeId("Slushy.Inbox.MoveToTargetList")
-                .setHeader("Slushy.TargetList", inboxConfig::getTargetList)
+                .setHeader("SlushyTargetList", inboxConfig::getTargetList)
                 .bean(cardMover, "move(" +
-                        "${header[Slushy.Inbox.Card]}, " +
-                        "${header[Slushy.TargetList]}" +
+                        "${header.SlushyCard}, " +
+                        "${header.SlushyTargetList}" +
                         ")")
         ;
 
         from("direct:Slushy.LoadAttachment")
                 .routeId("Slushy.LoadAttachment")
-                .setHeader("Slushy.Inbox.Attachment", loadAttachment())
+                .setHeader("SlushyAttachment", loadAttachment())
         ;
 
         from("direct:Slushy.FormatForReader")
                 .routeId("Slushy.FormatForReader")
-                .setHeader("Slushy.Inbox.Readable", convertAttachment())
+                .setHeader("SlushyReadableAttachment", convertAttachment())
         ;
 
         from("direct:Slushy.SendToReader")
                 .routeId("Slushy.SendToReader")
-                .setHeader("Slushy.Inbox.Recipient", slushyConfig::getReader)
-                .setHeader("Slushy.Inbox.Sender", slushyConfig::getSender)
+                .setHeader("SlushyRecipient", slushyConfig::getReader)
+                .setHeader("SlushySender", slushyConfig::getSender)
                 .bean(emailService, "sendAttachmentOnly(" +
-                        "${header[Slushy.Inbox.Recipient]}, " +
-                        "${header[Slushy.Inbox.Sender]}, " +
-                        "${header[Slushy.Inbox.Readable]}" +
+                        "${header.SlushyRecipient}, " +
+                        "${header.SlushySender}, " +
+                        "${header.SlushyReadableAttachment}" +
                         ")")
-                .setHeader("Slushy.Comment",
+                .setHeader("SlushyComment",
                         () -> "Sent attachment to reader")
                 .bean(comments, "add(" +
-                        "${header[Slushy.Inbox.Card]}, " +
-                        "${header[Slushy.Comment]}" +
+                        "${header.SlushyCard}, " +
+                        "${header.SlushyComment}" +
                         ")")
         ;
 
         from("direct:Slushy.Inbox.SendEmailConfirmation")
                 .routeId("Slushy.Inbox.SendEmailConfirmation")
-                .setHeader("Slushy.Inbox.Recipient", submissionEmail())
-                .setHeader("Slushy.Inbox.Sender", slushyConfig::getSender)
-                .setHeader("Slushy.Inbox.Subject", subject())
-                .setHeader("Slushy.Inbox.Body", bodyText())
-                .setHeader("Slushy.Inbox.BodyHtml", bodyHtml())
+                .setHeader("SlushyRecipient", submissionEmail())
+                .setHeader("SlushySender", slushyConfig::getSender)
+                .setHeader("SlushySubject", subject())
+                .setHeader("SlushyBody", bodyText())
+                .setHeader("SlushyBodyHtml", bodyHtml())
                 .bean(emailService, "send(" +
-                                "${header[Slushy.Inbox.Recipient]}, " +
-                                "${header[Slushy.Inbox.Sender]}, " +
-                                "${header[Slushy.Inbox.Subject]}, " +
-                                "${header[Slushy.Inbox.Body]}, " +
-                                "${header[Slushy.Inbox.BodyHtml]}" +
+                                "${header.SlushyRecipient}, " +
+                                "${header.SlushySender}, " +
+                                "${header.SlushySubject}, " +
+                                "${header.SlushyBody}, " +
+                                "${header.SlushyBodyHtml}" +
                                 ")"
                         )
-                .setHeader("Slushy.Comment",
+                .setHeader("SlushyComment",
                         () -> "Sent received notification to author")
                 .bean(comments, "add(" +
-                        "${header[Slushy.Inbox.Card]}, " +
-                        "${header[Slushy.Comment]}" +
+                        "${header.SlushyCard}, " +
+                        "${header.SlushyComment}" +
                         ")")
         ;
     }
 
     private ValueBuilder loadAttachment() {
         return bean(attachmentLoader, "load(" +
-                "${header[Slushy.Inbox.Card]}" +
+                "${header.SlushyCard}" +
                 ")");
     }
 
     private ValueBuilder convertAttachment() {
         return bean(conversionService, "convert(" +
-                "${header[Slushy.Inbox.Attachment]}" +
+                "${header.SlushyAttachment}" +
                 ")");
     }
 
     private SimpleBuilder submissionEmail() {
-        return simple("${header[Slushy.Inbox.Submission].email}");
+        return simple("${header.SlushySubmission.email}");
     }
 
     private ValueBuilder bodyHtml() {
         return bean(emailCreator, "bodyHtml(" +
-                "${header[Slushy.Inbox.Submission]}" +
+                "${header.SlushySubmission}" +
                 ")");
     }
 
     private ValueBuilder bodyText() {
         return bean(emailCreator, "bodyText(" +
-                "${header[Slushy.Inbox.Submission]}" +
+                "${header.SlushySubmission}" +
                 ")");
     }
 
     private ValueBuilder subject() {
         return bean(emailCreator, "subject(" +
-                "${header[Slushy.Inbox.Submission]}" +
+                "${header.SlushySubmission}" +
                 ")");
     }
 

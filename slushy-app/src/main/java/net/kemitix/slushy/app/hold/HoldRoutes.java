@@ -34,64 +34,64 @@ public class HoldRoutes
                 .routeId("Slushy.Hold")
                 .setBody(exchange -> trelloBoard.getListCards(holdConfig.getHoldName()))
                 .split(body())
-                .setHeader("Slushy.Hold.Age", holdConfig::getRequiredAgeHours)
-                .filter(bean(restedFilter, "isRested(${body}, ${header[Slushy.Hold.Age]})"))
-                .setHeader("Slushy.RoutingSlip", holdConfig::getRoutingSlip)
-                .routingSlip(header("Slushy.RoutingSlip"))
+                .setHeader("SlushyRequiredAge", holdConfig::getRequiredAgeHours)
+                .filter(bean(restedFilter, "isRested(${body}, ${header.SlushyRequiredAge})"))
+                .setHeader("SlushyRoutingSlip", holdConfig::getRoutingSlip)
+                .routingSlip(header("SlushyRoutingSlip"))
         ;
 
         from("direct:Slushy.Hold.SendEmail")
                 .routeId("Slushy.Hold.SendEmail")
-                .setHeader("Slushy.Email.Recipient", submissionEmail())
-                .setHeader("Slushy.Email.Sender", slushyConfig::getSender)
-                .setHeader("Slushy.Email.Subject", subject())
-                .setHeader("Slushy.Email.Body", bodyText())
-                .setHeader("Slushy.Email.BodyHtml", bodyHtml())
+                .setHeader("SlushyRecipient", submissionEmail())
+                .setHeader("SlushySender", slushyConfig::getSender)
+                .setHeader("SlushySubject", subject())
+                .setHeader("SlushyBody", bodyText())
+                .setHeader("SlushyBodyHtml", bodyHtml())
                 .bean(emailService, "send(" +
-                        "${header[Slushy.Email.Recipient]}, " +
-                        "${header[Slushy.Email.Sender]}, " +
-                        "${header[Slushy.Email.Subject]}, " +
-                        "${header[Slushy.Email.Body]}, " +
-                        "${header[Slushy.Email.BodyHtml]}" +
+                        "${header.SlushyRecipient}, " +
+                        "${header.SlushySender}, " +
+                        "${header.SlushySubject}, " +
+                        "${header.SlushyBody}, " +
+                        "${header.SlushyBodyHtml}" +
                         ")")
-                .setHeader("Slushy.Comment",
+                .setHeader("SlushyComment",
                         () -> "Sent held notification to author")
                 .bean(comments, "add(" +
-                        "${header[Slushy.Inbox.Card]}, " +
-                        "${header[Slushy.Comment]}" +
+                        "${header.SlushyCard}, " +
+                        "${header.SlushyComment}" +
                         ")")
         ;
 
         from("direct:Slushy.Hold.MoveToHeld")
                 .routeId("Slushy.Hold.MoveToHeld")
-                .setHeader("Slushy.TargetList", holdConfig::getHeldName)
+                .setHeader("SlushyTargetList", holdConfig::getHeldName)
                 .bean(cardMover, "move(" +
-                        "${header[Slushy.Inbox.Card]}, " +
-                        "${header[Slushy.TargetList]}" +
+                        "${header.SlushyCard}, " +
+                        "${header.SlushyTargetList}" +
                         ")")
         ;
 
     }
 
     private SimpleBuilder submissionEmail() {
-        return simple("${header[Slushy.Inbox.Submission].email}");
+        return simple("${header.SlushySubmission.email}");
     }
 
     private ValueBuilder bodyHtml() {
         return bean(emailCreator, "bodyHtml(" +
-                "${header[Slushy.Inbox.Submission]}" +
+                "${header.SlushySubmission}" +
                 ")");
     }
 
     private ValueBuilder bodyText() {
         return bean(emailCreator, "bodyText(" +
-                "${header[Slushy.Inbox.Submission]}" +
+                "${header.SlushySubmission}" +
                 ")");
     }
 
     private ValueBuilder subject() {
         return bean(emailCreator, "subject(" +
-                "${header[Slushy.Inbox.Submission]}" +
+                "${header.SlushySubmission}" +
                 ")");
     }
 }

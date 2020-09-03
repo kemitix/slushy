@@ -20,9 +20,7 @@ public class RestedFilter {
                 .minus(requiredAgeHours, ChronoUnit.HOURS);
         Instant dateLastActivity = card.getDateLastActivity().toInstant();
         boolean rested = dateLastActivity.isBefore(requiredAge);
-        if (rested) {
-            log.info(String.format("rested: %s", card.getName()));
-        } else {
+        if (!rested) {
             log.info(String.format("not rested (%d hrs left): %s",
                     Duration.between(requiredAge, dateLastActivity).toHours(),
                     card.getName()));

@@ -27,7 +27,7 @@ public class MultiSubmissionRoute
     public void configure() {
         from("direct:Slushy.MultiSubMonitor")
                 .routeId("Slushy.MultiSubMonitor")
-                .bean(multiSubmission, "test(${header[Slushy.Inbox.Submission]})")
+                .bean(multiSubmission, "test(${header.SlushySubmission})")
                 .choice()
                 .when(body().isNotNull())
                 .to("direct:Slushy.MultiSubDetected")
@@ -39,23 +39,23 @@ public class MultiSubmissionRoute
                 .routeId("Slushy.MultiSubDetected")
                 .log("Submission rejected due to an existing submission")
                 // send email to author
-                .setHeader("Slushy.Inbox.Recipient", submissionEmail())
-                .setHeader("Slushy.Inbox.Sender", slushyConfig::getSender)
-                .setHeader("Slushy.Inbox.Subject", subject())
-                .setHeader("Slushy.Inbox.Body", bodyText())
-                .setHeader("Slushy.Inbox.BodyHtml", bodyHtml())
+                .setHeader("SlushyRecipient", submissionEmail())
+                .setHeader("SlushySender", slushyConfig::getSender)
+                .setHeader("SlushySubject", subject())
+                .setHeader("SlushyBody", bodyText())
+                .setHeader("SlushyBodyHtml", bodyHtml())
                 .bean(emailService,
                         "send(" +
-                                "${header[Slushy.Inbox.Recipient]}, " +
-                                "${header[Slushy.Inbox.Sender]}, " +
-                                "${header[Slushy.Inbox.Subject]}, " +
-                                "${header[Slushy.Inbox.Body]}, " +
-                                "${header[Slushy.Inbox.BodyHtml]})")
-                .setHeader("Slushy.Comment",
+                                "${header.SlushyRecipient}, " +
+                                "${header.SlushySender}, " +
+                                "${header.SlushySubject}, " +
+                                "${header.SlushyBody}, " +
+                                "${header.SlushyBodyHtml})")
+                .setHeader("SlushyComment",
                         () -> "Sent multi-submission rejection notification to author")
                 .bean(comments, "add(" +
-                        "${header[Slushy.Inbox.Card]}, " +
-                        "${header[Slushy.Comment]}" +
+                        "${header.SlushyCard}, " +
+                        "${header.SlushyComment}" +
                         ")")
                 // move card to rejected
                 .to("direct:Slushy.Reject.MoveToRejected")
@@ -63,7 +63,7 @@ public class MultiSubmissionRoute
     }
 
     private SimpleBuilder submissionEmail() {
-        return simple("${header[Slushy.Inbox.Submission].email}");
+        return simple("${header.SlushySubmission.email}");
     }
 
     private ValueBuilder bodyHtml() {

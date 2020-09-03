@@ -36,64 +36,64 @@ public class RejectRoutes
                 .setBody(exchange -> trelloBoard.getListCards(rejectConfig.getSourceList()))
                 .split(body())
                 .convertBodyTo(SlushyCard.class)
-                .setHeader("Slushy.Reject.Age", rejectConfig::getRequiredAgeHours)
-                .filter(bean(restedFilter, "isRested(${body}, ${header[Slushy.Reject.Age]})"))
-                .setHeader("Slushy.RoutingSlip", rejectConfig::getRoutingSlip)
-                .routingSlip(header("Slushy.RoutingSlip"))
+                .setHeader("SlushyRequiredAge", rejectConfig::getRequiredAgeHours)
+                .filter(bean(restedFilter, "isRested(${body}, ${header.SlushyRequiredAge})"))
+                .setHeader("SlushyRoutingSlip", rejectConfig::getRoutingSlip)
+                .routingSlip(header("SlushyRoutingSlip"))
         ;
 
         from("direct:Slushy.Reject.SendEmail")
                 .routeId("Slushy.Reject.SendEmail")
-                .setHeader("Slushy.Inbox.Recipient", submissionEmail())
-                .setHeader("Slushy.Inbox.Sender", slushyConfig::getSender)
-                .setHeader("Slushy.Inbox.Subject", subject())
-                .setHeader("Slushy.Inbox.Body", bodyText())
-                .setHeader("Slushy.Inbox.BodyHtml", bodyHtml())
+                .setHeader("SlushyRecipient", submissionEmail())
+                .setHeader("SlushySender", slushyConfig::getSender)
+                .setHeader("SlushySubject", subject())
+                .setHeader("SlushyBody", bodyText())
+                .setHeader("SlushyBodyHtml", bodyHtml())
                 .bean(emailService, "send(" +
-                        "${header[Slushy.Inbox.Recipient]}, " +
-                        "${header[Slushy.Inbox.Sender]}, " +
-                        "${header[Slushy.Inbox.Subject]}, " +
-                        "${header[Slushy.Inbox.Body]}, " +
-                        "${header[Slushy.Inbox.BodyHtml]}" +
+                        "${header.SlushyRecipient}, " +
+                        "${header.SlushySender}, " +
+                        "${header.SlushySubject}, " +
+                        "${header.SlushyBody}, " +
+                        "${header.SlushyBodyHtml}" +
                         ")")
-                .setHeader("Slushy.Comment",
+                .setHeader("SlushyComment",
                         () -> "Sent rejection notification to author")
                 .bean(comments, "add(" +
-                        "${header[Slushy.Inbox.Card]}, " +
-                        "${header[Slushy.Comment]}" +
+                        "${header.SlushyCard}, " +
+                        "${header.SlushyComment}" +
                         ")")
         ;
 
         from("direct:Slushy.Reject.MoveToRejected")
                 .routeId("Slushy.Reject.MoveToRejected")
-                .setHeader("Slushy.TargetList", rejectConfig::getTargetList)
+                .setHeader("SlushyTargetList", rejectConfig::getTargetList)
                 .bean(cardMover, "move(" +
-                        "${header[Slushy.Inbox.Card]}, " +
-                        "${header[Slushy.TargetList]}" +
+                        "${header.SlushyCard}, " +
+                        "${header.SlushyTargetList}" +
                         ")")
         ;
 
     }
 
     private SimpleBuilder submissionEmail() {
-        return simple("${header[Slushy.Inbox.Submission].email}");
+        return simple("${header.SlushySubmission.email}");
     }
 
     private ValueBuilder bodyHtml() {
         return bean(emailCreator, "bodyHtml(" +
-                "${header[Slushy.Inbox.Submission]}" +
+                "${header.SlushySubmission}" +
                 ")");
     }
 
     private ValueBuilder bodyText() {
         return bean(emailCreator, "bodyText(" +
-                "${header[Slushy.Inbox.Submission]}" +
+                "${header.SlushySubmission}" +
                 ")");
     }
 
     private ValueBuilder subject() {
         return bean(emailCreator, "subject(" +
-                "${header[Slushy.Inbox.Submission]}" +
+                "${header.SlushySubmission}" +
                 ")");
     }
 }
