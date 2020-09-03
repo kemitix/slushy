@@ -42,17 +42,17 @@ public class HoldRoutes
 
         from("direct:Slushy.Hold.SendEmail")
                 .routeId("Slushy.Hold.SendEmail")
-                .setHeader("Slushy.Email.Recipient", submissionEmail())
-                .setHeader("Slushy.Email.Sender", slushyConfig::getSender)
-                .setHeader("Slushy.Email.Subject", subject())
-                .setHeader("Slushy.Email.Body", bodyText())
-                .setHeader("Slushy.Email.BodyHtml", bodyHtml())
+                .setHeader("SlushyRecipient", submissionEmail())
+                .setHeader("SlushySender", slushyConfig::getSender)
+                .setHeader("SlushySubject", subject())
+                .setHeader("SlushyBody", bodyText())
+                .setHeader("SlushyBodyHtml", bodyHtml())
                 .bean(emailService, "send(" +
-                        "${header[Slushy.Email.Recipient]}, " +
-                        "${header[Slushy.Email.Sender]}, " +
-                        "${header[Slushy.Email.Subject]}, " +
-                        "${header[Slushy.Email.Body]}, " +
-                        "${header[Slushy.Email.BodyHtml]}" +
+                        "${header.SlushyRecipient}, " +
+                        "${header.SlushySender}, " +
+                        "${header.SlushySubject}, " +
+                        "${header.SlushyBody}, " +
+                        "${header.SlushyBodyHtml}" +
                         ")")
                 .setHeader("SlushyComment",
                         () -> "Sent held notification to author")
@@ -74,7 +74,7 @@ public class HoldRoutes
     }
 
     private SimpleBuilder submissionEmail() {
-        return simple("${header[SlushySubmission].email}");
+        return simple("${header.SlushySubmission.email}");
     }
 
     private ValueBuilder bodyHtml() {

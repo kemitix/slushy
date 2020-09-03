@@ -87,8 +87,8 @@ public class InboxRoutes
                 .setHeader("SlushyRecipient", slushyConfig::getReader)
                 .setHeader("SlushySender", slushyConfig::getSender)
                 .bean(emailService, "sendAttachmentOnly(" +
-                        "${header[SlushyRecipient]}, " +
-                        "${header[SlushySender]}, " +
+                        "${header.SlushyRecipient}, " +
+                        "${header.SlushySender}, " +
                         "${header.SlushyReadableAttachment}" +
                         ")")
                 .setHeader("SlushyComment",
@@ -107,11 +107,11 @@ public class InboxRoutes
                 .setHeader("SlushyBody", bodyText())
                 .setHeader("SlushyBodyHtml", bodyHtml())
                 .bean(emailService, "send(" +
-                                "${header[SlushyRecipient]}, " +
-                                "${header[SlushySender]}, " +
-                                "${header[SlushySubject]}, " +
-                                "${header[SlushyBody]}, " +
-                                "${header[SlushyBodyHtml]}" +
+                                "${header.SlushyRecipient}, " +
+                                "${header.SlushySender}, " +
+                                "${header.SlushySubject}, " +
+                                "${header.SlushyBody}, " +
+                                "${header.SlushyBodyHtml}" +
                                 ")"
                         )
                 .setHeader("SlushyComment",
@@ -136,7 +136,7 @@ public class InboxRoutes
     }
 
     private SimpleBuilder submissionEmail() {
-        return simple("${header[SlushySubmission].email}");
+        return simple("${header.SlushySubmission.email}");
     }
 
     private ValueBuilder bodyHtml() {

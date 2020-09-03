@@ -34,11 +34,11 @@ public class InvalidAttachmentRoute
                 .setHeader("SlushyBodyHtml", bodyHtml())
                 .bean(emailService,
                         "send(" +
-                                "${header[SlushyRecipient]}, " +
-                                "${header[SlushySender]}, " +
-                                "${header[SlushySubject]}, " +
-                                "${header[SlushyBody]}, " +
-                                "${header[SlushyBodyHtml]})")
+                                "${header.SlushyRecipient}, " +
+                                "${header.SlushySender}, " +
+                                "${header.SlushySubject}, " +
+                                "${header.SlushyBody}, " +
+                                "${header.SlushyBodyHtml})")
                 .setHeader("SlushyComment",
                         () -> "Sent invalid attachment rejection notification to author")
                 .bean(comments, "add(" +

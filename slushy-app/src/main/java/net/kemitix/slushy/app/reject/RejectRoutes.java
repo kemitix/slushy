@@ -50,11 +50,11 @@ public class RejectRoutes
                 .setHeader("SlushyBody", bodyText())
                 .setHeader("SlushyBodyHtml", bodyHtml())
                 .bean(emailService, "send(" +
-                        "${header[SlushyRecipient]}, " +
-                        "${header[SlushySender]}, " +
-                        "${header[SlushySubject]}, " +
-                        "${header[SlushyBody]}, " +
-                        "${header[SlushyBodyHtml]}" +
+                        "${header.SlushyRecipient}, " +
+                        "${header.SlushySender}, " +
+                        "${header.SlushySubject}, " +
+                        "${header.SlushyBody}, " +
+                        "${header.SlushyBodyHtml}" +
                         ")")
                 .setHeader("SlushyComment",
                         () -> "Sent rejection notification to author")

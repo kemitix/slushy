@@ -46,11 +46,11 @@ public class MultiSubmissionRoute
                 .setHeader("SlushyBodyHtml", bodyHtml())
                 .bean(emailService,
                         "send(" +
-                                "${header[SlushyRecipient]}, " +
-                                "${header[SlushySender]}, " +
-                                "${header[SlushySubject]}, " +
-                                "${header[SlushyBody]}, " +
-                                "${header[SlushyBodyHtml]})")
+                                "${header.SlushyRecipient}, " +
+                                "${header.SlushySender}, " +
+                                "${header.SlushySubject}, " +
+                                "${header.SlushyBody}, " +
+                                "${header.SlushyBodyHtml})")
                 .setHeader("SlushyComment",
                         () -> "Sent multi-submission rejection notification to author")
                 .bean(comments, "add(" +
@@ -63,7 +63,7 @@ public class MultiSubmissionRoute
     }
 
     private SimpleBuilder submissionEmail() {
-        return simple("${header[SlushySubmission].email}");
+        return simple("${header.SlushySubmission.email}");
     }
 
     private ValueBuilder bodyHtml() {
