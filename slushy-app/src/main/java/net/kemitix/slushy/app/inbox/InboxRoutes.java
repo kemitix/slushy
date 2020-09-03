@@ -77,8 +77,8 @@ public class InboxRoutes
                 .setHeader("Slushy.Inbox.Attachment", loadAttachment())
         ;
 
-        from("direct:Slushy.Inbox.FormatForReader")
-                .routeId("Slushy.Inbox.FormatForReader")
+        from("direct:Slushy.FormatForReader")
+                .routeId("Slushy.FormatForReader")
                 .setHeader("Slushy.Inbox.Readable", convertAttachment())
         ;
 
