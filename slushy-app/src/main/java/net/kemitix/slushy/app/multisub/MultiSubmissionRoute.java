@@ -27,7 +27,7 @@ public class MultiSubmissionRoute
     public void configure() {
         from("direct:Slushy.MultiSubMonitor")
                 .routeId("Slushy.MultiSubMonitor")
-                .bean(multiSubmission, "test(${header[Slushy.Inbox.Submission]})")
+                .bean(multiSubmission, "test(${header.SlushySubmission})")
                 .choice()
                 .when(body().isNotNull())
                 .to("direct:Slushy.MultiSubDetected")
@@ -63,7 +63,7 @@ public class MultiSubmissionRoute
     }
 
     private SimpleBuilder submissionEmail() {
-        return simple("${header[Slushy.Inbox.Submission].email}");
+        return simple("${header[SlushySubmission].email}");
     }
 
     private ValueBuilder bodyHtml() {

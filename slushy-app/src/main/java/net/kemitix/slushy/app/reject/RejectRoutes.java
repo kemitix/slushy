@@ -76,24 +76,24 @@ public class RejectRoutes
     }
 
     private SimpleBuilder submissionEmail() {
-        return simple("${header[Slushy.Inbox.Submission].email}");
+        return simple("${header[SlushySubmission].email}");
     }
 
     private ValueBuilder bodyHtml() {
         return bean(emailCreator, "bodyHtml(" +
-                "${header[Slushy.Inbox.Submission]}" +
+                "${header.SlushySubmission}" +
                 ")");
     }
 
     private ValueBuilder bodyText() {
         return bean(emailCreator, "bodyText(" +
-                "${header[Slushy.Inbox.Submission]}" +
+                "${header.SlushySubmission}" +
                 ")");
     }
 
     private ValueBuilder subject() {
         return bean(emailCreator, "subject(" +
-                "${header[Slushy.Inbox.Submission]}" +
+                "${header.SlushySubmission}" +
                 ")");
     }
 }

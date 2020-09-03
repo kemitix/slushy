@@ -46,7 +46,7 @@ public class InboxRoutes
                 .routeId("Slushy.Parse")
                 .setHeader("SlushyCard", body())
                 .bean(submissionParser)
-                .setHeader("Slushy.Inbox.Submission", body())
+                .setHeader("SlushySubmission", body())
                 .choice()
                 .when(simple("${body.isValid}"))
                 .otherwise()
@@ -58,7 +58,7 @@ public class InboxRoutes
         from("direct:Slushy.Reformat")
                 .routeId("Slushy.Reformat")
                 .bean(cardFormatter, "reformat(" +
-                        "${header[Slushy.Inbox.Submission]}, " +
+                        "${header.SlushySubmission}, " +
                         "${header.SlushyCard}" +
                         ")")
         ;
@@ -136,24 +136,24 @@ public class InboxRoutes
     }
 
     private SimpleBuilder submissionEmail() {
-        return simple("${header[Slushy.Inbox.Submission].email}");
+        return simple("${header[SlushySubmission].email}");
     }
 
     private ValueBuilder bodyHtml() {
         return bean(emailCreator, "bodyHtml(" +
-                "${header[Slushy.Inbox.Submission]}" +
+                "${header.SlushySubmission}" +
                 ")");
     }
 
     private ValueBuilder bodyText() {
         return bean(emailCreator, "bodyText(" +
-                "${header[Slushy.Inbox.Submission]}" +
+                "${header.SlushySubmission}" +
                 ")");
     }
 
     private ValueBuilder subject() {
         return bean(emailCreator, "subject(" +
-                "${header[Slushy.Inbox.Submission]}" +
+                "${header.SlushySubmission}" +
                 ")");
     }
 
