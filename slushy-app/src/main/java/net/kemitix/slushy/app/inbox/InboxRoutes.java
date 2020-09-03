@@ -82,8 +82,8 @@ public class InboxRoutes
                 .setHeader("Slushy.Inbox.Readable", convertAttachment())
         ;
 
-        from("direct:Slushy.Inbox.SendToReader")
-                .routeId("Slushy.Inbox.SendToReader")
+        from("direct:Slushy.SendToReader")
+                .routeId("Slushy.SendToReader")
                 .setHeader("Slushy.Inbox.Recipient", slushyConfig::getReader)
                 .setHeader("Slushy.Inbox.Sender", slushyConfig::getSender)
                 .bean(emailService, "sendAttachmentOnly(" +
