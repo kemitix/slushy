@@ -2,7 +2,6 @@ package net.kemitix.slushy.app.inbox;
 
 import com.julienvey.trello.domain.Attachment;
 import com.julienvey.trello.domain.Card;
-import lombok.extern.java.Log;
 import net.kemitix.slushy.app.*;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 
@@ -15,7 +14,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Log
 @ApplicationScoped
 public class SubmissionParser {
 
@@ -31,7 +29,6 @@ public class SubmissionParser {
     ValidFileTypes validFileTypes;
 
     public Submission parse(Card card) {
-        log.info("CARD " + card.getName());
         Map<String, String> body = parseBody(card);
         return Submission.builder()
                 .title(body.get("storytitle"))
