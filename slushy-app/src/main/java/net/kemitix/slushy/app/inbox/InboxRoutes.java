@@ -79,7 +79,7 @@ public class InboxRoutes
 
         from("direct:Slushy.FormatForReader")
                 .routeId("Slushy.FormatForReader")
-                .setHeader("Slushy.Inbox.Readable", convertAttachment())
+                .setHeader("SlushyReadableAttachment", convertAttachment())
         ;
 
         from("direct:Slushy.SendToReader")
@@ -89,7 +89,7 @@ public class InboxRoutes
                 .bean(emailService, "sendAttachmentOnly(" +
                         "${header[SlushyRecipient]}, " +
                         "${header[SlushySender]}, " +
-                        "${header[Slushy.Inbox.Readable]}" +
+                        "${header.SlushyReadableAttachment}" +
                         ")")
                 .setHeader("SlushyComment",
                         () -> "Sent attachment to reader")
