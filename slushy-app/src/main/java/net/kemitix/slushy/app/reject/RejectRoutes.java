@@ -38,8 +38,8 @@ public class RejectRoutes
                 .convertBodyTo(SlushyCard.class)
                 .setHeader("Slushy.Reject.Age", rejectConfig::getRequiredAgeHours)
                 .filter(bean(restedFilter, "isRested(${body}, ${header[Slushy.Reject.Age]})"))
-                .setHeader("Slushy.RoutingSlip", rejectConfig::getRoutingSlip)
-                .routingSlip(header("Slushy.RoutingSlip"))
+                .setHeader("SlushyRoutingSlip", rejectConfig::getRoutingSlip)
+                .routingSlip(header("SlushyRoutingSlip"))
         ;
 
         from("direct:Slushy.Reject.SendEmail")

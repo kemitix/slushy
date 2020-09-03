@@ -36,8 +36,8 @@ public class HoldRoutes
                 .split(body())
                 .setHeader("Slushy.Hold.Age", holdConfig::getRequiredAgeHours)
                 .filter(bean(restedFilter, "isRested(${body}, ${header[Slushy.Hold.Age]})"))
-                .setHeader("Slushy.RoutingSlip", holdConfig::getRoutingSlip)
-                .routingSlip(header("Slushy.RoutingSlip"))
+                .setHeader("SlushyRoutingSlip", holdConfig::getRoutingSlip)
+                .routingSlip(header("SlushyRoutingSlip"))
         ;
 
         from("direct:Slushy.Hold.SendEmail")

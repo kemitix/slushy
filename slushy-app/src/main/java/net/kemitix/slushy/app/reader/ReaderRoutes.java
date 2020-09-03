@@ -21,8 +21,8 @@ public class ReaderRoutes
                 .routeId("Slushy.Reader")
                 .setBody(exchange -> trelloBoard.getListCards(readerConfig.getSourceList()))
                 .split(body())
-                .setHeader("Slushy.RoutingSlip", readerConfig::getRoutingSlip)
-                .routingSlip(header("Slushy.RoutingSlip"))
+                .setHeader("SlushyRoutingSlip", readerConfig::getRoutingSlip)
+                .routingSlip(header("SlushyRoutingSlip"))
         ;
 
         from("direct:Slushy.Reader.MoveToTargetList")
