@@ -36,8 +36,8 @@ public class RejectRoutes
                 .setBody(exchange -> trelloBoard.getListCards(rejectConfig.getSourceList()))
                 .split(body())
                 .convertBodyTo(SlushyCard.class)
-                .setHeader("Slushy.Reject.Age", rejectConfig::getRequiredAgeHours)
-                .filter(bean(restedFilter, "isRested(${body}, ${header[Slushy.Reject.Age]})"))
+                .setHeader("SlushyRequiredAge", rejectConfig::getRequiredAgeHours)
+                .filter(bean(restedFilter, "isRested(${body}, ${header.SlushyRequiredAge})"))
                 .setHeader("SlushyRoutingSlip", rejectConfig::getRoutingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))
         ;
@@ -76,7 +76,7 @@ public class RejectRoutes
     }
 
     private SimpleBuilder submissionEmail() {
-        return simple("${header[SlushySubmission].email}");
+        return simple("${header.SlushySubmission.email}");
     }
 
     private ValueBuilder bodyHtml() {
