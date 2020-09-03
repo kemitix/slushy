@@ -12,14 +12,13 @@ public class ValidFileTypes {
 
     // Amazon supports sending to a Kindle:
     // https://www.amazon.co.uk/gp/help/customer/display.html?nodeId=200767340
+    // Excludes PDF and RTF as they are rejected despite the documentation
     public static final List<String> KINDLE_SUPPORTED = List.of(
             "docx", "doc",
-            "pdf",
             "txt",
             "azw",
             "mobi",
-            "html", "htm",
-            "rtf"
+            "html", "htm"
     );
 
     private final ConversionService conversionService;
