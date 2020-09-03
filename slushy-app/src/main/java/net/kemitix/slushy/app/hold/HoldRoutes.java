@@ -40,8 +40,8 @@ public class HoldRoutes
                 .routingSlip(header("Slushy.RoutingSlip"))
         ;
 
-        from("direct:Slushy.Hold.SendEmailNotification")
-                .routeId("Slushy.Hold.SendEmailNotification")
+        from("direct:Slushy.Hold.SendEmail")
+                .routeId("Slushy.Hold.SendEmail")
                 .setHeader("Slushy.Email.Recipient", submissionEmail())
                 .setHeader("Slushy.Email.Sender", slushyConfig::getSender)
                 .setHeader("Slushy.Email.Subject", subject())
