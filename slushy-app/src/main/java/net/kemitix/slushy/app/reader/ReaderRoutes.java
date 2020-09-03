@@ -1,7 +1,6 @@
 package net.kemitix.slushy.app.reader;
 
 import net.kemitix.slushy.app.CardMover;
-import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.apache.camel.builder.RouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -13,7 +12,6 @@ public class ReaderRoutes
 
     @Inject ReaderConfig readerConfig;
     @Inject CardMover cardMover;
-    @Inject TrelloBoard trelloBoard;
 
     @Override
     public void configure() throws Exception {
