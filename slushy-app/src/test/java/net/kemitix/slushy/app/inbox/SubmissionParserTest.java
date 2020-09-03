@@ -144,8 +144,9 @@ public class SubmissionParserTest
         //        Kindle Format (.MOBI, .AZW)
         //        Microsoft Word (.DOC, .DOCX)
         //        HTML (.HTML, .HTM)
-        //        RTF (.RTF)
         //        Text (.TXT)
+        // The following types claim to be supported by Kindle, but aren't
+        //        RTF (.RTF)
         //        PDF (.PDF)
         // The following types are supported by Kindle, but we don't want them
         //        JPEG (.JPEG, .JPG)
@@ -154,7 +155,7 @@ public class SubmissionParserTest
         //        BMP (.BMP)
         @ParameterizedTest
         @DisplayName("Accepts Kindle supported types")
-        @ValueSource(strings = {"MOBI", "AZW", "DOC", "DOCX", "HTML", "HTM", "RTF", "TXT", "PDF"})
+        @ValueSource(strings = {"MOBI", "AZW", "DOC", "DOCX", "HTML", "HTM", "TXT"})
         public void acceptsKindleTypes(String type) {
             documentUrl = "document." + type;
             given(trelloBoard.getAttachments(card))
