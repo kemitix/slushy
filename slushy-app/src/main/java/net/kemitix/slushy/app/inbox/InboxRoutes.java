@@ -7,7 +7,6 @@
  import net.kemitix.slushy.app.fileconversion.ConversionService;
  import net.kemitix.slushy.app.trello.TrelloBoard;
  import net.kemitix.slushy.spi.SlushyConfig;
- import org.apache.camel.CamelContext;
  import org.apache.camel.builder.RouteBuilder;
  import org.apache.camel.builder.SimpleBuilder;
  import org.apache.camel.builder.ValueBuilder;
@@ -21,7 +20,6 @@
 public class InboxRoutes
         extends RouteBuilder {
 
-    @Inject CamelContext camelContext;
     @Inject SlushyConfig slushyConfig;
     @Inject InboxConfig inboxConfig;
     @Inject TrelloBoard trelloBoard;
