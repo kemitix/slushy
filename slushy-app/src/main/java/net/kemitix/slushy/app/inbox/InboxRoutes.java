@@ -84,11 +84,11 @@ public class InboxRoutes
 
         from("direct:Slushy.SendToReader")
                 .routeId("Slushy.SendToReader")
-                .setHeader("Slushy.Inbox.Recipient", slushyConfig::getReader)
-                .setHeader("Slushy.Inbox.Sender", slushyConfig::getSender)
+                .setHeader("SlushyRecipient", slushyConfig::getReader)
+                .setHeader("SlushySender", slushyConfig::getSender)
                 .bean(emailService, "sendAttachmentOnly(" +
-                        "${header[Slushy.Inbox.Recipient]}, " +
-                        "${header[Slushy.Inbox.Sender]}, " +
+                        "${header[SlushyRecipient]}, " +
+                        "${header[SlushySender]}, " +
                         "${header[Slushy.Inbox.Readable]}" +
                         ")")
                 .setHeader("SlushyComment",
@@ -101,17 +101,17 @@ public class InboxRoutes
 
         from("direct:Slushy.Inbox.SendEmailConfirmation")
                 .routeId("Slushy.Inbox.SendEmailConfirmation")
-                .setHeader("Slushy.Inbox.Recipient", submissionEmail())
-                .setHeader("Slushy.Inbox.Sender", slushyConfig::getSender)
-                .setHeader("Slushy.Inbox.Subject", subject())
-                .setHeader("Slushy.Inbox.Body", bodyText())
-                .setHeader("Slushy.Inbox.BodyHtml", bodyHtml())
+                .setHeader("SlushyRecipient", submissionEmail())
+                .setHeader("SlushySender", slushyConfig::getSender)
+                .setHeader("SlushySubject", subject())
+                .setHeader("SlushyBody", bodyText())
+                .setHeader("SlushyBodyHtml", bodyHtml())
                 .bean(emailService, "send(" +
-                                "${header[Slushy.Inbox.Recipient]}, " +
-                                "${header[Slushy.Inbox.Sender]}, " +
-                                "${header[Slushy.Inbox.Subject]}, " +
-                                "${header[Slushy.Inbox.Body]}, " +
-                                "${header[Slushy.Inbox.BodyHtml]}" +
+                                "${header[SlushyRecipient]}, " +
+                                "${header[SlushySender]}, " +
+                                "${header[SlushySubject]}, " +
+                                "${header[SlushyBody]}, " +
+                                "${header[SlushyBodyHtml]}" +
                                 ")"
                         )
                 .setHeader("SlushyComment",

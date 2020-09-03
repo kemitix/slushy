@@ -39,18 +39,18 @@ public class MultiSubmissionRoute
                 .routeId("Slushy.MultiSubDetected")
                 .log("Submission rejected due to an existing submission")
                 // send email to author
-                .setHeader("Slushy.Inbox.Recipient", submissionEmail())
-                .setHeader("Slushy.Inbox.Sender", slushyConfig::getSender)
-                .setHeader("Slushy.Inbox.Subject", subject())
-                .setHeader("Slushy.Inbox.Body", bodyText())
-                .setHeader("Slushy.Inbox.BodyHtml", bodyHtml())
+                .setHeader("SlushyRecipient", submissionEmail())
+                .setHeader("SlushySender", slushyConfig::getSender)
+                .setHeader("SlushySubject", subject())
+                .setHeader("SlushyBody", bodyText())
+                .setHeader("SlushyBodyHtml", bodyHtml())
                 .bean(emailService,
                         "send(" +
-                                "${header[Slushy.Inbox.Recipient]}, " +
-                                "${header[Slushy.Inbox.Sender]}, " +
-                                "${header[Slushy.Inbox.Subject]}, " +
-                                "${header[Slushy.Inbox.Body]}, " +
-                                "${header[Slushy.Inbox.BodyHtml]})")
+                                "${header[SlushyRecipient]}, " +
+                                "${header[SlushySender]}, " +
+                                "${header[SlushySubject]}, " +
+                                "${header[SlushyBody]}, " +
+                                "${header[SlushyBodyHtml]})")
                 .setHeader("SlushyComment",
                         () -> "Sent multi-submission rejection notification to author")
                 .bean(comments, "add(" +
