@@ -72,8 +72,8 @@ public class InboxRoutes
                         ")")
         ;
 
-        from("direct:Slushy.Inbox.LoadAttachment")
-                .routeId("Slushy.Inbox.LoadAttachment")
+        from("direct:Slushy.LoadAttachment")
+                .routeId("Slushy.LoadAttachment")
                 .setHeader("Slushy.Inbox.Attachment", loadAttachment())
         ;
 
