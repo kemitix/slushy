@@ -13,8 +13,8 @@ public class QuarkusRejectConfig
         implements RejectConfig {
 
     String scanPeriod;
-    String rejectName;
-    String rejectedName;
+    String sourceList;
+    String targetList;
     String routingSlip;
     int requiredAgeHours;
 

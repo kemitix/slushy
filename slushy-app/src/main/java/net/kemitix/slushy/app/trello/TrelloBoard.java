@@ -59,8 +59,8 @@ public class TrelloBoard {
         lists = board.fetchLists();
         inbox = getList(inboxConfig.getSourceList());
         slush = getList(inboxConfig.getTargetList());
-        reject = getList(rejectConfig.getRejectName());
-        rejected = getList(rejectConfig.getRejectedName());
+        reject = getList(rejectConfig.getSourceList());
+        rejected = getList(rejectConfig.getTargetList());
         hold = getList(holdConfig.getHoldName());
         held = getList(holdConfig.getHeldName());
     }
