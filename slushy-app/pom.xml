@@ -26,8 +26,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk-ses</artifactId>
+            <groupId>net.kemitix.aws</groupId>
+            <artifactId>kemitix-aws-java-sdk-ses-wrapper</artifactId>
         </dependency>
 
         <dependency>
