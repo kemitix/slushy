@@ -54,11 +54,11 @@ public class HoldRoutes
                         "${header[Slushy.Email.Body]}, " +
                         "${header[Slushy.Email.BodyHtml]}" +
                         ")")
-                .setHeader("Slushy.Comment",
+                .setHeader("SlushyComment",
                         () -> "Sent held notification to author")
                 .bean(comments, "add(" +
                         "${header.SlushyCard}, " +
-                        "${header[Slushy.Comment]}" +
+                        "${header.SlushyComment}" +
                         ")")
         ;
 

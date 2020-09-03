@@ -91,11 +91,11 @@ public class InboxRoutes
                         "${header[Slushy.Inbox.Sender]}, " +
                         "${header[Slushy.Inbox.Readable]}" +
                         ")")
-                .setHeader("Slushy.Comment",
+                .setHeader("SlushyComment",
                         () -> "Sent attachment to reader")
                 .bean(comments, "add(" +
                         "${header.SlushyCard}, " +
-                        "${header[Slushy.Comment]}" +
+                        "${header.SlushyComment}" +
                         ")")
         ;
 
@@ -114,11 +114,11 @@ public class InboxRoutes
                                 "${header[Slushy.Inbox.BodyHtml]}" +
                                 ")"
                         )
-                .setHeader("Slushy.Comment",
+                .setHeader("SlushyComment",
                         () -> "Sent received notification to author")
                 .bean(comments, "add(" +
                         "${header.SlushyCard}, " +
-                        "${header[Slushy.Comment]}" +
+                        "${header.SlushyComment}" +
                         ")")
         ;
     }

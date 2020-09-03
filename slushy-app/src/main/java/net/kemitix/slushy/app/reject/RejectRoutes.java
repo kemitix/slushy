@@ -56,11 +56,11 @@ public class RejectRoutes
                         "${header[Slushy.Inbox.Body]}, " +
                         "${header[Slushy.Inbox.BodyHtml]}" +
                         ")")
-                .setHeader("Slushy.Comment",
+                .setHeader("SlushyComment",
                         () -> "Sent rejection notification to author")
                 .bean(comments, "add(" +
                         "${header.SlushyCard}, " +
-                        "${header[Slushy.Comment]}" +
+                        "${header.SlushyComment}" +
                         ")")
         ;
 
