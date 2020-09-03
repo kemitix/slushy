@@ -42,8 +42,8 @@ public class RejectRoutes
                 .routingSlip(header("Slushy.RoutingSlip"))
         ;
 
-        from("direct:Slushy.Reject.SendEmailRejection")
-                .routeId("Slushy.Reject.SendEmailRejection")
+        from("direct:Slushy.Reject.SendEmail")
+                .routeId("Slushy.Reject.SendEmail")
                 .setHeader("Slushy.Inbox.Recipient", submissionEmail())
                 .setHeader("Slushy.Inbox.Sender", slushyConfig::getSender)
                 .setHeader("Slushy.Inbox.Subject", subject())
