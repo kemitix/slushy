@@ -112,7 +112,7 @@ public class AmazonSesService implements EmailService {
         RawMessage rawMessage = rawMessageWithAttachmentOnly(
                 recipient, sender, attachment, subject);
         return new SendRawEmailRequest()
-                .withDestinations(recipient, sender)
+                .withDestinations(recipient)
                 .withSource(sender)
                 .withRawMessage(rawMessage);
     }
