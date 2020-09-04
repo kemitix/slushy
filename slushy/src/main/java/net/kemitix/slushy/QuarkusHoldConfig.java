@@ -10,12 +10,7 @@ import net.kemitix.slushy.app.hold.HoldConfig;
 @Getter
 @ConfigProperties(prefix = "slushy.hold")
 public class QuarkusHoldConfig
+        extends AbstractQuarkusListProcessingConfig
         implements HoldConfig {
-
-    String scanPeriod;
-    String holdName;
-    String heldName;
-    String routingSlip;
-    int requiredAgeHours;
 
 }
