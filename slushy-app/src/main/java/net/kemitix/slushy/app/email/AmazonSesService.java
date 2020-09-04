@@ -1,15 +1,28 @@
 package net.kemitix.slushy.app.email;
 
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
-import com.amazonaws.services.simpleemail.model.*;
+import com.amazonaws.services.simpleemail.model.Body;
+import com.amazonaws.services.simpleemail.model.Content;
+import com.amazonaws.services.simpleemail.model.Destination;
+import com.amazonaws.services.simpleemail.model.RawMessage;
+import com.amazonaws.services.simpleemail.model.SendEmailRequest;
+import com.amazonaws.services.simpleemail.model.SendRawEmailRequest;
+import lombok.NonNull;
 import lombok.extern.java.Log;
-import net.kemitix.slushy.app.Attachment;
+import net.kemitix.slushy.app.LocalAttachment;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.mail.*;
+import javax.mail.Address;
+import javax.mail.BodyPart;
 import javax.mail.Message;
-import javax.mail.internet.*;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -39,13 +52,14 @@ public class AmazonSesService implements EmailService {
 
     @Override
     public void sendAttachmentOnly(
-            String recipient,
-            String sender,
-            Attachment attachment
+            @NonNull String recipient,
+            @NonNull String sender,
+            @NonNull String subject,
+            @NonNull LocalAttachment attachment
     ) throws MessagingException, IOException {
         log.info(String.format("send to %s, from %s", recipient, sender));
         SendRawEmailRequest request =
-                requestWithAttachmentOnly(recipient, sender, attachment);
+                requestWithAttachmentOnly(recipient, sender, attachment, subject);
         String name = attachment.getFileName().getName();
         log.info(String.format("Sending %s", name));
         sesService.sendRawEmail(request);
@@ -92,80 +106,67 @@ public class AmazonSesService implements EmailService {
     private SendRawEmailRequest requestWithAttachmentOnly(
             String recipient,
             String sender,
-            Attachment attachment
+            LocalAttachment attachment,
+            String subject
     ) throws MessagingException, IOException {
-        RawMessage rawMessage =
-                rawMessageWithAttachmentOnly(recipient, sender, attachment);
+        RawMessage rawMessage = rawMessageWithAttachmentOnly(
+                recipient, sender, attachment, subject);
         return new SendRawEmailRequest()
                 .withDestinations(recipient, sender)
                 .withSource(sender)
                 .withRawMessage(rawMessage);
     }
 
-    private RawMessage rawMessage(
-            String recipient,
-            String sender,
-            String body
-    ) throws MessagingException, IOException {
-        byte[] messageStream = messageStream(
-                new InternetAddress(recipient),
-                new InternetAddress(sender),
-                mimeMultiPart(body));
-        return new RawMessage(ByteBuffer.wrap(messageStream));
-    }
-
     private RawMessage rawMessageWithAttachmentOnly(
             String recipient,
             String sender,
-            Attachment attachment
+            LocalAttachment attachment,
+            String subject
     ) throws MessagingException, IOException {
         byte[] messageStream = messageStream(
                 new InternetAddress(recipient),
                 new InternetAddress(sender),
-                mimeMultiPart(attachment));
+                mimeMultiPart(attachment),
+                subject);
         return new RawMessage(ByteBuffer.wrap(messageStream));
     }
 
     private byte[] messageStream(
             Address recipient,
             Address sender,
-            Multipart content
+            Multipart content,
+            String subject
     ) throws MessagingException, IOException {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        message(recipient, sender, content).writeTo(stream);
+        message(recipient, sender, content, subject).writeTo(stream);
         return stream.toByteArray();
     }
 
     private MimeMessage message(
             Address recipient,
             Address sender,
-            Multipart content
-    ) throws MessagingException, IOException {
+            Multipart content,
+            String subject
+    ) throws MessagingException {
         MimeMessage message = new MimeMessage(session());
         message.setFrom(sender);
+        message.setSubject(subject);
         message.setRecipient(Message.RecipientType.TO, recipient);
         message.setContent(content);
         return message;
     }
 
-    private Multipart mimeMultiPart(Attachment attachment)
+    private Multipart mimeMultiPart(LocalAttachment attachment)
             throws IOException, MessagingException {
         MimeMultipart mimeMultipart = new MimeMultipart("mixed");
         mimeMultipart.addBodyPart(attachment(attachment));
         return mimeMultipart;
     }
-    private Multipart mimeMultiPart(String body) throws MessagingException {
-        MimeMultipart mimeMultipart = new MimeMultipart("mixed");
-        MimeBodyPart part = new MimeBodyPart();
-        part.setContent(body, "plain/text");
-        mimeMultipart.addBodyPart(part);
-        return mimeMultipart;
-    }
 
-    private BodyPart attachment(Attachment attachment)
+    private BodyPart attachment(LocalAttachment attachment)
             throws MessagingException, IOException {
         MimeBodyPart mimeBodyPart = new MimeBodyPart();
-        File fileName = attachment.download().getFileName();
+        File fileName = attachment.getFileName();
         mimeBodyPart.attachFile(fileName);
         mimeBodyPart.setFileName(attachment.getFileName().getName());
         return mimeBodyPart;
