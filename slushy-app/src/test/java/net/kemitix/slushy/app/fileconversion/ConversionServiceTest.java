@@ -1,6 +1,8 @@
 package net.kemitix.slushy.app.fileconversion;
 
 import net.kemitix.slushy.app.Attachment;
+import net.kemitix.slushy.app.AttachmentDirectory;
+import net.kemitix.slushy.app.LocalAttachment;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,22 +21,25 @@ import static org.mockito.BDDMockito.given;
 public class ConversionServiceTest
         implements WithAssertions {
 
-    private final ConversionService service = new ConversionService();
-
     private final Instance<AttachmentConverter> converters;
-    private final Attachment attachment;
+    private final LocalAttachment attachment;
+    private final AttachmentDirectory attachmentDirectory;
+
+    private ConversionService service;
 
     public ConversionServiceTest(
             @Mock Instance<AttachmentConverter> converters,
-            @Mock Attachment attachment
-    ) {
+            @Mock LocalAttachment attachment,
+            @Mock AttachmentDirectory attachmentDirectory
+            ) {
         this.converters = converters;
         this.attachment = attachment;
+        this.attachmentDirectory = attachmentDirectory;
     }
 
     @BeforeEach
     public void setUp() {
-        service.attachmentConverters = converters;
+        service = new ConversionService(converters, attachmentDirectory);
     }
 
     @Test

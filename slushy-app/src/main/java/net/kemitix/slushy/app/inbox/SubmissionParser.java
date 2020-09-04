@@ -21,12 +21,9 @@ public class SubmissionParser {
             Pattern.compile("^\\*\\*(?<heading>.*?):\\*\\*$",
                     Pattern.MULTILINE);
 
-    @Inject
-    Now now;
-    @Inject
-    TrelloBoard trelloBoard;
-    @Inject
-    ValidFileTypes validFileTypes;
+    @Inject Now now;
+    @Inject TrelloBoard trelloBoard;
+    @Inject ValidFileTypes validFileTypes;
 
     public Submission parse(Card card) {
         Map<String, String> body = parseBody(card);

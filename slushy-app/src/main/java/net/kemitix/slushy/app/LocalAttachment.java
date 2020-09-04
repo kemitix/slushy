@@ -22,7 +22,7 @@ public class LocalAttachment
     }
 
     @Override
-    public Attachment download() {
+    public LocalAttachment download() {
         return this;
     }
 }

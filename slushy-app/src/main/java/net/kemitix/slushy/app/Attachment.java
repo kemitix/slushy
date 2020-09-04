@@ -16,5 +16,5 @@ public interface Attachment {
      *
      * @return the name of the local file.
      */
-    Attachment download();
+    LocalAttachment download();
 }
