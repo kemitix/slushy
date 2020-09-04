@@ -1,6 +1,5 @@
 package net.kemitix.slushy.app.withdraw;
 
-import net.kemitix.slushy.app.CardMover;
 import net.kemitix.slushy.app.Comments;
 import net.kemitix.slushy.app.RestedFilter;
 import net.kemitix.slushy.app.SlushyConfig;
