@@ -26,8 +26,6 @@ public class InboxRoutes
     @Inject SubmissionParser submissionParser;
     @Inject CardFormatter cardFormatter;
     @Inject CardMover cardMover;
-    @Inject AttachmentLoader attachmentLoader;
-    @Inject ConversionService conversionService;
     @Inject EmailService emailService;
     @Inject SubmissionReceivedEmailCreator emailCreator;
     @Inject Comments comments;
@@ -72,33 +70,6 @@ public class InboxRoutes
                         ")")
         ;
 
-        from("direct:Slushy.LoadAttachment")
-                .routeId("Slushy.LoadAttachment")
-                .setHeader("SlushyAttachment", loadAttachment())
-        ;
-
-        from("direct:Slushy.FormatForReader")
-                .routeId("Slushy.FormatForReader")
-                .setHeader("SlushyReadableAttachment", convertAttachment())
-        ;
-
-        from("direct:Slushy.SendToReader")
-                .routeId("Slushy.SendToReader")
-                .setHeader("SlushyRecipient", slushyConfig::getReader)
-                .setHeader("SlushySender", slushyConfig::getSender)
-                .bean(emailService, "sendAttachmentOnly(" +
-                        "${header.SlushyRecipient}, " +
-                        "${header.SlushySender}, " +
-                        "${header.SlushyReadableAttachment}" +
-                        ")")
-                .setHeader("SlushyComment",
-                        () -> "Sent attachment to reader")
-                .bean(comments, "add(" +
-                        "${header.SlushyCard}, " +
-                        "${header.SlushyComment}" +
-                        ")")
-        ;
-
         from("direct:Slushy.Inbox.SendEmailConfirmation")
                 .routeId("Slushy.Inbox.SendEmailConfirmation")
                 .setHeader("SlushyRecipient", submissionEmail())
@@ -121,18 +92,6 @@ public class InboxRoutes
                         "${header.SlushyComment}" +
                         ")")
         ;
-    }
-
-    private ValueBuilder loadAttachment() {
-        return bean(attachmentLoader, "load(" +
-                "${header.SlushyCard}" +
-                ")");
-    }
-
-    private ValueBuilder convertAttachment() {
-        return bean(conversionService, "convert(" +
-                "${header.SlushyAttachment}" +
-                ")");
     }
 
     private SimpleBuilder submissionEmail() {
