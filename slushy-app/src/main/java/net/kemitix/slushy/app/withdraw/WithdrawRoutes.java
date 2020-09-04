@@ -84,4 +84,7 @@ public class WithdrawRoutes
     private ValueBuilder subject() {
         return bean(emailCreator, "subject(" +
                 "${header.SlushySubmission}" +
-                ")");}
+                ")");
+    }
+
+}
