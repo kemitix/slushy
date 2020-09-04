@@ -62,8 +62,8 @@ public class HoldRoutes
                         ")")
         ;
 
-        from("direct:Slushy.Hold.MoveToHeld")
-                .routeId("Slushy.Hold.MoveToHeld")
+        from("direct:Slushy.Hold.MoveToTargetList")
+                .routeId("Slushy.Hold.MoveToTargetList")
                 .setHeader("SlushyTargetList", holdConfig::getTargetList)
                 .bean(cardMover, "move(" +
                         "${header.SlushyCard}, " +
