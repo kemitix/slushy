@@ -2,7 +2,6 @@ package net.kemitix.slushy.app.fileconversion;
 
 import lombok.extern.java.Log;
 import net.kemitix.slushy.app.Attachment;
-import net.kemitix.slushy.app.AttachmentDirectory;
 import net.kemitix.slushy.app.LocalAttachment;
 import org.odftoolkit.odfdom.converter.xhtml.XHTMLConverter;
 import org.odftoolkit.odfdom.converter.xhtml.XHTMLOptions;
@@ -28,7 +27,7 @@ public class OdtToHtmlAttachmentConverter
 
     @Override
     public boolean canHandle(Attachment attachment) {
-        return attachment.getFileName()
+        return attachment.getOriginalFilename()
                 .getName()
                 .toLowerCase()
                 .endsWith(".odt");
@@ -43,7 +42,7 @@ public class OdtToHtmlAttachmentConverter
             OdfTextDocument document = OdfTextDocument.loadDocument(in);
             xhtmlConverter.convert(document, out, XHTMLOptions.create());
             if (targetFile.exists()) {
-                return Optional.of(new LocalAttachment(targetFile));
+                return Optional.of(new LocalAttachment(targetFile, sourceFile));
             } else {
                 throw new FileNotFoundException(targetFile.getAbsolutePath());
             }

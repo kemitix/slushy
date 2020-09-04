@@ -46,7 +46,7 @@ public class TrelloAttachment implements Attachment {
     }
 
     @Override
-    public File getFileName() {
+    public File getFilename() {
         return new File(String.format("%4s - %s.%s",
                 id, card.getName(), extension()));
     }
@@ -65,15 +65,22 @@ public class TrelloAttachment implements Attachment {
     @Override
     public LocalAttachment download() {
         try (var source = Channels.newChannel(getUrl().openStream());){
-            var file = attachmentDirectory.createFile(getFileName());
+            File filename = new File(attachment.getName());
+            LOG.info("Downloading from " + filename);
+            var file = attachmentDirectory.createFile(filename);
             LOG.info("Downloading to " + file.getCanonicalPath());
             try (var channel = new FileOutputStream(file).getChannel()) {
                 channel.transferFrom(source, 0, Long.MAX_VALUE);
-                return new LocalAttachment(file);
+                return new LocalAttachment(file, filename);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public File getOriginalFilename() {
+        return getFilename();
     }
 
     private URL getUrl() throws MalformedURLException {

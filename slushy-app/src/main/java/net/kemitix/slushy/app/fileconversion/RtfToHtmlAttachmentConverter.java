@@ -22,9 +22,11 @@ public class RtfToHtmlAttachmentConverter
 
     @Override
     public boolean canHandle(Attachment attachment) {
-        return attachment.getFileName()
+        String filename = attachment.getOriginalFilename()
                 .getName()
-                .toLowerCase()
+                .toLowerCase();
+        log.info("RTF can convert?: " + filename);
+        return filename
                 .endsWith(".rtf");
     }
 
@@ -37,7 +39,7 @@ public class RtfToHtmlAttachmentConverter
             String rtfString = Files.readString(sourceFile.toPath());
             String html = converter.rtf2html(rtfString);
             Files.writeString(targetFile.toPath(), html);
-            return Optional.of(new LocalAttachment(targetFile));
+            return Optional.of(new LocalAttachment(targetFile, sourceFile));
         } catch (IOException e) {
             return Optional.empty();
         }

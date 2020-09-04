@@ -4,7 +4,6 @@ import lombok.extern.java.Log;
 import net.kemitix.slushy.app.Attachment;
 import net.kemitix.slushy.app.AttachmentDirectory;
 import net.kemitix.slushy.app.LocalAttachment;
-import net.kemitix.slushy.app.fileconversion.AttachmentConverter;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
@@ -42,10 +41,11 @@ public class ConversionService {
             LocalAttachment attachment,
             AttachmentConverter converter
     ) {
-        File sourceFile = attachment.getFileName();
+        File sourceFile = attachment.getFilename();
         String name = sourceFile.getName();
         log.info("Converting from " + name);
-        String htmlName = name.substring(0, name.length() - 3) + "html";
+        int extensionLength = 3;
+        String htmlName = name.substring(0, name.length() - extensionLength) + "html";
         File htmlFile = attachmentDirectory.createFile(new File(htmlName));
         log.info("Converting  to  " + htmlFile.getAbsolutePath());
         return converter.convert(sourceFile, htmlFile);
@@ -54,13 +54,11 @@ public class ConversionService {
     public boolean canConvert(String filename) {
         Attachment attachment = new Attachment() {
             @Override
-            public File getFileName() {
-                return new File(filename);
-            }
+            public File getFilename() { return new File(filename); }
             @Override
-            public LocalAttachment download() {
-                return null;
-            }
+            public LocalAttachment download() { return null; }
+            @Override
+            public File getOriginalFilename() { return null; }
         };
         return attachmentConverters.stream()
                 .anyMatch(converter -> converter.canHandle(attachment));
