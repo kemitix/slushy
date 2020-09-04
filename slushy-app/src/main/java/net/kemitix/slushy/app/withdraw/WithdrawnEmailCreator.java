@@ -4,6 +4,9 @@ import net.kemitix.slushy.app.Submission;
 import net.kemitix.slushy.app.email.BodyCreator;
 import net.kemitix.slushy.app.email.SubjectCreator;
 
+import javax.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
 public class WithdrawnEmailCreator
         implements SubjectCreator<Submission>, BodyCreator<Submission> {
 
