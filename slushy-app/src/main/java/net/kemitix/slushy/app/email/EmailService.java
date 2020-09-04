@@ -1,6 +1,6 @@
 package net.kemitix.slushy.app.email;
 
-import net.kemitix.slushy.app.Attachment;
+import net.kemitix.slushy.app.LocalAttachment;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
@@ -9,7 +9,8 @@ public interface EmailService {
     void sendAttachmentOnly(
             String recipient,
             String sender,
-            Attachment attachment
+            String subject,
+            LocalAttachment attachment
     ) throws MessagingException, IOException;
 
     void send(

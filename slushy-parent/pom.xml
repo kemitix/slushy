@@ -31,6 +31,7 @@
         <mockito-junit-jupiter.version>3.5.10</mockito-junit-jupiter.version>
         <trello-java-wrapper.version>0.14</trello-java-wrapper.version>
         <odftoolkit.version>1.0.6</odftoolkit.version>
+        <rtf-to-html.version>1.0.1</rtf-to-html.version>
     </properties>
 
     <dependencyManagement>
@@ -56,6 +57,12 @@
                         <artifactId>xml-apis</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.bbottema</groupId>
+                <artifactId>rtf-to-html</artifactId>
+                <version>${rtf-to-html.version}</version>
             </dependency>
 
             <dependency>

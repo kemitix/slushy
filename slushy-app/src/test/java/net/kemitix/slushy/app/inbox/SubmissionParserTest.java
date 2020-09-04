@@ -47,7 +47,8 @@ public class SubmissionParserTest
         submissionParser.trelloBoard = trelloBoard;
         validFileTypes = new ValidFileTypes(conversionService);
         submissionParser.validFileTypes = validFileTypes;
-        given(conversionService.canConvertFrom()).willReturn(List.of("ODT"));
+        given(conversionService.canConvertFrom())
+                .willReturn(List.of("ODT", "RTF"));
     }
 
     @Nested
@@ -165,9 +166,9 @@ public class SubmissionParserTest
         }
 
         @ParameterizedTest
-        @DisplayName("Accepts convertable types")
-        @ValueSource(strings = {"ODT"})
-        public void acceptsConvertableTypes(String type) {
+        @DisplayName("Accepts convertible types")
+        @ValueSource(strings = {"ODT", "RTF"})
+        public void acceptsConvertibleTypes(String type) {
             documentUrl = "document." + type;
             given(trelloBoard.getAttachments(card))
                     .willReturn(List.of(new Attachment(documentUrl)));

@@ -9,12 +9,20 @@ public interface Attachment {
      *
      * @return the name of the file
      */
-    File getFileName();
+    File getFilename();
 
     /**
      * Downlaods the file to local file system.
      *
      * @return the name of the local file.
      */
-    Attachment download();
+    LocalAttachment download();
+
+    /**
+     * The original filename.
+     *
+     * @return the name of the file originally
+     */
+    File getOriginalFilename();
+
 }

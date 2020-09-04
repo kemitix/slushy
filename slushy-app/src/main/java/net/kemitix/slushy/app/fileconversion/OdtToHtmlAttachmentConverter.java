@@ -1,7 +1,7 @@
 package net.kemitix.slushy.app.fileconversion;
 
+import lombok.extern.java.Log;
 import net.kemitix.slushy.app.Attachment;
-import net.kemitix.slushy.app.AttachmentDirectory;
 import net.kemitix.slushy.app.LocalAttachment;
 import org.odftoolkit.odfdom.converter.xhtml.XHTMLConverter;
 import org.odftoolkit.odfdom.converter.xhtml.XHTMLOptions;
@@ -9,47 +9,42 @@ import org.odftoolkit.odfdom.doc.OdfTextDocument;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Optional;
-import java.util.logging.Logger;
 import java.util.stream.Stream;
 
+@Log
 @ApplicationScoped
 public class OdtToHtmlAttachmentConverter
         implements AttachmentConverter {
 
-    private static final Logger LOG =
-            Logger.getLogger(
-                    OdtToHtmlAttachmentConverter.class.getName());
-
-    @Inject
-    AttachmentDirectory attachmentDirectory;
+    @Inject XHTMLConverter xhtmlConverter;
 
     @Override
     public boolean canHandle(Attachment attachment) {
-        return attachment.getFileName()
+        return attachment.getOriginalFilename()
                 .getName()
+                .toLowerCase()
                 .endsWith(".odt");
     }
 
     @Override
-    public Optional<Attachment> convert(Attachment attachment) {
-        Attachment localAttachment = attachment.download();
-        String name = localAttachment.getFileName().getName();
-        LOG.info("Converting from " + name);
-        String htmlName = name.substring(0, name.length() - 3) + "html";
-        File htmlFile = attachmentDirectory.createFile(new File(htmlName));
-        LOG.info("Converting  to  " + htmlFile.getAbsolutePath());
+    public Optional<LocalAttachment> convert(File sourceFile, File targetFile) {
         try (
-            InputStream in = new FileInputStream(localAttachment.getFileName());
-            OutputStream out = new FileOutputStream(htmlFile);
+                InputStream in = new FileInputStream(sourceFile);
+                OutputStream out = new FileOutputStream(targetFile);
         ) {
             OdfTextDocument document = OdfTextDocument.loadDocument(in);
-            XHTMLConverter.getInstance().convert(document, out, XHTMLOptions.create());
-            if (htmlFile.exists()) {
-                return Optional.of(new LocalAttachment(htmlFile));
+            xhtmlConverter.convert(document, out, XHTMLOptions.create());
+            if (targetFile.exists()) {
+                return Optional.of(new LocalAttachment(targetFile, sourceFile));
             } else {
-                throw new FileNotFoundException(htmlFile.getAbsolutePath());
+                throw new FileNotFoundException(targetFile.getAbsolutePath());
             }
         } catch (Exception e) {
             e.printStackTrace();
