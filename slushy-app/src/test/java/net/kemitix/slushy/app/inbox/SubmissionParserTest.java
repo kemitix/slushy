@@ -25,6 +25,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.mockito.BDDMockito.given;
 
@@ -42,6 +43,7 @@ public class SubmissionParserTest
 
     @Mock ConversionService conversionService;
     @Mock Instance<AttachmentConverter> attachmentConverters;
+    @Mock AttachmentConverter attachmentConverter;
 
     @BeforeEach
     public void setUp() {
@@ -49,8 +51,10 @@ public class SubmissionParserTest
         submissionParser.trelloBoard = trelloBoard;
         validFileTypes = new ValidFileTypes(conversionService, attachmentConverters);
         submissionParser.validFileTypes = validFileTypes;
-        given(validFileTypes.canConvertFrom())
-                .willReturn(List.of("ODT", "RTF"));
+        given(attachmentConverters.stream())
+                .willReturn(Stream.of(attachmentConverter));
+        given(attachmentConverter.canConvertFrom())
+                .willReturn(Stream.of("rtf", "odt"));
     }
 
     @Nested
