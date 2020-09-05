@@ -29,6 +29,12 @@ public class ArchiverRoutes
                 .split(body())
                 .setHeader("SlushyRequiredAge", archiverConfig::getRequiredAgeHours)
                 .filter(bean(restedFilter, "isRested(${body}, ${header.SlushyRequiredAge})"))
+                .setHeader("SlushyRoutingSlip", archiverConfig::getRoutingSlip)
+                .routingSlip(header("SlushyRoutingSlip"))
+        ;
+
+        from("direct:Slushy.Archive")
+                .routeId("Slushy.Archive")
                 .bean(archiver)
         ;
     }
