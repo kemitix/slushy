@@ -44,8 +44,7 @@ public class ConversionService {
         File sourceFile = attachment.getFilename();
         String name = sourceFile.getName();
         log.info("Converting from " + name);
-        int extensionLength = 3;
-        String htmlName = name.substring(0, name.length() - extensionLength) + "html";
+        String htmlName = name.substring(0, name.lastIndexOf(".")) + ".html";
         File htmlFile = attachmentDirectory.createFile(new File(htmlName));
         log.info("Converting  to  " + htmlFile.getAbsolutePath());
         return converter.convert(sourceFile, htmlFile);
