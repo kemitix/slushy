@@ -37,6 +37,7 @@ public class ArchiverRoutes
 
         from("direct:Slushy.Archive")
                 .routeId("Slushy.Archive")
+                .setBody(header("SlushyCard"))
                 .bean(archiver)
         ;
     }
