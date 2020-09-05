@@ -4,6 +4,7 @@ import net.kemitix.slushy.app.CardMover;
 import net.kemitix.slushy.app.Comments;
 import net.kemitix.slushy.app.RestedFilter;
 import net.kemitix.slushy.app.SlushyConfig;
+import net.kemitix.slushy.app.SubmissionParser;
 import net.kemitix.slushy.app.email.EmailService;
 import net.kemitix.slushy.app.templating.SlushyTemplate;
 import net.kemitix.slushy.app.trello.TrelloBoard;
@@ -21,7 +22,8 @@ public class InboxRoutes
     @Inject SlushyConfig slushyConfig;
     @Inject InboxConfig inboxConfig;
     @Inject TrelloBoard trelloBoard;
-    @Inject SubmissionParser submissionParser;
+    @Inject
+    SubmissionParser submissionParser;
     @Inject CardFormatter cardFormatter;
     @Inject CardMover cardMover;
     @Inject EmailService emailService;

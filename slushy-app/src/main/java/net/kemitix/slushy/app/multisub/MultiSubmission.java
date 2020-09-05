@@ -1,7 +1,7 @@
 package net.kemitix.slushy.app.multisub;
 
 import net.kemitix.slushy.app.Submission;
-import net.kemitix.slushy.app.inbox.SubmissionParser;
+import net.kemitix.slushy.app.SubmissionParser;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -9,7 +9,6 @@ import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.function.Function;
-import java.util.stream.Stream;
 
 @ApplicationScoped
 public class MultiSubmission {
