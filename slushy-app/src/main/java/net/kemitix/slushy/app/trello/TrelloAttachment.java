@@ -67,7 +67,7 @@ public class TrelloAttachment implements Attachment {
         try (var source = Channels.newChannel(getUrl().openStream());){
             File filename = new File(attachment.getName());
             LOG.info("Downloading from " + filename);
-            var file = attachmentDirectory.createFile(filename);
+            var file = attachmentDirectory.createFile(getFilename());
             LOG.info("Downloading to " + file.getCanonicalPath());
             try (var channel = new FileOutputStream(file).getChannel()) {
                 channel.transferFrom(source, 0, Long.MAX_VALUE);
