@@ -49,6 +49,10 @@ public class InboxRoutes
                 .setHeader("SlushyCard", body())
                 .bean(submissionParser)
                 .setHeader("SlushySubmission", body())
+        ;
+
+        from("direct:Slushy.ValidateAttachment")
+                .routeId("Slushy.ValidateAttachment")
                 .choice()
                 .when(simple("${body.isValid}"))
                 .otherwise()
