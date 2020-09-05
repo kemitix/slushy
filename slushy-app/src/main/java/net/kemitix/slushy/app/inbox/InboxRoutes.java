@@ -36,10 +36,13 @@ public class InboxRoutes
     public void configure() {
         fromF("timer:inbox?period=%s", inboxConfig.getScanPeriod())
                 .routeId("Slushy.Inbox")
+
                 .setBody(exchange -> trelloBoard.getListCards(inboxConfig.getSourceList()))
                 .split(body())
+
                 .setHeader("SlushyRequiredAge", inboxConfig::getRequiredAgeHours)
                 .filter(bean(restedFilter, "isRested(${body}, ${header.SlushyRequiredAge})"))
+
                 .setHeader("SlushyRoutingSlip", inboxConfig::getRoutingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))
         ;

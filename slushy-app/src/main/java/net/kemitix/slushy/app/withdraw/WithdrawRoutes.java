@@ -30,10 +30,13 @@ public class WithdrawRoutes
     public void configure() {
         fromF("timer:withdraw?period=%s", withdrawConfig.getScanPeriod())
                 .routeId("Slushy.Withdraw")
+
                 .setBody(exchange -> trelloBoard.getListCards(withdrawConfig.getSourceList()))
                 .split(body())
+
                 .setHeader("SlushyRequiredAge", withdrawConfig::getRequiredAgeHours)
                 .filter(bean(restedFilter, "isRested(${body}, ${header.SlushyRequiredAge})"))
+
                 .setHeader("SlushyRoutingSlip", withdrawConfig::getRoutingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))
         ;
