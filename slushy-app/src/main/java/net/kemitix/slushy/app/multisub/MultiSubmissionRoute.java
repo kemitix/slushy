@@ -58,7 +58,7 @@ public class MultiSubmissionRoute
                         "${header.SlushyComment}" +
                         ")")
                 // move card to rejected
-                .to("direct:Slushy.Reject.MoveToRejected")
+                .to("direct:Slushy.Reject.MoveToTargetList")
         ;
     }
 
