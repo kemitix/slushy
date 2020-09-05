@@ -32,7 +32,7 @@ public class HoldRoutes
     public void configure() {
         fromF("timer:hold?period=%s", holdConfig.getScanPeriod())
                 .routeId("Slushy.Hold")
-                .setBody(exchange -> trelloBoard.getListCards(holdConfig.getHoldName()))
+                .setBody(exchange -> trelloBoard.getListCards(holdConfig.getSourceList()))
                 .split(body())
                 .setHeader("SlushyRequiredAge", holdConfig::getRequiredAgeHours)
                 .filter(bean(restedFilter, "isRested(${body}, ${header.SlushyRequiredAge})"))
@@ -62,9 +62,9 @@ public class HoldRoutes
                         ")")
         ;
 
-        from("direct:Slushy.Hold.MoveToHeld")
-                .routeId("Slushy.Hold.MoveToHeld")
-                .setHeader("SlushyTargetList", holdConfig::getHeldName)
+        from("direct:Slushy.Hold.MoveToTargetList")
+                .routeId("Slushy.Hold.MoveToTargetList")
+                .setHeader("SlushyTargetList", holdConfig::getTargetList)
                 .bean(cardMover, "move(" +
                         "${header.SlushyCard}, " +
                         "${header.SlushyTargetList}" +

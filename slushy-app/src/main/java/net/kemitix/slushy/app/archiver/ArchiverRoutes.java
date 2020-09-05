@@ -27,8 +27,17 @@ public class ArchiverRoutes
                 .routeId("Slushy.Archiver")
                 .setBody(exchange -> trelloBoard.getListCards(archiverConfig.getSourceList()))
                 .split(body())
+
                 .setHeader("SlushyRequiredAge", archiverConfig::getRequiredAgeHours)
                 .filter(bean(restedFilter, "isRested(${body}, ${header.SlushyRequiredAge})"))
+
+                .setHeader("SlushyRoutingSlip", archiverConfig::getRoutingSlip)
+                .routingSlip(header("SlushyRoutingSlip"))
+        ;
+
+        from("direct:Slushy.Archive")
+                .routeId("Slushy.Archive")
+                .setBody(header("SlushyCard"))
                 .bean(archiver)
         ;
     }

@@ -1,8 +1,8 @@
-package net.kemitix.slushy.app.hold;
+package net.kemitix.slushy.app.withdraw;
 
 import net.kemitix.slushy.app.ListProcessConfig;
 
-public interface HoldConfig
+public interface WithdrawConfig
         extends ListProcessConfig {
 
 }

@@ -1,12 +1,10 @@
-package net.kemitix.slushy.app.reject;
+package net.kemitix.slushy.app.withdraw;
 
-import net.kemitix.slushy.app.CardMover;
 import net.kemitix.slushy.app.Comments;
 import net.kemitix.slushy.app.RestedFilter;
-import net.kemitix.slushy.app.SlushyCard;
+import net.kemitix.slushy.app.SlushyConfig;
 import net.kemitix.slushy.app.email.EmailService;
 import net.kemitix.slushy.app.trello.TrelloBoard;
-import net.kemitix.slushy.app.SlushyConfig;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.builder.SimpleBuilder;
 import org.apache.camel.builder.ValueBuilder;
@@ -17,33 +15,34 @@ import javax.inject.Inject;
 import static org.apache.camel.builder.Builder.bean;
 
 @ApplicationScoped
-public class RejectRoutes
+public class WithdrawRoutes
         extends RouteBuilder {
 
     @Inject SlushyConfig slushyConfig;
-    @Inject RejectConfig rejectConfig;
+    @Inject WithdrawConfig withdrawConfig;
     @Inject TrelloBoard trelloBoard;
-    @Inject CardMover cardMover;
-    @Inject EmailService emailService;
-    @Inject SubmissionRejectedEmailCreator emailCreator;
     @Inject RestedFilter restedFilter;
+    @Inject WithdrawnEmailCreator emailCreator;
+    @Inject EmailService emailService;
     @Inject Comments comments;
 
     @Override
     public void configure() {
-        fromF("timer:reject?period=%s", rejectConfig.getScanPeriod())
-                .routeId("Slushy.Reject")
-                .setBody(exchange -> trelloBoard.getListCards(rejectConfig.getSourceList()))
+        fromF("timer:withdraw?period=%s", withdrawConfig.getScanPeriod())
+                .routeId("Slushy.Withdraw")
+
+                .setBody(exchange -> trelloBoard.getListCards(withdrawConfig.getSourceList()))
                 .split(body())
-                .convertBodyTo(SlushyCard.class)
-                .setHeader("SlushyRequiredAge", rejectConfig::getRequiredAgeHours)
+
+                .setHeader("SlushyRequiredAge", withdrawConfig::getRequiredAgeHours)
                 .filter(bean(restedFilter, "isRested(${body}, ${header.SlushyRequiredAge})"))
-                .setHeader("SlushyRoutingSlip", rejectConfig::getRoutingSlip)
+
+                .setHeader("SlushyRoutingSlip", withdrawConfig::getRoutingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))
         ;
 
-        from("direct:Slushy.Reject.SendEmail")
-                .routeId("Slushy.Reject.SendEmail")
+        from("direct:Slushy.Withdraw.SendEmail")
+                .routeId("Slushy.Withdraw.SendEmail")
                 .setHeader("SlushyRecipient", submissionEmail())
                 .setHeader("SlushySender", slushyConfig::getSender)
                 .setHeader("SlushySubject", subject())
@@ -55,25 +54,18 @@ public class RejectRoutes
                         "${header.SlushySubject}, " +
                         "${header.SlushyBody}, " +
                         "${header.SlushyBodyHtml}" +
-                        ")")
+                        ")"
+                )
+
                 .setHeader("SlushyComment",
-                        () -> "Sent rejection notification to author")
+                        () -> "Sent withdrawn notification to author")
                 .bean(comments, "add(" +
                         "${header.SlushyCard}, " +
                         "${header.SlushyComment}" +
                         ")")
         ;
-
-        from("direct:Slushy.Reject.MoveToTargetList")
-                .routeId("Slushy.Reject.MoveToTargetList")
-                .setHeader("SlushyTargetList", rejectConfig::getTargetList)
-                .bean(cardMover, "move(" +
-                        "${header.SlushyCard}, " +
-                        "${header.SlushyTargetList}" +
-                        ")")
-        ;
-
     }
+
 
     private SimpleBuilder submissionEmail() {
         return simple("${header.SlushySubmission.email}");
@@ -96,4 +88,5 @@ public class RejectRoutes
                 "${header.SlushySubmission}" +
                 ")");
     }
+
 }

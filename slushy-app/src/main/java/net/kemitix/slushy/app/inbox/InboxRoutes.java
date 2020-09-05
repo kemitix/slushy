@@ -3,6 +3,7 @@
  import net.kemitix.slushy.app.AttachmentLoader;
  import net.kemitix.slushy.app.CardMover;
  import net.kemitix.slushy.app.Comments;
+ import net.kemitix.slushy.app.RestedFilter;
  import net.kemitix.slushy.app.email.EmailService;
  import net.kemitix.slushy.app.fileconversion.ConversionService;
  import net.kemitix.slushy.app.trello.TrelloBoard;
@@ -29,13 +30,19 @@ public class InboxRoutes
     @Inject EmailService emailService;
     @Inject SubmissionReceivedEmailCreator emailCreator;
     @Inject Comments comments;
+    @Inject RestedFilter restedFilter;
 
     @Override
     public void configure() {
         fromF("timer:inbox?period=%s", inboxConfig.getScanPeriod())
                 .routeId("Slushy.Inbox")
+
                 .setBody(exchange -> trelloBoard.getListCards(inboxConfig.getSourceList()))
                 .split(body())
+
+                .setHeader("SlushyRequiredAge", inboxConfig::getRequiredAgeHours)
+                .filter(bean(restedFilter, "isRested(${body}, ${header.SlushyRequiredAge})"))
+
                 .setHeader("SlushyRoutingSlip", inboxConfig::getRoutingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))
         ;
@@ -45,6 +52,10 @@ public class InboxRoutes
                 .setHeader("SlushyCard", body())
                 .bean(submissionParser)
                 .setHeader("SlushySubmission", body())
+        ;
+
+        from("direct:Slushy.ValidateAttachment")
+                .routeId("Slushy.ValidateAttachment")
                 .choice()
                 .when(simple("${body.isValid}"))
                 .otherwise()

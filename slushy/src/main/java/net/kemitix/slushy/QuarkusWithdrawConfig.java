@@ -3,14 +3,13 @@ package net.kemitix.slushy;
 import io.quarkus.arc.config.ConfigProperties;
 import lombok.Getter;
 import lombok.Setter;
-import net.kemitix.slushy.app.hold.HoldConfig;
-
+import net.kemitix.slushy.app.withdraw.WithdrawConfig;
 
 @Setter
 @Getter
-@ConfigProperties(prefix = "slushy.hold")
-public class QuarkusHoldConfig
+@ConfigProperties(prefix = "slushy.withdraw")
+public class QuarkusWithdrawConfig
         extends AbstractQuarkusListProcessingConfig
-        implements HoldConfig {
+        implements WithdrawConfig {
 
 }

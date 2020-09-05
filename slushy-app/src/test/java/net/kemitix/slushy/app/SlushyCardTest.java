@@ -22,8 +22,9 @@ public class SlushyCardTest
         SlushyCard slushyCard = SlushyCard.from(card, trello);
         //then
         assertThat((Card) slushyCard)
-                .isEqualToIgnoringGivenFields(card, "dueComplete");
-
+                .usingRecursiveComparison()
+                .ignoringFields("dueComplete")
+                .isEqualTo(card);
     }
 
     private Card getCard() {
