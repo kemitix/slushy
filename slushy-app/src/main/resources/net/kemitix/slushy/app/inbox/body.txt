@@ -1,0 +1,11 @@
+Dear ${byline},
+
+Thank you for submitting your story, "${title} by ${byline}".
+
+It has been added to our system and we look forward to reading it.
+
+Please allow 30 days for a reply.
+
+Yours,
+Paul Campbell - Editor
+Cossmass Infinities - https://www.cossmass.com/

@@ -25,9 +25,9 @@ public class InboxRoutes
     @Inject CardFormatter cardFormatter;
     @Inject CardMover cardMover;
     @Inject EmailService emailService;
-    @Inject SubmissionReceivedEmailCreator emailCreator;
     @Inject Comments comments;
     @Inject RestedFilter restedFilter;
+    @Inject SlushyTemplate slushyTemplate;
 
     @Override
     public void configure() {
@@ -80,11 +80,21 @@ public class InboxRoutes
 
         from("direct:Slushy.Inbox.SendEmailConfirmation")
                 .routeId("Slushy.Inbox.SendEmailConfirmation")
-                .setHeader("SlushyRecipient", submissionEmail())
+                .setHeader("SlushyRecipient",
+                        simple("${header.SlushySubmission.email}"))
                 .setHeader("SlushySender", slushyConfig::getSender)
-                .setHeader("SlushySubject", subject())
-                .setHeader("SlushyBody", bodyText())
-                .setHeader("SlushyBodyHtml", bodyHtml())
+
+                .setHeader("SlushyTemplateModel").header("SlushySubmission")
+
+                .setHeader("SlushyTemplateName").simple("inbox/subject.txt")
+                .setHeader("SlushySubject", bean(slushyTemplate))
+
+                .setHeader("SlushyTemplateName", simple("inbox/body.txt"))
+                .setHeader("SlushyBody", bean(slushyTemplate))
+
+                .setHeader("SlushyTemplateName", simple("inbox/body.html"))
+                .setHeader("SlushyBodyHtml", bean(slushyTemplate))
+
                 .bean(emailService, "send(" +
                                 "${header.SlushyRecipient}, " +
                                 "${header.SlushySender}, " +
@@ -100,28 +110,6 @@ public class InboxRoutes
                         "${header.SlushyComment}" +
                         ")")
         ;
-    }
-
-    private SimpleBuilder submissionEmail() {
-        return simple("${header.SlushySubmission.email}");
-    }
-
-    private ValueBuilder bodyHtml() {
-        return bean(emailCreator, "bodyHtml(" +
-                "${header.SlushySubmission}" +
-                ")");
-    }
-
-    private ValueBuilder bodyText() {
-        return bean(emailCreator, "bodyText(" +
-                "${header.SlushySubmission}" +
-                ")");
-    }
-
-    private ValueBuilder subject() {
-        return bean(emailCreator, "subject(" +
-                "${header.SlushySubmission}" +
-                ")");
     }
 
 }
