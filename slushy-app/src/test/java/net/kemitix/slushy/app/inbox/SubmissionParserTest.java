@@ -3,6 +3,7 @@ package net.kemitix.slushy.app.inbox;
 import com.julienvey.trello.domain.Attachment;
 import com.julienvey.trello.domain.Card;
 import net.kemitix.slushy.app.*;
+import net.kemitix.slushy.app.fileconversion.AttachmentConverter;
 import net.kemitix.slushy.app.fileconversion.ConversionService;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.assertj.core.api.WithAssertions;
@@ -16,6 +17,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.enterprise.inject.Instance;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -38,16 +40,16 @@ public class SubmissionParserTest
     @Mock
     TrelloBoard trelloBoard;
 
-    @Mock
-    ConversionService conversionService;
+    @Mock ConversionService conversionService;
+    @Mock Instance<AttachmentConverter> attachmentConverters;
 
     @BeforeEach
     public void setUp() {
         submissionParser.now = now;
         submissionParser.trelloBoard = trelloBoard;
-        validFileTypes = new ValidFileTypes(conversionService);
+        validFileTypes = new ValidFileTypes(conversionService, attachmentConverters);
         submissionParser.validFileTypes = validFileTypes;
-        given(conversionService.canConvertFrom())
+        given(validFileTypes.canConvertFrom())
                 .willReturn(List.of("ODT", "RTF"));
     }
 

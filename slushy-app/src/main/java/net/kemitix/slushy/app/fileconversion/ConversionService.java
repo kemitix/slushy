@@ -1,17 +1,15 @@
 package net.kemitix.slushy.app.fileconversion;
 
 import lombok.extern.java.Log;
-import net.kemitix.slushy.app.Attachment;
 import net.kemitix.slushy.app.AttachmentDirectory;
 import net.kemitix.slushy.app.LocalAttachment;
+import org.apache.camel.Header;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.io.File;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Log
 @ApplicationScoped
@@ -29,7 +27,9 @@ public class ConversionService {
         this.attachmentDirectory = attachmentDirectory;
     }
 
-    public LocalAttachment convert(LocalAttachment attachment) {
+    public LocalAttachment convert(
+            @Header("SlushyAttachment") LocalAttachment attachment
+    ) {
         return attachmentConverters.stream()
                 .filter(converter -> converter.canHandle(attachment))
                 .findFirst()
@@ -49,25 +49,6 @@ public class ConversionService {
         File htmlFile = attachmentDirectory.createFile(new File(htmlName));
         log.info("Converting  to  " + htmlFile.getAbsolutePath());
         return converter.convert(sourceFile, htmlFile);
-    }
-
-    public boolean canConvert(String filename) {
-        Attachment attachment = new Attachment() {
-            @Override
-            public File getFilename() { return new File(filename); }
-            @Override
-            public LocalAttachment download() { return null; }
-            @Override
-            public File getOriginalFilename() { return null; }
-        };
-        return attachmentConverters.stream()
-                .anyMatch(converter -> converter.canHandle(attachment));
-    }
-
-    public List<String> canConvertFrom() {
-        return attachmentConverters.stream()
-                .flatMap(AttachmentConverter::canConvertFrom)
-                .collect(Collectors.toList());
     }
 
 }
