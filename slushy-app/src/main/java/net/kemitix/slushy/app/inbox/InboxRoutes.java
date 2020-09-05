@@ -1,21 +1,18 @@
- package net.kemitix.slushy.app.inbox;
+package net.kemitix.slushy.app.inbox;
 
- import net.kemitix.slushy.app.AttachmentLoader;
- import net.kemitix.slushy.app.CardMover;
- import net.kemitix.slushy.app.Comments;
- import net.kemitix.slushy.app.RestedFilter;
- import net.kemitix.slushy.app.email.EmailService;
- import net.kemitix.slushy.app.fileconversion.ConversionService;
- import net.kemitix.slushy.app.trello.TrelloBoard;
- import net.kemitix.slushy.app.SlushyConfig;
- import org.apache.camel.builder.RouteBuilder;
- import org.apache.camel.builder.SimpleBuilder;
- import org.apache.camel.builder.ValueBuilder;
+import net.kemitix.slushy.app.CardMover;
+import net.kemitix.slushy.app.Comments;
+import net.kemitix.slushy.app.RestedFilter;
+import net.kemitix.slushy.app.SlushyConfig;
+import net.kemitix.slushy.app.email.EmailService;
+import net.kemitix.slushy.app.templating.SlushyTemplate;
+import net.kemitix.slushy.app.trello.TrelloBoard;
+import org.apache.camel.builder.RouteBuilder;
 
- import javax.enterprise.context.ApplicationScoped;
- import javax.inject.Inject;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
- import static org.apache.camel.builder.Builder.bean;
+import static org.apache.camel.builder.Builder.bean;
 
 @ApplicationScoped
 public class InboxRoutes
