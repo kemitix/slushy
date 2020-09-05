@@ -3,9 +3,8 @@ package net.kemitix.slushy.app.badattachment;
 import net.kemitix.slushy.app.Comments;
 import net.kemitix.slushy.app.email.EmailService;
 import net.kemitix.slushy.app.SlushyConfig;
+import net.kemitix.slushy.app.templating.SlushyTemplate;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.builder.SimpleBuilder;
-import org.apache.camel.builder.ValueBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -19,7 +18,8 @@ public class InvalidAttachmentRoute
     @Inject SlushyConfig slushyConfig;
     @Inject EmailService emailService;
     @Inject Comments comments;
-    @Inject InvalidAttachmentEmailCreator emailCreator;
+    @Inject SlushyTemplate slushyTemplate;
+    @Inject BadAttachmentModelBuilder badAttachmentModelBuilder;
 
     @Override
     public void configure() {
@@ -27,11 +27,20 @@ public class InvalidAttachmentRoute
                 .routeId("Slushy.InvalidAttachment")
                 .log("Submission rejected due to an unsupported file type")
                 // send email to author
-                .setHeader("SlushyRecipient", submissionEmail())
+                .setHeader("SlushyRecipient").simple("${header.SlushySubmission.email}")
                 .setHeader("SlushySender", slushyConfig::getSender)
-                .setHeader("SlushySubject", subject())
-                .setHeader("SlushyBody", bodyText())
-                .setHeader("SlushyBodyHtml", bodyHtml())
+
+                .setHeader("SlushyTemplateModel", bean(badAttachmentModelBuilder))
+
+                .setHeader("SlushyTemplateName").simple("badattachment/subject.txt")
+                .setHeader("SlushySubject", bean(slushyTemplate))
+
+                .setHeader("SlushyTemplateName", simple("badattachment/body.txt"))
+                .setHeader("SlushyBody", bean(slushyTemplate))
+
+                .setHeader("SlushyTemplateName", simple("badattachment/body.html"))
+                .setHeader("SlushyBodyHtml", bean(slushyTemplate))
+
                 .bean(emailService,
                         "send(" +
                                 "${header.SlushyRecipient}, " +
@@ -48,22 +57,6 @@ public class InvalidAttachmentRoute
                 // move card to rejected
                 .to("direct:Slushy.Reject.MoveToRejected")
         ;
-    }
-
-    private SimpleBuilder submissionEmail() {
-        return simple("${header.SlushySubmission.email}");
-    }
-
-    private ValueBuilder bodyHtml() {
-        return bean(emailCreator, "bodyHtml(${body})");
-    }
-
-    private ValueBuilder bodyText() {
-        return bean(emailCreator, "bodyText(${body})");
-    }
-
-    private ValueBuilder subject() {
-        return bean(emailCreator, "subject(${body})");
     }
 
 }
