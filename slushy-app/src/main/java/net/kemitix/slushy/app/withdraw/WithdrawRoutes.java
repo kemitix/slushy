@@ -38,8 +38,8 @@ public class WithdrawRoutes
                 .routingSlip(header("SlushyRoutingSlip"))
         ;
 
-        from("direct:Slushy.Withdraw.SendEmailConfirmation")
-                .routeId("Slushy.Withdraw.SendEmailConfirmation")
+        from("direct:Slushy.Withdraw.SendEmail")
+                .routeId("Slushy.Withdraw.SendEmail")
                 .setHeader("SlushyRecipient", submissionEmail())
                 .setHeader("SlushySender", slushyConfig::getSender)
                 .setHeader("SlushySubject", subject())
