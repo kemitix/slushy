@@ -16,7 +16,7 @@ public class ArchiverRoutes
     @Inject ArchiverConfig archiverConfig;
     @Inject TrelloBoard trelloBoard;
     @Inject IsRequiredAge isRequiredAge;
-    @Inject Archiver archiver;
+    @Inject ArchiveCard archiveCard;
 
     @Override
     public void configure() {
@@ -32,10 +32,9 @@ public class ArchiverRoutes
                 .routingSlip(header("SlushyRoutingSlip"))
         ;
 
-        from("direct:Slushy.Archive")
-                .routeId("Slushy.Archive")
-                .setBody(header("SlushyCard"))
-                .bean(archiver)
+        from("direct:Slushy.ArchiveCard")
+                .routeId("Slushy.ArchiveCard")
+                .bean(archiveCard)
         ;
     }
 }
