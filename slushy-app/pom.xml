@@ -32,7 +32,6 @@
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-core</artifactId>
-            <version>${camel.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -71,8 +70,5 @@
         </dependency>
 
     </dependencies>
-    <properties>
-        <camel.version>3.4.3</camel.version>
-    </properties>
 
 </project>
