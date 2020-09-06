@@ -1,0 +1,1 @@
+Submission Rejected (file format): ${headers.SlushySubmission.title} by ${headers.SlushySubmission.byline}

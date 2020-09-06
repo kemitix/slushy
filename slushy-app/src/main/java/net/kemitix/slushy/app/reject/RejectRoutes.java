@@ -25,7 +25,6 @@ public class RejectRoutes
     @Inject TrelloBoard trelloBoard;
     @Inject CardMover cardMover;
     @Inject EmailService emailService;
-    @Inject SubmissionRejectedEmailCreator emailCreator;
     @Inject RestedFilter restedFilter;
     @Inject Comments comments;
 
@@ -44,11 +43,18 @@ public class RejectRoutes
 
         from("direct:Slushy.Reject.SendEmail")
                 .routeId("Slushy.Reject.SendEmail")
-                .setHeader("SlushyRecipient", submissionEmail())
+                .setHeader("SlushyRecipient").simple("${header.SlushySubmission.email}")
                 .setHeader("SlushySender", slushyConfig::getSender)
-                .setHeader("SlushySubject", subject())
-                .setHeader("SlushyBody", bodyText())
-                .setHeader("SlushyBodyHtml", bodyHtml())
+
+                .to("velocity:net/kemitix/slushy/app/reject/subject.txt")
+                .setHeader("SlushySubject").body()
+
+                .to("velocity:net/kemitix/slushy/app/reject/body.txt")
+                .setHeader("SlushyBody").body()
+
+                .to("velocity:net/kemitix/slushy/app/reject/body.html")
+                .setHeader("SlushyBodyHtml").body()
+
                 .bean(emailService, "send(" +
                         "${header.SlushyRecipient}, " +
                         "${header.SlushySender}, " +
@@ -75,25 +81,4 @@ public class RejectRoutes
 
     }
 
-    private SimpleBuilder submissionEmail() {
-        return simple("${header.SlushySubmission.email}");
-    }
-
-    private ValueBuilder bodyHtml() {
-        return bean(emailCreator, "bodyHtml(" +
-                "${header.SlushySubmission}" +
-                ")");
-    }
-
-    private ValueBuilder bodyText() {
-        return bean(emailCreator, "bodyText(" +
-                "${header.SlushySubmission}" +
-                ")");
-    }
-
-    private ValueBuilder subject() {
-        return bean(emailCreator, "subject(" +
-                "${header.SlushySubmission}" +
-                ")");
-    }
 }

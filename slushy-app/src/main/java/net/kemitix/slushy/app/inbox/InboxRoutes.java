@@ -1,14 +1,13 @@
- package net.kemitix.slushy.app.inbox;
+package net.kemitix.slushy.app.inbox;
 
 import net.kemitix.slushy.app.CardMover;
 import net.kemitix.slushy.app.Comments;
 import net.kemitix.slushy.app.RestedFilter;
 import net.kemitix.slushy.app.SlushyConfig;
+import net.kemitix.slushy.app.SubmissionParser;
 import net.kemitix.slushy.app.email.EmailService;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.builder.SimpleBuilder;
-import org.apache.camel.builder.ValueBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -26,7 +25,6 @@ public class InboxRoutes
     @Inject CardFormatter cardFormatter;
     @Inject CardMover cardMover;
     @Inject EmailService emailService;
-    @Inject SubmissionReceivedEmailCreator emailCreator;
     @Inject Comments comments;
     @Inject RestedFilter restedFilter;
 
@@ -45,8 +43,8 @@ public class InboxRoutes
                 .routingSlip(header("SlushyRoutingSlip"))
         ;
 
-        from("direct:Slushy.Parse")
-                .routeId("Slushy.Parse")
+        from("direct:Slushy.CardToSubmission")
+                .routeId("Slushy.CardToSubmission")
                 .setHeader("SlushyCard", body())
                 .bean(submissionParser)
                 .setHeader("SlushySubmission", body())
@@ -81,11 +79,16 @@ public class InboxRoutes
 
         from("direct:Slushy.Inbox.SendEmailConfirmation")
                 .routeId("Slushy.Inbox.SendEmailConfirmation")
-                .setHeader("SlushyRecipient", submissionEmail())
+
+                .setHeader("SlushyRecipient").simple(
+                        "${header.SlushySubmission.email}")
                 .setHeader("SlushySender", slushyConfig::getSender)
-                .setHeader("SlushySubject", subject())
-                .setHeader("SlushyBody", bodyText())
-                .setHeader("SlushyBodyHtml", bodyHtml())
+                .to("velocity:net/kemitix/slushy/app/inbox/subject.txt")
+                .setHeader("SlushySubject").body()
+                .to("velocity:net/kemitix/slushy/app/inbox/body.txt")
+                .setHeader("SlushyBody").body()
+                .to("velocity:net/kemitix/slushy/app/inbox/body.html")
+                .setHeader("SlushyBodyHtml").body()
                 .bean(emailService, "send(" +
                                 "${header.SlushyRecipient}, " +
                                 "${header.SlushySender}, " +
@@ -94,35 +97,14 @@ public class InboxRoutes
                                 "${header.SlushyBodyHtml}" +
                                 ")"
                         )
-                .setHeader("SlushyComment",
-                        () -> "Sent received notification to author")
+
+                .setHeader("SlushyComment").simple(
+                        "Sent received notification to author")
                 .bean(comments, "add(" +
                         "${header.SlushyCard}, " +
                         "${header.SlushyComment}" +
                         ")")
         ;
-    }
-
-    private SimpleBuilder submissionEmail() {
-        return simple("${header.SlushySubmission.email}");
-    }
-
-    private ValueBuilder bodyHtml() {
-        return bean(emailCreator, "bodyHtml(" +
-                "${header.SlushySubmission}" +
-                ")");
-    }
-
-    private ValueBuilder bodyText() {
-        return bean(emailCreator, "bodyText(" +
-                "${header.SlushySubmission}" +
-                ")");
-    }
-
-    private ValueBuilder subject() {
-        return bean(emailCreator, "subject(" +
-                "${header.SlushySubmission}" +
-                ")");
     }
 
 }

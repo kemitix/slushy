@@ -4,8 +4,6 @@ import net.kemitix.slushy.app.Comments;
 import net.kemitix.slushy.app.email.EmailService;
 import net.kemitix.slushy.app.SlushyConfig;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.builder.SimpleBuilder;
-import org.apache.camel.builder.ValueBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -19,8 +17,6 @@ public class MultiSubmissionRoute
     @Inject SlushyConfig slushyConfig;
     @Inject MultiSubmission multiSubmission;
     @Inject EmailService emailService;
-    @Inject MultiSubmissionSubjectCreator subjectCreator;
-    @Inject MultiSubmissionBodyCreator bodyCreator;
     @Inject Comments comments;
 
     @Override
@@ -30,6 +26,7 @@ public class MultiSubmissionRoute
                 .bean(multiSubmission, "test(${header.SlushySubmission})")
                 .choice()
                 .when(body().isNotNull())
+                .setHeader("SlushyRejection").body()
                 .to("direct:Slushy.MultiSubDetected")
                 .process(exchange -> exchange.setRouteStop(true))
                 .end()
@@ -39,11 +36,18 @@ public class MultiSubmissionRoute
                 .routeId("Slushy.MultiSubDetected")
                 .log("Submission rejected due to an existing submission")
                 // send email to author
-                .setHeader("SlushyRecipient", submissionEmail())
+                .setHeader("SlushyRecipient").simple("${header.SlushySubmission.email}")
                 .setHeader("SlushySender", slushyConfig::getSender)
-                .setHeader("SlushySubject", subject())
-                .setHeader("SlushyBody", bodyText())
-                .setHeader("SlushyBodyHtml", bodyHtml())
+
+                .to("velocity:net/kemitix/slushy/app/multisub/subject.txt")
+                .setHeader("SlushySubject").body()
+
+                .to("velocity:net/kemitix/slushy/app/multisub/body.txt")
+                .setHeader("SlushyBody").body()
+
+                .to("velocity:net/kemitix/slushy/app/multisub/body.html")
+                .setHeader("SlushyBodyHtml").body()
+
                 .bean(emailService,
                         "send(" +
                                 "${header.SlushyRecipient}, " +
@@ -51,31 +55,17 @@ public class MultiSubmissionRoute
                                 "${header.SlushySubject}, " +
                                 "${header.SlushyBody}, " +
                                 "${header.SlushyBodyHtml})")
-                .setHeader("SlushyComment",
-                        () -> "Sent multi-submission rejection notification to author")
+
+                .setHeader("SlushyComment").simple(
+                        "Sent multi-submission rejection notification to author")
                 .bean(comments, "add(" +
                         "${header.SlushyCard}, " +
                         "${header.SlushyComment}" +
                         ")")
+
                 // move card to rejected
-                .to("direct:Slushy.Reject.MoveToRejected")
+                .to("direct:Slushy.Reject.MoveToTargetList")
         ;
-    }
-
-    private SimpleBuilder submissionEmail() {
-        return simple("${header.SlushySubmission.email}");
-    }
-
-    private ValueBuilder bodyHtml() {
-        return bean(bodyCreator, "bodyHtml(${body})");
-    }
-
-    private ValueBuilder bodyText() {
-        return bean(bodyCreator, "bodyText(${body})");
-    }
-
-    private ValueBuilder subject() {
-        return bean(subjectCreator, "subject(${body})");
     }
 
 }

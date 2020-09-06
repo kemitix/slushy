@@ -22,7 +22,6 @@ public class WithdrawRoutes
     @Inject WithdrawConfig withdrawConfig;
     @Inject TrelloBoard trelloBoard;
     @Inject RestedFilter restedFilter;
-    @Inject WithdrawnEmailCreator emailCreator;
     @Inject EmailService emailService;
     @Inject Comments comments;
 
@@ -43,11 +42,18 @@ public class WithdrawRoutes
 
         from("direct:Slushy.Withdraw.SendEmail")
                 .routeId("Slushy.Withdraw.SendEmail")
-                .setHeader("SlushyRecipient", submissionEmail())
+                .setHeader("SlushyRecipient").simple("${header.SlushySubmission.email}")
                 .setHeader("SlushySender", slushyConfig::getSender)
-                .setHeader("SlushySubject", subject())
-                .setHeader("SlushyBody", bodyText())
-                .setHeader("SlushyBodyHtml", bodyHtml())
+
+                .to("velocity:net/kemitix/slushy/app/withdraw/subject.txt")
+                .setHeader("SlushySubject").body()
+
+                .to("velocity:net/kemitix/slushy/app/withdraw/body.txt")
+                .setHeader("SlushyBody").body()
+
+                .to("velocity:net/kemitix/slushy/app/withdraw/body.html")
+                .setHeader("SlushyBodyHtml").body()
+
                 .bean(emailService, "send(" +
                         "${header.SlushyRecipient}, " +
                         "${header.SlushySender}, " +
@@ -64,29 +70,6 @@ public class WithdrawRoutes
                         "${header.SlushyComment}" +
                         ")")
         ;
-    }
-
-
-    private SimpleBuilder submissionEmail() {
-        return simple("${header.SlushySubmission.email}");
-    }
-
-    private ValueBuilder bodyHtml() {
-        return bean(emailCreator, "bodyHtml(" +
-                "${header.SlushySubmission}" +
-                ")");
-    }
-
-    private ValueBuilder bodyText() {
-        return bean(emailCreator, "bodyText(" +
-                "${header.SlushySubmission}" +
-                ")");
-    }
-
-    private ValueBuilder subject() {
-        return bean(emailCreator, "subject(" +
-                "${header.SlushySubmission}" +
-                ")");
     }
 
 }

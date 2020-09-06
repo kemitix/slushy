@@ -33,6 +33,7 @@
         <trello-java-wrapper.version>0.14</trello-java-wrapper.version>
         <odftoolkit.version>1.0.6</odftoolkit.version>
         <rtf-to-html.version>1.0.1</rtf-to-html.version>
+        <freemarker.version>2.3.30</freemarker.version>
     </properties>
 
     <dependencyManagement>
@@ -65,6 +66,12 @@
                         <artifactId>xml-apis</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.freemarker</groupId>
+                <artifactId>freemarker</artifactId>
+                <version>${freemarker.version}</version>
             </dependency>
 
             <dependency>

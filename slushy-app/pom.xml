@@ -50,6 +50,10 @@
             <artifactId>org.odftoolkit.odfdom.converter.xhtml</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.github.bbottema</groupId>
             <artifactId>rtf-to-html</artifactId>
         </dependency>

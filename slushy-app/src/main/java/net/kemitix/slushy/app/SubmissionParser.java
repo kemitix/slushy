@@ -1,4 +1,4 @@
-package net.kemitix.slushy.app.inbox;
+package net.kemitix.slushy.app;
 
 import com.julienvey.trello.domain.Attachment;
 import com.julienvey.trello.domain.Card;

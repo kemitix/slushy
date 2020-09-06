@@ -7,7 +7,6 @@ import net.kemitix.slushy.app.email.EmailService;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 import net.kemitix.slushy.app.SlushyConfig;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.builder.SimpleBuilder;
 import org.apache.camel.builder.ValueBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -24,7 +23,6 @@ public class HoldRoutes
     @Inject TrelloBoard trelloBoard;
     @Inject CardMover cardMover;
     @Inject EmailService emailService;
-    @Inject SubmissionHoldEmailCreator emailCreator;
     @Inject RestedFilter restedFilter;
     @Inject Comments comments;
 
@@ -42,11 +40,18 @@ public class HoldRoutes
 
         from("direct:Slushy.Hold.SendEmail")
                 .routeId("Slushy.Hold.SendEmail")
-                .setHeader("SlushyRecipient", submissionEmail())
+                .setHeader("SlushyRecipient").simple("${header.SlushySubmission.email}")
                 .setHeader("SlushySender", slushyConfig::getSender)
-                .setHeader("SlushySubject", subject())
-                .setHeader("SlushyBody", bodyText())
-                .setHeader("SlushyBodyHtml", bodyHtml())
+
+                .to("velocity:net/kemitix/slushy/app/hold/subject.txt")
+                .setHeader("SlushySubject").body()
+
+                .to("velocity:net/kemitix/slushy/app/hold/body.txt")
+                .setHeader("SlushyBody").body()
+
+                .to("velocity:net/kemitix/slushy/app/hold/body.html")
+                .setHeader("SlushyBodyHtml").body()
+
                 .bean(emailService, "send(" +
                         "${header.SlushyRecipient}, " +
                         "${header.SlushySender}, " +
@@ -54,8 +59,9 @@ public class HoldRoutes
                         "${header.SlushyBody}, " +
                         "${header.SlushyBodyHtml}" +
                         ")")
-                .setHeader("SlushyComment",
-                        () -> "Sent held notification to author")
+
+                .setHeader("SlushyComment").simple(
+                        "Sent held notification to author")
                 .bean(comments, "add(" +
                         "${header.SlushyCard}, " +
                         "${header.SlushyComment}" +
@@ -73,25 +79,4 @@ public class HoldRoutes
 
     }
 
-    private SimpleBuilder submissionEmail() {
-        return simple("${header.SlushySubmission.email}");
-    }
-
-    private ValueBuilder bodyHtml() {
-        return bean(emailCreator, "bodyHtml(" +
-                "${header.SlushySubmission}" +
-                ")");
-    }
-
-    private ValueBuilder bodyText() {
-        return bean(emailCreator, "bodyText(" +
-                "${header.SlushySubmission}" +
-                ")");
-    }
-
-    private ValueBuilder subject() {
-        return bean(emailCreator, "subject(" +
-                "${header.SlushySubmission}" +
-                ")");
-    }
 }

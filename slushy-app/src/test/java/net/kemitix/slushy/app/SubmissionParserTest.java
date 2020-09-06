@@ -1,8 +1,7 @@
-package net.kemitix.slushy.app.inbox;
+package net.kemitix.slushy.app;
 
 import com.julienvey.trello.domain.Attachment;
 import com.julienvey.trello.domain.Card;
-import net.kemitix.slushy.app.*;
 import net.kemitix.slushy.app.fileconversion.AttachmentConverter;
 import net.kemitix.slushy.app.fileconversion.ConversionService;
 import net.kemitix.slushy.app.trello.TrelloBoard;
