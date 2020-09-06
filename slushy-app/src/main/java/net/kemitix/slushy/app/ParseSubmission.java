@@ -2,8 +2,11 @@ package net.kemitix.slushy.app;
 
 import com.julienvey.trello.domain.Attachment;
 import com.julienvey.trello.domain.Card;
+import lombok.NonNull;
 import net.kemitix.slushy.app.*;
 import net.kemitix.slushy.app.trello.TrelloBoard;
+import org.apache.camel.Handler;
+import org.apache.camel.Header;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -15,7 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @ApplicationScoped
-public class SubmissionParser {
+public class ParseSubmission {
 
     private static final Pattern HEADING =
             Pattern.compile("^\\*\\*(?<heading>.*?):\\*\\*$",
@@ -25,7 +28,10 @@ public class SubmissionParser {
     @Inject TrelloBoard trelloBoard;
     @Inject ValidFileTypes validFileTypes;
 
-    public Submission parse(Card card) {
+    @Handler
+    public Submission parse(
+            @NonNull @Header("SlushyCard") Card card
+    ) {
         Map<String, String> body = parseBody(card);
         return Submission.builder()
                 .title(body.get("storytitle"))

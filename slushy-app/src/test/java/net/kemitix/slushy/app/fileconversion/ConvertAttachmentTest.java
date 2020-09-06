@@ -18,16 +18,16 @@ import java.util.stream.Stream;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
-public class ConversionServiceTest
+public class ConvertAttachmentTest
         implements WithAssertions {
 
     private final Instance<AttachmentConverter> converters;
     private final LocalAttachment attachment;
     private final AttachmentDirectory attachmentDirectory;
 
-    private ConversionService service;
+    private ConvertAttachment service;
 
-    public ConversionServiceTest(
+    public ConvertAttachmentTest(
             @Mock Instance<AttachmentConverter> converters,
             @Mock LocalAttachment attachment,
             @Mock AttachmentDirectory attachmentDirectory
@@ -39,7 +39,7 @@ public class ConversionServiceTest
 
     @BeforeEach
     public void setUp() {
-        service = new ConversionService(converters, attachmentDirectory);
+        service = new ConvertAttachment(converters, attachmentDirectory);
     }
 
     @Test

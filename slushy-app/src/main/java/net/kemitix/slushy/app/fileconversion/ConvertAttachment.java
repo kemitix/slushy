@@ -3,6 +3,7 @@ package net.kemitix.slushy.app.fileconversion;
 import lombok.extern.java.Log;
 import net.kemitix.slushy.app.AttachmentDirectory;
 import net.kemitix.slushy.app.LocalAttachment;
+import org.apache.camel.Handler;
 import org.apache.camel.Header;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -13,13 +14,13 @@ import java.util.Optional;
 
 @Log
 @ApplicationScoped
-public class ConversionService {
+public class ConvertAttachment {
 
     private final Instance<AttachmentConverter> attachmentConverters;
     private final AttachmentDirectory attachmentDirectory;
 
     @Inject
-    public ConversionService(
+    public ConvertAttachment(
             Instance<AttachmentConverter> attachmentConverters,
             AttachmentDirectory attachmentDirectory
     ) {
@@ -27,6 +28,7 @@ public class ConversionService {
         this.attachmentDirectory = attachmentDirectory;
     }
 
+    @Handler
     public LocalAttachment convert(
             @Header("SlushyAttachment") LocalAttachment attachment
     ) {

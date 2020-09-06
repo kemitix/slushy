@@ -79,14 +79,14 @@ public class TrelloBoard {
         return trello.getCardAttachments(card.getId());
     }
 
-    public Card addMemberToCard(Card card, Member member) {
+    public SlushyCard addMemberToCard(SlushyCard card, Member member) {
         var members = trello.addMemberToCard(card.getId(), member.getId());
         card.setIdMembers(map(members, Member::getId));
         trello.updateCard(card);
         return card;
     }
 
-    public Card removeMemberFromCard(Card card, Member member) {
+    public SlushyCard removeMemberFromCard(SlushyCard card, Member member) {
         var members = trello.removeMemberFromCard(card.getId(), member.getId());
         card.setIdMembers(map(members, Member::getId));
         trello.updateCard(card);

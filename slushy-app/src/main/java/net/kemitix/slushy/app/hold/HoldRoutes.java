@@ -1,13 +1,12 @@
 package net.kemitix.slushy.app.hold;
 
-import net.kemitix.slushy.app.CardMover;
-import net.kemitix.slushy.app.Comments;
-import net.kemitix.slushy.app.RestedFilter;
-import net.kemitix.slushy.app.email.EmailService;
-import net.kemitix.slushy.app.trello.TrelloBoard;
+import net.kemitix.slushy.app.MoveCard;
+import net.kemitix.slushy.app.AddComment;
+import net.kemitix.slushy.app.IsRequiredAge;
 import net.kemitix.slushy.app.SlushyConfig;
+import net.kemitix.slushy.app.email.SendEmail;
+import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.builder.ValueBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -21,10 +20,10 @@ public class HoldRoutes
     @Inject SlushyConfig slushyConfig;
     @Inject HoldConfig holdConfig;
     @Inject TrelloBoard trelloBoard;
-    @Inject CardMover cardMover;
-    @Inject EmailService emailService;
-    @Inject RestedFilter restedFilter;
-    @Inject Comments comments;
+    @Inject MoveCard moveCard;
+    @Inject SendEmail sendEmail;
+    @Inject IsRequiredAge isRequiredAge;
+    @Inject AddComment addComment;
 
     @Override
     public void configure() {
@@ -33,7 +32,7 @@ public class HoldRoutes
                 .setBody(exchange -> trelloBoard.getListCards(holdConfig.getSourceList()))
                 .split(body())
                 .setHeader("SlushyRequiredAge", holdConfig::getRequiredAgeHours)
-                .filter(bean(restedFilter, "isRested(${body}, ${header.SlushyRequiredAge})"))
+                .filter(bean(isRequiredAge))
                 .setHeader("SlushyRoutingSlip", holdConfig::getRoutingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))
         ;
@@ -42,39 +41,23 @@ public class HoldRoutes
                 .routeId("Slushy.Hold.SendEmail")
                 .setHeader("SlushyRecipient").simple("${header.SlushySubmission.email}")
                 .setHeader("SlushySender", slushyConfig::getSender)
-
                 .to("velocity:net/kemitix/slushy/app/hold/subject.txt")
                 .setHeader("SlushySubject").body()
-
                 .to("velocity:net/kemitix/slushy/app/hold/body.txt")
                 .setHeader("SlushyBody").body()
-
                 .to("velocity:net/kemitix/slushy/app/hold/body.html")
                 .setHeader("SlushyBodyHtml").body()
-
-                .bean(emailService, "send(" +
-                        "${header.SlushyRecipient}, " +
-                        "${header.SlushySender}, " +
-                        "${header.SlushySubject}, " +
-                        "${header.SlushyBody}, " +
-                        "${header.SlushyBodyHtml}" +
-                        ")")
+                .bean(sendEmail)
 
                 .setHeader("SlushyComment").simple(
                         "Sent held notification to author")
-                .bean(comments, "add(" +
-                        "${header.SlushyCard}, " +
-                        "${header.SlushyComment}" +
-                        ")")
+                .bean(addComment)
         ;
 
         from("direct:Slushy.Hold.MoveToTargetList")
                 .routeId("Slushy.Hold.MoveToTargetList")
                 .setHeader("SlushyTargetList", holdConfig::getTargetList)
-                .bean(cardMover, "move(" +
-                        "${header.SlushyCard}, " +
-                        "${header.SlushyTargetList}" +
-                        ")")
+                .bean(moveCard)
         ;
 
     }

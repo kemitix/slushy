@@ -1,7 +1,7 @@
 package net.kemitix.slushy.app;
 
 import net.kemitix.slushy.app.fileconversion.AttachmentConverter;
-import net.kemitix.slushy.app.fileconversion.ConversionService;
+import net.kemitix.slushy.app.fileconversion.ConvertAttachment;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +20,8 @@ import static org.mockito.BDDMockito.given;
 public class ValidFileTypesTest
         implements WithAssertions {
 
-    @Mock ConversionService conversionService;
+    @Mock
+    ConvertAttachment convertAttachment;
 
     ValidFileTypes validFileTypes;
 
@@ -29,7 +30,7 @@ public class ValidFileTypesTest
 
     @BeforeEach
     public void setUp() {
-        validFileTypes = new ValidFileTypes(conversionService, attachmentConverters);
+        validFileTypes = new ValidFileTypes(convertAttachment, attachmentConverters);
     }
 
     @Test

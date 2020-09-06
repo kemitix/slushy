@@ -5,37 +5,30 @@ import org.apache.camel.builder.RouteBuilder;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import static org.apache.camel.builder.Builder.bean;
-
 @ApplicationScoped
 public class DueDateRoutes
         extends RouteBuilder {
 
-    @Inject DueDates dueDates;
+    @Inject SetDueInDays setDueInDays;
+    @Inject MarkCompleted markCompleted;
 
     @Override
     public void configure() {
         from("direct:Slushy.DueIn30Days")
                 .routeId("Slushy.DueIn30Days")
-                .setHeader("SlushyDue",
-                        bean(dueDates, "nowPlusDays(30)"))
-                .setHeader("SlushyCard",
-                        bean(dueDates,
-                                "setDueDate(${header.SlushyCard}, ${header.SlushyDue})"))
+                .setHeader("SlushyDueInDays").simple("30")
+                .bean(setDueInDays)
         ;
 
         from("direct:Slushy.DueIn60Days")
                 .routeId("Slushy.DueIn60Days")
-                .setHeader("SlushyDue",
-                        bean(dueDates, "nowPlusDays(60)"))
-                .setHeader("SlushyCard",
-                        bean(dueDates,
-                                "setDueDate(${header.SlushyCard}, ${header.SlushyDue})"))
+                .setHeader("SlushyDueInDays").simple("60")
+                .bean(setDueInDays)
         ;
 
         from("direct:Slushy.DueCompleted")
                 .routeId("Slushy.DueCompleted")
-                .bean(dueDates, "completed(${header.SlushyCard})")
+                .bean(markCompleted)
         ;
     }
 

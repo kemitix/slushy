@@ -5,8 +5,6 @@ import org.apache.camel.builder.RouteBuilder;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import static org.apache.camel.builder.Builder.bean;
-
 @ApplicationScoped
 public class RemoveMemberRoute
         extends RouteBuilder {
@@ -17,9 +15,7 @@ public class RemoveMemberRoute
     public void configure() {
         from("direct:Slushy.RemoveMember")
                 .routeId("Slushy.RemoveMember")
-                .setHeader("SlushyCard",
-                        bean(removeMember,
-                                "removeFromCard(${header.SlushyCard})"))
+                .setHeader("SlushyCard").method(removeMember)
         ;
     }
 

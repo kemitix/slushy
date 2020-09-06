@@ -3,7 +3,7 @@ package net.kemitix.slushy.app;
 import com.julienvey.trello.domain.Attachment;
 import com.julienvey.trello.domain.Card;
 import net.kemitix.slushy.app.fileconversion.AttachmentConverter;
-import net.kemitix.slushy.app.fileconversion.ConversionService;
+import net.kemitix.slushy.app.fileconversion.ConvertAttachment;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,10 +29,10 @@ import java.util.stream.Stream;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
-public class SubmissionParserTest
+public class ParseSubmissionTest
         implements WithAssertions {
 
-    private final SubmissionParser submissionParser = new SubmissionParser();
+    private final ParseSubmission parseSubmission = new ParseSubmission();
 
     private final Now now = () -> Instant.ofEpochSecond(123456789);
     private ValidFileTypes validFileTypes;
@@ -40,16 +40,17 @@ public class SubmissionParserTest
     @Mock
     TrelloBoard trelloBoard;
 
-    @Mock ConversionService conversionService;
+    @Mock
+    ConvertAttachment convertAttachment;
     @Mock Instance<AttachmentConverter> attachmentConverters;
     @Mock AttachmentConverter attachmentConverter;
 
     @BeforeEach
     public void setUp() {
-        submissionParser.now = now;
-        submissionParser.trelloBoard = trelloBoard;
-        validFileTypes = new ValidFileTypes(conversionService, attachmentConverters);
-        submissionParser.validFileTypes = validFileTypes;
+        parseSubmission.now = now;
+        parseSubmission.trelloBoard = trelloBoard;
+        validFileTypes = new ValidFileTypes(convertAttachment, attachmentConverters);
+        parseSubmission.validFileTypes = validFileTypes;
         given(attachmentConverters.stream())
                 .willReturn(Stream.of(attachmentConverter));
         given(attachmentConverter.canConvertFrom())
@@ -78,70 +79,70 @@ public class SubmissionParserTest
         @Test
         @DisplayName("Parse Story Title")
         public void parseStoryTitle() {
-            assertThat(submissionParser.parse(card).getTitle())
+            assertThat(parseSubmission.parse(card).getTitle())
                     .isEqualTo("TEST Story Title");
         }
 
         @Test
         @DisplayName("Parse Byline")
         public void parseByline() {
-            assertThat(submissionParser.parse(card).getByline())
+            assertThat(parseSubmission.parse(card).getByline())
                     .isEqualTo("TEST Author ByLine");
         }
 
         @Test
         @DisplayName("Parse Real Name")
         public void parseRealName() {
-            assertThat(submissionParser.parse(card).getRealName())
+            assertThat(parseSubmission.parse(card).getRealName())
                     .isEqualTo("TEST Author Name");
         }
 
         @Test
         @DisplayName("Parse Email")
         public void parseEmail() {
-            assertThat(submissionParser.parse(card).getEmail())
+            assertThat(parseSubmission.parse(card).getEmail())
                     .isEqualTo("email@example.com");
         }
 
         @Test
         @DisplayName("Parse Paypal")
         public void parsePaypal() {
-            assertThat(submissionParser.parse(card).getPaypal())
+            assertThat(parseSubmission.parse(card).getPaypal())
                     .isEqualTo("paypal@example.com");
         }
 
         @Test
         @DisplayName("Parse Word Length")
         public void parseWordLength() {
-            assertThat(submissionParser.parse(card).getWordLengthBand())
+            assertThat(parseSubmission.parse(card).getWordLengthBand())
                     .isEqualTo(WordLengthBand.WORDS_3001_5000);
         }
 
         @Test
         @DisplayName("Parse Cover Letter")
         public void parseCoverLetter() {
-            assertThat(submissionParser.parse(card).getCoverLetter())
+            assertThat(parseSubmission.parse(card).getCoverLetter())
                     .isEqualTo("TEST Cover Letter\n\nMore info.");
         }
 
         @Test
         @DisplayName("Parse Contract")
         public void parseContract() {
-            assertThat(submissionParser.parse(card).getContract())
+            assertThat(parseSubmission.parse(card).getContract())
                     .isEqualTo(Contract.ORIGINAL);
         }
 
         @Test
         @DisplayName("Parse Submitted Date")
         public void parseSubmittedDate() {
-            assertThat(submissionParser.parse(card).getDate())
+            assertThat(parseSubmission.parse(card).getDate())
                     .isEqualTo(Instant.ofEpochSecond(123456789));
         }
 
         @Test
         @DisplayName("Attachment")
         public void attachment() {
-            assertThat(submissionParser.parse(card).getDocument())
+            assertThat(parseSubmission.parse(card).getDocument())
                     .isEqualTo(documentUrl);
         }
 
@@ -166,7 +167,7 @@ public class SubmissionParserTest
             documentUrl = "document." + type;
             given(trelloBoard.getAttachments(card))
                     .willReturn(List.of(new Attachment(documentUrl)));
-            assertThat(submissionParser.parse(card).getDocument())
+            assertThat(parseSubmission.parse(card).getDocument())
                     .isEqualTo(documentUrl);
         }
 
@@ -177,7 +178,7 @@ public class SubmissionParserTest
             documentUrl = "document." + type;
             given(trelloBoard.getAttachments(card))
                     .willReturn(List.of(new Attachment(documentUrl)));
-            assertThat(submissionParser.parse(card).getDocument())
+            assertThat(parseSubmission.parse(card).getDocument())
                     .isEqualTo(documentUrl);
         }
 
@@ -187,7 +188,7 @@ public class SubmissionParserTest
             documentUrl = "document.JPG";
             given(trelloBoard.getAttachments(card))
                     .willReturn(List.of(new Attachment(documentUrl)));
-            assertThat(submissionParser.parse(card).getDocument())
+            assertThat(parseSubmission.parse(card).getDocument())
                     .isNull();
         }
     }

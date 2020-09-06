@@ -1,11 +1,11 @@
 package net.kemitix.slushy.app.inbox;
 
-import net.kemitix.slushy.app.CardMover;
-import net.kemitix.slushy.app.Comments;
-import net.kemitix.slushy.app.RestedFilter;
+import net.kemitix.slushy.app.MoveCard;
+import net.kemitix.slushy.app.AddComment;
+import net.kemitix.slushy.app.IsRequiredAge;
 import net.kemitix.slushy.app.SlushyConfig;
-import net.kemitix.slushy.app.SubmissionParser;
-import net.kemitix.slushy.app.email.EmailService;
+import net.kemitix.slushy.app.ParseSubmission;
+import net.kemitix.slushy.app.email.SendEmail;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.apache.camel.builder.RouteBuilder;
 
@@ -21,12 +21,12 @@ public class InboxRoutes
     @Inject SlushyConfig slushyConfig;
     @Inject InboxConfig inboxConfig;
     @Inject TrelloBoard trelloBoard;
-    @Inject SubmissionParser submissionParser;
-    @Inject CardFormatter cardFormatter;
-    @Inject CardMover cardMover;
-    @Inject EmailService emailService;
-    @Inject Comments comments;
-    @Inject RestedFilter restedFilter;
+    @Inject ParseSubmission parseSubmission;
+    @Inject ReformatCard reformatCard;
+    @Inject MoveCard moveCard;
+    @Inject SendEmail sendEmail;
+    @Inject AddComment addComment;
+    @Inject IsRequiredAge isRequiredAge;
 
     @Override
     public void configure() {
@@ -37,7 +37,7 @@ public class InboxRoutes
                 .split(body())
 
                 .setHeader("SlushyRequiredAge", inboxConfig::getRequiredAgeHours)
-                .filter(bean(restedFilter, "isRested(${body}, ${header.SlushyRequiredAge})"))
+                .filter(bean(isRequiredAge))
 
                 .setHeader("SlushyRoutingSlip", inboxConfig::getRoutingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))
@@ -46,7 +46,7 @@ public class InboxRoutes
         from("direct:Slushy.CardToSubmission")
                 .routeId("Slushy.CardToSubmission")
                 .setHeader("SlushyCard", body())
-                .bean(submissionParser)
+                .bean(parseSubmission)
                 .setHeader("SlushySubmission", body())
         ;
 
@@ -60,21 +60,15 @@ public class InboxRoutes
                 .end()
         ;
 
-        from("direct:Slushy.Reformat")
-                .routeId("Slushy.Reformat")
-                .bean(cardFormatter, "reformat(" +
-                        "${header.SlushySubmission}, " +
-                        "${header.SlushyCard}" +
-                        ")")
+        from("direct:Slushy.ReformatCard")
+                .routeId("Slushy.ReformatCard")
+                .bean(reformatCard)
         ;
 
         from("direct:Slushy.Inbox.MoveToTargetList")
                 .routeId("Slushy.Inbox.MoveToTargetList")
                 .setHeader("SlushyTargetList", inboxConfig::getTargetList)
-                .bean(cardMover, "move(" +
-                        "${header.SlushyCard}, " +
-                        "${header.SlushyTargetList}" +
-                        ")")
+                .bean(moveCard)
         ;
 
         from("direct:Slushy.Inbox.SendEmailConfirmation")
@@ -89,21 +83,11 @@ public class InboxRoutes
                 .setHeader("SlushyBody").body()
                 .to("velocity:net/kemitix/slushy/app/inbox/body.html")
                 .setHeader("SlushyBodyHtml").body()
-                .bean(emailService, "send(" +
-                                "${header.SlushyRecipient}, " +
-                                "${header.SlushySender}, " +
-                                "${header.SlushySubject}, " +
-                                "${header.SlushyBody}, " +
-                                "${header.SlushyBodyHtml}" +
-                                ")"
-                        )
+                .bean(sendEmail)
 
                 .setHeader("SlushyComment").simple(
                         "Sent received notification to author")
-                .bean(comments, "add(" +
-                        "${header.SlushyCard}, " +
-                        "${header.SlushyComment}" +
-                        ")")
+                .bean(addComment)
         ;
     }
 

@@ -1,7 +1,11 @@
 package net.kemitix.slushy.app;
 
 import com.julienvey.trello.domain.Card;
+import lombok.NonNull;
 import lombok.extern.java.Log;
+import org.apache.camel.Body;
+import org.apache.camel.Handler;
+import org.apache.camel.Header;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -11,11 +15,15 @@ import java.time.temporal.ChronoUnit;
 
 @Log
 @ApplicationScoped
-public class RestedFilter {
+public class IsRequiredAge {
 
     @Inject Now now;
 
-    boolean isRested(Card card, int requiredAgeHours) {
+    @Handler
+    boolean isRested(
+            @NonNull @Body SlushyCard card,
+            @NonNull @Header("SlushyRequiredAge") int requiredAgeHours
+    ) {
         Instant requiredAge = now.get()
                 .minus(requiredAgeHours, ChronoUnit.HOURS);
         Instant dateLastActivity = card.getDateLastActivity().toInstant();

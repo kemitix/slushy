@@ -1,9 +1,6 @@
 package net.kemitix.slushy.app.archiver;
 
-import lombok.extern.java.Log;
-import net.kemitix.slushy.app.Comments;
-import net.kemitix.slushy.app.RestedFilter;
-import net.kemitix.slushy.app.SlushyCard;
+import net.kemitix.slushy.app.IsRequiredAge;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.apache.camel.builder.RouteBuilder;
 
@@ -18,8 +15,8 @@ public class ArchiverRoutes
 
     @Inject ArchiverConfig archiverConfig;
     @Inject TrelloBoard trelloBoard;
-    @Inject RestedFilter restedFilter;
-    @Inject Archiver archiver;
+    @Inject IsRequiredAge isRequiredAge;
+    @Inject ArchiveCard archiveCard;
 
     @Override
     public void configure() {
@@ -29,16 +26,15 @@ public class ArchiverRoutes
                 .split(body())
 
                 .setHeader("SlushyRequiredAge", archiverConfig::getRequiredAgeHours)
-                .filter(bean(restedFilter, "isRested(${body}, ${header.SlushyRequiredAge})"))
+                .filter(bean(isRequiredAge))
 
                 .setHeader("SlushyRoutingSlip", archiverConfig::getRoutingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))
         ;
 
-        from("direct:Slushy.Archive")
-                .routeId("Slushy.Archive")
-                .setBody(header("SlushyCard"))
-                .bean(archiver)
+        from("direct:Slushy.ArchiveCard")
+                .routeId("Slushy.ArchiveCard")
+                .bean(archiveCard)
         ;
     }
 }

@@ -1,10 +1,10 @@
 package net.kemitix.slushy.app.reader;
 
 import net.kemitix.slushy.app.AttachmentLoader;
-import net.kemitix.slushy.app.CardMover;
-import net.kemitix.slushy.app.Comments;
+import net.kemitix.slushy.app.MoveCard;
+import net.kemitix.slushy.app.AddComment;
 import net.kemitix.slushy.app.SlushyConfig;
-import net.kemitix.slushy.app.email.EmailService;
+import net.kemitix.slushy.app.email.SendEmailAttachment;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.apache.camel.builder.RouteBuilder;
 
@@ -20,10 +20,10 @@ public class ReaderRoutes
     @Inject SlushyConfig slushyConfig;
     @Inject ReaderConfig readerConfig;
     @Inject TrelloBoard trelloBoard;
-    @Inject CardMover cardMover;
+    @Inject MoveCard moveCard;
     @Inject AttachmentLoader attachmentLoader;
-    @Inject EmailService emailService;
-    @Inject Comments comments;
+    @Inject SendEmailAttachment sendEmailAttachment;
+    @Inject AddComment addComment;
 
     @Override
     public void configure() {
@@ -47,28 +47,18 @@ public class ReaderRoutes
                 .setHeader("SlushyRecipient", slushyConfig::getReader)
                 .setHeader("SlushySender", slushyConfig::getSender)
                 .setHeader("SlushySubject", simple("Reader: ${header.SlushyCard.name}"))
-                .bean(emailService, "sendAttachmentOnly(" +
-                        "${header.SlushyRecipient}, " +
-                        "${header.SlushySender}, " +
-                        "${header.SlushySubject}, " +
-                        "${header.SlushyReadableAttachment}" +
-                        ")")
+                .bean(sendEmailAttachment)
 
-                .setHeader("SlushyComment", () -> "Sent attachment to reader")
-                .bean(comments, "add(" +
-                        "${header.SlushyCard}, " +
-                        "${header.SlushyComment}" +
-                        ")")
+                .setHeader("SlushyComment").simple(
+                        "Sent attachment to reader")
+                .bean(addComment)
         ;
 
 
         from("direct:Slushy.Reader.MoveToTargetList")
                 .routeId("Slushy.Reader.MoveToTargetList")
                 .setHeader("SlushyTargetList", readerConfig::getTargetList)
-                .bean(cardMover, "move(" +
-                        "${header.SlushyCard}, " +
-                        "${header.SlushyTargetList}" +
-                        ")")
+                .bean(moveCard)
         ;
     }
 

@@ -1,7 +1,7 @@
 package net.kemitix.slushy.app;
 
 import net.kemitix.slushy.app.fileconversion.AttachmentConverter;
-import net.kemitix.slushy.app.fileconversion.ConversionService;
+import net.kemitix.slushy.app.fileconversion.ConvertAttachment;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
@@ -24,15 +24,15 @@ public class ValidFileTypes {
             "html", "htm"
     );
 
-    private final ConversionService conversionService;
+    private final ConvertAttachment convertAttachment;
     private final Instance<AttachmentConverter> attachmentConverters;
 
     @Inject
     public ValidFileTypes(
-            ConversionService conversionService,
+            ConvertAttachment convertAttachment,
             Instance<AttachmentConverter> attachmentConverters
     ) {
-        this.conversionService = conversionService;
+        this.convertAttachment = convertAttachment;
         this.attachmentConverters = attachmentConverters;
     }
 
