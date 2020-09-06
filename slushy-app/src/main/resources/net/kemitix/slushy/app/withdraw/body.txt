@@ -1,0 +1,12 @@
+Dear ${headers.SlushySubmission.byline},
+
+Thank you for submitting your story, "${headers.SlushySubmission.title} by
+ ${headers.SlushySubmission.byline}".
+
+We have withdrawn your story as requested.
+
+I hope you will consider submitting to us again. (https://www.cossmass.com/submit/)
+
+Yours,
+Paul Campbell - Editor
+Cossmass Infinities - https://www.cossmass.com/
