@@ -1,7 +1,7 @@
 package net.kemitix.slushy.app.multisub;
 
 import net.kemitix.slushy.app.Submission;
-import net.kemitix.slushy.app.SubmissionParser;
+import net.kemitix.slushy.app.ParseSubmission;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -13,9 +13,9 @@ import java.util.function.Function;
 @ApplicationScoped
 public class MultiSubmission {
 
-    @Inject TrelloBoard trelloBoard;
-    @Inject SubmissionParser parser;
     @Inject MultiSubConfig multiSubConfig;
+    @Inject TrelloBoard trelloBoard;
+    @Inject ParseSubmission parseSubmission;
 
     // if email or paypal in any of slush, reject, hold, held
     RejectedMultipleSubmission test(
@@ -26,7 +26,7 @@ public class MultiSubmission {
                 .map(String::trim)
                 .map(trelloBoard::getListCards)
                 .flatMap(Collection::stream)
-                .map(parser::parse)
+                .map(parseSubmission::parse)
                 .filter(matchSubmission::apply)
                 .findFirst()
                 .map(other -> rejection(submission, other))

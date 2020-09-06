@@ -4,7 +4,7 @@ import net.kemitix.slushy.app.MoveCard;
 import net.kemitix.slushy.app.AddComment;
 import net.kemitix.slushy.app.IsRequiredAge;
 import net.kemitix.slushy.app.SlushyConfig;
-import net.kemitix.slushy.app.SubmissionParser;
+import net.kemitix.slushy.app.ParseSubmission;
 import net.kemitix.slushy.app.email.SendEmail;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.apache.camel.builder.RouteBuilder;
@@ -21,7 +21,7 @@ public class InboxRoutes
     @Inject SlushyConfig slushyConfig;
     @Inject InboxConfig inboxConfig;
     @Inject TrelloBoard trelloBoard;
-    @Inject SubmissionParser submissionParser;
+    @Inject ParseSubmission parseSubmission;
     @Inject ReformatCard reformatCard;
     @Inject MoveCard moveCard;
     @Inject SendEmail sendEmail;
@@ -46,7 +46,7 @@ public class InboxRoutes
         from("direct:Slushy.CardToSubmission")
                 .routeId("Slushy.CardToSubmission")
                 .setHeader("SlushyCard", body())
-                .bean(submissionParser)
+                .bean(parseSubmission)
                 .setHeader("SlushySubmission", body())
         ;
 
