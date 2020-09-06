@@ -2,7 +2,7 @@ package net.kemitix.slushy.app.reader;
 
 import net.kemitix.slushy.app.AttachmentLoader;
 import net.kemitix.slushy.app.CardMover;
-import net.kemitix.slushy.app.Comments;
+import net.kemitix.slushy.app.AddComment;
 import net.kemitix.slushy.app.SlushyConfig;
 import net.kemitix.slushy.app.email.SendEmailAttachment;
 import net.kemitix.slushy.app.trello.TrelloBoard;
@@ -23,7 +23,7 @@ public class ReaderRoutes
     @Inject CardMover cardMover;
     @Inject AttachmentLoader attachmentLoader;
     @Inject SendEmailAttachment sendEmailAttachment;
-    @Inject Comments comments;
+    @Inject AddComment addComment;
 
     @Override
     public void configure() {
@@ -49,11 +49,9 @@ public class ReaderRoutes
                 .setHeader("SlushySubject", simple("Reader: ${header.SlushyCard.name}"))
                 .bean(sendEmailAttachment)
 
-                .setHeader("SlushyComment", () -> "Sent attachment to reader")
-                .bean(comments, "add(" +
-                        "${header.SlushyCard}, " +
-                        "${header.SlushyComment}" +
-                        ")")
+                .setHeader("SlushyComment").simple(
+                        "Sent attachment to reader")
+                .bean(addComment)
         ;
 
 

@@ -1,7 +1,7 @@
 package net.kemitix.slushy.app.inbox;
 
 import net.kemitix.slushy.app.CardMover;
-import net.kemitix.slushy.app.Comments;
+import net.kemitix.slushy.app.AddComment;
 import net.kemitix.slushy.app.RestedFilter;
 import net.kemitix.slushy.app.SlushyConfig;
 import net.kemitix.slushy.app.SubmissionParser;
@@ -25,7 +25,7 @@ public class InboxRoutes
     @Inject CardFormatter cardFormatter;
     @Inject CardMover cardMover;
     @Inject SendEmail sendEmail;
-    @Inject Comments comments;
+    @Inject AddComment addComment;
     @Inject RestedFilter restedFilter;
 
     @Override
@@ -93,10 +93,7 @@ public class InboxRoutes
 
                 .setHeader("SlushyComment").simple(
                         "Sent received notification to author")
-                .bean(comments, "add(" +
-                        "${header.SlushyCard}, " +
-                        "${header.SlushyComment}" +
-                        ")")
+                .bean(addComment)
         ;
     }
 

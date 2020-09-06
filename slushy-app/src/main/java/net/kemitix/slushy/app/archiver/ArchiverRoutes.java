@@ -1,9 +1,6 @@
 package net.kemitix.slushy.app.archiver;
 
-import lombok.extern.java.Log;
-import net.kemitix.slushy.app.Comments;
 import net.kemitix.slushy.app.RestedFilter;
-import net.kemitix.slushy.app.SlushyCard;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.apache.camel.builder.RouteBuilder;
 

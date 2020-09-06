@@ -1,6 +1,6 @@
 package net.kemitix.slushy.app.badattachment;
 
-import net.kemitix.slushy.app.Comments;
+import net.kemitix.slushy.app.AddComment;
 import net.kemitix.slushy.app.SlushyConfig;
 import net.kemitix.slushy.app.ValidFileTypes;
 import net.kemitix.slushy.app.email.SendEmail;
@@ -15,7 +15,7 @@ public class InvalidAttachmentRoute
 
     @Inject SlushyConfig slushyConfig;
     @Inject SendEmail sendEmail;
-    @Inject Comments comments;
+    @Inject AddComment addComment;
     @Inject ValidFileTypes validFileTypes;
 
     @Override
@@ -40,10 +40,7 @@ public class InvalidAttachmentRoute
 
                 .setHeader("SlushyComment").simple(
                         "Sent invalid attachment rejection notification to author")
-                .bean(comments, "add(" +
-                        "${header.SlushyCard}, " +
-                        "${header.SlushyComment}" +
-                        ")")
+                .bean(addComment)
 
                 // move card to rejected
                 .to("direct:Slushy.Reject.MoveToTargetList")

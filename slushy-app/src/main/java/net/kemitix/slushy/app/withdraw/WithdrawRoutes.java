@@ -1,6 +1,6 @@
 package net.kemitix.slushy.app.withdraw;
 
-import net.kemitix.slushy.app.Comments;
+import net.kemitix.slushy.app.AddComment;
 import net.kemitix.slushy.app.RestedFilter;
 import net.kemitix.slushy.app.SlushyConfig;
 import net.kemitix.slushy.app.email.SendEmail;
@@ -21,7 +21,7 @@ public class WithdrawRoutes
     @Inject TrelloBoard trelloBoard;
     @Inject RestedFilter restedFilter;
     @Inject SendEmail sendEmail;
-    @Inject Comments comments;
+    @Inject AddComment addComment;
 
     @Override
     public void configure() {
@@ -50,12 +50,9 @@ public class WithdrawRoutes
                 .setHeader("SlushyBodyHtml").body()
                 .bean(sendEmail)
 
-                .setHeader("SlushyComment",
-                        () -> "Sent withdrawn notification to author")
-                .bean(comments, "add(" +
-                        "${header.SlushyCard}, " +
-                        "${header.SlushyComment}" +
-                        ")")
+                .setHeader("SlushyComment").simple(
+                        "Sent withdrawn notification to author")
+                .bean(addComment)
         ;
     }
 

@@ -1,7 +1,7 @@
 package net.kemitix.slushy.app.hold;
 
 import net.kemitix.slushy.app.CardMover;
-import net.kemitix.slushy.app.Comments;
+import net.kemitix.slushy.app.AddComment;
 import net.kemitix.slushy.app.RestedFilter;
 import net.kemitix.slushy.app.SlushyConfig;
 import net.kemitix.slushy.app.email.SendEmail;
@@ -23,7 +23,7 @@ public class HoldRoutes
     @Inject CardMover cardMover;
     @Inject SendEmail sendEmail;
     @Inject RestedFilter restedFilter;
-    @Inject Comments comments;
+    @Inject AddComment addComment;
 
     @Override
     public void configure() {
@@ -51,10 +51,7 @@ public class HoldRoutes
 
                 .setHeader("SlushyComment").simple(
                         "Sent held notification to author")
-                .bean(comments, "add(" +
-                        "${header.SlushyCard}, " +
-                        "${header.SlushyComment}" +
-                        ")")
+                .bean(addComment)
         ;
 
         from("direct:Slushy.Hold.MoveToTargetList")

@@ -1,7 +1,7 @@
 package net.kemitix.slushy.app.reject;
 
 import net.kemitix.slushy.app.CardMover;
-import net.kemitix.slushy.app.Comments;
+import net.kemitix.slushy.app.AddComment;
 import net.kemitix.slushy.app.RestedFilter;
 import net.kemitix.slushy.app.SlushyCard;
 import net.kemitix.slushy.app.SlushyConfig;
@@ -24,7 +24,7 @@ public class RejectRoutes
     @Inject CardMover cardMover;
     @Inject SendEmail sendEmail;
     @Inject RestedFilter restedFilter;
-    @Inject Comments comments;
+    @Inject AddComment addComment;
 
     @Override
     public void configure() {
@@ -51,12 +51,9 @@ public class RejectRoutes
                 .setHeader("SlushyBodyHtml").body()
                 .bean(sendEmail)
 
-                .setHeader("SlushyComment",
-                        () -> "Sent rejection notification to author")
-                .bean(comments, "add(" +
-                        "${header.SlushyCard}, " +
-                        "${header.SlushyComment}" +
-                        ")")
+                .setHeader("SlushyComment").simple(
+                        "Sent rejection notification to author")
+                .bean(addComment)
         ;
 
         from("direct:Slushy.Reject.MoveToTargetList")
