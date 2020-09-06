@@ -1,0 +1,17 @@
+Dear ${headers.SlushySubmission.byline},
+
+Thank you for submitting your story, "${headers.SlushySubmission.title} by
+ ${headers.SlushySubmission.byline}".
+
+Unfortunately, we can't accept your submission at this time.
+ We already have one of your stories submitted:
+
+ * ${headers.SlushyRejection.existing.title} by ${headers.SlushyRejection.existing.byline}
+
+We don't accept multiple submissions.
+
+If your existing story is rejected then please resubmit this story then.
+
+Yours,
+Paul Campbell - Editor
+Cossmass Infinities - https://www.cossmass.com/
