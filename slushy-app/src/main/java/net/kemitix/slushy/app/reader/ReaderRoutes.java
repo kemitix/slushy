@@ -1,7 +1,7 @@
 package net.kemitix.slushy.app.reader;
 
 import net.kemitix.slushy.app.AttachmentLoader;
-import net.kemitix.slushy.app.CardMover;
+import net.kemitix.slushy.app.MoveCard;
 import net.kemitix.slushy.app.AddComment;
 import net.kemitix.slushy.app.SlushyConfig;
 import net.kemitix.slushy.app.email.SendEmailAttachment;
@@ -20,7 +20,7 @@ public class ReaderRoutes
     @Inject SlushyConfig slushyConfig;
     @Inject ReaderConfig readerConfig;
     @Inject TrelloBoard trelloBoard;
-    @Inject CardMover cardMover;
+    @Inject MoveCard moveCard;
     @Inject AttachmentLoader attachmentLoader;
     @Inject SendEmailAttachment sendEmailAttachment;
     @Inject AddComment addComment;
@@ -58,10 +58,7 @@ public class ReaderRoutes
         from("direct:Slushy.Reader.MoveToTargetList")
                 .routeId("Slushy.Reader.MoveToTargetList")
                 .setHeader("SlushyTargetList", readerConfig::getTargetList)
-                .bean(cardMover, "move(" +
-                        "${header.SlushyCard}, " +
-                        "${header.SlushyTargetList}" +
-                        ")")
+                .bean(moveCard)
         ;
     }
 

@@ -1,6 +1,6 @@
 package net.kemitix.slushy.app.hold;
 
-import net.kemitix.slushy.app.CardMover;
+import net.kemitix.slushy.app.MoveCard;
 import net.kemitix.slushy.app.AddComment;
 import net.kemitix.slushy.app.RestedFilter;
 import net.kemitix.slushy.app.SlushyConfig;
@@ -20,7 +20,7 @@ public class HoldRoutes
     @Inject SlushyConfig slushyConfig;
     @Inject HoldConfig holdConfig;
     @Inject TrelloBoard trelloBoard;
-    @Inject CardMover cardMover;
+    @Inject MoveCard moveCard;
     @Inject SendEmail sendEmail;
     @Inject RestedFilter restedFilter;
     @Inject AddComment addComment;
@@ -57,10 +57,7 @@ public class HoldRoutes
         from("direct:Slushy.Hold.MoveToTargetList")
                 .routeId("Slushy.Hold.MoveToTargetList")
                 .setHeader("SlushyTargetList", holdConfig::getTargetList)
-                .bean(cardMover, "move(" +
-                        "${header.SlushyCard}, " +
-                        "${header.SlushyTargetList}" +
-                        ")")
+                .bean(moveCard)
         ;
 
     }

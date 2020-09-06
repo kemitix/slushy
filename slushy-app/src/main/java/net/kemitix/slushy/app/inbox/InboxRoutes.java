@@ -1,6 +1,6 @@
 package net.kemitix.slushy.app.inbox;
 
-import net.kemitix.slushy.app.CardMover;
+import net.kemitix.slushy.app.MoveCard;
 import net.kemitix.slushy.app.AddComment;
 import net.kemitix.slushy.app.RestedFilter;
 import net.kemitix.slushy.app.SlushyConfig;
@@ -23,7 +23,7 @@ public class InboxRoutes
     @Inject TrelloBoard trelloBoard;
     @Inject SubmissionParser submissionParser;
     @Inject CardFormatter cardFormatter;
-    @Inject CardMover cardMover;
+    @Inject MoveCard moveCard;
     @Inject SendEmail sendEmail;
     @Inject AddComment addComment;
     @Inject RestedFilter restedFilter;
@@ -71,10 +71,7 @@ public class InboxRoutes
         from("direct:Slushy.Inbox.MoveToTargetList")
                 .routeId("Slushy.Inbox.MoveToTargetList")
                 .setHeader("SlushyTargetList", inboxConfig::getTargetList)
-                .bean(cardMover, "move(" +
-                        "${header.SlushyCard}, " +
-                        "${header.SlushyTargetList}" +
-                        ")")
+                .bean(moveCard)
         ;
 
         from("direct:Slushy.Inbox.SendEmailConfirmation")

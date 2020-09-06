@@ -1,19 +1,26 @@
 package net.kemitix.slushy.app;
 
 import com.julienvey.trello.domain.Card;
+import lombok.NonNull;
 import lombok.extern.java.Log;
 import net.kemitix.slushy.app.trello.TrelloBoard;
+import org.apache.camel.Handler;
+import org.apache.camel.Header;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 @Log
 @ApplicationScoped
-public class CardMover {
+public class MoveCard {
 
     @Inject TrelloBoard trelloBoard;
 
-    void move(SlushyCard card, String targetList) {
+    @Handler
+    void move(
+            @NonNull @Header("SlushyCard") SlushyCard card,
+            @NonNull @Header("SlushyTargetList") String targetList
+    ) {
         card.setIdList(trelloBoard.getListId(targetList));
         card.setPos(getLastPos(targetList));
         trelloBoard.updateCard(card);

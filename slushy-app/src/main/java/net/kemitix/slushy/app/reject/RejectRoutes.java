@@ -1,6 +1,6 @@
 package net.kemitix.slushy.app.reject;
 
-import net.kemitix.slushy.app.CardMover;
+import net.kemitix.slushy.app.MoveCard;
 import net.kemitix.slushy.app.AddComment;
 import net.kemitix.slushy.app.RestedFilter;
 import net.kemitix.slushy.app.SlushyCard;
@@ -21,7 +21,7 @@ public class RejectRoutes
     @Inject SlushyConfig slushyConfig;
     @Inject RejectConfig rejectConfig;
     @Inject TrelloBoard trelloBoard;
-    @Inject CardMover cardMover;
+    @Inject MoveCard moveCard;
     @Inject SendEmail sendEmail;
     @Inject RestedFilter restedFilter;
     @Inject AddComment addComment;
@@ -59,10 +59,7 @@ public class RejectRoutes
         from("direct:Slushy.Reject.MoveToTargetList")
                 .routeId("Slushy.Reject.MoveToTargetList")
                 .setHeader("SlushyTargetList", rejectConfig::getTargetList)
-                .bean(cardMover, "move(" +
-                        "${header.SlushyCard}, " +
-                        "${header.SlushyTargetList}" +
-                        ")")
+                .bean(moveCard)
         ;
 
     }
