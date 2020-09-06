@@ -22,7 +22,7 @@ public class InboxRoutes
     @Inject InboxConfig inboxConfig;
     @Inject TrelloBoard trelloBoard;
     @Inject SubmissionParser submissionParser;
-    @Inject CardFormatter cardFormatter;
+    @Inject ReformatCard reformatCard;
     @Inject MoveCard moveCard;
     @Inject SendEmail sendEmail;
     @Inject AddComment addComment;
@@ -60,12 +60,9 @@ public class InboxRoutes
                 .end()
         ;
 
-        from("direct:Slushy.Reformat")
-                .routeId("Slushy.Reformat")
-                .bean(cardFormatter, "reformat(" +
-                        "${header.SlushySubmission}, " +
-                        "${header.SlushyCard}" +
-                        ")")
+        from("direct:Slushy.ReformatCard")
+                .routeId("Slushy.ReformatCard")
+                .bean(reformatCard)
         ;
 
         from("direct:Slushy.Inbox.MoveToTargetList")
