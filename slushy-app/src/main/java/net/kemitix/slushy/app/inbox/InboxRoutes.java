@@ -6,7 +6,6 @@ import net.kemitix.slushy.app.RestedFilter;
 import net.kemitix.slushy.app.SlushyConfig;
 import net.kemitix.slushy.app.SubmissionParser;
 import net.kemitix.slushy.app.email.EmailService;
-import net.kemitix.slushy.app.templating.SlushyTemplate;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.apache.camel.builder.RouteBuilder;
 
@@ -28,7 +27,6 @@ public class InboxRoutes
     @Inject EmailService emailService;
     @Inject Comments comments;
     @Inject RestedFilter restedFilter;
-    @Inject SlushyTemplate slushyTemplate;
 
     @Override
     public void configure() {
@@ -81,21 +79,16 @@ public class InboxRoutes
 
         from("direct:Slushy.Inbox.SendEmailConfirmation")
                 .routeId("Slushy.Inbox.SendEmailConfirmation")
-                .setHeader("SlushyRecipient",
-                        simple("${header.SlushySubmission.email}"))
+
+                .setHeader("SlushyRecipient").simple(
+                        "${header.SlushySubmission.email}")
                 .setHeader("SlushySender", slushyConfig::getSender)
-
-                .setHeader("SlushyTemplateModel").header("SlushySubmission")
-
-                .setHeader("SlushyTemplateName").simple("inbox/subject.txt")
-                .setHeader("SlushySubject", bean(slushyTemplate))
-
-                .setHeader("SlushyTemplateName", simple("inbox/body.txt"))
-                .setHeader("SlushyBody", bean(slushyTemplate))
-
-                .setHeader("SlushyTemplateName", simple("inbox/body.html"))
-                .setHeader("SlushyBodyHtml", bean(slushyTemplate))
-
+                .to("velocity:net/kemitix/slushy/app/inbox/subject.txt")
+                .setHeader("SlushySubject").body()
+                .to("velocity:net/kemitix/slushy/app/inbox/body.txt")
+                .setHeader("SlushyBody").body()
+                .to("velocity:net/kemitix/slushy/app/inbox/body.html")
+                .setHeader("SlushyBodyHtml").body()
                 .bean(emailService, "send(" +
                                 "${header.SlushyRecipient}, " +
                                 "${header.SlushySender}, " +
@@ -104,8 +97,9 @@ public class InboxRoutes
                                 "${header.SlushyBodyHtml}" +
                                 ")"
                         )
-                .setHeader("SlushyComment",
-                        () -> "Sent received notification to author")
+
+                .setHeader("SlushyComment").simple(
+                        "Sent received notification to author")
                 .bean(comments, "add(" +
                         "${header.SlushyCard}, " +
                         "${header.SlushyComment}" +

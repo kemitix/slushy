@@ -1,6 +1,6 @@
-Dear ${byline},
+Dear ${headers.SlushySubmission.byline},
 
-Thank you for submitting your story, "${title} by ${byline}".
+Thank you for submitting your story, "${headers.SlushySubmission.title} by ${headers.SlushySubmission.byline}".
 
 It has been added to our system and we look forward to reading it.
 
