@@ -5,6 +5,7 @@ import net.kemitix.slushy.app.CardMover;
 import net.kemitix.slushy.app.Comments;
 import net.kemitix.slushy.app.SlushyConfig;
 import net.kemitix.slushy.app.email.EmailService;
+import net.kemitix.slushy.app.email.SendEmailAttachment;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.apache.camel.builder.RouteBuilder;
 
@@ -22,7 +23,7 @@ public class ReaderRoutes
     @Inject TrelloBoard trelloBoard;
     @Inject CardMover cardMover;
     @Inject AttachmentLoader attachmentLoader;
-    @Inject EmailService emailService;
+    @Inject SendEmailAttachment sendEmailAttachment;
     @Inject Comments comments;
 
     @Override
@@ -47,12 +48,7 @@ public class ReaderRoutes
                 .setHeader("SlushyRecipient", slushyConfig::getReader)
                 .setHeader("SlushySender", slushyConfig::getSender)
                 .setHeader("SlushySubject", simple("Reader: ${header.SlushyCard.name}"))
-                .bean(emailService, "sendAttachmentOnly(" +
-                        "${header.SlushyRecipient}, " +
-                        "${header.SlushySender}, " +
-                        "${header.SlushySubject}, " +
-                        "${header.SlushyReadableAttachment}" +
-                        ")")
+                .bean(sendEmailAttachment)
 
                 .setHeader("SlushyComment", () -> "Sent attachment to reader")
                 .bean(comments, "add(" +
