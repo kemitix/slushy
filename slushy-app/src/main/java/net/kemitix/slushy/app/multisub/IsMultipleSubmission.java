@@ -1,8 +1,12 @@
 package net.kemitix.slushy.app.multisub;
 
+import com.sun.istack.Nullable;
+import lombok.NonNull;
 import net.kemitix.slushy.app.Submission;
 import net.kemitix.slushy.app.ParseSubmission;
 import net.kemitix.slushy.app.trello.TrelloBoard;
+import org.apache.camel.Handler;
+import org.apache.camel.Header;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -11,15 +15,17 @@ import java.util.Collection;
 import java.util.function.Function;
 
 @ApplicationScoped
-public class MultiSubmission {
+public class IsMultipleSubmission {
 
     @Inject MultiSubConfig multiSubConfig;
     @Inject TrelloBoard trelloBoard;
     @Inject ParseSubmission parseSubmission;
 
     // if email or paypal in any of slush, reject, hold, held
+    @Handler
+    @Nullable
     RejectedMultipleSubmission test(
-            Submission submission
+            @NonNull @Header("SlushySubmission") Submission submission
     ) {
         var matchSubmission = subComparator(submission);
         return Arrays.stream(multiSubConfig.getLists().split(","))

@@ -13,7 +13,7 @@ public class MultiSubmissionRoute
         extends RouteBuilder {
 
     @Inject SlushyConfig slushyConfig;
-    @Inject MultiSubmission multiSubmission;
+    @Inject IsMultipleSubmission isMultipleSubmission;
     @Inject SendEmail sendEmail;
     @Inject AddComment addComment;
 
@@ -21,10 +21,9 @@ public class MultiSubmissionRoute
     public void configure() {
         from("direct:Slushy.MultiSubMonitor")
                 .routeId("Slushy.MultiSubMonitor")
-                .bean(multiSubmission, "test(${header.SlushySubmission})")
+                .bean(isMultipleSubmission)
                 .choice()
                 .when(body().isNotNull())
-                .setHeader("SlushyRejection").body()
                 .to("direct:Slushy.MultiSubDetected")
                 .process(exchange -> exchange.setRouteStop(true))
                 .end()
@@ -33,6 +32,7 @@ public class MultiSubmissionRoute
         from("direct:Slushy.MultiSubDetected")
                 .routeId("Slushy.MultiSubDetected")
                 .log("Submission rejected due to an existing submission")
+                .setHeader("SlushyRejection").body()
                 // send email to author
                 .setHeader("SlushyRecipient").simple("${header.SlushySubmission.email}")
                 .setHeader("SlushySender", slushyConfig::getSender)
