@@ -22,8 +22,7 @@ public class InboxRoutes
     @Inject SlushyConfig slushyConfig;
     @Inject InboxConfig inboxConfig;
     @Inject TrelloBoard trelloBoard;
-    @Inject
-    SubmissionParser submissionParser;
+    @Inject SubmissionParser submissionParser;
     @Inject CardFormatter cardFormatter;
     @Inject CardMover cardMover;
     @Inject EmailService emailService;

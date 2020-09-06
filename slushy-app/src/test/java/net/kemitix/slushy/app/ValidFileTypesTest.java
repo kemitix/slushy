@@ -1,5 +1,6 @@
 package net.kemitix.slushy.app;
 
+import net.kemitix.slushy.app.fileconversion.AttachmentConverter;
 import net.kemitix.slushy.app.fileconversion.ConversionService;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +10,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.enterprise.inject.Instance;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.mockito.BDDMockito.given;
 
@@ -21,17 +24,22 @@ public class ValidFileTypesTest
 
     ValidFileTypes validFileTypes;
 
+    @Mock Instance<AttachmentConverter> attachmentConverters;
+    @Mock AttachmentConverter attachmentConverter;
+
     @BeforeEach
     public void setUp() {
-        validFileTypes = new ValidFileTypes(conversionService);
+        validFileTypes = new ValidFileTypes(conversionService, attachmentConverters);
     }
 
     @Test
     @DisplayName("includes convertible inputs")
     public void includesConvertibleInputs() {
         //given
-        given(conversionService.canConvertFrom())
-                .willReturn(List.of("rtf", "odt"));
+        given(attachmentConverters.stream())
+                .willReturn(Stream.of(attachmentConverter));
+        given(attachmentConverter.canConvertFrom())
+                .willReturn(Stream.of("rtf", "odt"));
         //when
         List<String> result = validFileTypes.get();
         //then

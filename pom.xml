@@ -5,7 +5,7 @@
     <groupId>net.kemitix.slushy</groupId>
     <artifactId>slushy-root</artifactId>
     <packaging>pom</packaging>
-    <version>1.7.1</version>
+    <version>1.7.3</version>
 
     <modules>
         <module>slushy</module>
@@ -36,7 +36,7 @@
                     <hideTransitive>true</hideTransitive>
                     <hideVersion>true</hideVersion>
                     <hideOptional>true</hideOptional>
-                    <hideScopes>test,provided</hideScopes>
+                    <hideScopes>test</hideScopes>
                     <target>${project.basedir}/docs/images/reactor-graph.png</target>
                 </configuration>
             </plugin>

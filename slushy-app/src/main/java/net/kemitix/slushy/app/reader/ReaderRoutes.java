@@ -5,7 +5,6 @@ import net.kemitix.slushy.app.CardMover;
 import net.kemitix.slushy.app.Comments;
 import net.kemitix.slushy.app.SlushyConfig;
 import net.kemitix.slushy.app.email.EmailService;
-import net.kemitix.slushy.app.fileconversion.ConversionService;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.apache.camel.builder.RouteBuilder;
 
@@ -23,7 +22,6 @@ public class ReaderRoutes
     @Inject TrelloBoard trelloBoard;
     @Inject CardMover cardMover;
     @Inject AttachmentLoader attachmentLoader;
-    @Inject ConversionService conversionService;
     @Inject EmailService emailService;
     @Inject Comments comments;
 
@@ -41,12 +39,6 @@ public class ReaderRoutes
                 .routeId("Slushy.LoadAttachment")
                 .setHeader("SlushyAttachment",
                         bean(attachmentLoader, "load(${header.SlushyCard})"))
-        ;
-
-        from("direct:Slushy.FormatForReader")
-                .routeId("Slushy.FormatForReader")
-                .setHeader("SlushyReadableAttachment",
-                        bean(conversionService, "convert(${header.SlushyAttachment})"))
         ;
 
         from("direct:Slushy.SendToReader")
