@@ -5,24 +5,27 @@ import com.amazonaws.services.simpleemail.model.Body;
 import com.amazonaws.services.simpleemail.model.Content;
 import com.amazonaws.services.simpleemail.model.Destination;
 import com.amazonaws.services.simpleemail.model.SendEmailRequest;
+import lombok.NonNull;
 import lombok.extern.java.Log;
+import org.apache.camel.Handler;
+import org.apache.camel.Header;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 @Log
 @ApplicationScoped
-public class AmazonSesService implements EmailService {
+public class SendEmail {
 
     @Inject AmazonSimpleEmailService sesService;
 
-    @Override
+    @Handler
     public void send(
-            String recipient,
-            String sender,
-            String subject,
-            String body,
-            String bodyHtml
+            @NonNull @Header("SlushyRecipient") String recipient,
+            @NonNull @Header("SlushySender") String sender,
+            @NonNull @Header("SlushySubject") String subject,
+            @NonNull @Header("SlushyBody") String body,
+            @NonNull @Header("SlushyBodyHtml") String bodyHtml
     ) {
         log.info(String.format("send to %s, from %s", recipient, sender));
         SendEmailRequest request =

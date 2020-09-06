@@ -4,12 +4,10 @@ import net.kemitix.slushy.app.CardMover;
 import net.kemitix.slushy.app.Comments;
 import net.kemitix.slushy.app.RestedFilter;
 import net.kemitix.slushy.app.SlushyCard;
-import net.kemitix.slushy.app.email.EmailService;
-import net.kemitix.slushy.app.trello.TrelloBoard;
 import net.kemitix.slushy.app.SlushyConfig;
+import net.kemitix.slushy.app.email.SendEmail;
+import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.builder.SimpleBuilder;
-import org.apache.camel.builder.ValueBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -24,7 +22,7 @@ public class RejectRoutes
     @Inject RejectConfig rejectConfig;
     @Inject TrelloBoard trelloBoard;
     @Inject CardMover cardMover;
-    @Inject EmailService emailService;
+    @Inject SendEmail sendEmail;
     @Inject RestedFilter restedFilter;
     @Inject Comments comments;
 
@@ -45,23 +43,14 @@ public class RejectRoutes
                 .routeId("Slushy.Reject.SendEmail")
                 .setHeader("SlushyRecipient").simple("${header.SlushySubmission.email}")
                 .setHeader("SlushySender", slushyConfig::getSender)
-
                 .to("velocity:net/kemitix/slushy/app/reject/subject.txt")
                 .setHeader("SlushySubject").body()
-
                 .to("velocity:net/kemitix/slushy/app/reject/body.txt")
                 .setHeader("SlushyBody").body()
-
                 .to("velocity:net/kemitix/slushy/app/reject/body.html")
                 .setHeader("SlushyBodyHtml").body()
+                .bean(sendEmail)
 
-                .bean(emailService, "send(" +
-                        "${header.SlushyRecipient}, " +
-                        "${header.SlushySender}, " +
-                        "${header.SlushySubject}, " +
-                        "${header.SlushyBody}, " +
-                        "${header.SlushyBodyHtml}" +
-                        ")")
                 .setHeader("SlushyComment",
                         () -> "Sent rejection notification to author")
                 .bean(comments, "add(" +

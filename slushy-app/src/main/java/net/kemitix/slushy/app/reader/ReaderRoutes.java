@@ -4,7 +4,6 @@ import net.kemitix.slushy.app.AttachmentLoader;
 import net.kemitix.slushy.app.CardMover;
 import net.kemitix.slushy.app.Comments;
 import net.kemitix.slushy.app.SlushyConfig;
-import net.kemitix.slushy.app.email.EmailService;
 import net.kemitix.slushy.app.email.SendEmailAttachment;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.apache.camel.builder.RouteBuilder;

@@ -3,11 +3,9 @@ package net.kemitix.slushy.app.withdraw;
 import net.kemitix.slushy.app.Comments;
 import net.kemitix.slushy.app.RestedFilter;
 import net.kemitix.slushy.app.SlushyConfig;
-import net.kemitix.slushy.app.email.EmailService;
+import net.kemitix.slushy.app.email.SendEmail;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.builder.SimpleBuilder;
-import org.apache.camel.builder.ValueBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -22,7 +20,7 @@ public class WithdrawRoutes
     @Inject WithdrawConfig withdrawConfig;
     @Inject TrelloBoard trelloBoard;
     @Inject RestedFilter restedFilter;
-    @Inject EmailService emailService;
+    @Inject SendEmail sendEmail;
     @Inject Comments comments;
 
     @Override
@@ -44,24 +42,13 @@ public class WithdrawRoutes
                 .routeId("Slushy.Withdraw.SendEmail")
                 .setHeader("SlushyRecipient").simple("${header.SlushySubmission.email}")
                 .setHeader("SlushySender", slushyConfig::getSender)
-
                 .to("velocity:net/kemitix/slushy/app/withdraw/subject.txt")
                 .setHeader("SlushySubject").body()
-
                 .to("velocity:net/kemitix/slushy/app/withdraw/body.txt")
                 .setHeader("SlushyBody").body()
-
                 .to("velocity:net/kemitix/slushy/app/withdraw/body.html")
                 .setHeader("SlushyBodyHtml").body()
-
-                .bean(emailService, "send(" +
-                        "${header.SlushyRecipient}, " +
-                        "${header.SlushySender}, " +
-                        "${header.SlushySubject}, " +
-                        "${header.SlushyBody}, " +
-                        "${header.SlushyBodyHtml}" +
-                        ")"
-                )
+                .bean(sendEmail)
 
                 .setHeader("SlushyComment",
                         () -> "Sent withdrawn notification to author")

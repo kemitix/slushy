@@ -5,7 +5,7 @@ import net.kemitix.slushy.app.Comments;
 import net.kemitix.slushy.app.RestedFilter;
 import net.kemitix.slushy.app.SlushyConfig;
 import net.kemitix.slushy.app.SubmissionParser;
-import net.kemitix.slushy.app.email.EmailService;
+import net.kemitix.slushy.app.email.SendEmail;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.apache.camel.builder.RouteBuilder;
 
@@ -24,7 +24,7 @@ public class InboxRoutes
     @Inject SubmissionParser submissionParser;
     @Inject CardFormatter cardFormatter;
     @Inject CardMover cardMover;
-    @Inject EmailService emailService;
+    @Inject SendEmail sendEmail;
     @Inject Comments comments;
     @Inject RestedFilter restedFilter;
 
@@ -89,14 +89,7 @@ public class InboxRoutes
                 .setHeader("SlushyBody").body()
                 .to("velocity:net/kemitix/slushy/app/inbox/body.html")
                 .setHeader("SlushyBodyHtml").body()
-                .bean(emailService, "send(" +
-                                "${header.SlushyRecipient}, " +
-                                "${header.SlushySender}, " +
-                                "${header.SlushySubject}, " +
-                                "${header.SlushyBody}, " +
-                                "${header.SlushyBodyHtml}" +
-                                ")"
-                        )
+                .bean(sendEmail)
 
                 .setHeader("SlushyComment").simple(
                         "Sent received notification to author")
