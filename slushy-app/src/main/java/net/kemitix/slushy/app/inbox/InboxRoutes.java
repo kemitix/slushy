@@ -43,8 +43,8 @@ public class InboxRoutes
                 .routingSlip(header("SlushyRoutingSlip"))
         ;
 
-        from("direct:Slushy.Parse")
-                .routeId("Slushy.Parse")
+        from("direct:Slushy.CardToSubmission")
+                .routeId("Slushy.CardToSubmission")
                 .setHeader("SlushyCard", body())
                 .bean(submissionParser)
                 .setHeader("SlushySubmission", body())
