@@ -1,6 +1,6 @@
 package net.kemitix.slushy.app.archiver;
 
-import net.kemitix.slushy.app.RestedFilter;
+import net.kemitix.slushy.app.IsRequiredAge;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.apache.camel.builder.RouteBuilder;
 
@@ -15,7 +15,7 @@ public class ArchiverRoutes
 
     @Inject ArchiverConfig archiverConfig;
     @Inject TrelloBoard trelloBoard;
-    @Inject RestedFilter restedFilter;
+    @Inject IsRequiredAge isRequiredAge;
     @Inject Archiver archiver;
 
     @Override
@@ -26,7 +26,7 @@ public class ArchiverRoutes
                 .split(body())
 
                 .setHeader("SlushyRequiredAge", archiverConfig::getRequiredAgeHours)
-                .filter(bean(restedFilter, "isRested(${body}, ${header.SlushyRequiredAge})"))
+                .filter(bean(isRequiredAge))
 
                 .setHeader("SlushyRoutingSlip", archiverConfig::getRoutingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))

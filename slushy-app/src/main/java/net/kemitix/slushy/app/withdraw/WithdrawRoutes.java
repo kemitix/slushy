@@ -1,7 +1,7 @@
 package net.kemitix.slushy.app.withdraw;
 
 import net.kemitix.slushy.app.AddComment;
-import net.kemitix.slushy.app.RestedFilter;
+import net.kemitix.slushy.app.IsRequiredAge;
 import net.kemitix.slushy.app.SlushyConfig;
 import net.kemitix.slushy.app.email.SendEmail;
 import net.kemitix.slushy.app.trello.TrelloBoard;
@@ -19,7 +19,7 @@ public class WithdrawRoutes
     @Inject SlushyConfig slushyConfig;
     @Inject WithdrawConfig withdrawConfig;
     @Inject TrelloBoard trelloBoard;
-    @Inject RestedFilter restedFilter;
+    @Inject IsRequiredAge isRequiredAge;
     @Inject SendEmail sendEmail;
     @Inject AddComment addComment;
 
@@ -32,7 +32,7 @@ public class WithdrawRoutes
                 .split(body())
 
                 .setHeader("SlushyRequiredAge", withdrawConfig::getRequiredAgeHours)
-                .filter(bean(restedFilter, "isRested(${body}, ${header.SlushyRequiredAge})"))
+                .filter(bean(isRequiredAge))
 
                 .setHeader("SlushyRoutingSlip", withdrawConfig::getRoutingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))

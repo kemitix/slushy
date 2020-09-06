@@ -2,7 +2,7 @@ package net.kemitix.slushy.app.inbox;
 
 import net.kemitix.slushy.app.MoveCard;
 import net.kemitix.slushy.app.AddComment;
-import net.kemitix.slushy.app.RestedFilter;
+import net.kemitix.slushy.app.IsRequiredAge;
 import net.kemitix.slushy.app.SlushyConfig;
 import net.kemitix.slushy.app.SubmissionParser;
 import net.kemitix.slushy.app.email.SendEmail;
@@ -26,7 +26,7 @@ public class InboxRoutes
     @Inject MoveCard moveCard;
     @Inject SendEmail sendEmail;
     @Inject AddComment addComment;
-    @Inject RestedFilter restedFilter;
+    @Inject IsRequiredAge isRequiredAge;
 
     @Override
     public void configure() {
@@ -37,7 +37,7 @@ public class InboxRoutes
                 .split(body())
 
                 .setHeader("SlushyRequiredAge", inboxConfig::getRequiredAgeHours)
-                .filter(bean(restedFilter, "isRested(${body}, ${header.SlushyRequiredAge})"))
+                .filter(bean(isRequiredAge))
 
                 .setHeader("SlushyRoutingSlip", inboxConfig::getRoutingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))

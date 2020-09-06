@@ -2,7 +2,7 @@ package net.kemitix.slushy.app.hold;
 
 import net.kemitix.slushy.app.MoveCard;
 import net.kemitix.slushy.app.AddComment;
-import net.kemitix.slushy.app.RestedFilter;
+import net.kemitix.slushy.app.IsRequiredAge;
 import net.kemitix.slushy.app.SlushyConfig;
 import net.kemitix.slushy.app.email.SendEmail;
 import net.kemitix.slushy.app.trello.TrelloBoard;
@@ -22,7 +22,7 @@ public class HoldRoutes
     @Inject TrelloBoard trelloBoard;
     @Inject MoveCard moveCard;
     @Inject SendEmail sendEmail;
-    @Inject RestedFilter restedFilter;
+    @Inject IsRequiredAge isRequiredAge;
     @Inject AddComment addComment;
 
     @Override
@@ -32,7 +32,7 @@ public class HoldRoutes
                 .setBody(exchange -> trelloBoard.getListCards(holdConfig.getSourceList()))
                 .split(body())
                 .setHeader("SlushyRequiredAge", holdConfig::getRequiredAgeHours)
-                .filter(bean(restedFilter, "isRested(${body}, ${header.SlushyRequiredAge})"))
+                .filter(bean(isRequiredAge))
                 .setHeader("SlushyRoutingSlip", holdConfig::getRoutingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))
         ;
