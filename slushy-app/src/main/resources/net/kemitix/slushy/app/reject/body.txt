@@ -1,0 +1,14 @@
+Dear ${headers.SlushySubmission.byline},
+
+Thank you for submitting your story, "${headers.SlushySubmission.title} by
+ ${headers.SlushySubmission.byline}".
+
+Unfortunately, we are choosing not to use this story.
+
+Please feel free to submit (https://www.cossmass.com/submit/)
+ another story that you would like us to consider for publication.
+Dates of our submission windows are in our guidelines.
+
+Yours,
+Paul Campbell - Editor
+Cossmass Infinities - https://www.cossmass.com/
