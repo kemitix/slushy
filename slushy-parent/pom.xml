@@ -23,6 +23,7 @@
         <tiles-maven-plugin.version>2.17</tiles-maven-plugin.version>
         <kemitix-tiles.version>2.8.0</kemitix-tiles.version>
 
+        <camel.version>3.4.3</camel.version>
         <lombok.version>1.18.12</lombok.version>
         <javax.mail.version>1.5.0-b01</javax.mail.version>
         <aws-java-sdk-ses.version>1.11.853</aws-java-sdk-ses.version>
@@ -36,6 +37,13 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-bom</artifactId>
+                <version>${camel.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
