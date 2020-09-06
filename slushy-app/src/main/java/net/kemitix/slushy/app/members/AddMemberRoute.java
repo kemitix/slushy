@@ -5,8 +5,6 @@ import org.apache.camel.builder.RouteBuilder;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import static org.apache.camel.builder.Builder.bean;
-
 @ApplicationScoped
 public class AddMemberRoute
         extends RouteBuilder {
@@ -17,7 +15,7 @@ public class AddMemberRoute
     public void configure() {
         from("direct:Slushy.AddMember")
                 .routeId("Slushy.AddMember")
-                .setHeader("SlushyCard", bean(addMember))
+                .setHeader("SlushyCard").method(addMember)
         ;
     }
 

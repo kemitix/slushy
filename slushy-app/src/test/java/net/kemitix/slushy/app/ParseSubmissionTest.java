@@ -3,7 +3,7 @@ package net.kemitix.slushy.app;
 import com.julienvey.trello.domain.Attachment;
 import com.julienvey.trello.domain.Card;
 import net.kemitix.slushy.app.fileconversion.AttachmentConverter;
-import net.kemitix.slushy.app.fileconversion.ConversionService;
+import net.kemitix.slushy.app.fileconversion.ConvertAttachment;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,7 +40,8 @@ public class ParseSubmissionTest
     @Mock
     TrelloBoard trelloBoard;
 
-    @Mock ConversionService conversionService;
+    @Mock
+    ConvertAttachment convertAttachment;
     @Mock Instance<AttachmentConverter> attachmentConverters;
     @Mock AttachmentConverter attachmentConverter;
 
@@ -48,7 +49,7 @@ public class ParseSubmissionTest
     public void setUp() {
         parseSubmission.now = now;
         parseSubmission.trelloBoard = trelloBoard;
-        validFileTypes = new ValidFileTypes(conversionService, attachmentConverters);
+        validFileTypes = new ValidFileTypes(convertAttachment, attachmentConverters);
         parseSubmission.validFileTypes = validFileTypes;
         given(attachmentConverters.stream())
                 .willReturn(Stream.of(attachmentConverter));
