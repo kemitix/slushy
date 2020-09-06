@@ -1,13 +1,13 @@
-Dear ${byline},
+Dear ${headers.SlushySubmission.byline},
 
-Thank you for submitting your story, "${title} by ${byline}".
+Thank you for submitting your story, "${headers.SlushySubmission.title} by ${headers.SlushySubmission.byline}".
 
 Unfortunately, we are not able to accept it in this file format.
 
 Please feel free to resubmit (https://www.cossmass.com/submit/)
 once you have converted to one of these formats:
 
- - ${validFileTypes}
+ - ${headers.SlushyValidFileTypes}
 
 Yours,
 Paul Campbell - Editor
