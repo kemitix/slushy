@@ -5,7 +5,7 @@ public interface ListProcessConfig {
     /**
      * How often, in seconds, to scan the list.
      */
-    String getScanPeriod();
+    long getScanPeriod();
 
     /**
      * The name of the list to scan.
@@ -27,5 +27,20 @@ public interface ListProcessConfig {
      * before being processed.
      */
     int getRequiredAgeHours();
+
+    /**
+     * The maximum redeliveries.
+     *
+     * <p>Derived from the scan period and retry delay, so that retries will
+     * occur until the next scan period starts.</p>
+     */
+    default int getMaxRetries() {
+        return (int) Math.floorDiv(getScanPeriod(), getRetryDelay());
+    }
+
+    /**
+     * The initial redelivery delay in milliseconds.
+     */
+    long getRetryDelay();
 
 }
