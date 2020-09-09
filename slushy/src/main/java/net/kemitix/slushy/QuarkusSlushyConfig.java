@@ -10,6 +10,8 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 @Log
 @Setter
@@ -37,10 +39,28 @@ public class QuarkusSlushyConfig
         log.info(String.format("SLUSHY_READER: %s", reader));
         listProcessConfigs.forEach(config ->
                 log.info(String.format(
-                        "[%s] scan every %d seconds; retry: %d times, every %d seconds",
+                        "[%s] scan every %s; retry: %d times, every %s",
                         config.getClass().getSimpleName(),
-                        config.getScanPeriod() / 1000,
-                        config.getMaxRetries(), config.getRetryDelay() / 1000)));
+                        timeAsEnglish(config.getScanPeriod()),
+                        config.getMaxRetries(), timeAsEnglish(config.getRetryDelay()))));
+    }
+
+    private String timeAsEnglish(long millis) {
+        long seconds = millis / 1000;
+        long hours = Math.floorDiv(seconds, 60 * 60);
+        long mins = Math.floorDiv(seconds - (hours * 60 * 60), 60);
+        long secs = Math.floorMod(seconds, 60);
+        List<String> fragments = new ArrayList<>();
+        if (hours > 0) {
+            fragments.add(String.format("%d hours", hours));
+        }
+        if (mins > 0) {
+            fragments.add(String.format("%d minutes", mins));
+        }
+        if (secs > 0) {
+            fragments.add(String.format("%s seconds", secs));
+        }
+        return String.join(" ", fragments);
     }
 
 }
