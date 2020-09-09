@@ -16,12 +16,10 @@
     <packaging>pom</packaging>
 
     <properties>
-        <java-version>11</java-version>
-
         <maven-graph-plugin.version>1.45</maven-graph-plugin.version>
 
         <tiles-maven-plugin.version>2.17</tiles-maven-plugin.version>
-        <kemitix-tiles.version>2.8.0</kemitix-tiles.version>
+        <kemitix-tiles.version>2.9.0</kemitix-tiles.version>
 
         <camel.version>3.5.0</camel.version>
         <lombok.version>1.18.12</lombok.version>
@@ -122,7 +120,7 @@
                     <tiles>
                         <tile>net.kemitix.tiles:maven-plugins:${kemitix-tiles.version}</tile>
 <!--                        <tile>net.kemitix.tiles:enforcer:${kemitix-tiles.version}</tile>-->
-                        <tile>net.kemitix.tiles:compiler-jdk-11:${kemitix-tiles.version}</tile>
+                        <tile>net.kemitix.tiles:compiler-jdk-lts:${kemitix-tiles.version}</tile>
 <!--                        <tile>net.kemitix.tiles:huntbugs:${kemitix-tiles.version}</tile>-->
 <!--                        <tile>net.kemitix.tiles:pmd:${kemitix-tiles.version}</tile>-->
                         <tile>net.kemitix.tiles:testing:${kemitix-tiles.version}</tile>
