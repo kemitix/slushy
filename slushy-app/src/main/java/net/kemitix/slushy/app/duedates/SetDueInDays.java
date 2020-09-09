@@ -19,7 +19,7 @@ public class SetDueInDays {
 
     void setDueDate(
             @NonNull @Header("SlushyCard") SlushyCard card,
-            @NonNull @Header("SlushyDueInDays") int days
+            @NonNull @Header("SlushyDueInDays") Integer days
     ) {
         card.setDue(Date.from(now.get().plus(days, ChronoUnit.DAYS)));
         trelloBoard.updateCard(card);

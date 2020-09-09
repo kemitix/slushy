@@ -22,7 +22,7 @@ public class IsRequiredAge {
     @Handler
     boolean isRested(
             @NonNull @Body SlushyCard card,
-            @NonNull @Header("SlushyRequiredAge") int requiredAgeHours
+            @NonNull @Header("SlushyRequiredAge") Integer requiredAgeHours
     ) {
         Instant requiredAge = now.get()
                 .minus(requiredAgeHours, ChronoUnit.HOURS);
