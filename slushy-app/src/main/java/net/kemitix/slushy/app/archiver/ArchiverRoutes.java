@@ -1,6 +1,7 @@
 package net.kemitix.slushy.app.archiver;
 
 import net.kemitix.slushy.app.IsRequiredAge;
+import net.kemitix.slushy.app.OnException;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.apache.camel.builder.RouteBuilder;
 
@@ -20,6 +21,8 @@ public class ArchiverRoutes
 
     @Override
     public void configure() {
+        OnException.retry(this, archiverConfig);
+
         fromF("timer:archiver?period=%s", archiverConfig.getScanPeriod())
                 .routeId("Slushy.Archiver")
                 .setBody(exchange -> trelloBoard.getListCards(archiverConfig.getSourceList()))

@@ -2,6 +2,7 @@ package net.kemitix.slushy.app.withdraw;
 
 import net.kemitix.slushy.app.AddComment;
 import net.kemitix.slushy.app.IsRequiredAge;
+import net.kemitix.slushy.app.OnException;
 import net.kemitix.slushy.app.SlushyConfig;
 import net.kemitix.slushy.app.email.SendEmail;
 import net.kemitix.slushy.app.trello.TrelloBoard;
@@ -25,6 +26,8 @@ public class WithdrawRoutes
 
     @Override
     public void configure() {
+        OnException.retry(this, withdrawConfig);
+
         fromF("timer:withdraw?period=%s", withdrawConfig.getScanPeriod())
                 .routeId("Slushy.Withdraw")
 

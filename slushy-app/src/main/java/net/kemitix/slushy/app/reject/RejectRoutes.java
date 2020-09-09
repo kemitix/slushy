@@ -3,6 +3,7 @@ package net.kemitix.slushy.app.reject;
 import net.kemitix.slushy.app.MoveCard;
 import net.kemitix.slushy.app.AddComment;
 import net.kemitix.slushy.app.IsRequiredAge;
+import net.kemitix.slushy.app.OnException;
 import net.kemitix.slushy.app.SlushyCard;
 import net.kemitix.slushy.app.SlushyConfig;
 import net.kemitix.slushy.app.email.SendEmail;
@@ -28,6 +29,8 @@ public class RejectRoutes
 
     @Override
     public void configure() {
+        OnException.retry(this, rejectConfig);
+
         fromF("timer:reject?period=%s", rejectConfig.getScanPeriod())
                 .routeId("Slushy.Reject")
                 .setBody(exchange -> trelloBoard.getListCards(rejectConfig.getSourceList()))

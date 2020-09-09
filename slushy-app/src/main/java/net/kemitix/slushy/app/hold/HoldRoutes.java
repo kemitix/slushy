@@ -3,6 +3,7 @@ package net.kemitix.slushy.app.hold;
 import net.kemitix.slushy.app.MoveCard;
 import net.kemitix.slushy.app.AddComment;
 import net.kemitix.slushy.app.IsRequiredAge;
+import net.kemitix.slushy.app.OnException;
 import net.kemitix.slushy.app.SlushyConfig;
 import net.kemitix.slushy.app.email.SendEmail;
 import net.kemitix.slushy.app.trello.TrelloBoard;
@@ -27,6 +28,8 @@ public class HoldRoutes
 
     @Override
     public void configure() {
+        OnException.retry(this, holdConfig);
+
         fromF("timer:hold?period=%s", holdConfig.getScanPeriod())
                 .routeId("Slushy.Hold")
                 .setBody(exchange -> trelloBoard.getListCards(holdConfig.getSourceList()))
