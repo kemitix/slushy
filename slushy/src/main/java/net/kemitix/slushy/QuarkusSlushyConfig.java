@@ -47,9 +47,13 @@ public class QuarkusSlushyConfig
 
     private String timeAsEnglish(long millis) {
         long seconds = millis / 1000;
-        long mins = Math.floorDiv(seconds, 60);
+        long hours = Math.floorDiv(seconds, 60 * 60);
+        long mins = Math.floorDiv(seconds - (hours * 60 * 60), 60);
         long secs = Math.floorMod(seconds, 60);
         List<String> fragments = new ArrayList<>();
+        if (hours > 0) {
+            fragments.add(String.format("%d hours", hours));
+        }
         if (mins > 0) {
             fragments.add(String.format("%d minutes", mins));
         }
