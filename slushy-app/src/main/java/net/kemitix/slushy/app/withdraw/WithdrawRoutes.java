@@ -53,8 +53,8 @@ public class WithdrawRoutes
                 .setHeader("SlushyBodyHtml").body()
                 .bean(sendEmail)
 
-                .setHeader("SlushyComment").simple(
-                        "Sent withdrawn notification to author")
+                .setHeader("SlushyComment")
+                .constant("Sent withdrawn notification to author")
                 .bean(addComment)
         ;
     }

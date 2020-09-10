@@ -54,8 +54,8 @@ public class RejectRoutes
                 .setHeader("SlushyBodyHtml").body()
                 .bean(sendEmail)
 
-                .setHeader("SlushyComment").simple(
-                        "Sent rejection notification to author")
+                .setHeader("SlushyComment")
+                .constant("Sent rejection notification to author")
                 .bean(addComment)
         ;
 

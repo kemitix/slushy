@@ -16,13 +16,15 @@ public class DueDateRoutes
     public void configure() {
         from("direct:Slushy.DueIn30Days")
                 .routeId("Slushy.DueIn30Days")
-                .setHeader("SlushyDueInDays").simple("30")
+                .setHeader("SlushyDueInDays")
+                .constant("30")
                 .bean(setDueInDays)
         ;
 
         from("direct:Slushy.DueIn60Days")
                 .routeId("Slushy.DueIn60Days")
-                .setHeader("SlushyDueInDays").simple("60")
+                .setHeader("SlushyDueInDays")
+                .constant("60")
                 .bean(setDueInDays)
         ;
 
