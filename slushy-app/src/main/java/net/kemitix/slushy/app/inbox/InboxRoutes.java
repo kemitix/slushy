@@ -79,8 +79,7 @@ public class InboxRoutes
         from("direct:Slushy.Inbox.SendEmailConfirmation")
                 .routeId("Slushy.Inbox.SendEmailConfirmation")
 
-                .setHeader("SlushyRecipient").simple(
-                        "${header.SlushySubmission.email}")
+                .setHeader("SlushyRecipient").simple("${header.SlushySubmission.email}")
                 .setHeader("SlushySender", slushyConfig::getSender)
                 .to("velocity:net/kemitix/slushy/app/inbox/subject.txt")
                 .setHeader("SlushySubject").body()
@@ -90,8 +89,8 @@ public class InboxRoutes
                 .setHeader("SlushyBodyHtml").body()
                 .bean(sendEmail)
 
-                .setHeader("SlushyComment").simple(
-                        "Sent received notification to author")
+                .setHeader("SlushyComment")
+                .constant("Sent received notification to author")
                 .bean(addComment)
         ;
     }

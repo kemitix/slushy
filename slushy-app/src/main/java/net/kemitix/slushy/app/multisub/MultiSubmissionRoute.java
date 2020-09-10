@@ -44,8 +44,8 @@ public class MultiSubmissionRoute
                 .setHeader("SlushyBodyHtml").body()
                 .bean(sendEmail)
 
-                .setHeader("SlushyComment").simple(
-                        "Sent multi-submission rejection notification to author")
+                .setHeader("SlushyComment")
+                .constant("Sent multi-submission rejection notification to author")
                 .bean(addComment)
 
                 // move card to rejected

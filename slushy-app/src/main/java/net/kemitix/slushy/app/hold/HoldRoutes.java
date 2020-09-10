@@ -52,8 +52,8 @@ public class HoldRoutes
                 .setHeader("SlushyBodyHtml").body()
                 .bean(sendEmail)
 
-                .setHeader("SlushyComment").simple(
-                        "Sent held notification to author")
+                .setHeader("SlushyComment")
+                .constant("Sent held notification to author")
                 .bean(addComment)
         ;
 

@@ -38,8 +38,8 @@ public class InvalidAttachmentRoute
                 .setHeader("SlushyBodyHtml").body()
                 .bean(sendEmail)
 
-                .setHeader("SlushyComment").simple(
-                        "Sent invalid attachment rejection notification to author")
+                .setHeader("SlushyComment")
+                .constant("Sent invalid attachment rejection notification to author")
                 .bean(addComment)
 
                 // move card to rejected
