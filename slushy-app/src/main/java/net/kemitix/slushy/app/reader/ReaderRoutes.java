@@ -52,8 +52,8 @@ public class ReaderRoutes
                 .setHeader("SlushySubject", simple("Reader: ${header.SlushyCard.name}"))
                 .bean(sendEmailAttachment)
 
-                .setHeader("SlushyComment").simple(
-                        "Sent attachment to reader")
+                .setHeader("SlushyComment")
+                .constant("Sent attachment to reader")
                 .bean(addComment)
         ;
 
