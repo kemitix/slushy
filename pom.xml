@@ -10,7 +10,6 @@
     <modules>
         <module>slushy</module>
         <module>slushy-app</module>
-        <module>slushy-parent</module>
     </modules>
 
     <properties>

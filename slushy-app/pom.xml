@@ -3,30 +3,65 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>slushy-parent</artifactId>
-        <groupId>net.kemitix.slushy</groupId>
-        <version>1.8.1</version>
-        <relativePath>../slushy-parent/pom.xml</relativePath>
+        <artifactId>kemitix-parent</artifactId>
+        <groupId>net.kemitix</groupId>
+        <version>5.3.0</version>
+        <relativePath/>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>slushy-app</artifactId>
+    <version>1.8.1</version>
+
+    <properties>
+        <maven-graph-plugin.version>1.45</maven-graph-plugin.version>
+
+        <tiles-maven-plugin.version>2.17</tiles-maven-plugin.version>
+        <kemitix-tiles.version>2.9.0</kemitix-tiles.version>
+
+        <camel.version>3.5.0</camel.version>
+        <lombok.version>1.18.12</lombok.version>
+        <javax.mail.version>1.5.0-b01</javax.mail.version>
+        <aws-java-sdk-ses.version>1.11.856</aws-java-sdk-ses.version>
+        <assertj.version>3.17.2</assertj.version>
+        <junit.version>5.6.2</junit.version>
+        <mockito-junit-jupiter.version>3.5.10</mockito-junit-jupiter.version>
+        <trello-java-wrapper.version>0.14</trello-java-wrapper.version>
+        <odftoolkit.version>1.0.6</odftoolkit.version>
+        <rtf-to-html.version>1.0.1</rtf-to-html.version>
+        <freemarker.version>2.3.30</freemarker.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-bom</artifactId>
+                <version>${camel.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
             <optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>net.kemitix.aws</groupId>
             <artifactId>kemitix-aws-java-sdk-ses-wrapper</artifactId>
+            <version>${aws-java-sdk-ses.version}</version>
         </dependency>
 
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
+            <version>${javax.mail.version}</version>
         </dependency>
 
         <dependency>
@@ -44,31 +79,66 @@
         <dependency>
             <groupId>com.taskadapter</groupId>
             <artifactId>trello-java-wrapper</artifactId>
+            <version>${trello-java-wrapper.version}</version>
         </dependency>
         <dependency>
             <groupId>fr.opensagres.xdocreport</groupId>
             <artifactId>org.odftoolkit.odfdom.converter.xhtml</artifactId>
+            <version>${odftoolkit.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>xml-apis</groupId>
+                    <artifactId>xml-apis</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.bbottema</groupId>
             <artifactId>rtf-to-html</artifactId>
+            <version>${rtf-to-html.version}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${mockito-junit-jupiter.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
             <scope>test</scope>
         </dependency>
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.repaint.maven</groupId>
+                <artifactId>tiles-maven-plugin</artifactId>
+                <version>${tiles-maven-plugin.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <tiles>
+                        <tile>net.kemitix.tiles:maven-plugins:${kemitix-tiles.version}</tile>
+                        <!--                        <tile>net.kemitix.tiles:enforcer:${kemitix-tiles.version}</tile>-->
+                        <tile>net.kemitix.tiles:compiler-jdk-lts:${kemitix-tiles.version}</tile>
+                        <!--                        <tile>net.kemitix.tiles:huntbugs:${kemitix-tiles.version}</tile>-->
+                        <!--                        <tile>net.kemitix.tiles:pmd:${kemitix-tiles.version}</tile>-->
+                        <tile>net.kemitix.tiles:testing:${kemitix-tiles.version}</tile>
+                        <!--                        <tile>net.kemitix.tiles:coverage:${kemitix-tiles.version}</tile>-->
+                        <!--                        <tile>net.kemitix.tiles:pitest:${kemitix-tiles.version}</tile>-->
+                    </tiles>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
