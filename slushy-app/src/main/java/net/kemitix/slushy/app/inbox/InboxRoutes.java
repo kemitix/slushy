@@ -77,7 +77,7 @@ public class InboxRoutes
         from("direct:Slushy.Inbox.SendEmailConfirmation")
                 .routeId("Slushy.Inbox.SendEmailConfirmation")
                 .setHeader("SlushyEmailTemplate").constant("inbox")
-                .to("direct:SlushySendEmail")
+                .to("direct:Slushy.SendEmail")
         ;
     }
 
