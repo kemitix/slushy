@@ -1,10 +1,7 @@
 package net.kemitix.slushy.app.withdraw;
 
-import net.kemitix.slushy.app.AddComment;
 import net.kemitix.slushy.app.IsRequiredAge;
 import net.kemitix.slushy.app.OnException;
-import net.kemitix.slushy.app.SlushyConfig;
-import net.kemitix.slushy.app.email.SendEmail;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.apache.camel.builder.RouteBuilder;
 
@@ -17,12 +14,9 @@ import static org.apache.camel.builder.Builder.bean;
 public class WithdrawRoutes
         extends RouteBuilder {
 
-    @Inject SlushyConfig slushyConfig;
     @Inject WithdrawConfig withdrawConfig;
     @Inject TrelloBoard trelloBoard;
     @Inject IsRequiredAge isRequiredAge;
-    @Inject SendEmail sendEmail;
-    @Inject AddComment addComment;
 
     @Override
     public void configure() {
@@ -43,19 +37,8 @@ public class WithdrawRoutes
 
         from("direct:Slushy.Withdraw.SendEmail")
                 .routeId("Slushy.Withdraw.SendEmail")
-                .setHeader("SlushyRecipient").simple("${header.SlushySubmission.email}")
-                .setHeader("SlushySender", slushyConfig::getSender)
-                .to("velocity:net/kemitix/slushy/app/withdraw/subject.txt")
-                .setHeader("SlushySubject").body()
-                .to("velocity:net/kemitix/slushy/app/withdraw/body.txt")
-                .setHeader("SlushyBody").body()
-                .to("velocity:net/kemitix/slushy/app/withdraw/body.html")
-                .setHeader("SlushyBodyHtml").body()
-                .bean(sendEmail)
-
-                .setHeader("SlushyComment")
-                .constant("Sent withdrawn notification to author")
-                .bean(addComment)
+                .setHeader("SlushyEmailTemplate").constant("withdraw")
+                .to("direct:Slushy.SendEmail")
         ;
     }
 

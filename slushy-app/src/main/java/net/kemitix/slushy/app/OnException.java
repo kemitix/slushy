@@ -8,7 +8,7 @@ public class OnException {
 
     public static void retry(
             RouteBuilder routeBuilder,
-            ListProcessConfig config
+            RetryConfig config
     ) {
         routeBuilder
                 .onException(IOException.class)

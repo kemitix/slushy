@@ -3,7 +3,7 @@ package net.kemitix.slushy;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.java.Log;
-import net.kemitix.slushy.app.ListProcessConfig;
+import net.kemitix.slushy.app.RetryConfig;
 import net.kemitix.slushy.app.SlushyConfig;
 
 import javax.annotation.PostConstruct;
@@ -27,7 +27,7 @@ public class QuarkusSlushyConfig
     private String sender = System.getenv("SLUSHY_SENDER");
     private String reader = System.getenv("SLUSHY_READER");
 
-    @Inject Instance<ListProcessConfig> listProcessConfigs;
+    @Inject Instance<RetryConfig> retryConfigs;
 
     @PostConstruct
     void init() {
@@ -37,7 +37,7 @@ public class QuarkusSlushyConfig
         log.info(String.format("SLUSHY_BOARD: %s", boardName));
         log.info(String.format("SLUSHY_SENDER: %s", sender));
         log.info(String.format("SLUSHY_READER: %s", reader));
-        listProcessConfigs.forEach(config ->
+        retryConfigs.forEach(config ->
                 log.info(String.format(
                         "[%s] scan every %s; retry: %d times, every %s",
                         config.getClass().getSimpleName(),

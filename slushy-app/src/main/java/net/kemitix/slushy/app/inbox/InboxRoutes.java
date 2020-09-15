@@ -27,8 +27,6 @@ public class InboxRoutes
     @Inject ParseSubmission parseSubmission;
     @Inject ReformatCard reformatCard;
     @Inject MoveCard moveCard;
-    @Inject SendEmail sendEmail;
-    @Inject AddComment addComment;
     @Inject IsRequiredAge isRequiredAge;
 
     @Override
@@ -78,20 +76,8 @@ public class InboxRoutes
 
         from("direct:Slushy.Inbox.SendEmailConfirmation")
                 .routeId("Slushy.Inbox.SendEmailConfirmation")
-
-                .setHeader("SlushyRecipient").simple("${header.SlushySubmission.email}")
-                .setHeader("SlushySender", slushyConfig::getSender)
-                .to("velocity:net/kemitix/slushy/app/inbox/subject.txt")
-                .setHeader("SlushySubject").body()
-                .to("velocity:net/kemitix/slushy/app/inbox/body.txt")
-                .setHeader("SlushyBody").body()
-                .to("velocity:net/kemitix/slushy/app/inbox/body.html")
-                .setHeader("SlushyBodyHtml").body()
-                .bean(sendEmail)
-
-                .setHeader("SlushyComment")
-                .constant("Sent received notification to author")
-                .bean(addComment)
+                .setHeader("SlushyEmailTemplate").constant("inbox")
+                .to("direct:Slushy.SendEmail")
         ;
     }
 
