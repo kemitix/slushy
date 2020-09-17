@@ -30,7 +30,6 @@
         <trello-java-wrapper.version>0.14</trello-java-wrapper.version>
         <odftoolkit.version>1.0.6</odftoolkit.version>
         <rtf-to-html.version>1.0.1</rtf-to-html.version>
-        <freemarker.version>2.3.30</freemarker.version>
         <flexmark.version>0.62.2</flexmark.version>
     </properties>
 
@@ -136,7 +135,6 @@
                 <configuration>
                     <tiles>
                         <tile>net.kemitix.tiles:maven-plugins:${kemitix-tiles.version}</tile>
-                        <!--                        <tile>net.kemitix.tiles:enforcer:${kemitix-tiles.version}</tile>-->
                         <tile>net.kemitix.tiles:compiler-jdk-lts:${kemitix-tiles.version}</tile>
                         <!--                        <tile>net.kemitix.tiles:huntbugs:${kemitix-tiles.version}</tile>-->
                         <!--                        <tile>net.kemitix.tiles:pmd:${kemitix-tiles.version}</tile>-->
