@@ -31,6 +31,7 @@
         <odftoolkit.version>1.0.6</odftoolkit.version>
         <rtf-to-html.version>1.0.1</rtf-to-html.version>
         <freemarker.version>2.3.30</freemarker.version>
+        <flexmark.version>0.62.2</flexmark.version>
     </properties>
 
     <dependencyManagement>
@@ -63,6 +64,12 @@
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
             <version>${javax.mail.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.vladsch.flexmark</groupId>
+            <artifactId>flexmark-all</artifactId>
+            <version>${flexmark.version}</version>
         </dependency>
 
         <dependency>
