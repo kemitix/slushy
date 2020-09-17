@@ -18,7 +18,7 @@
         <maven-graph-plugin.version>1.45</maven-graph-plugin.version>
 
         <tiles-maven-plugin.version>2.17</tiles-maven-plugin.version>
-        <kemitix-tiles.version>2.9.0</kemitix-tiles.version>
+        <kemitix-tiles.version>2.10.0</kemitix-tiles.version>
 
         <camel.version>3.5.0</camel.version>
         <lombok.version>1.18.12</lombok.version>
