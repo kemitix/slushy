@@ -26,7 +26,7 @@
         <aws-java-sdk-ses.version>1.11.856</aws-java-sdk-ses.version>
         <assertj.version>3.17.2</assertj.version>
         <junit.version>5.7.0</junit.version>
-        <mockito-junit-jupiter.version>3.5.10</mockito-junit-jupiter.version>
+        <mockito-junit-jupiter.version>3.5.11</mockito-junit-jupiter.version>
         <trello-java-wrapper.version>0.14</trello-java-wrapper.version>
         <odftoolkit.version>1.0.6</odftoolkit.version>
         <rtf-to-html.version>1.0.1</rtf-to-html.version>
