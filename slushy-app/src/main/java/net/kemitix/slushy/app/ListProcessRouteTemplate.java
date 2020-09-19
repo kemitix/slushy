@@ -35,7 +35,7 @@ public class ListProcessRouteTemplate
 
                 .from("timer:{{name}}?period={{scan-period}}")
                 .routeId("Slushy.{{name}}")
-                .log("Process list: {{name}}")
+                .log("Process list Start: {{name}}")
 
                 .setHeader("SlushyListName").simple("{{list-name}}")
                 .bean(getListCards)
@@ -46,6 +46,8 @@ public class ListProcessRouteTemplate
 
                 .setHeader("SlushyRoutingSlip").simple("{{routing-slip}}")
                 .routingSlip(header("SlushyRoutingSlip"))
+
+                .log("Process list Finish: {{name}}")
         ;
 
     }
