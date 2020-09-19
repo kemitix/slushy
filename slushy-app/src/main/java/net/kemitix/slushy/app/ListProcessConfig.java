@@ -1,11 +1,7 @@
 package net.kemitix.slushy.app;
 
-public interface ListProcessConfig {
-
-    /**
-     * How often, in seconds, to scan the list.
-     */
-    String getScanPeriod();
+public interface ListProcessConfig
+        extends RetryConfig {
 
     /**
      * The name of the list to scan.

@@ -14,8 +14,6 @@ public class MultiSubmissionRoute
 
     @Inject SlushyConfig slushyConfig;
     @Inject IsMultipleSubmission isMultipleSubmission;
-    @Inject SendEmail sendEmail;
-    @Inject AddComment addComment;
 
     @Override
     public void configure() {
@@ -33,20 +31,8 @@ public class MultiSubmissionRoute
                 .routeId("Slushy.MultiSubDetected")
                 .log("Submission rejected due to an existing submission")
                 .setHeader("SlushyRejection").body()
-                // send email to author
-                .setHeader("SlushyRecipient").simple("${header.SlushySubmission.email}")
-                .setHeader("SlushySender", slushyConfig::getSender)
-                .to("velocity:net/kemitix/slushy/app/multisub/subject.txt")
-                .setHeader("SlushySubject").body()
-                .to("velocity:net/kemitix/slushy/app/multisub/body.txt")
-                .setHeader("SlushyBody").body()
-                .to("velocity:net/kemitix/slushy/app/multisub/body.html")
-                .setHeader("SlushyBodyHtml").body()
-                .bean(sendEmail)
-
-                .setHeader("SlushyComment").simple(
-                        "Sent multi-submission rejection notification to author")
-                .bean(addComment)
+                .setHeader("SlushyEmailTemplate").constant("multisub")
+                .to("direct:Slushy.SendEmail")
 
                 // move card to rejected
                 .to("direct:Slushy.Reject.MoveToTargetList")

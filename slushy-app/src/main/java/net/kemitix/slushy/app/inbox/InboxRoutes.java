@@ -3,6 +3,7 @@ package net.kemitix.slushy.app.inbox;
 import net.kemitix.slushy.app.MoveCard;
 import net.kemitix.slushy.app.AddComment;
 import net.kemitix.slushy.app.IsRequiredAge;
+import net.kemitix.slushy.app.OnException;
 import net.kemitix.slushy.app.SlushyConfig;
 import net.kemitix.slushy.app.ParseSubmission;
 import net.kemitix.slushy.app.email.SendEmail;
@@ -10,6 +11,8 @@ import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.builder.TemplatedRouteBuilder;
+
+import java.io.IOException;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -20,6 +23,7 @@ import static net.kemitix.slushy.app.ListProcessRouteTemplate.PARAM_REQUIRED_AGE
 import static net.kemitix.slushy.app.ListProcessRouteTemplate.PARAM_ROUTING_SLIP;
 import static net.kemitix.slushy.app.ListProcessRouteTemplate.PARAM_SCAN_PERIOD;
 import static net.kemitix.slushy.app.ListProcessRouteTemplate.ROUTE_LIST_PROCESS;
+
 import static org.apache.camel.builder.Builder.bean;
 
 @ApplicationScoped
@@ -38,6 +42,8 @@ public class InboxRoutes
 
     @Override
     public void configure() {
+        OnException.retry(this, inboxConfig);
+      
         TemplatedRouteBuilder.builder(camelContext, ROUTE_LIST_PROCESS)
                 .parameter(PARAM_NAME, "inbox")
                 .parameter(PARAM_SCAN_PERIOD, inboxConfig.getScanPeriod())
@@ -77,21 +83,8 @@ public class InboxRoutes
 
         from("direct:Slushy.Inbox.SendEmailConfirmation")
                 .routeId("Slushy.Inbox.SendEmailConfirmation")
-
-                .setHeader("SlushyRecipient").simple(
-                        "${header.SlushySubmission.email}")
-                .setHeader("SlushySender", slushyConfig::getSender)
-                .to("velocity:net/kemitix/slushy/app/inbox/subject.txt")
-                .setHeader("SlushySubject").body()
-                .to("velocity:net/kemitix/slushy/app/inbox/body.txt")
-                .setHeader("SlushyBody").body()
-                .to("velocity:net/kemitix/slushy/app/inbox/body.html")
-                .setHeader("SlushyBodyHtml").body()
-                .bean(sendEmail)
-
-                .setHeader("SlushyComment").simple(
-                        "Sent received notification to author")
-                .bean(addComment)
+                .setHeader("SlushyEmailTemplate").constant("inbox")
+                .to("direct:Slushy.SendEmail")
         ;
     }
 

@@ -27,10 +27,9 @@ public class SendEmail {
             @NonNull @Header("SlushyBody") String body,
             @NonNull @Header("SlushyBodyHtml") String bodyHtml
     ) {
-        log.info(String.format("send to %s, from %s", recipient, sender));
         SendEmailRequest request =
                 request(recipient, sender, subject, body, bodyHtml);
-        log.info(String.format("Sending %s", subject));
+        log.info(String.format("Sending to %s: %s", recipient, subject));
         sesService.sendEmail(request);
     }
 

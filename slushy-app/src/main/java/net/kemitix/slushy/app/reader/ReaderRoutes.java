@@ -3,6 +3,7 @@ package net.kemitix.slushy.app.reader;
 import net.kemitix.slushy.app.AttachmentLoader;
 import net.kemitix.slushy.app.MoveCard;
 import net.kemitix.slushy.app.AddComment;
+import net.kemitix.slushy.app.OnException;
 import net.kemitix.slushy.app.SlushyConfig;
 import net.kemitix.slushy.app.email.SendEmailAttachment;
 import net.kemitix.slushy.app.trello.TrelloBoard;
@@ -27,6 +28,8 @@ public class ReaderRoutes
 
     @Override
     public void configure() {
+        OnException.retry(this, readerConfig);
+
         fromF("timer:reader?period=%s", readerConfig.getScanPeriod())
                 .routeId("Slushy.Reader")
                 .setBody(exchange -> trelloBoard.getListCards(readerConfig.getSourceList()))
@@ -49,8 +52,8 @@ public class ReaderRoutes
                 .setHeader("SlushySubject", simple("Reader: ${header.SlushyCard.name}"))
                 .bean(sendEmailAttachment)
 
-                .setHeader("SlushyComment").simple(
-                        "Sent attachment to reader")
+                .setHeader("SlushyComment")
+                .constant("Sent attachment to reader")
                 .bean(addComment)
         ;
 
