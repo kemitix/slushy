@@ -3,12 +3,14 @@ package net.kemitix.slushy.app;
 import net.kemitix.slushy.app.trello.GetListCards;
 import org.apache.camel.builder.RouteBuilder;
 
+import javax.annotation.Priority;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import static org.apache.camel.builder.Builder.bean;
 
 @ApplicationScoped
+@Priority(1)
 public class ListProcessRouteTemplate
         extends RouteBuilder {
 
