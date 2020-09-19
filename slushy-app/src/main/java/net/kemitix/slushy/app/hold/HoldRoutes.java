@@ -1,37 +1,40 @@
 package net.kemitix.slushy.app.hold;
 
-import net.kemitix.slushy.app.IsRequiredAge;
 import net.kemitix.slushy.app.MoveCard;
 import net.kemitix.slushy.app.OnException;
-import net.kemitix.slushy.app.trello.TrelloBoard;
+import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.builder.TemplatedRouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import static org.apache.camel.builder.Builder.bean;
+import static net.kemitix.slushy.app.ListProcessRouteTemplate.PARAM_LIST_NAME;
+import static net.kemitix.slushy.app.ListProcessRouteTemplate.PARAM_NAME;
+import static net.kemitix.slushy.app.ListProcessRouteTemplate.PARAM_REQUIRED_AGE_HOURS;
+import static net.kemitix.slushy.app.ListProcessRouteTemplate.PARAM_ROUTING_SLIP;
+import static net.kemitix.slushy.app.ListProcessRouteTemplate.PARAM_SCAN_PERIOD;
+import static net.kemitix.slushy.app.ListProcessRouteTemplate.ROUTE_LIST_PROCESS;
 
 @ApplicationScoped
 public class HoldRoutes
         extends RouteBuilder {
 
     @Inject HoldConfig holdConfig;
-    @Inject TrelloBoard trelloBoard;
     @Inject MoveCard moveCard;
-    @Inject IsRequiredAge isRequiredAge;
+    @Inject CamelContext camelContext;
 
     @Override
     public void configure() {
         OnException.retry(this, holdConfig);
 
-        fromF("timer:hold?period=%s", holdConfig.getScanPeriod())
-                .routeId("Slushy.Hold")
-                .setBody(exchange -> trelloBoard.getListCards(holdConfig.getSourceList()))
-                .split(body())
-                .setHeader("SlushyRequiredAge", holdConfig::getRequiredAgeHours)
-                .filter(bean(isRequiredAge))
-                .setHeader("SlushyRoutingSlip", holdConfig::getRoutingSlip)
-                .routingSlip(header("SlushyRoutingSlip"))
+        TemplatedRouteBuilder.builder(camelContext, ROUTE_LIST_PROCESS)
+                .parameter(PARAM_NAME, "hold")
+                .parameter(PARAM_SCAN_PERIOD, holdConfig.getScanPeriod())
+                .parameter(PARAM_LIST_NAME, holdConfig.getSourceList())
+                .parameter(PARAM_REQUIRED_AGE_HOURS, holdConfig.getRequiredAgeHours())
+                .parameter(PARAM_ROUTING_SLIP, holdConfig.getRoutingSlip())
+                .add()
         ;
 
         from("direct:Slushy.Hold.SendEmail")
