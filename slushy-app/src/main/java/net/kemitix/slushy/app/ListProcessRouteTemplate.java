@@ -1,5 +1,6 @@
 package net.kemitix.slushy.app;
 
+import net.kemitix.slushy.app.trello.GetListCards;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.apache.camel.builder.RouteBuilder;
 
@@ -21,6 +22,7 @@ public class ListProcessRouteTemplate
 
     @Inject TrelloBoard trelloBoard;
     @Inject IsRequiredAge isRequiredAge;
+    @Inject GetListCards getListCards;
 
     @Override
     public void configure() throws Exception {
@@ -35,7 +37,8 @@ public class ListProcessRouteTemplate
                 .routeId("Slushy.{{name}}")
                 .log("Process list: {{name}}")
 
-                .setBody(exchange -> trelloBoard.getListCards("{{list-name}}"))
+                .setHeader("SlushyListName").simple("{{list-name}}")
+                .bean(getListCards)
                 .split(body())
 
                 .setHeader("SlushyRequiredAge").simple("{{required-age-hours}}")
