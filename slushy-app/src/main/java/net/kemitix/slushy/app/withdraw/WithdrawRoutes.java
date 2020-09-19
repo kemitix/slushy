@@ -1,38 +1,38 @@
 package net.kemitix.slushy.app.withdraw;
 
-import net.kemitix.slushy.app.IsRequiredAge;
 import net.kemitix.slushy.app.OnException;
-import net.kemitix.slushy.app.trello.TrelloBoard;
+import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.builder.TemplatedRouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import static org.apache.camel.builder.Builder.bean;
+import static net.kemitix.slushy.app.ListProcessRouteTemplate.PARAM_LIST_NAME;
+import static net.kemitix.slushy.app.ListProcessRouteTemplate.PARAM_NAME;
+import static net.kemitix.slushy.app.ListProcessRouteTemplate.PARAM_REQUIRED_AGE_HOURS;
+import static net.kemitix.slushy.app.ListProcessRouteTemplate.PARAM_ROUTING_SLIP;
+import static net.kemitix.slushy.app.ListProcessRouteTemplate.PARAM_SCAN_PERIOD;
+import static net.kemitix.slushy.app.ListProcessRouteTemplate.ROUTE_LIST_PROCESS;
 
 @ApplicationScoped
 public class WithdrawRoutes
         extends RouteBuilder {
 
     @Inject WithdrawConfig withdrawConfig;
-    @Inject TrelloBoard trelloBoard;
-    @Inject IsRequiredAge isRequiredAge;
+    @Inject CamelContext camelContext;
 
     @Override
     public void configure() {
         OnException.retry(this, withdrawConfig);
 
-        fromF("timer:withdraw?period=%s", withdrawConfig.getScanPeriod())
-                .routeId("Slushy.Withdraw")
-
-                .setBody(exchange -> trelloBoard.getListCards(withdrawConfig.getSourceList()))
-                .split(body())
-
-                .setHeader("SlushyRequiredAge", withdrawConfig::getRequiredAgeHours)
-                .filter(bean(isRequiredAge))
-
-                .setHeader("SlushyRoutingSlip", withdrawConfig::getRoutingSlip)
-                .routingSlip(header("SlushyRoutingSlip"))
+        TemplatedRouteBuilder.builder(camelContext, ROUTE_LIST_PROCESS)
+                .parameter(PARAM_NAME, "reader")
+                .parameter(PARAM_SCAN_PERIOD, withdrawConfig.getScanPeriod())
+                .parameter(PARAM_LIST_NAME, withdrawConfig.getSourceList())
+                .parameter(PARAM_REQUIRED_AGE_HOURS, withdrawConfig.getRequiredAgeHours())
+                .parameter(PARAM_ROUTING_SLIP, withdrawConfig.getRoutingSlip())
+                .add()
         ;
 
         from("direct:Slushy.Withdraw.SendEmail")
