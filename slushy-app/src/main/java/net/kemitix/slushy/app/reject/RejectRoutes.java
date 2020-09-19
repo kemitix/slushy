@@ -1,39 +1,40 @@
 package net.kemitix.slushy.app.reject;
 
-import net.kemitix.slushy.app.IsRequiredAge;
 import net.kemitix.slushy.app.MoveCard;
 import net.kemitix.slushy.app.OnException;
-import net.kemitix.slushy.app.SlushyCard;
-import net.kemitix.slushy.app.trello.TrelloBoard;
+import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.builder.TemplatedRouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import static org.apache.camel.builder.Builder.bean;
+import static net.kemitix.slushy.app.ListProcessRouteTemplate.PARAM_LIST_NAME;
+import static net.kemitix.slushy.app.ListProcessRouteTemplate.PARAM_NAME;
+import static net.kemitix.slushy.app.ListProcessRouteTemplate.PARAM_REQUIRED_AGE_HOURS;
+import static net.kemitix.slushy.app.ListProcessRouteTemplate.PARAM_ROUTING_SLIP;
+import static net.kemitix.slushy.app.ListProcessRouteTemplate.PARAM_SCAN_PERIOD;
+import static net.kemitix.slushy.app.ListProcessRouteTemplate.ROUTE_LIST_PROCESS;
 
 @ApplicationScoped
 public class RejectRoutes
         extends RouteBuilder {
 
     @Inject RejectConfig rejectConfig;
-    @Inject TrelloBoard trelloBoard;
     @Inject MoveCard moveCard;
-    @Inject IsRequiredAge isRequiredAge;
+    @Inject CamelContext camelContext;
 
     @Override
     public void configure() {
         OnException.retry(this, rejectConfig);
 
-        fromF("timer:reject?period=%s", rejectConfig.getScanPeriod())
-                .routeId("Slushy.Reject")
-                .setBody(exchange -> trelloBoard.getListCards(rejectConfig.getSourceList()))
-                .split(body())
-                .convertBodyTo(SlushyCard.class)
-                .setHeader("SlushyRequiredAge", rejectConfig::getRequiredAgeHours)
-                .filter(bean(isRequiredAge))
-                .setHeader("SlushyRoutingSlip", rejectConfig::getRoutingSlip)
-                .routingSlip(header("SlushyRoutingSlip"))
+        TemplatedRouteBuilder.builder(camelContext, ROUTE_LIST_PROCESS)
+                .parameter(PARAM_NAME, "reject")
+                .parameter(PARAM_SCAN_PERIOD, rejectConfig.getScanPeriod())
+                .parameter(PARAM_LIST_NAME, rejectConfig.getSourceList())
+                .parameter(PARAM_REQUIRED_AGE_HOURS, rejectConfig.getRequiredAgeHours())
+                .parameter(PARAM_ROUTING_SLIP, rejectConfig.getRoutingSlip())
+                .add()
         ;
 
         from("direct:Slushy.Reject.SendEmail")
