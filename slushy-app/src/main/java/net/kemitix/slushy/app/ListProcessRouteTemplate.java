@@ -1,7 +1,6 @@
 package net.kemitix.slushy.app;
 
 import net.kemitix.slushy.app.trello.GetListCards;
-import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.apache.camel.builder.RouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -20,7 +19,6 @@ public class ListProcessRouteTemplate
     public static final String PARAM_REQUIRED_AGE_HOURS = "required-age-hours";
     public static final String PARAM_ROUTING_SLIP = "routing-slip";
 
-    @Inject TrelloBoard trelloBoard;
     @Inject IsRequiredAge isRequiredAge;
     @Inject GetListCards getListCards;
 
