@@ -39,17 +39,10 @@ public class ReformatCardTest
     // values
     String storyTitle = UUID.randomUUID().toString();
     String authorByline = UUID.randomUUID().toString();
-    String cardDescription;
 
     @BeforeEach
-    void setUp() throws IOException {
+    void setUp() {
         given(now.get()).willReturn(Instant.ofEpochSecond(1234567890));
-        cardDescription = Files.readString(
-                Paths.get(
-                        ReformatCard.class.getResource(
-                                "description.txt")
-                                .getPath()));
-        given(card.getDesc()).willReturn(cardDescription);
         given(submission.getTitle()).willReturn(storyTitle);
         given(submission.getByline()).willReturn(authorByline);
     }
@@ -89,21 +82,6 @@ public class ReformatCardTest
         reformatCard.reformat(submission, card);
         //then
         verify(card).setDue(expectedDueDate);
-        verify(trelloBoard).updateCard(card);
-    }
-
-    @Test
-    void setsDescription() throws IOException {
-        //given
-        String expectedDescription = Files.readString(
-                Paths.get(
-                        ReformatCard.class.getResource(
-                                "clean-description.txt")
-                                .getPath()));
-        //when
-        reformatCard.reformat(submission, card);
-        //then
-        verify(card).setDesc(expectedDescription);
         verify(trelloBoard).updateCard(card);
     }
 
