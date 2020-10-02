@@ -1,6 +1,7 @@
 package net.kemitix.slushy.app.inbox;
 
 import lombok.NonNull;
+import net.kemitix.slushy.app.CardBodyCleaner;
 import net.kemitix.slushy.app.Now;
 import net.kemitix.slushy.app.SlushyCard;
 import net.kemitix.slushy.app.Submission;
@@ -17,9 +18,20 @@ import java.util.Date;
 @ApplicationScoped
 public class ReformatCard {
 
-    @Inject InboxConfig inboxConfig;
-    @Inject Now now;
-    @Inject TrelloBoard trelloBoard;
+    private final InboxConfig inboxConfig;
+    private final Now now;
+    private final TrelloBoard trelloBoard;
+
+    @Inject
+    public ReformatCard(
+            InboxConfig inboxConfig,
+            Now now,
+            TrelloBoard trelloBoard
+    ) {
+        this.inboxConfig = inboxConfig;
+        this.now = now;
+        this.trelloBoard = trelloBoard;
+    }
 
     @Handler
     Submission reformat(

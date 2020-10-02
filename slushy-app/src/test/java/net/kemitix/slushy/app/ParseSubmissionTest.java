@@ -37,11 +37,8 @@ public class ParseSubmissionTest
     private final Now now = () -> Instant.ofEpochSecond(123456789);
     private ValidFileTypes validFileTypes;
 
-    @Mock
-    TrelloBoard trelloBoard;
-
-    @Mock
-    ConvertAttachment convertAttachment;
+    @Mock TrelloBoard trelloBoard;
+    @Mock ConvertAttachment convertAttachment;
     @Mock Instance<AttachmentConverter> attachmentConverters;
     @Mock AttachmentConverter attachmentConverter;
 
@@ -49,6 +46,7 @@ public class ParseSubmissionTest
     public void setUp() {
         parseSubmission.now = now;
         parseSubmission.trelloBoard = trelloBoard;
+        parseSubmission.cardBodyCleaner = new CardBodyCleaner();
         validFileTypes = new ValidFileTypes(convertAttachment, attachmentConverters);
         parseSubmission.validFileTypes = validFileTypes;
         given(attachmentConverters.stream())
@@ -101,7 +99,7 @@ public class ParseSubmissionTest
         @DisplayName("Parse Email")
         public void parseEmail() {
             assertThat(parseSubmission.parse(card).getEmail())
-                    .isEqualTo("email@example.com");
+                    .isEqualTo("my_email@example.com");
         }
 
         @Test
