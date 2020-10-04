@@ -1,19 +1,15 @@
 package net.kemitix.slushy.app.inbox;
 
-import net.kemitix.slushy.app.MoveCard;
-import net.kemitix.slushy.app.AddComment;
 import net.kemitix.slushy.app.IsRequiredAge;
+import net.kemitix.slushy.app.MoveCard;
 import net.kemitix.slushy.app.OnException;
-import net.kemitix.slushy.app.SlushyConfig;
 import net.kemitix.slushy.app.ParseSubmission;
-import net.kemitix.slushy.app.email.SendEmail;
+import net.kemitix.slushy.app.SlushyConfig;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.apache.camel.builder.RouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-
-import java.io.IOException;
 
 import static org.apache.camel.builder.Builder.bean;
 
