@@ -15,13 +15,16 @@ public class LocalAttachment
 
     private final File filename;
     private final File originalFilename;
+    private final long length;
 
     public LocalAttachment(
             File filename,
-            File originalFilename
+            File originalFilename,
+            long length
     ) {
         this.filename = filename;
         this.originalFilename = originalFilename;
+        this.length = length;
     }
 
     @Override
