@@ -53,16 +53,6 @@ public class InboxRoutes
                 .setHeader("SlushySubmission", body())
         ;
 
-        from("direct:Slushy.ValidateAttachment")
-                .routeId("Slushy.ValidateAttachment")
-                .choice()
-                .when(simple("${body.isValid}"))
-                .otherwise()
-                .to("direct:Slushy.InvalidAttachment")
-                .process(exchange -> exchange.setRouteStop(true))
-                .end()
-        ;
-
         from("direct:Slushy.ReformatCard")
                 .routeId("Slushy.ReformatCard")
                 .bean(reformatCard)
