@@ -29,7 +29,7 @@ public class Submission {
                 wordLengthBand, coverLetter, contract, date, document);
     }
 
-    public boolean isValid() {
+    public boolean hasDocument() {
         return document != null;
     }
 

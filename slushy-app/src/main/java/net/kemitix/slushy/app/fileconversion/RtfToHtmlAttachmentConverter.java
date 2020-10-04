@@ -8,6 +8,7 @@ import org.bbottema.rtftohtml.RTF2HTMLConverter;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Optional;
@@ -38,7 +39,13 @@ public class RtfToHtmlAttachmentConverter
             String rtfString = Files.readString(sourceFile.toPath());
             String html = htmlCleaner.clean(converter.rtf2html(rtfString));
             Files.writeString(targetFile.toPath(), html);
-            return Optional.of(new LocalAttachment(targetFile, sourceFile));
+            if (targetFile.exists()) {
+                return Optional.of(
+                        new LocalAttachment(
+                                targetFile, sourceFile, targetFile.length()));
+            } else {
+                throw new FileNotFoundException(targetFile.getAbsolutePath());
+            }
         } catch (IOException e) {
             return Optional.empty();
         }

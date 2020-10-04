@@ -70,8 +70,9 @@ public class TrelloAttachment implements Attachment {
             var file = attachmentDirectory.createFile(getFilename());
             LOG.info("Downloading to " + file.getCanonicalPath());
             try (var channel = new FileOutputStream(file).getChannel()) {
-                channel.transferFrom(source, 0, Long.MAX_VALUE);
-                return new LocalAttachment(file, filename);
+                long length = channel.transferFrom(source, 0, Long.MAX_VALUE);
+                LOG.info("Downloaded length: " + length);
+                return new LocalAttachment(file, filename, length);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

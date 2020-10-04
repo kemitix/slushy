@@ -22,7 +22,6 @@ public class ReaderRoutes
     @Inject ReaderConfig readerConfig;
     @Inject TrelloBoard trelloBoard;
     @Inject MoveCard moveCard;
-    @Inject AttachmentLoader attachmentLoader;
     @Inject SendEmailAttachment sendEmailAttachment;
     @Inject AddComment addComment;
 
@@ -36,12 +35,6 @@ public class ReaderRoutes
                 .split(body())
                 .setHeader("SlushyRoutingSlip", readerConfig::getRoutingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))
-        ;
-
-        from("direct:Slushy.LoadAttachment")
-                .routeId("Slushy.LoadAttachment")
-                .setHeader("SlushyAttachment",
-                        bean(attachmentLoader, "load(${header.SlushyCard})"))
         ;
 
         from("direct:Slushy.SendToReader")

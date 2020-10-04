@@ -42,7 +42,9 @@ public class OdtToHtmlAttachmentConverter
             OdfTextDocument document = OdfTextDocument.loadDocument(in);
             xhtmlConverter.convert(document, out, XHTMLOptions.create());
             if (targetFile.exists()) {
-                return Optional.of(new LocalAttachment(targetFile, sourceFile));
+                return Optional.of(
+                        new LocalAttachment(
+                                targetFile, sourceFile, targetFile.length()));
             } else {
                 throw new FileNotFoundException(targetFile.getAbsolutePath());
             }
