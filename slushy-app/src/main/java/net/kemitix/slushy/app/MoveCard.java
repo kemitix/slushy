@@ -17,7 +17,7 @@ public class MoveCard {
     @Inject TrelloBoard trelloBoard;
 
     @Handler
-    void move(
+    public void move(
             @NonNull @Header("SlushyCard") SlushyCard card,
             @NonNull @Header("SlushyTargetList") String targetList
     ) {
