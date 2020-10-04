@@ -27,6 +27,10 @@ public class LocalAttachment
         this.length = length;
     }
 
+    boolean isCorrupt() {
+        return length == 0;
+    }
+
     @Override
     public LocalAttachment download() {
         return this;
