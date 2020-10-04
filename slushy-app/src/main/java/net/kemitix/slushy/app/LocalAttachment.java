@@ -27,7 +27,7 @@ public class LocalAttachment
         this.length = length;
     }
 
-    boolean isCorrupt() {
+    boolean isZero() {
         return length == 0;
     }
 
