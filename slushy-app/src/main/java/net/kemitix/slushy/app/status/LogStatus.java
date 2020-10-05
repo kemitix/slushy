@@ -16,7 +16,7 @@ public class LogStatus {
     @Inject Instance<ListProcessConfig> listProcessConfigs;
     @Inject TrelloBoard trelloBoard;
 
-    void status() {
+    public void status() {
         log.info("Status:");
         listProcessConfigs.stream()
                 .flatMap(config -> Stream.of(config.getSourceList(), config.getTargetList()))
