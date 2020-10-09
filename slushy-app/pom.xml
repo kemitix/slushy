@@ -21,7 +21,7 @@
         <kemitix-tiles.version>2.10.0</kemitix-tiles.version>
 
         <camel.version>3.5.0</camel.version>
-        <lombok.version>1.18.12</lombok.version>
+        <lombok.version>1.18.14</lombok.version>
         <javax.mail.version>1.5.0-b01</javax.mail.version>
         <aws-java-sdk-ses.version>1.11.874</aws-java-sdk-ses.version>
         <assertj.version>3.17.2</assertj.version>
