@@ -18,7 +18,7 @@ public class LogStatus {
     @Inject Instance<ListProcessConfig> listProcessConfigs;
     @Inject TrelloBoard trelloBoard;
 
-    public void status() {
+    void status() {
         List<String> status = new ArrayList<>();
         status.add("Status:");
         listProcessConfigs.stream()
