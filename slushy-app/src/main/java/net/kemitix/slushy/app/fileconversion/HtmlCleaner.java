@@ -1,18 +1,14 @@
 package net.kemitix.slushy.app.fileconversion;
 
+import fr.opensagres.xdocreport.xhtml.extension.StringEscapeUtils;
+
 import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class HtmlCleaner {
 
     String clean(String in) {
-        return in
-                .replace("“", "&OpenCurlyDoubleQuote;")
-                .replace("”", "&CloseCurlyDoubleQuote;")
-                .replace("’", "&CloseCurlyQuote;")
-                .replace("—", "&mdash;")
-                .replace("–", "&ndash;")
-                ;
+        return StringEscapeUtils.escapeHtml(in);
     }
 
 }
