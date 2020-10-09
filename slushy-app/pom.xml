@@ -31,6 +31,7 @@
         <odftoolkit.version>1.0.6</odftoolkit.version>
         <rtf-to-html.version>1.0.1</rtf-to-html.version>
         <flexmark.version>0.62.2</flexmark.version>
+        <commons-lang3.version>3.11</commons-lang3.version>
     </properties>
 
     <dependencyManagement>
@@ -82,6 +83,11 @@
             <artifactId>jakarta.jakartaee-api</artifactId>
             <version>8.0.0</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
         </dependency>
         <dependency>
             <groupId>com.taskadapter</groupId>
