@@ -1,0 +1,17 @@
+Dear ${headers.SlushySubmission.byline},
+
+Thank you for submitting your story, "${headers.SlushySubmission.title} by ${headers.SlushySubmission.byline}".
+
+Unfortunately, there was a problem with the file.
+We received an empty file (i.e. 0 bytes in length).
+
+Please resubmit (https://www.cossmass.com/submit/)
+your story again.
+
+If you have received this message more than once, please try using another
+browser, computer, or your phone. If you have already tried that and are
+still having problems, reply to this message and we will try to help.
+
+Yours,
+Paul Campbell - Editor
+Cossmass Infinities - https://www.cossmass.com/

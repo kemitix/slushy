@@ -16,7 +16,7 @@ public class AttachmentLoader {
     @Inject
     AttachmentDirectory attachmentDirectory;
 
-    Attachment load(Card card) {
+    public LocalAttachment load(Card card) {
         return TrelloCard.create(card, trello, attachmentDirectory)
                 .findAttachments()
                 .map(Attachment::download)

@@ -3,7 +3,6 @@ package net.kemitix.slushy.app;
 import com.julienvey.trello.domain.Attachment;
 import com.julienvey.trello.domain.Card;
 import lombok.NonNull;
-import net.kemitix.slushy.app.*;
 import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
@@ -27,6 +26,7 @@ public class ParseSubmission {
     @Inject Now now;
     @Inject TrelloBoard trelloBoard;
     @Inject ValidFileTypes validFileTypes;
+    @Inject CardBodyCleaner cardBodyCleaner;
 
     @Handler
     public Submission parse(
@@ -65,7 +65,7 @@ public class ParseSubmission {
     }
 
     private Map<String, String> parseBody(Card card) {
-        String body = card.getDesc();
+        String body = cardBodyCleaner.clean(card.getDesc());
         Map<String, String> values = new HashMap<>();
         AtomicReference<String> header = new AtomicReference<>("preamble");
         Arrays.stream(body.split("\n"))

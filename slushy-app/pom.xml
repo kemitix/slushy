@@ -12,25 +12,26 @@
 
     <groupId>net.kemitix.slushy</groupId>
     <artifactId>slushy-app</artifactId>
-    <version>1.8.2</version>
+    <version>1.13.0</version>
 
     <properties>
         <maven-graph-plugin.version>1.45</maven-graph-plugin.version>
 
-        <tiles-maven-plugin.version>2.17</tiles-maven-plugin.version>
+        <tiles-maven-plugin.version>2.18</tiles-maven-plugin.version>
         <kemitix-tiles.version>2.10.0</kemitix-tiles.version>
 
         <camel.version>3.5.0</camel.version>
-        <lombok.version>1.18.12</lombok.version>
+        <lombok.version>1.18.14</lombok.version>
         <javax.mail.version>1.5.0-b01</javax.mail.version>
-        <aws-java-sdk-ses.version>1.11.867</aws-java-sdk-ses.version>
+        <aws-java-sdk-ses.version>1.11.874</aws-java-sdk-ses.version>
         <assertj.version>3.17.2</assertj.version>
         <junit.version>5.7.0</junit.version>
-        <mockito-junit-jupiter.version>3.5.11</mockito-junit-jupiter.version>
+        <mockito-junit-jupiter.version>3.5.13</mockito-junit-jupiter.version>
         <trello-java-wrapper.version>0.14</trello-java-wrapper.version>
         <odftoolkit.version>1.0.6</odftoolkit.version>
         <rtf-to-html.version>1.0.1</rtf-to-html.version>
         <flexmark.version>0.62.2</flexmark.version>
+        <commons-lang3.version>3.11</commons-lang3.version>
     </properties>
 
     <dependencyManagement>
@@ -82,6 +83,11 @@
             <artifactId>jakarta.jakartaee-api</artifactId>
             <version>8.0.0</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
         </dependency>
         <dependency>
             <groupId>com.taskadapter</groupId>

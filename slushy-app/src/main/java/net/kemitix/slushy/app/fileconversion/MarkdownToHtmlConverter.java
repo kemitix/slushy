@@ -47,7 +47,9 @@ public class MarkdownToHtmlConverter
                             renderer.render(parser.parse(markdown))));
             Files.writeString(targetFile.toPath(), html);
             if (targetFile.exists()) {
-                return Optional.of(new LocalAttachment(targetFile, sourceFile));
+                return Optional.of(
+                        new LocalAttachment(
+                                targetFile, sourceFile, targetFile.length()));
             } else {
                 throw new FileNotFoundException(targetFile.getAbsolutePath());
             }

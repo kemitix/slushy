@@ -24,7 +24,7 @@ TEST Author ByLine
 
 **email:**
 
-email@example.com
+my\_email@example.com
 
 **paypal:**
 
