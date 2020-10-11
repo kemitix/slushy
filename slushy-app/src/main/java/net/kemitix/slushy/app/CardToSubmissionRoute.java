@@ -1,0 +1,27 @@
+package net.kemitix.slushy.app;
+
+import org.apache.camel.builder.RouteBuilder;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+@ApplicationScoped
+public class CardToSubmissionRoute
+        extends RouteBuilder {
+    private final ParseSubmission parseSubmission;
+
+    @Inject
+    public CardToSubmissionRoute(ParseSubmission parseSubmission) {
+        this.parseSubmission = parseSubmission;
+    }
+
+    @Override
+    public void configure() {
+        from("direct:Slushy.CardToSubmission")
+                .routeId("Slushy.CardToSubmission")
+                .setHeader("SlushyCard", body())
+                .bean(parseSubmission)
+                .setHeader("SlushySubmission", body())
+        ;
+    }
+}

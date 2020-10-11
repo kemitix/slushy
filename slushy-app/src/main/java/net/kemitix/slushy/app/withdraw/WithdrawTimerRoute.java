@@ -11,12 +11,23 @@ import javax.inject.Inject;
 import static org.apache.camel.builder.Builder.bean;
 
 @ApplicationScoped
-public class WithdrawRoutes
+public class WithdrawTimerRoute
         extends RouteBuilder {
 
-    @Inject WithdrawConfig withdrawConfig;
-    @Inject TrelloBoard trelloBoard;
-    @Inject IsRequiredAge isRequiredAge;
+    private final WithdrawConfig withdrawConfig;
+    private final TrelloBoard trelloBoard;
+    private final IsRequiredAge isRequiredAge;
+
+    @Inject
+    public WithdrawTimerRoute(
+            WithdrawConfig withdrawConfig,
+            TrelloBoard trelloBoard,
+            IsRequiredAge isRequiredAge
+    ) {
+        this.withdrawConfig = withdrawConfig;
+        this.trelloBoard = trelloBoard;
+        this.isRequiredAge = isRequiredAge;
+    }
 
     @Override
     public void configure() {
@@ -33,12 +44,6 @@ public class WithdrawRoutes
 
                 .setHeader("SlushyRoutingSlip", withdrawConfig::getRoutingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))
-        ;
-
-        from("direct:Slushy.Withdraw.SendEmail")
-                .routeId("Slushy.Withdraw.SendEmail")
-                .setHeader("SlushyEmailTemplate").constant("withdraw")
-                .to("direct:Slushy.SendEmail")
         ;
     }
 

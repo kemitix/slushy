@@ -6,32 +6,23 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 @ApplicationScoped
-public class DueDateRoutes
+public class DueIn60DaysRoute
         extends RouteBuilder {
 
-    @Inject SetDueInDays setDueInDays;
-    @Inject MarkCompleted markCompleted;
+    private final SetDueInDays setDueInDays;
+
+    @Inject
+    public DueIn60DaysRoute(SetDueInDays setDueInDays) {
+        this.setDueInDays = setDueInDays;
+    }
 
     @Override
     public void configure() {
         from("direct:Slushy.DueIn30Days")
                 .routeId("Slushy.DueIn30Days")
                 .setHeader("SlushyDueInDays")
-                .constant("30")
-                .bean(setDueInDays)
-        ;
-
-        from("direct:Slushy.DueIn60Days")
-                .routeId("Slushy.DueIn60Days")
-                .setHeader("SlushyDueInDays")
                 .constant("60")
                 .bean(setDueInDays)
         ;
-
-        from("direct:Slushy.DueCompleted")
-                .routeId("Slushy.DueCompleted")
-                .bean(markCompleted)
-        ;
     }
-
 }

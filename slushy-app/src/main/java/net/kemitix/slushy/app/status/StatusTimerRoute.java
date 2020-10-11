@@ -6,7 +6,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 @ApplicationScoped
-public class StatusRoute
+public class StatusTimerRoute
         extends RouteBuilder {
 
     @Inject StatusConfig statusConfig;

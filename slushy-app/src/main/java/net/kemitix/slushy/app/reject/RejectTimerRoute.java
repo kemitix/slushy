@@ -1,7 +1,6 @@
 package net.kemitix.slushy.app.reject;
 
 import net.kemitix.slushy.app.IsRequiredAge;
-import net.kemitix.slushy.app.MoveCard;
 import net.kemitix.slushy.app.OnException;
 import net.kemitix.slushy.app.SlushyCard;
 import net.kemitix.slushy.app.trello.TrelloBoard;
@@ -13,13 +12,23 @@ import javax.inject.Inject;
 import static org.apache.camel.builder.Builder.bean;
 
 @ApplicationScoped
-public class RejectRoutes
+public class RejectTimerRoute
         extends RouteBuilder {
 
-    @Inject RejectConfig rejectConfig;
-    @Inject TrelloBoard trelloBoard;
-    @Inject MoveCard moveCard;
-    @Inject IsRequiredAge isRequiredAge;
+    private final RejectConfig rejectConfig;
+    private final TrelloBoard trelloBoard;
+    private final IsRequiredAge isRequiredAge;
+
+    @Inject
+    public RejectTimerRoute(
+            RejectConfig rejectConfig,
+            TrelloBoard trelloBoard,
+            IsRequiredAge isRequiredAge
+    ) {
+        this.rejectConfig = rejectConfig;
+        this.trelloBoard = trelloBoard;
+        this.isRequiredAge = isRequiredAge;
+    }
 
     @Override
     public void configure() {
@@ -35,19 +44,6 @@ public class RejectRoutes
                 .setHeader("SlushyRoutingSlip", rejectConfig::getRoutingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))
         ;
-
-        from("direct:Slushy.Reject.SendEmail")
-                .routeId("Slushy.Reject.SendEmail")
-                .setHeader("SlushyEmailTemplate").constant("reject")
-                .to("direct:Slushy.SendEmail")
-        ;
-
-        from("direct:Slushy.Reject.MoveToTargetList")
-                .routeId("Slushy.Reject.MoveToTargetList")
-                .setHeader("SlushyTargetList", rejectConfig::getTargetList)
-                .bean(moveCard)
-        ;
-
     }
 
 }

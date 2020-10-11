@@ -11,13 +11,23 @@ import javax.inject.Inject;
 import static org.apache.camel.builder.Builder.bean;
 
 @ApplicationScoped
-public class ArchiverRoutes
+public class ArchiveTimerRoute
         extends RouteBuilder {
 
-    @Inject ArchiverConfig archiverConfig;
-    @Inject TrelloBoard trelloBoard;
-    @Inject IsRequiredAge isRequiredAge;
-    @Inject ArchiveCard archiveCard;
+    private final ArchiverConfig archiverConfig;
+    private final TrelloBoard trelloBoard;
+    private final IsRequiredAge isRequiredAge;
+
+    @Inject
+    public ArchiveTimerRoute(
+            ArchiverConfig archiverConfig,
+            TrelloBoard trelloBoard,
+            IsRequiredAge isRequiredAge
+    ) {
+        this.archiverConfig = archiverConfig;
+        this.trelloBoard = trelloBoard;
+        this.isRequiredAge = isRequiredAge;
+    }
 
     @Override
     public void configure() {
@@ -33,11 +43,6 @@ public class ArchiverRoutes
 
                 .setHeader("SlushyRoutingSlip", archiverConfig::getRoutingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))
-        ;
-
-        from("direct:Slushy.ArchiveCard")
-                .routeId("Slushy.ArchiveCard")
-                .bean(archiveCard)
         ;
     }
 }
