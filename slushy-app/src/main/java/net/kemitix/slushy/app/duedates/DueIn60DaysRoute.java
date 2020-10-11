@@ -17,7 +17,7 @@ public class DueIn60DaysRoute
     }
 
     @Override
-    public void configure() throws Exception {
+    public void configure() {
         from("direct:Slushy.DueIn30Days")
                 .routeId("Slushy.DueIn30Days")
                 .setHeader("SlushyDueInDays")
