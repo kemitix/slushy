@@ -9,7 +9,9 @@
 
     <modules>
         <module>slushy</module>
+        <module>slushy-parent</module>
         <module>slushy-app</module>
+        <module>slushy-api</module>
     </modules>
 
     <properties>
