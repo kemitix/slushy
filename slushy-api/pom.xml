@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>net.kemitix.slushy</groupId>
+        <artifactId>slushy-parent</artifactId>
+        <version>1.13.0</version>
+        <relativePath>../slushy-parent/pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>slushy-api</artifactId>
+
+    <properties>
+        <tiles-maven-plugin.version>2.18</tiles-maven-plugin.version>
+        <kemitix-tiles.version>2.10.0</kemitix-tiles.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.repaint.maven</groupId>
+                <artifactId>tiles-maven-plugin</artifactId>
+                <version>${tiles-maven-plugin.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <tiles>
+                        <tile>net.kemitix.tiles:maven-plugins:${kemitix-tiles.version}</tile>
+                        <tile>net.kemitix.tiles:compiler-jdk-lts:${kemitix-tiles.version}</tile>
+                        <tile>net.kemitix.tiles:testing:${kemitix-tiles.version}</tile>
+                    </tiles>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

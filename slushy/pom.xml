@@ -36,11 +36,18 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy</artifactId>
     </dependency>
+
     <dependency>
       <groupId>net.kemitix.slushy</groupId>
       <artifactId>slushy-app</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>net.kemitix.slushy</groupId>
+      <artifactId>slushy-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
