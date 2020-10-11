@@ -23,7 +23,7 @@ public class ArchiveCardRoute
     }
 
     @Override
-    public void configure() throws Exception {
+    public void configure() {
         OnException.retry(this, archiverConfig);
 
         from("direct:Slushy.ArchiveCard")
