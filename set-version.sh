@@ -10,7 +10,7 @@ fi
 
 VERSION=$1
 
-for P in . slushy-app slushy
+for P in . slushy-parent slushy
 do
   mvn versions:set -DnewVersion=$VERSION -pl $P
 done
