@@ -39,12 +39,12 @@
 
     <dependency>
       <groupId>net.kemitix.slushy</groupId>
-      <artifactId>slushy-app</artifactId>
+      <artifactId>slushy-api</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>net.kemitix.slushy</groupId>
-      <artifactId>slushy-api</artifactId>
+      <artifactId>slushy-app</artifactId>
       <version>${project.version}</version>
     </dependency>
 
@@ -79,6 +79,10 @@
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-velocity</artifactId>
       <version>${camel.verion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel.quarkus</groupId>
+      <artifactId>camel-quarkus-platform-http</artifactId>
     </dependency>
   </dependencies>
   <build>
