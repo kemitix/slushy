@@ -5,17 +5,46 @@
     <parent>
         <groupId>net.kemitix.slushy</groupId>
         <artifactId>slushy-parent</artifactId>
-        <version>1.14.2</version>
+        <version>1.15.0</version>
         <relativePath>../slushy-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>slushy-api</artifactId>
 
-    <properties>
-        <tiles-maven-plugin.version>2.18</tiles-maven-plugin.version>
-        <kemitix-tiles.version>2.10.0</kemitix-tiles.version>
-    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>net.kemitix.slushy</groupId>
+            <artifactId>slushy-app</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>

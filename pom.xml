@@ -5,13 +5,13 @@
     <groupId>net.kemitix.slushy</groupId>
     <artifactId>slushy-root</artifactId>
     <packaging>pom</packaging>
-    <version>1.14.2</version>
+    <version>1.15.0</version>
 
     <modules>
-        <module>slushy</module>
         <module>slushy-parent</module>
         <module>slushy-app</module>
         <module>slushy-api</module>
+        <module>slushy</module>
     </modules>
 
     <properties>
