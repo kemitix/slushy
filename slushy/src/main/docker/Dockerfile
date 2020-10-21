@@ -28,4 +28,5 @@ WORKDIR /app
 COPY target/lib /app/lib/
 COPY target/slushy-runner.jar /app/
 
+EXPOSE 8080
 CMD ["java", "-jar", "/app/slushy-runner.jar"]
