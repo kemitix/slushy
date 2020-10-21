@@ -3,6 +3,7 @@
 docker run -d \
        --name slushy \
        --restart always \
+       --expose 8080 \
        -e TRELLO_KEY \
        -e TRELLO_SECRET \
        -e SLUSHY_USER \
