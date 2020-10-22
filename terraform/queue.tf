@@ -1,9 +1,9 @@
 resource "aws_sqs_queue" "slushy_webhook_queue" {
-  name = "slushy-webhook-queue"
+  name = "slushy-webhook-${var.environment}-queue"
 }
 
 resource "aws_iam_role" "slushy_webhook_role" {
-  name = "slushy-webhook-role"
+  name = "slushy-webhook-${var.environment}-role"
 
   assume_role_policy = <<EOF
 {
@@ -31,7 +31,7 @@ data "template_file" "slushy_webhook_policy_template" {
 }
 
 resource "aws_iam_policy" "slushy_webhook_policy" {
-  name = "api-sqs-cloudwatch-policy"
+  name = "slushy-webhook-${var.environment}-policy"
 
   policy = data.template_file.slushy_webhook_policy_template.rendered
 }
@@ -43,7 +43,7 @@ resource "aws_iam_role_policy_attachment" "slushy_webhook_policy_attachment" {
 }
 
 resource "aws_api_gateway_rest_api" "slushy_webhook_rest_api" {
-  name        = "slushy-webhook-rest-api"
+  name        = "slushy-webhook-${var.environment}-rest-api"
   description = "POST records to SQS queue"
 }
 

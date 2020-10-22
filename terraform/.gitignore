@@ -1,0 +1,4 @@
+# terraform state and plugins
+/*/state
+/*/state.backup
+/.terraform/
