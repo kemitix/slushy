@@ -92,4 +92,9 @@ public class TrelloBoard {
     public String getListId(String listName) {
         return getList(listName).getId();
     }
+
+    public String getBoardId() {
+        return board().getId();
+    }
+
 }
