@@ -36,17 +36,13 @@ public class TrelloBoard {
 
     @PostConstruct
     void init () {
-        Board board = board(slushyConfig, trello);
-        lists = board.fetchLists();
+        lists = board().fetchLists();
     }
 
-    private Board board(
-            SlushyConfig trelloConfig,
-            Trello trello
-    ) {
-        String userName = trelloConfig.getUserName();
+    private Board board() {
+        String userName = slushyConfig.getUserName();
         log.info("User: " + userName);
-        String boardName = trelloConfig.getBoardName();
+        String boardName = slushyConfig.getBoardName();
         log.info("Loading Board: " + boardName);
         return trello
                 .getMemberBoards(userName)
