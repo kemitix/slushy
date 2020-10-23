@@ -26,6 +26,7 @@ public class QuarkusSlushyConfig
     private String boardName = System.getenv("SLUSHY_BOARD");
     private String sender = System.getenv("SLUSHY_SENDER");
     private String reader = System.getenv("SLUSHY_READER");
+    private String webhook = System.getenv("SLUSHY_WEBHOOK");
 
     @Inject Instance<RetryConfig> retryConfigs;
 
@@ -37,6 +38,7 @@ public class QuarkusSlushyConfig
         log.info(String.format("SLUSHY_BOARD: %s", boardName));
         log.info(String.format("SLUSHY_SENDER: %s", sender));
         log.info(String.format("SLUSHY_READER: %s", reader));
+        log.info(String.format("SLUSHY_WEBHOOK: %s", webhook));
         retryConfigs.forEach(config ->
                 log.info(String.format(
                         "[%s] scan every %s; retry: %d times, every %s",

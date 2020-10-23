@@ -60,6 +60,13 @@ resource "aws_api_gateway_method" "slushy_webhook_method" {
   authorization = "NONE"
 }
 
+resource "aws_api_gateway_method" "slushy_webhook_method_head" {
+  rest_api_id   = aws_api_gateway_rest_api.slushy_webhook_rest_api.id
+  resource_id   = aws_api_gateway_resource.slushy_webhook_resource.id
+  http_method   = "HEAD"
+  authorization = "NONE"
+}
+
 resource "aws_api_gateway_integration" "slushy_webhook_sqs_integration" {
   rest_api_id             = aws_api_gateway_rest_api.slushy_webhook_rest_api.id
   resource_id             = aws_api_gateway_resource.slushy_webhook_resource.id
@@ -98,10 +105,31 @@ EOF
   ]
 }
 
+resource "aws_api_gateway_integration" "slushy_webhook_mock_integration" {
+  rest_api_id          = aws_api_gateway_rest_api.slushy_webhook_rest_api.id
+  resource_id          = aws_api_gateway_resource.slushy_webhook_resource.id
+  http_method          = aws_api_gateway_method.slushy_webhook_method_head.http_method
+  type                 = "MOCK"
+
+  request_templates = {
+    "application/json" = <<EOF
+    {"statusCode": 200}
+EOF
+  }
+
+}
+
 resource "aws_api_gateway_method_response" "slushy_webhook_method_response" {
   rest_api_id = aws_api_gateway_rest_api.slushy_webhook_rest_api.id
   resource_id = aws_api_gateway_resource.slushy_webhook_resource.id
   http_method = aws_api_gateway_method.slushy_webhook_method.http_method
+  status_code = 200
+}
+
+resource "aws_api_gateway_method_response" "slushy_webhook_method_head_response" {
+  rest_api_id = aws_api_gateway_rest_api.slushy_webhook_rest_api.id
+  resource_id = aws_api_gateway_resource.slushy_webhook_resource.id
+  http_method = aws_api_gateway_method.slushy_webhook_method_head.http_method
   status_code = 200
 }
 
@@ -117,18 +145,31 @@ resource "aws_api_gateway_integration_response" "slushy_webhook_integration_resp
   ]
 }
 
+resource "aws_api_gateway_integration_response" "slushy_webhook_integration_head_response" {
+  rest_api_id       = aws_api_gateway_rest_api.slushy_webhook_rest_api.id
+  resource_id       = aws_api_gateway_resource.slushy_webhook_resource.id
+  http_method       = aws_api_gateway_method.slushy_webhook_method_head.http_method
+  status_code       = 200
+
+  depends_on = [
+    aws_api_gateway_integration.slushy_webhook_mock_integration
+  ]
+}
+
 resource "aws_api_gateway_deployment" "slushy_webhook_deployment" {
   rest_api_id = aws_api_gateway_rest_api.slushy_webhook_rest_api.id
   stage_name  = var.environment
 
   depends_on = [
     aws_api_gateway_integration.slushy_webhook_sqs_integration,
+    aws_api_gateway_integration.slushy_webhook_mock_integration,
   ]
 
   # Redeploy when there are new updates
   triggers = {
     redeployment = sha1(join(",", list(
     jsonencode(aws_api_gateway_integration.slushy_webhook_sqs_integration),
+    jsonencode(aws_api_gateway_integration.slushy_webhook_mock_integration),
     )))
   }
 
