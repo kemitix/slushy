@@ -40,4 +40,9 @@ public interface SlushyConfig {
      */
     String getReader();
 
+    /**
+     * The URL of the Webhook to register with services.
+     */
+    String getWebhook();
+
 }
