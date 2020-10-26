@@ -23,7 +23,7 @@
         <lombok.version>1.18.16</lombok.version>
         <javax.mail.version>1.5.0-b01</javax.mail.version>
         <aws-java-sdk-ses.version>1.11.881</aws-java-sdk-ses.version>
-        <assertj.version>3.17.2</assertj.version>
+        <assertj.version>3.18.0</assertj.version>
         <junit.version>5.7.0</junit.version>
         <mockito-junit-jupiter.version>3.5.15</mockito-junit-jupiter.version>
         <trello-java-wrapper.version>0.14</trello-java-wrapper.version>
