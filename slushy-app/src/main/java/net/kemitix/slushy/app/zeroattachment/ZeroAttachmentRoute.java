@@ -3,22 +3,25 @@ package net.kemitix.slushy.app.zeroattachment;
 import org.apache.camel.builder.RouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 @ApplicationScoped
 public class ZeroAttachmentRoute
         extends RouteBuilder {
+
+    private final ZeroAttachmentConfig zeroAttachmentConfig;
+
+    @Inject
+    public ZeroAttachmentRoute(ZeroAttachmentConfig zeroAttachmentConfig) {
+        this.zeroAttachmentConfig = zeroAttachmentConfig;
+    }
+
     @Override
     public void configure() {
         from("direct:Slushy.ZeroAttachment")
                 .routeId("Slushy.ZeroAttachment")
-                .log("zero attachment")
-                .setHeader("SlushyEmailTemplate")
-                .constant("zeroattachment")
-                .log("sending email")
-                .to("direct:Slushy.SendEmail")
-                .log("Email sent")
-                // move card to rejected
-                .to("direct:Slushy.Reject.MoveToTargetList")
+                .setHeader("SlushyRoutingSlip", zeroAttachmentConfig::getRoutingSlip)
+                .routingSlip(header("SlushyRoutingSlip"))
         ;
     }
 }
