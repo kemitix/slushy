@@ -43,8 +43,9 @@ public class MarkdownToHtmlConverter
             String markdown = Files.readString(sourceFile.toPath(), UTF_8);
             String html = String.format(
                     "<html><title></title><body>%s</body></html>",
-                    htmlCleaner.clean(
-                            renderer.render(parser.parse(markdown))));
+                    renderer.render(
+                            parser.parse(
+                                    htmlCleaner.clean(markdown))));
             Files.writeString(targetFile.toPath(), html);
             if (targetFile.exists()) {
                 return Optional.of(

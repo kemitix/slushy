@@ -37,7 +37,7 @@ public class RtfToHtmlAttachmentConverter
     ) {
         try {
             String rtfString = Files.readString(sourceFile.toPath());
-            String html = htmlCleaner.clean(converter.rtf2html(rtfString));
+            String html = converter.rtf2html(htmlCleaner.clean(rtfString));
             Files.writeString(targetFile.toPath(), html);
             if (targetFile.exists()) {
                 return Optional.of(
