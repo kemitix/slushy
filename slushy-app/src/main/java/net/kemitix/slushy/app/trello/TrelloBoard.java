@@ -13,6 +13,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static net.kemitix.slushy.app.ListUtils.map;
 
@@ -97,4 +98,8 @@ public class TrelloBoard {
         return board().getId();
     }
 
+    public Stream<String> getListNames() {
+        return lists.stream()
+                .map(TList::getName);
+    }
 }
