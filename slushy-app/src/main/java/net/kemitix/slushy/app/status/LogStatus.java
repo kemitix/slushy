@@ -9,7 +9,6 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Log
 @ApplicationScoped
@@ -21,9 +20,7 @@ public class LogStatus {
     void status() {
         List<String> status = new ArrayList<>();
         status.add("Status:");
-        listProcessConfigs.stream()
-                .flatMap(config -> Stream.of(config.getSourceList(), config.getTargetList()))
-                .distinct()
+        trelloBoard.getListNames()
                 .forEach(listName ->
                         status.add(String.format("%4d: %s",
                                 trelloBoard.getListCards(listName).size(),
