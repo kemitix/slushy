@@ -27,7 +27,7 @@ public class HoldDecisionDueByRoute
         from("direct:Slushy.Hold.DecisionDueBy")
                 .routeId("Slushy.Hold.DecisionDueBy")
                 .setHeader("SlushyDueInDays")
-                .constant(constant(holdConfig.getDueDays()))
+                .constant(holdConfig.getDueDays())
                 .bean(setDueInDays)
         ;
     }
