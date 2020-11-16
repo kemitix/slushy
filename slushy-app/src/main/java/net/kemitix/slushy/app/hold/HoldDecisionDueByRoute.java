@@ -1,7 +1,6 @@
 package net.kemitix.slushy.app.hold;
 
 import net.kemitix.slushy.app.duedates.SetDueInDays;
-import net.kemitix.slushy.app.hold.HoldConfig;
 import org.apache.camel.builder.RouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
