@@ -3,12 +3,10 @@ package net.kemitix.slushy.app.email;
 import net.kemitix.slushy.app.AddComment;
 import net.kemitix.slushy.app.OnException;
 import net.kemitix.slushy.app.SlushyConfig;
-import org.apache.camel.builder.EndpointProducerBuilder;
 import org.apache.camel.builder.RouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.io.IOException;
 
 @ApplicationScoped
 public class SendEmailRoute
