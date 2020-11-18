@@ -16,9 +16,10 @@ public class RegisterWebhook {
 
     private final SlushyConfig slushyConfig;
     private final TrelloBoard trelloBoard;
+
     @Inject
     @RestClient
-    private TrelloWebhookService trelloWebhookService;
+    TrelloWebhookService trelloWebhookService;
 
     @Inject
     public RegisterWebhook(

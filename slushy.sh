@@ -11,6 +11,7 @@ docker run -d \
        -e SLUSHY_SENDER \
        -e SLUSHY_READER \
        -e SLUSHY_WEBHOOK \
+       -e SLUSHY_QUEUE \
        -e AWS_ACCESS_KEY \
        -e AWS_SECRET_KEY \
        -e AWS_REGION \
