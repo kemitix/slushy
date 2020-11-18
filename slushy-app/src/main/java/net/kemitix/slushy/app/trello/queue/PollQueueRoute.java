@@ -22,9 +22,12 @@ public class PollQueueRoute
         fromF("aws-sqs://%s?region=%s&waitTimeSeconds=20&greedy=true",
                 queueName, region)
                 .routeId("Slushy.PollQueue")
-                .process(exchange -> {
-                    log.info(exchange.getIn().getBody(String.class));
-                })
+                .process(exchange ->
+                        log.info(exchange.getIn().getBody(String.class)))
+                .setHeader("Slushy.WebHook.Source").jsonpath("$.queryParams.source")
+                .process(exchange ->
+                        log.info(String.format("Source: %s",
+                                exchange.getIn().getHeader("Slushy.WebHook.Source"))))
         ;
     }
 }
