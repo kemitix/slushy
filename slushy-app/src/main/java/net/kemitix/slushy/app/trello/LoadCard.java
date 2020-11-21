@@ -5,6 +5,7 @@ import org.apache.camel.Header;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.Objects;
 
 @ApplicationScoped
 public class LoadCard {
@@ -17,7 +18,10 @@ public class LoadCard {
     }
 
     public SlushyCard loadCard(@Header("SlushyCardId") String cardId) {
-        return trelloBoard.getCard(cardId);
+        return Objects.requireNonNull(
+                trelloBoard.getCard(cardId),
+                "Card Not Found"
+        );
     }
 
 }
