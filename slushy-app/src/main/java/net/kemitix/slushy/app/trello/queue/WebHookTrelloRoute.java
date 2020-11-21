@@ -39,7 +39,11 @@ public class WebHookTrelloRoute
                 .messageIdRepository(MemoryIdempotentRepository::new)
 
                 .setHeader("Action").jsonpath("body-json.action.display.translationKey")
+
+                .choice()
+                .when().simple("${header.Action} != 'unknown'")
                 .log("WebHook message from Trello: ${header.Action}")
+                .end()
 
                 .choice()
 
@@ -51,9 +55,12 @@ public class WebHookTrelloRoute
                 .to("direct:Slushy.WebHook.Trello.ActionMoveCardFromListToList")
                 .endChoice()
 
-                .otherwise()
-                .log("Unknown action: ${header.Action}")
-                .to("direct:Slushy.WebHook.Unhandled")
+                //.otherwise()
+                //.choice()
+                //.when().simple("${header.Action} != 'unknown'")
+                //.log("Unknown action: ${header.Action}")
+                //.end()
+//                .to("direct:Slushy.WebHook.Unhandled")
 
                 .end()
         ;
@@ -81,7 +88,7 @@ public class WebHookTrelloRoute
 
                 .otherwise()
                 .log("Dropping unexpected email sent to: ${header.ListName}")
-                .to("direct:Slushy.WebHook.Unhandled")
+//                .to("direct:Slushy.WebHook.Unhandled")
 
                 .endChoice()
 
@@ -107,15 +114,17 @@ public class WebHookTrelloRoute
 
                 .otherwise()
                 .log("Card moved, but listBefore and/or listAfter not given")
-                .to("direct:Slushy.WebHook.Unhandled")
+//                .to("direct:Slushy.WebHook.Unhandled")
 
                 .endChoice()
         ;
 
-        from("direct:Slushy.WebHook.Unhandled")
-                .routeId("Slushy.WebHook.Unhandled")
-                .log("Dropping Unhandled WebHook event")
-        ;
+//        from("direct:Slushy.WebHook.Unhandled")
+//                .routeId("Slushy.WebHook.Unhandled")
+//        //.log("Dropping Unhandled WebHook event")
+//        //.process(exchange ->
+//        //        log.info(exchange.getIn().getBody(String.class)))
+//        ;
 
         from("direct:Slushy.WebHook.CardMoved")
                 .routeId("Slushy.WebHook.CardMoved")
