@@ -1,22 +1,27 @@
 package net.kemitix.slushy.app.inbox;
 
-import net.kemitix.slushy.app.IsRequiredAge;
+import net.kemitix.slushy.app.LoadList;
 import net.kemitix.slushy.app.OnException;
-import net.kemitix.slushy.app.trello.TrelloBoard;
 import org.apache.camel.builder.RouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import static org.apache.camel.builder.Builder.bean;
-
 @ApplicationScoped
 public class InboxTimerRoute
         extends RouteBuilder {
 
-    @Inject InboxConfig inboxConfig;
-    @Inject TrelloBoard trelloBoard;
-    @Inject IsRequiredAge isRequiredAge;
+    private final InboxConfig inboxConfig;
+    private final LoadList loadList;
+
+    @Inject
+    public InboxTimerRoute(
+            InboxConfig inboxConfig,
+            LoadList loadList
+    ) {
+        this.inboxConfig = inboxConfig;
+        this.loadList = loadList;
+    }
 
     @Override
     public void configure() {
@@ -25,14 +30,11 @@ public class InboxTimerRoute
         fromF("timer:inbox?period=%s", inboxConfig.getScanPeriod())
                 .routeId("Slushy.Inbox")
 
-                .setBody(exchange -> trelloBoard.getListCards(inboxConfig.getSourceList()))
+                .setHeader("ListName").constant(inboxConfig.getSourceList())
+                .setBody().method(loadList)
                 .split(body())
 
-                .setHeader("SlushyRequiredAge", inboxConfig::getRequiredAgeHours)
-                .filter(bean(isRequiredAge))
-
-                .setHeader("SlushyRoutingSlip", inboxConfig::getRoutingSlip)
-                .routingSlip(header("SlushyRoutingSlip"))
+                .to("direct:Slushy.Card.Inbox")
         ;
     }
 

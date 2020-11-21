@@ -22,10 +22,13 @@ public class PollQueueRoute
         fromF("aws-sqs://%s?region=%s&waitTimeSeconds=20&greedy=true",
                 queueName, region)
                 .routeId("Slushy.PollQueue")
+
+                .setHeader("WebHookSource").jsonpath("queryParams.source")
+
                 .choice()
 
                 // Trello
-                .when().jsonpath("queryParams[?(@.source == 'trello')]")
+                .when().simple("${header.WebHookSource} == 'trello'")
                 .to("direct:Slushy.WebHook.Trello")
 
                 // Unknown

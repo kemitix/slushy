@@ -18,7 +18,7 @@ public enum WordLengthBand {
 
     public static WordLengthBand parse(String wordcount) {
         return Arrays.stream(WordLengthBand.values())
-                .filter(b -> b.value.equals(wordcount))
+                .filter(b -> b.value.equals(wordcount.toUpperCase()))
                 .findFirst()
                 .orElseThrow(() ->
                         new IllegalArgumentException("Invalid band: " + wordcount));
