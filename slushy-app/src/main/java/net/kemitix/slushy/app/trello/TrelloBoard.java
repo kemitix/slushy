@@ -102,4 +102,9 @@ public class TrelloBoard {
         return lists.stream()
                 .map(TList::getName);
     }
+
+    public SlushyCard getCard(String cardId) {
+        Card card = trello.getCard(cardId);
+        return SlushyCard.from(card, trello);
+    }
 }

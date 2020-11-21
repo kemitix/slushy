@@ -42,6 +42,12 @@ public class WithdrawTimerRoute
                 .setHeader("SlushyRequiredAge", withdrawConfig::getRequiredAgeHours)
                 .filter(bean(isRequiredAge))
 
+                .to("direct:Slushy.Card.Withdrawn")
+        ;
+
+        from("direct:Slushy.Card.Withdrawn")
+                .routeId("Slushy.Card.Withdrawn")
+                .log("Story being Withdrawn")
                 .setHeader("SlushyRoutingSlip", withdrawConfig::getRoutingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))
         ;
