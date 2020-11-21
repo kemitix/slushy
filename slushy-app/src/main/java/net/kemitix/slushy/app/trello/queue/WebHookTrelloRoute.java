@@ -38,8 +38,6 @@ public class WebHookTrelloRoute
 
                 .log("WebHook message from Trello")
 
-                .process(exchange ->
-                        log.info(exchange.getIn().getBody(String.class)))
 
                 .choice()
 

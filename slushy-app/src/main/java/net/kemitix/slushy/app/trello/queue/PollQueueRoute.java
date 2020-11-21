@@ -22,6 +22,12 @@ public class PollQueueRoute
         fromF("aws-sqs://%s?region=%s&waitTimeSeconds=20&greedy=true",
                 queueName, region)
                 .routeId("Slushy.PollQueue")
+                .log("Polled SQS")
+
+                //Dump each message until we're stable and happy
+                //TODO - move to handler for unknown messages eventually
+                .process(exchange ->
+                        log.info(exchange.getIn().getBody(String.class)))
                 .choice()
 
                 // Trello
