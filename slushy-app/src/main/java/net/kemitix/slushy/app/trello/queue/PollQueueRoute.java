@@ -28,10 +28,13 @@ public class PollQueueRoute
                 //TODO - move to handler for unknown messages eventually
                 .process(exchange ->
                         log.info(exchange.getIn().getBody(String.class)))
+
+                .setHeader("WebHookSource").jsonpath("queryParams.source")
+
                 .choice()
 
                 // Trello
-                .when().jsonpath("queryParams[?(@.source == 'trello')]")
+                .when().simple("${header.WebHookSource} == 'trello'")
                 .to("direct:Slushy.WebHook.Trello")
 
                 // Unknown
