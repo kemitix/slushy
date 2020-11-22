@@ -6,7 +6,7 @@ import org.apache.camel.builder.RouteBuilder;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-// listens for card moves and accepts when card is moved removed from the Slush list
+// listens for card moves and accepts when card is removed from the Slush list
 @ApplicationScoped
 public class CardMovedSlushListenerRoute
         extends RouteBuilder {
