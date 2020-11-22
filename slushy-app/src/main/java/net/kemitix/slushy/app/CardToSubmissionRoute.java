@@ -19,9 +19,8 @@ public class CardToSubmissionRoute
     public void configure() {
         from("direct:Slushy.CardToSubmission")
                 .routeId("Slushy.CardToSubmission")
-                .setHeader("SlushyCard", body())
-                .bean(parseSubmission)
-                .setHeader("SlushySubmission", body())
+                .setHeader("SlushyCard").body()
+                .setHeader("SlushySubmission").method(parseSubmission)
         ;
     }
 }
