@@ -28,11 +28,8 @@ public class ReaderTimerRoute
         OnException.retry(this, readerConfig);
 
         fromF("timer:reader?period=%s", readerConfig.getScanPeriod())
-                .routeId("Slushy.Reader")
-                .setBody(exchange -> trelloBoard.getListCards(readerConfig.getSourceList()))
-                .split(body())
-                .setHeader("SlushyRoutingSlip", readerConfig::getRoutingSlip)
-                .routingSlip(header("SlushyRoutingSlip"))
+                .routeId("Slushy.Reader.Timer")
+                .to("direct:Slushy.Reader")
         ;
     }
 
