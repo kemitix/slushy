@@ -14,19 +14,15 @@ public class WebHookTrelloRoute
         extends RouteBuilder {
 
     private final InboxConfig inboxConfig;
-    private final WithdrawConfig withdrawnConfig;
     private final LoadCard loadCard;
 
     @Inject
     public WebHookTrelloRoute(
             InboxConfig inboxConfig,
-            WithdrawConfig withdrawnConfig,
             LoadCard loadCard
     ) {
         this.inboxConfig = inboxConfig;
-        this.withdrawnConfig = withdrawnConfig;
         this.loadCard = loadCard;
-
     }
 
     @Override
@@ -72,28 +68,14 @@ public class WebHookTrelloRoute
 
                 .setHeader("ListName").jsonpath("body-json.action.data.list.name")
 
-                .setHeader("ListInbox").constant(inboxConfig.getSourceList())
+                .setHeader("SlushyCardId").jsonpath("body-json.action.data.card.id")
+                .setBody().method(loadCard)
 
                 .log("Card Created in '${header.ListName}': '${header.SlushyCardName}'")
 
-                .setHeader("SlushyCardId").jsonpath("body-json.action.data.card.id")
-
-                .doTry()
-                .setBody().method(loadCard)
-
-                .choice()
-
-                .when().simple("${header.ListName} == ${header.ListInbox}")
+                .setHeader("ListInbox").constant(inboxConfig.getSourceList())
+                .filter().simple("${header.ListName} == ${header.ListInbox}")
                 .to("direct:Slushy.Card.Inbox")
-
-                .otherwise()
-                .log("Dropping unexpected email sent to: ${header.ListName}")
-//                .to("direct:Slushy.WebHook.Unhandled")
-
-                .endChoice()
-
-                .endDoTry()
-                .doCatch(NullPointerException.class)
         ;
 
         from("direct:Slushy.WebHook.Trello.ActionMoveCardFromListToList")
@@ -104,19 +86,16 @@ public class WebHookTrelloRoute
                 .setHeader("ListBefore").jsonpath("body-json.action.data.listBefore")
                 .setHeader("ListAfter").jsonpath("body-json.action.data.listAfter")
 
-                .choice()
+                .filter().simple("${header.ListBefore} != '' && ${header.ListAfter} != ''")
 
-                .when().simple("${header.ListBefore} != '' && ${header.ListAfter} != ''")
                 .setHeader("SlushyMovedFrom").jsonpath("body-json.action.data.listBefore.name")
                 .setHeader("SlushyMovedTo").jsonpath("body-json.action.data.listAfter.name")
+
+                .setHeader("SlushyCardId").jsonpath("body-json.action.data.card.id")
+                .setBody().method(loadCard)
+
                 .log("Moved Card '${header.SlushyCardName}' from '${header.SlushyMovedFrom}' to '${header.SlushyMovedTo}'")
-                .to("direct:Slushy.WebHook.CardMoved")
-
-                .otherwise()
-                .log("Card moved, but listBefore and/or listAfter not given")
-//                .to("direct:Slushy.WebHook.Unhandled")
-
-                .endChoice()
+                .to("seda:Slushy.WebHook.CardMoved")
         ;
 
 //        from("direct:Slushy.WebHook.Unhandled")
@@ -125,22 +104,5 @@ public class WebHookTrelloRoute
 //        //.process(exchange ->
 //        //        log.info(exchange.getIn().getBody(String.class)))
 //        ;
-
-        from("direct:Slushy.WebHook.CardMoved")
-                .routeId("Slushy.WebHook.CardMoved")
-
-                .setHeader("SlushyCardId").jsonpath("body-json.action.data.card.id")
-                .setBody().method(loadCard)
-
-                .setHeader("ListWithdrawn").constant(withdrawnConfig.getSourceList())
-
-                .choice()
-
-                .when().simple("${header.SlushyMovedTo} == ${header.ListWithdrawn}")
-                .to("direct:Slushy.Card.Withdrawn")
-
-                .endChoice()
-
-        ;
     }
 }
