@@ -31,13 +31,12 @@ public class SendToReaderRoute
         from("direct:Slushy.SendToReader")
                 .routeId("Slushy.SendToReader")
 
-                .setHeader("SlushyRecipient", slushyConfig::getReader)
-                .setHeader("SlushySender", slushyConfig::getSender)
-                .setHeader("SlushySubject", simple("Reader: ${header.SlushyCard.name}"))
+                .setHeader("SlushyRecipient").constant(slushyConfig.getReader())
+                .setHeader("SlushySender").constant(slushyConfig.getSender())
+                .setHeader("SlushySubject").simple("Reader: ${header.SlushyCard.name}")
                 .bean(sendEmailAttachment)
 
-                .setHeader("SlushyComment")
-                .constant("Sent attachment to reader")
+                .setHeader("SlushyComment").constant("Sent attachment to reader")
                 .bean(addComment)
         ;
     }
