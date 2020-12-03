@@ -5,7 +5,7 @@
     <parent>
         <groupId>net.kemitix.slushy</groupId>
         <artifactId>slushy-parent</artifactId>
-        <version>1.18.0</version>
+        <version>1.18.1</version>
         <relativePath>../slushy-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>

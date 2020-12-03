@@ -4,6 +4,7 @@ import net.kemitix.slushy.app.AddComment;
 import net.kemitix.slushy.app.OnException;
 import net.kemitix.slushy.app.SlushyConfig;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.support.processor.idempotent.MemoryIdempotentRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -22,6 +23,15 @@ public class SendEmailRoute
         OnException.retry(this, emailConfig);
         from("direct:Slushy.SendEmail")
                 .routeId("Slushy.SendEmail")
+
+                // don't send multiple copies of the same email to the same
+                // recipient for the same card
+                .idempotentConsumer().simple(
+                "${header.SlushyEmailTemplate}" +
+                        ":${header.SlushySubmission.email}" +
+                        ":${header.SlushyCard.id}")
+                .skipDuplicate(true)
+                .messageIdRepository(MemoryIdempotentRepository::new)
 
                 .setHeader("SlushyRecipient").simple("${header.SlushySubmission.email}")
                 .setHeader("SlushySender").constant(slushyConfig.getSender())
