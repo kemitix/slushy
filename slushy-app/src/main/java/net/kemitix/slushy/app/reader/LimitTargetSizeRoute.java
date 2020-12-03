@@ -19,7 +19,7 @@ public class LimitTargetSizeRoute
                 .routeId("Slushy.Reader.LimitTargetSize")
                 .choice()
                 .when()
-                .method(readerIsFull)
+                .method(readerIsFull, "test")
                 .process(exchange -> exchange.setRouteStop(true))
                 .end()
         ;

@@ -12,14 +12,17 @@ public class ReaderMoveToTargetListRoute
 
     private final ReaderConfig readerConfig;
     private final MoveCard moveCard;
+    private final ReaderIsFull readerIsFull;
 
     @Inject
     public ReaderMoveToTargetListRoute(
             ReaderConfig readerConfig,
-            MoveCard moveCard
+            MoveCard moveCard,
+            ReaderIsFull readerIsFull
     ) {
         this.readerConfig = readerConfig;
         this.moveCard = moveCard;
+        this.readerIsFull = readerIsFull;
     }
 
     @Override
@@ -28,6 +31,7 @@ public class ReaderMoveToTargetListRoute
                 .routeId("Slushy.Reader.MoveToTargetList")
                 .setHeader("SlushyTargetList", readerConfig::getTargetList)
                 .bean(moveCard)
+                .bean(readerIsFull, "reset")
         ;
     }
 }
