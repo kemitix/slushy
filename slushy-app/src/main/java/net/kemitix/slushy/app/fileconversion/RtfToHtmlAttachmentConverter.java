@@ -17,10 +17,11 @@ import java.util.stream.Stream;
 @Log
 @ApplicationScoped
 public class RtfToHtmlAttachmentConverter
-        implements AttachmentConverter{
+        implements AttachmentConverter {
 
     @Inject RTF2HTMLConverter converter;
     @Inject HtmlCleaner htmlCleaner;
+    @Inject RtfCleaner rtfCleaner;
 
     @Override
     public boolean canHandle(Attachment attachment) {
@@ -37,7 +38,9 @@ public class RtfToHtmlAttachmentConverter
     ) {
         try {
             String rtfString = Files.readString(sourceFile.toPath());
-            String html = converter.rtf2html(htmlCleaner.clean(rtfString));
+            String html = converter.rtf2html(
+                    rtfCleaner.clean(
+                            htmlCleaner.clean(rtfString)));
             Files.writeString(targetFile.toPath(), html);
             if (targetFile.exists()) {
                 return Optional.of(

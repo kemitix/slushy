@@ -12,7 +12,7 @@
 
     <groupId>net.kemitix.slushy</groupId>
     <artifactId>slushy-parent</artifactId>
-    <version>1.18.1</version>
+    <version>1.18.2</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -31,7 +31,6 @@
         <odftoolkit.version>1.0.6</odftoolkit.version>
         <rtf-to-html.version>1.0.1</rtf-to-html.version>
         <flexmark.version>0.62.2</flexmark.version>
-        <commons-lang3.version>3.11</commons-lang3.version>
         <microprofile.version>3.3</microprofile.version>
         <resteasy-core-spi.version>4.5.8.Final</resteasy-core-spi.version>
     </properties>
