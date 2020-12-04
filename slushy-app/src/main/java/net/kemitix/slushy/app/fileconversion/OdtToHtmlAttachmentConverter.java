@@ -1,8 +1,8 @@
 package net.kemitix.slushy.app.fileconversion;
 
 import lombok.extern.java.Log;
-import net.kemitix.slushy.app.Attachment;
-import net.kemitix.slushy.app.LocalAttachment;
+import net.kemitix.trello.Attachment;
+import net.kemitix.trello.LocalAttachment;
 import org.odftoolkit.odfdom.converter.xhtml.XHTMLConverter;
 import org.odftoolkit.odfdom.converter.xhtml.XHTMLOptions;
 import org.odftoolkit.odfdom.doc.OdfTextDocument;

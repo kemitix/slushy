@@ -1,7 +1,7 @@
 package net.kemitix.slushy.app.reader;
 
 import net.kemitix.slushy.app.AddComment;
-import net.kemitix.slushy.app.SlushyConfig;
+import net.kemitix.trello.TrelloConfig;
 import net.kemitix.slushy.app.email.SendEmailAttachment;
 import org.apache.camel.builder.RouteBuilder;
 
@@ -13,19 +13,19 @@ import static org.apache.camel.support.processor.idempotent.MemoryIdempotentRepo
 @ApplicationScoped
 public class SendToReaderRoute
         extends RouteBuilder {
-    private final SlushyConfig slushyConfig;
+    private final TrelloConfig trelloConfig;
     private final ReaderConfig readerConfig;
     private final SendEmailAttachment sendEmailAttachment;
     private final AddComment addComment;
 
     @Inject
     public SendToReaderRoute(
-            SlushyConfig slushyConfig,
+            TrelloConfig trelloConfig,
             ReaderConfig readerConfig,
             SendEmailAttachment sendEmailAttachment,
             AddComment addComment
     ) {
-        this.slushyConfig = slushyConfig;
+        this.trelloConfig = trelloConfig;
         this.readerConfig = readerConfig;
         this.sendEmailAttachment = sendEmailAttachment;
         this.addComment = addComment;
@@ -41,8 +41,8 @@ public class SendToReaderRoute
                 .messageIdRepository(() ->
                         memoryIdempotentRepository(readerConfig.getMaxSize()))
 
-                .setHeader("SlushyRecipient").constant(slushyConfig.getReader())
-                .setHeader("SlushySender").constant(slushyConfig.getSender())
+                .setHeader("SlushyRecipient").constant(trelloConfig.getReader())
+                .setHeader("SlushySender").constant(trelloConfig.getSender())
                 .setHeader("SlushySubject").simple("Reader: ${header.SlushyCard.name}")
                 .bean(sendEmailAttachment)
 

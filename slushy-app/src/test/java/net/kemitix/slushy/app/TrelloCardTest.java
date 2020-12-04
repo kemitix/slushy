@@ -4,13 +4,14 @@ import com.julienvey.trello.Trello;
 import com.julienvey.trello.domain.Badges;
 import com.julienvey.trello.domain.Card;
 import com.julienvey.trello.domain.Label;
+import net.kemitix.trello.TrelloCard;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 import java.util.List;
 
-public class SlushyCardTest
+public class TrelloCardTest
         implements WithAssertions {
 
     @Test
@@ -19,9 +20,9 @@ public class SlushyCardTest
         Card card = getCard();
         Trello trello = null;
         //when
-        SlushyCard slushyCard = SlushyCard.from(card, trello);
+        TrelloCard trelloCard = TrelloCard.from(card, trello);
         //then
-        assertThat((Card) slushyCard)
+        assertThat((Card) trelloCard)
                 .usingRecursiveComparison()
                 .ignoringFields("dueComplete")
                 .isEqualTo(card);

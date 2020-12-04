@@ -1,8 +1,8 @@
 package net.kemitix.slushy.app;
 
-import com.julienvey.trello.domain.Card;
 import lombok.NonNull;
 import lombok.extern.java.Log;
+import net.kemitix.trello.TrelloCard;
 import org.apache.camel.Body;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
@@ -21,7 +21,7 @@ public class IsRequiredAge {
 
     @Handler
     boolean isRested(
-            @NonNull @Body SlushyCard card,
+            @NonNull @Body TrelloCard card,
             @NonNull @Header("SlushyRequiredAge") Integer requiredAgeHours
     ) {
         Instant requiredAge = now.get()

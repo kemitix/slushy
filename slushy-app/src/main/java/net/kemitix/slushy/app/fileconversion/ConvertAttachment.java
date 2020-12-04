@@ -1,8 +1,8 @@
 package net.kemitix.slushy.app.fileconversion;
 
 import lombok.extern.java.Log;
-import net.kemitix.slushy.app.AttachmentDirectory;
-import net.kemitix.slushy.app.LocalAttachment;
+import net.kemitix.trello.AttachmentDirectory;
+import net.kemitix.trello.LocalAttachment;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
 

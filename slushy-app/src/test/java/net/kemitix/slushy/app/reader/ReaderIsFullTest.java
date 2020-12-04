@@ -1,10 +1,8 @@
 package net.kemitix.slushy.app.reader;
 
-import net.kemitix.slushy.app.SlushyCard;
-import net.kemitix.slushy.app.trello.TrelloBoard;
+import net.kemitix.trello.TrelloCard;
+import net.kemitix.trello.TrelloBoard;
 import org.assertj.core.api.WithAssertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,7 +22,7 @@ public class ReaderIsFullTest
 
     @InjectMocks ReaderIsFull readerIsFull;
 
-    @Mock List<SlushyCard> targetList ;
+    @Mock List<TrelloCard> targetList ;
 
     @Test
     public void ShouldNotBeFullWhenListSizeIsBelowMax() {

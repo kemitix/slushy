@@ -1,8 +1,8 @@
 package net.kemitix.slushy.app.trello.webhook;
 
 import lombok.extern.java.Log;
-import net.kemitix.slushy.app.SlushyConfig;
-import net.kemitix.slushy.app.trello.TrelloBoard;
+import net.kemitix.trello.TrelloConfig;
+import net.kemitix.trello.TrelloBoard;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 @ApplicationScoped
 public class RegisterWebhook {
 
-    private final SlushyConfig slushyConfig;
+    private final TrelloConfig trelloConfig;
     private final TrelloBoard trelloBoard;
 
     @Inject
@@ -23,10 +23,10 @@ public class RegisterWebhook {
 
     @Inject
     public RegisterWebhook(
-            SlushyConfig slushyConfig,
+            TrelloConfig trelloConfig,
             TrelloBoard trelloBoard
     ) {
-        this.slushyConfig = slushyConfig;
+        this.trelloConfig = trelloConfig;
         this.trelloBoard = trelloBoard;
     }
 
@@ -40,12 +40,12 @@ public class RegisterWebhook {
     public void register() {
         log.info("init()");
 
-        String apiKey = slushyConfig.getTrelloKey();
-        String apiToken = slushyConfig.getTrelloSecret();
+        String apiKey = trelloConfig.getTrelloKey();
+        String apiToken = trelloConfig.getTrelloSecret();
         String boardId = trelloBoard.getBoardId();
         String callbackUrl = String.format(
                 "%s?source=trello;board=%s",
-                slushyConfig.getWebhook(),
+                trelloConfig.getWebhook(),
                 boardId);
 
         String description = "Slushy Webhook";

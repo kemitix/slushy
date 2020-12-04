@@ -1,7 +1,7 @@
 package net.kemitix.slushy.app.fileconversion;
 
-import net.kemitix.slushy.app.Attachment;
-import net.kemitix.slushy.app.LocalAttachment;
+import net.kemitix.trello.Attachment;
+import net.kemitix.trello.LocalAttachment;
 
 import java.io.File;
 import java.util.Optional;

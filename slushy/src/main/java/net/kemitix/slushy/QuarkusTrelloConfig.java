@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.java.Log;
 import net.kemitix.slushy.app.RetryConfig;
-import net.kemitix.slushy.app.SlushyConfig;
+import net.kemitix.trello.TrelloConfig;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -17,8 +17,8 @@ import java.util.List;
 @Setter
 @Getter
 @ApplicationScoped
-public class QuarkusSlushyConfig
-        implements SlushyConfig {
+public class QuarkusTrelloConfig
+        implements TrelloConfig {
 
     private String trelloKey = System.getenv("TRELLO_KEY");
     private String trelloSecret = System.getenv("TRELLO_SECRET");

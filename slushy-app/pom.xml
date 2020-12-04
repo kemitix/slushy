@@ -36,6 +36,11 @@
         </dependency>
 
         <dependency>
+            <groupId>net.kemitix</groupId>
+            <artifactId>kemitix-trello</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>net.kemitix.aws</groupId>
             <artifactId>kemitix-aws-java-sdk-ses-wrapper</artifactId>
         </dependency>
@@ -72,10 +77,6 @@
             <artifactId>flexmark-all</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.taskadapter</groupId>
-            <artifactId>trello-java-wrapper</artifactId>
-        </dependency>
         <dependency>
             <groupId>fr.opensagres.xdocreport</groupId>
             <artifactId>org.odftoolkit.odfdom.converter.xhtml</artifactId>

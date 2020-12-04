@@ -1,8 +1,8 @@
 package net.kemitix.slushy.app.fileconversion;
 
-import net.kemitix.slushy.app.Attachment;
-import net.kemitix.slushy.app.AttachmentDirectory;
-import net.kemitix.slushy.app.LocalAttachment;
+import net.kemitix.trello.Attachment;
+import net.kemitix.trello.AttachmentDirectory;
+import net.kemitix.trello.LocalAttachment;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

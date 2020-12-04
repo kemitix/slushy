@@ -1,7 +1,7 @@
 package net.kemitix.slushy.app.reader;
 
 import net.kemitix.slushy.app.OnException;
-import net.kemitix.slushy.app.trello.TrelloBoard;
+import net.kemitix.trello.TrelloBoard;
 import org.apache.camel.builder.RouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
