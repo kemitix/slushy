@@ -2,7 +2,7 @@ package net.kemitix.slushy.app.status;
 
 import lombok.extern.java.Log;
 import net.kemitix.slushy.app.ListProcessConfig;
-import net.kemitix.slushy.app.trello.TrelloBoard;
+import net.kemitix.trello.TrelloBoard;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;

@@ -2,8 +2,8 @@ package net.kemitix.slushy.app.duedates;
 
 import lombok.NonNull;
 import net.kemitix.slushy.app.Now;
-import net.kemitix.slushy.app.SlushyCard;
-import net.kemitix.slushy.app.trello.TrelloBoard;
+import net.kemitix.trello.TrelloCard;
+import net.kemitix.trello.TrelloBoard;
 import org.apache.camel.Header;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -18,7 +18,7 @@ public class SetDueInDays {
     @Inject Now now;
 
     void setDueDate(
-            @NonNull @Header("SlushyCard") SlushyCard card,
+            @NonNull @Header("SlushyCard") TrelloCard card,
             @NonNull @Header("SlushyDueInDays") Integer days
     ) {
         card.setDue(Date.from(now.get().plus(days, ChronoUnit.DAYS)));

@@ -5,7 +5,7 @@ import com.amazonaws.services.simpleemail.model.RawMessage;
 import com.amazonaws.services.simpleemail.model.SendRawEmailRequest;
 import lombok.NonNull;
 import lombok.extern.java.Log;
-import net.kemitix.slushy.app.LocalAttachment;
+import net.kemitix.trello.LocalAttachment;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
 

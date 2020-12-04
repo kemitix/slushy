@@ -3,8 +3,8 @@ package net.kemitix.slushy.app.fileconversion;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.data.MutableDataSet;
-import net.kemitix.slushy.app.Attachment;
-import net.kemitix.slushy.app.LocalAttachment;
+import net.kemitix.trello.Attachment;
+import net.kemitix.trello.LocalAttachment;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

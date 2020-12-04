@@ -1,18 +1,14 @@
 package net.kemitix.slushy.app.inbox;
 
-import net.kemitix.slushy.app.CardBodyCleaner;
 import net.kemitix.slushy.app.Now;
-import net.kemitix.slushy.app.SlushyCard;
+import net.kemitix.trello.TrelloCard;
 import net.kemitix.slushy.app.Submission;
-import net.kemitix.slushy.app.trello.TrelloBoard;
+import net.kemitix.trello.TrelloBoard;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
@@ -33,7 +29,7 @@ public class ReformatCardTest
     ReformatCard reformatCard = new ReformatCard(inboxConfig, now, trelloBoard);
 
     // parameters
-    SlushyCard card = mock(SlushyCard.class);
+    TrelloCard card = mock(TrelloCard.class);
     Submission submission = mock(Submission.class);
 
     // values

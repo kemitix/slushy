@@ -1,8 +1,7 @@
 package net.kemitix.slushy.app.trello.queue;
 
 import net.kemitix.slushy.app.inbox.InboxConfig;
-import net.kemitix.slushy.app.trello.LoadCard;
-import net.kemitix.slushy.app.withdraw.WithdrawConfig;
+import net.kemitix.trello.LoadCard;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.support.processor.idempotent.MemoryIdempotentRepository;
 

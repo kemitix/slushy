@@ -4,7 +4,7 @@ import lombok.extern.java.Log;
 import net.kemitix.slushy.app.ParseSubmission;
 import net.kemitix.slushy.app.Submission;
 import net.kemitix.slushy.app.reader.ReaderConfig;
-import net.kemitix.slushy.app.trello.TrelloBoard;
+import net.kemitix.trello.TrelloBoard;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

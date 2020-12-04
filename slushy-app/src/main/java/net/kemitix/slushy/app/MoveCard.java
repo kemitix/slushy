@@ -3,7 +3,8 @@ package net.kemitix.slushy.app;
 import com.julienvey.trello.domain.Card;
 import lombok.NonNull;
 import lombok.extern.java.Log;
-import net.kemitix.slushy.app.trello.TrelloBoard;
+import net.kemitix.trello.TrelloCard;
+import net.kemitix.trello.TrelloBoard;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
 
@@ -18,7 +19,7 @@ public class MoveCard {
 
     @Handler
     public void move(
-            @NonNull @Header("SlushyCard") SlushyCard card,
+            @NonNull @Header("SlushyCard") TrelloCard card,
             @NonNull @Header("SlushyTargetList") String targetList
     ) {
         card.setIdList(trelloBoard.getListId(targetList));

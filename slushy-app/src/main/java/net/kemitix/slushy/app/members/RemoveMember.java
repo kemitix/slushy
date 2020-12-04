@@ -1,11 +1,10 @@
 package net.kemitix.slushy.app.members;
 
-import com.julienvey.trello.domain.Card;
 import com.julienvey.trello.domain.Member;
 import lombok.NonNull;
 import lombok.extern.java.Log;
-import net.kemitix.slushy.app.SlushyCard;
-import net.kemitix.slushy.app.trello.TrelloBoard;
+import net.kemitix.trello.TrelloCard;
+import net.kemitix.trello.TrelloBoard;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
 
@@ -20,8 +19,8 @@ public class RemoveMember {
     @Inject Member member;
 
     @Handler
-    SlushyCard removeFromCard(
-            @NonNull @Header("SlushyCard") SlushyCard card
+    TrelloCard removeFromCard(
+            @NonNull @Header("SlushyCard") TrelloCard card
     ) {
         log.info(String.format("Remove %s from %s",
                 member.getFullName(), card.getName()));

@@ -2,8 +2,8 @@ package net.kemitix.slushy.app.reject;
 
 import net.kemitix.slushy.app.IsRequiredAge;
 import net.kemitix.slushy.app.OnException;
-import net.kemitix.slushy.app.SlushyCard;
-import net.kemitix.slushy.app.trello.TrelloBoard;
+import net.kemitix.trello.TrelloCard;
+import net.kemitix.trello.TrelloBoard;
 import org.apache.camel.builder.RouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -38,7 +38,7 @@ public class RejectTimerRoute
                 .routeId("Slushy.Reject")
                 .setBody(exchange -> trelloBoard.getListCards(rejectConfig.getSourceList()))
                 .split(body())
-                .convertBodyTo(SlushyCard.class)
+                .convertBodyTo(TrelloCard.class)
                 .setHeader("SlushyRequiredAge", rejectConfig::getRequiredAgeHours)
                 .filter(bean(isRequiredAge))
                 .setHeader("SlushyRoutingSlip", rejectConfig::getRoutingSlip)

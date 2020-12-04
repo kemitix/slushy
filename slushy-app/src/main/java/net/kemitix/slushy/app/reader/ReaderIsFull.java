@@ -1,7 +1,7 @@
 package net.kemitix.slushy.app.reader;
 
 import lombok.extern.java.Log;
-import net.kemitix.slushy.app.trello.TrelloBoard;
+import net.kemitix.trello.TrelloBoard;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

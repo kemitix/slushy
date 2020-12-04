@@ -4,7 +4,7 @@ import com.julienvey.trello.domain.Attachment;
 import com.julienvey.trello.domain.Card;
 import net.kemitix.slushy.app.fileconversion.AttachmentConverter;
 import net.kemitix.slushy.app.fileconversion.ConvertAttachment;
-import net.kemitix.slushy.app.trello.TrelloBoard;
+import net.kemitix.trello.TrelloBoard;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

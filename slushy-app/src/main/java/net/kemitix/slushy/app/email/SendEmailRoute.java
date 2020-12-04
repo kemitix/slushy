@@ -2,7 +2,7 @@ package net.kemitix.slushy.app.email;
 
 import net.kemitix.slushy.app.AddComment;
 import net.kemitix.slushy.app.OnException;
-import net.kemitix.slushy.app.SlushyConfig;
+import net.kemitix.trello.TrelloConfig;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.support.processor.idempotent.MemoryIdempotentRepository;
 
@@ -13,7 +13,8 @@ import javax.inject.Inject;
 public class SendEmailRoute
         extends RouteBuilder {
 
-    @Inject SlushyConfig slushyConfig;
+    @Inject
+    TrelloConfig trelloConfig;
     @Inject EmailConfig emailConfig;
     @Inject SendEmail sendEmail;
     @Inject AddComment addComment;
@@ -34,7 +35,7 @@ public class SendEmailRoute
                 .messageIdRepository(MemoryIdempotentRepository::new)
 
                 .setHeader("SlushyRecipient").simple("${header.SlushySubmission.email}")
-                .setHeader("SlushySender").constant(slushyConfig.getSender())
+                .setHeader("SlushySender").constant(trelloConfig.getSender())
                 .toD("velocity:net/kemitix/slushy/app/${header.SlushyEmailTemplate}/subject.txt")
                 .setHeader("SlushySubject").body()
                 .toD("velocity:net/kemitix/slushy/app/${header.SlushyEmailTemplate}/body.txt")
