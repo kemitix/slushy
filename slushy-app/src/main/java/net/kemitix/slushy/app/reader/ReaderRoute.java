@@ -10,6 +10,7 @@ import javax.inject.Inject;
 public class ReaderRoute
         extends RouteBuilder {
 
+    public static final int TWENTY_SECONDS = 20000;
     @Inject LoadList loadList;
     @Inject ReaderConfig readerConfig;
 
@@ -17,6 +18,9 @@ public class ReaderRoute
     public void configure() throws Exception {
         from("direct:Slushy.Reader")
                 .routeId("Slushy.Reader")
+
+                .throttle(1).timePeriodMillis(TWENTY_SECONDS)
+
                 .setHeader("ListName").constant(readerConfig.getSourceList())
                 .setBody().method(loadList)
                 .split(body())

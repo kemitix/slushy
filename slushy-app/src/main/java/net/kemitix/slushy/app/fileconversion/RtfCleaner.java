@@ -1,22 +1,22 @@
 package net.kemitix.slushy.app.fileconversion;
 
+import org.apache.commons.text.StringEscapeUtils;
+
 import javax.enterprise.context.ApplicationScoped;
-import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.regex.Pattern;
 
 @ApplicationScoped
 public class RtfCleaner {
 
-    public String clean(String rtfString) {
-        var text = new AtomicReference<>(rtfString);
-        Arrays.stream(new String[][]{
-                {"[{][\\\\]u8220[\\\\]'93[}]", "&ldquo;"},
-                {"[{][\\\\]u8221[\\\\]'94[}]", "&rdquo;"},
-                {"[{][\\\\]u8217[\\\\]'92[}]", "&apos;"},
-        }).forEach(e ->
-                text.updateAndGet(x ->
-                        x.replaceAll(e[0], e[1])));
-        return text.get();
+    private static final Pattern pattern = Pattern.compile("\\\\u(\\d{4})\\\\'\\d{2}");
+
+    public String clean(String rtfText) {
+        return pattern.matcher(rtfText)
+                .replaceAll(match -> {
+                    int codePoint = Integer.parseInt(match.group(1));
+                    String unicodeString = new String(Character.toChars(codePoint));
+                    return StringEscapeUtils.escapeHtml4(unicodeString);
+                });
     }
 
 }

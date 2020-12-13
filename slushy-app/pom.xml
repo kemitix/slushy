@@ -5,7 +5,7 @@
     <parent>
         <groupId>net.kemitix.slushy</groupId>
         <artifactId>slushy-parent</artifactId>
-        <version>2.0.0</version>
+        <version>2.0.1</version>
         <relativePath>../slushy-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -38,6 +38,11 @@
         <dependency>
             <groupId>net.kemitix</groupId>
             <artifactId>kemitix-trello</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
         </dependency>
 
         <dependency>

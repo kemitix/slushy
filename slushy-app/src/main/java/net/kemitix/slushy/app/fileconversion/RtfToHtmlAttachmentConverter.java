@@ -3,7 +3,6 @@ package net.kemitix.slushy.app.fileconversion;
 import lombok.extern.java.Log;
 import net.kemitix.trello.Attachment;
 import net.kemitix.trello.LocalAttachment;
-import org.bbottema.rtftohtml.RTF2HTMLConverter;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -19,9 +18,17 @@ import java.util.stream.Stream;
 public class RtfToHtmlAttachmentConverter
         implements AttachmentConverter {
 
-    @Inject RTF2HTMLConverter converter;
-    @Inject HtmlCleaner htmlCleaner;
-    @Inject RtfCleaner rtfCleaner;
+    private final Rtf2Html converter;
+    private final RtfCleaner rtfCleaner;
+
+    @Inject
+    public RtfToHtmlAttachmentConverter(
+            Rtf2Html converter,
+            RtfCleaner rtfCleaner
+    ) {
+        this.converter = converter;
+        this.rtfCleaner = rtfCleaner;
+    }
 
     @Override
     public boolean canHandle(Attachment attachment) {
@@ -38,9 +45,7 @@ public class RtfToHtmlAttachmentConverter
     ) {
         try {
             String rtfString = Files.readString(sourceFile.toPath());
-            String html = converter.rtf2html(
-                    rtfCleaner.clean(
-                            htmlCleaner.clean(rtfString)));
+            String html = doConvert(rtfString);
             Files.writeString(targetFile.toPath(), html);
             if (targetFile.exists()) {
                 return Optional.of(
@@ -54,6 +59,9 @@ public class RtfToHtmlAttachmentConverter
         }
     }
 
+    public String doConvert(String rtfString) {
+        return converter.convert(rtfCleaner.clean(rtfString));
+    }
 
     @Override
     public Stream<String> canConvertFrom() {
