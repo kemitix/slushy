@@ -11,8 +11,9 @@ public class RTFConverterProducer {
 
     @Produces
     @ApplicationScoped
-    RTF2HTMLConverter converter() {
-        return RTF2HTMLConverterJEditorPane.INSTANCE;
+    Rtf2Html converter() {
+        RTF2HTMLConverter converter = RTF2HTMLConverterJEditorPane.INSTANCE;
+        return converter::rtf2html;
     }
 
 }
