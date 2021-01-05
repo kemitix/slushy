@@ -26,7 +26,7 @@
         <aws-java-sdk-sqs.version>1.11.922</aws-java-sdk-sqs.version>
         <assertj.version>3.18.1</assertj.version>
         <junit.version>5.7.0</junit.version>
-        <mockito-junit-jupiter.version>3.6.28</mockito-junit-jupiter.version>
+        <mockito-junit-jupiter.version>3.7.0</mockito-junit-jupiter.version>
         <odftoolkit.version>1.0.6</odftoolkit.version>
         <rtf-to-html.version>1.0.1</rtf-to-html.version>
         <flexmark.version>0.62.2</flexmark.version>
