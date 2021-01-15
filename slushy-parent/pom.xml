@@ -31,7 +31,7 @@
         <rtf-to-html.version>1.0.1</rtf-to-html.version>
         <flexmark.version>0.62.2</flexmark.version>
         <microprofile.version>4.0.1</microprofile.version>
-        <resteasy-core-spi.version>4.5.8.Final</resteasy-core-spi.version>
+        <resteasy-core-spi.version>4.6.0.Final</resteasy-core-spi.version>
         <kemitix-trello.version>1.0.1</kemitix-trello.version>
         <commons-text.version>1.9</commons-text.version>
     </properties>
