@@ -21,7 +21,18 @@
 # docker run -i --rm -p 9999:8080 -p 5005:5005 -e JAVA_ENABLE_DEBUG="true" kemitix/slushy
 #
 ###
-FROM adoptopenjdk:latest
+FROM debian:stable
+
+# install wget and python required to download and install calibre, plus a JRE
+RUN apt-get update && \
+    apt-get install -y \
+        wget=1.20.1-1.1 \
+        python3=3.7.3-1 \
+        openjdk-11-jre \
+    && rm -rf /var/lib/apt/lists/*
+
+# download and install calibre
+RUN wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/stdin
 
 WORKDIR /app
 
