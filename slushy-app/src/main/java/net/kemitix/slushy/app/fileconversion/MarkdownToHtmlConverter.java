@@ -3,6 +3,7 @@ package net.kemitix.slushy.app.fileconversion;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.data.MutableDataSet;
+import net.kemitix.slushy.app.Submission;
 import net.kemitix.trello.Attachment;
 import net.kemitix.trello.LocalAttachment;
 
@@ -38,7 +39,7 @@ public class MarkdownToHtmlConverter
     }
 
     @Override
-    public Optional<LocalAttachment> convert(File sourceFile, File targetFile) {
+    public Optional<LocalAttachment> convert(File sourceFile, File targetFile, Submission submission) {
         try {
             String markdown = Files.readString(sourceFile.toPath(), UTF_8);
             String html = String.format(

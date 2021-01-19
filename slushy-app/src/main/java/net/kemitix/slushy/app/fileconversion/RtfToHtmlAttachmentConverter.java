@@ -1,6 +1,7 @@
 package net.kemitix.slushy.app.fileconversion;
 
 import lombok.extern.java.Log;
+import net.kemitix.slushy.app.Submission;
 import net.kemitix.trello.Attachment;
 import net.kemitix.trello.LocalAttachment;
 
@@ -41,8 +42,8 @@ public class RtfToHtmlAttachmentConverter
     @Override
     public Optional<LocalAttachment> convert(
             File sourceFile,
-            File targetFile
-    ) {
+            File targetFile,
+            Submission submission) {
         try {
             String rtfString = Files.readString(sourceFile.toPath());
             String html = doConvert(rtfString);

@@ -1,5 +1,6 @@
 package net.kemitix.slushy.app.fileconversion;
 
+import net.kemitix.slushy.app.Submission;
 import net.kemitix.trello.Attachment;
 import net.kemitix.trello.AttachmentDirectory;
 import net.kemitix.trello.LocalAttachment;
@@ -26,15 +27,18 @@ public class ConvertAttachmentTest
     private final AttachmentDirectory attachmentDirectory;
 
     private ConvertAttachment service;
+    private Submission submission;
 
     public ConvertAttachmentTest(
             @Mock Instance<AttachmentConverter> converters,
             @Mock LocalAttachment attachment,
-            @Mock AttachmentDirectory attachmentDirectory
-            ) {
+            @Mock AttachmentDirectory attachmentDirectory,
+            @Mock Submission submission
+    ) {
         this.converters = converters;
         this.attachment = attachment;
         this.attachmentDirectory = attachmentDirectory;
+        this.submission = submission;
     }
 
     @BeforeEach
@@ -48,7 +52,7 @@ public class ConvertAttachmentTest
         //given
         given(converters.stream()).willReturn(Stream.empty());
         //when
-        Attachment result = service.convert(attachment);
+        Attachment result = service.convert(attachment, submission);
         //then
         assertThat(result).isSameAs(attachment);
     }

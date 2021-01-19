@@ -1,6 +1,7 @@
 package net.kemitix.slushy.app.fileconversion;
 
 import lombok.extern.java.Log;
+import net.kemitix.slushy.app.Submission;
 import net.kemitix.trello.Attachment;
 import net.kemitix.trello.LocalAttachment;
 import org.odftoolkit.odfdom.converter.xhtml.XHTMLConverter;
@@ -34,7 +35,7 @@ public class OdtToHtmlAttachmentConverter
     }
 
     @Override
-    public Optional<LocalAttachment> convert(File sourceFile, File targetFile) {
+    public Optional<LocalAttachment> convert(File sourceFile, File targetFile, Submission submission) {
         try (
                 InputStream in = new FileInputStream(sourceFile);
                 OutputStream out = new FileOutputStream(targetFile);

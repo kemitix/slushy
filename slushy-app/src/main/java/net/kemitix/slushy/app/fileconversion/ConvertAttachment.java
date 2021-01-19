@@ -1,6 +1,7 @@
 package net.kemitix.slushy.app.fileconversion;
 
 import lombok.extern.java.Log;
+import net.kemitix.slushy.app.Submission;
 import net.kemitix.trello.AttachmentDirectory;
 import net.kemitix.trello.LocalAttachment;
 import org.apache.camel.Handler;
@@ -30,17 +31,19 @@ public class ConvertAttachment {
 
     @Handler
     public LocalAttachment convert(
-            @Header("SlushyAttachment") LocalAttachment attachment
+            @Header("SlushyAttachment") LocalAttachment attachment,
+            @Header("SlushySubmission") Submission submission
     ) {
         return attachmentConverters.stream()
                 .filter(converter -> converter.canHandle(attachment))
                 .findFirst()
-                .flatMap(converter -> convertAttachment(attachment, converter))
+                .flatMap(converter -> convertAttachment(attachment, submission, converter))
                 .orElse(attachment);
     }
 
     private Optional<LocalAttachment> convertAttachment(
             LocalAttachment attachment,
+            Submission submission,
             AttachmentConverter converter
     ) {
         File sourceFile = attachment.getFilename();
@@ -49,7 +52,7 @@ public class ConvertAttachment {
         String htmlName = name.substring(0, name.lastIndexOf(".")) + ".html";
         File htmlFile = attachmentDirectory.createFile(new File(htmlName));
         log.info("Converting  to  " + htmlFile.getAbsolutePath());
-        return converter.convert(sourceFile, htmlFile);
+        return converter.convert(sourceFile, htmlFile, submission);
     }
 
 }
