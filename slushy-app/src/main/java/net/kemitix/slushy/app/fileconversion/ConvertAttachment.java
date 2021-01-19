@@ -49,10 +49,10 @@ public class ConvertAttachment {
         File sourceFile = attachment.getFilename();
         String name = sourceFile.getName();
         log.info("Converting from " + name);
-        String htmlName = name.substring(0, name.lastIndexOf(".")) + ".html";
-        File htmlFile = attachmentDirectory.createFile(new File(htmlName));
-        log.info("Converting  to  " + htmlFile.getAbsolutePath());
-        return converter.convert(sourceFile, htmlFile, submission);
+        String mobiName = name.substring(0, name.lastIndexOf(".")) + ".mobi";
+        File mobiFile = attachmentDirectory.createFile(new File(mobiName));
+        log.info("Converting  to  " + mobiFile.getAbsolutePath());
+        return converter.convert(sourceFile, mobiFile, submission);
     }
 
 }
