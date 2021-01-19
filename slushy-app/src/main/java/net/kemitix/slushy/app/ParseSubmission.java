@@ -34,6 +34,7 @@ public class ParseSubmission {
     ) {
         Map<String, String> body = parseBody(card);
         return Submission.builder()
+                .id(card.getIdShort())
                 .title(body.get("storytitle"))
                 .byline(body.get("byline"))
                 .realName(body.get("name"))

@@ -10,6 +10,7 @@ import java.time.Instant;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Submission {
 
+    private final String id;
     private final String title;
     private final String byline;
     private final String realName;
@@ -22,10 +23,10 @@ public class Submission {
     private final String document;
 
     public static Builder builder() {
-        return title -> byline -> realName -> email -> paypal
+        return id -> title -> byline -> realName -> email -> paypal
                 -> wordLengthBand -> coverLetter -> contract -> date
                 -> document
-                -> new Submission(title, byline, realName, email, paypal,
+                -> new Submission(id, title, byline, realName, email, paypal,
                 wordLengthBand, coverLetter, contract, date, document);
     }
 
@@ -34,7 +35,8 @@ public class Submission {
     }
 
     public interface Builder {
-        Stage1 title(String title);
+        Stage0 id(String id);
+        interface Stage0 {Stage1 title(String title);}
         interface Stage1 {Stage2 byline(String byline);}
         interface Stage2 {Stage3 realName(String realName);}
         interface Stage3 {Stage4 email(String email);}
