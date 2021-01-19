@@ -83,11 +83,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.vladsch.flexmark</groupId>
-            <artifactId>flexmark-all</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>fr.opensagres.xdocreport</groupId>
             <artifactId>org.odftoolkit.odfdom.converter.xhtml</artifactId>
 <!--            <exclusions>-->

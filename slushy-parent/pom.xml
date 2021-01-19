@@ -28,7 +28,6 @@
         <junit.version>5.7.0</junit.version>
         <mockito-junit-jupiter.version>3.7.0</mockito-junit-jupiter.version>
         <odftoolkit.version>1.0.6</odftoolkit.version>
-        <flexmark.version>0.62.2</flexmark.version>
         <microprofile.version>4.0.1</microprofile.version>
         <resteasy-core-spi.version>4.5.8.Final</resteasy-core-spi.version>
         <kemitix-trello.version>1.0.2</kemitix-trello.version>
@@ -104,12 +103,6 @@
                 <groupId>org.zeroturnaround</groupId>
                 <artifactId>zt-exec</artifactId>
                 <version>${zt-exec.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.vladsch.flexmark</groupId>
-                <artifactId>flexmark-all</artifactId>
-                <version>${flexmark.version}</version>
             </dependency>
 
             <dependency>
