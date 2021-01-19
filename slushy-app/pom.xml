@@ -97,10 +97,7 @@
 <!--                </exclusion>-->
 <!--            </exclusions>-->
         </dependency>
-        <dependency>
-            <groupId>com.github.bbottema</groupId>
-            <artifactId>rtf-to-html</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>

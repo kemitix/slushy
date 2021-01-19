@@ -28,7 +28,6 @@
         <junit.version>5.7.0</junit.version>
         <mockito-junit-jupiter.version>3.7.0</mockito-junit-jupiter.version>
         <odftoolkit.version>1.0.6</odftoolkit.version>
-        <rtf-to-html.version>1.0.1</rtf-to-html.version>
         <flexmark.version>0.62.2</flexmark.version>
         <microprofile.version>4.0.1</microprofile.version>
         <resteasy-core-spi.version>4.5.8.Final</resteasy-core-spi.version>
@@ -135,11 +134,6 @@
                         <artifactId>xml-apis</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>com.github.bbottema</groupId>
-                <artifactId>rtf-to-html</artifactId>
-                <version>${rtf-to-html.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
