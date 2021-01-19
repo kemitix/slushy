@@ -24,7 +24,11 @@ public class CalibreConverter
             "doc",
             "docx",
             "rtf",
-            "odt"
+            "odt",
+            "html",
+            "htm",
+            "txt",
+            "azw"
     );
 
     @Override
