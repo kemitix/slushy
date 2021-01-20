@@ -21,7 +21,6 @@ public class CalibreConverter
         implements AttachmentConverter {
 
     private static final List<String> SUPPORTED_EXTENSIONS = List.of(
-            "doc",
             "docx",
             "rtf",
             "odt",
