@@ -25,6 +25,7 @@ version-resolver:
   patch:
     labels:
       - 'patch'
+      - 'dependencies'
   default: patch
 exclude-labels:
   - 'skip-changelog'
