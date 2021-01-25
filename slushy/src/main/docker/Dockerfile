@@ -32,7 +32,9 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 # download and install calibre
-RUN wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/stdin
+RUN wget -nv -O- \
+    https://download.calibre-ebook.com/linux-installer.sh | \
+    sh /dev/stdin version=5.10.1
 
 WORKDIR /app
 
