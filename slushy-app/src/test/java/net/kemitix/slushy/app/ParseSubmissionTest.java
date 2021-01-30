@@ -113,7 +113,7 @@ public class ParseSubmissionTest
         @DisplayName("Parse Word Length")
         public void parseWordLength() {
             assertThat(parseSubmission.parse(card).getWordLengthBand())
-                    .isEqualTo(WordLengthBand.WORDS_3001_5000);
+                    .isEqualTo(WordLengthBand.LENGTH_SHORT_SHORT);
         }
 
         @Test
