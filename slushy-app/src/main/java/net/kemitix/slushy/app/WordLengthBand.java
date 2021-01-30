@@ -3,11 +3,9 @@ package net.kemitix.slushy.app;
 import java.util.Arrays;
 
 public enum WordLengthBand {
-    WORDS_1000_3000("3K"),
-    WORDS_3001_5000("5K"),
-    WORDS_5001_7000("7K"),
-    WORDS_7001_9000("9K"),
-    WORDS_9001_10000("10K"),
+    LENGTH_SHORT_SHORT("short-short"),
+    LENGTH_LONG_SHORT("long-short"),
+    LENGTH_NOVELETTE("novelette"),
     ;
 
     private final String value;
@@ -17,8 +15,9 @@ public enum WordLengthBand {
     }
 
     public static WordLengthBand parse(String wordcount) {
+        var wc = wordcount.toLowerCase();
         return Arrays.stream(WordLengthBand.values())
-                .filter(b -> b.value.equals(wordcount.toUpperCase()))
+                .filter(b -> b.value.equals(wc))
                 .findFirst()
                 .orElseThrow(() ->
                         new IllegalArgumentException("Invalid band: " + wordcount));
