@@ -19,6 +19,12 @@ public class PollQueueRoute
                 System.getenv("AWS_REGION")
         ).toUpperCase();
 
+        errorHandler(deadLetterChannel("direct:dropInvalidPollQueueMessage"));
+
+        from("direct:dropInvalidPollQueueMessage")
+                .log("Dropping Invalid Poll queue message: ${body}")
+        ;
+
         fromF("aws-sqs://%s?region=%s&waitTimeSeconds=20&greedy=true",
                 queueName, region)
                 .routeId("Slushy.PollQueue")
