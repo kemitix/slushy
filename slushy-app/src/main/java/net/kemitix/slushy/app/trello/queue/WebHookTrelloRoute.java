@@ -26,6 +26,12 @@ public class WebHookTrelloRoute
 
     @Override
     public void configure() throws Exception {
+        errorHandler(deadLetterChannel("direct:dropInvalidWebHookMessage"));
+
+        from("direct:dropInvalidWebHookMessage")
+                .log("Dropping Invalid Webhook message: ${body}")
+        ;
+
         from("direct:Slushy.WebHook.Trello")
                 .routeId("Slushy.WebHook.Trello")
 
@@ -33,29 +39,25 @@ public class WebHookTrelloRoute
                 .skipDuplicate(true)
                 .messageIdRepository(MemoryIdempotentRepository::new)
 
-                .setHeader("Action").jsonpath("body-json.action.display.translationKey")
+                .setHeader("ActionType").jsonpath("body-json.action.type")
+                .setHeader("TranslationKey").jsonpath("body-json.action.display.translationKey")
 
                 .choice()
-                .when().simple("${header.Action} != 'unknown'")
-                .log("WebHook message from Trello: ${header.Action}")
-                .end()
-
-                .choice()
-
-                .when().simple("${header.Action} == 'action_email_card'")
+                .when().simple("${header.ActionType} == 'emailCard'")
                 .to("direct:Slushy.WebHook.Trello.ActionEmailCard")
                 .endChoice()
 
-                .when().simple("${header.Action} == 'action_move_card_from_list_to_list'")
+                // treat manually created cards as if they were emailed in
+                .when().simple("${header.ActionType} == 'createCard'")
+                .to("direct:Slushy.WebHook.Trello.ActionEmailCard")
+                .endChoice()
+
+                .when().simple("${header.TranslationKey} == 'action_move_card_from_list_to_list'")
                 .to("direct:Slushy.WebHook.Trello.ActionMoveCardFromListToList")
                 .endChoice()
 
-                //.otherwise()
-                //.choice()
-                //.when().simple("${header.Action} != 'unknown'")
-                //.log("Unknown action: ${header.Action}")
-                //.end()
-//                .to("direct:Slushy.WebHook.Unhandled")
+                .otherwise()
+                .log("Ignoring: ${header.ActionType} / ${header.TranslationKey}")
 
                 .end()
         ;
