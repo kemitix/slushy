@@ -3,10 +3,12 @@ package net.kemitix.slushy.app;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.With;
 
 import java.time.Instant;
 
 @Getter
+@With
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Submission {
 
