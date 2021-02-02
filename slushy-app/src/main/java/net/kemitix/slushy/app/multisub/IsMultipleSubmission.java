@@ -53,11 +53,13 @@ public class IsMultipleSubmission {
     ) {
         String email = submission.getEmail();
         String paypal = submission.getPaypal();
+        String submissionId = submission.getId();
         return (Submission other) ->
-                other.getEmail().equals(email) ||
-                        other.getEmail().equals(paypal) ||
-                        other.getPaypal().equals(email) ||
-                        other.getPaypal().equals(paypal);
+                !other.getId().equals(submissionId) &&
+                        (other.getEmail().equals(email) ||
+                                other.getEmail().equals(paypal) ||
+                                other.getPaypal().equals(email) ||
+                                other.getPaypal().equals(paypal));
     }
 
 }
