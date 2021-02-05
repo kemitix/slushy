@@ -25,7 +25,7 @@
         <aws-java-sdk-ses.version>1.11.944</aws-java-sdk-ses.version>
         <aws-java-sdk-sqs.version>1.11.934</aws-java-sdk-sqs.version>
         <assertj.version>3.19.0</assertj.version>
-        <junit.version>5.7.0</junit.version>
+        <junit.version>5.7.1</junit.version>
         <mockito-junit-jupiter.version>3.7.7</mockito-junit-jupiter.version>
         <odftoolkit.version>1.0.6</odftoolkit.version>
         <microprofile.version>4.0.1</microprofile.version>
