@@ -51,25 +51,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.camel.quarkus</groupId>
-            <artifactId>camel-quarkus-aws-sqs</artifactId>
-            <version>1.7.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.amazonaws</groupId>
-                    <artifactId>aws-java-sdk-sqs</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
             <groupId>net.kemitix.aws</groupId>
             <artifactId>kemitix-aws-java-sdk-sqs-wrapper</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.camel.quarkus</groupId>
-            <artifactId>camel-quarkus-jsonpath</artifactId>
-            <version>1.7.0</version>
         </dependency>
 
         <dependency>
