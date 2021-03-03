@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 public class ParseSubmission {
 
     private static final Pattern HEADING =
-            Pattern.compile("^\\*\\*(?<heading>.*?):\\*\\*$",
+            Pattern.compile("^\\*{1,2}(?<heading>.*?):[\\*\\s]\\*$",
                     Pattern.MULTILINE);
 
     @Inject Now now;
