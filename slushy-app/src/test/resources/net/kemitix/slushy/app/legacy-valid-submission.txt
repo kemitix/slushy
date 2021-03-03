@@ -1,0 +1,51 @@
+Someone just submitted your form on https://www.cossmass.com/submit/.
+
+Here's what they had to say:
+
+*storytitle: *
+
+TEST Story Title
+
+*wordcount: *
+
+short-short
+
+*contract: *
+
+original
+
+*name: *
+
+TEST Author Name
+
+*byline: *
+
+TEST Author ByLine
+
+*email: *
+
+my\_email@example.com
+
+*paypal: *
+
+paypal@example.com
+
+*responsetime: *
+
+3 months
+
+*coverletter: *
+
+TEST Cover Letter
+
+More info.
+
+*upload: *
+
+Abigail.docx
+
+Submitted Fri, Jan 10, 2020 7:32 PM
+
+Your friends from,
+
+[**FormSubmit Team**](https://formsubmit.co)
