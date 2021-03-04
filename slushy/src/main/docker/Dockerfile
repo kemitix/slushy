@@ -38,8 +38,7 @@ RUN wget -nv -O- \
 
 WORKDIR /app
 
-COPY target/lib /app/lib/
-COPY target/slushy-runner.jar /app/
+COPY target/quarkus-app/ /app/
 
 EXPOSE 8080
-CMD ["java", "-jar", "/app/slushy-runner.jar"]
+CMD ["java", "-jar", "/app/quarkus-run.jar"]
