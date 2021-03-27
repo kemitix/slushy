@@ -16,20 +16,21 @@ public class Submission {
     private final String title;
     private final String byline;
     private final String realName;
-    final String email;
+    private final String email;
     private final String paypal;
     private final WordLengthBand wordLengthBand;
     private final String coverLetter;
     private final Contract contract;
     private final Instant date;
     private final String document;
+    private final String logLine;
 
     public static Builder builder() {
         return id -> title -> byline -> realName -> email -> paypal
                 -> wordLengthBand -> coverLetter -> contract -> date
-                -> document
+                -> document -> logLine
                 -> new Submission(id, title, byline, realName, email, paypal,
-                wordLengthBand, coverLetter, contract, date, document);
+                wordLengthBand, coverLetter, contract, date, document, logLine);
     }
 
     public boolean hasDocument() {
@@ -47,6 +48,7 @@ public class Submission {
         interface Stage6 {Stage7 coverLetter(String coverLetter);}
         interface Stage7 {Stage8 contract(Contract contract);}
         interface Stage8 {Stage9 submittedDate(Instant submittedDate);}
-        interface Stage9 {Submission document(String document);}
+        interface Stage9 {Stage10 document(String document);}
+        interface Stage10 {Submission logLine(String logLine);}
     }
 }
