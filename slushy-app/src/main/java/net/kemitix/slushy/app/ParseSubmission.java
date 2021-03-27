@@ -44,7 +44,9 @@ public class ParseSubmission {
                 .coverLetter(body.get("coverletter"))
                 .contract(Contract.parse(body.get("contract")))
                 .submittedDate(now.get())
-                .document(getAttachmentUrl(card));
+                .document(getAttachmentUrl(card))
+                .logLine(body.getOrDefault("logline", ""))
+                ;
     }
 
     private String getAttachmentUrl(Card card) {

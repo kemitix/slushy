@@ -60,7 +60,6 @@ public class ParseSubmissionTest
     public class ValidSubmissionTests {
 
         Card card;
-        URL validResource = this.getClass().getResource("valid-submission.txt");
         String documentUrl = "document.docx";
 
         @BeforeEach
@@ -68,10 +67,15 @@ public class ParseSubmissionTest
             card = new Card();
             String validCardDescription =
                     String.join("\n",
-                            Files.readAllLines(Paths.get(validResource.toURI())));
+                            Files.readAllLines(Paths.get(getValidResource().toURI())));
             card.setDesc(validCardDescription);
             given(trelloBoard.getAttachments(card))
                     .willReturn(List.of(new Attachment(documentUrl)));
+        }
+
+        protected URL getValidResource() {
+            return this.getClass()
+                    .getResource("valid-submission.txt");
         }
 
         @Test
@@ -138,6 +142,13 @@ public class ParseSubmissionTest
         }
 
         @Test
+        @DisplayName("Parse LogLine")
+        public void parseLogLine() {
+            assertThat(parseSubmission.parse(card).getLogLine())
+                    .isEqualTo("");
+        }
+
+        @Test
         @DisplayName("Attachment")
         public void attachment() {
             assertThat(parseSubmission.parse(card).getDocument())
@@ -189,6 +200,26 @@ public class ParseSubmissionTest
             assertThat(parseSubmission.parse(card).getDocument())
                     .isNull();
         }
+    }
+
+    @Nested
+    @DisplayName("Valid Submission with a Logline")
+    public class ValidSubmissionWithLogLineTests
+            extends ValidSubmissionTests {
+
+        @Override
+        protected URL getValidResource() {
+            return this.getClass()
+                    .getResource("valid-submission-with-logline.txt");
+        }
+
+        @Test
+        @DisplayName("Parse LogLine")
+        public void parseLogLine() {
+            assertThat(parseSubmission.parse(card).getLogLine())
+                    .isEqualTo("This is a short summary of what the story is about.");
+        }
+
     }
 
     @Nested

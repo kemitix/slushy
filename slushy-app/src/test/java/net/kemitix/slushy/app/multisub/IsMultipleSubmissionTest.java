@@ -50,6 +50,7 @@ class IsMultipleSubmissionTest
             .contract(Contract.ORIGINAL)
             .submittedDate(Instant.now())
             .document("selfDocument")
+            .logLine("selfLogLine")
             ;
     Submission other = Submission.builder()
             .id("otherId")
@@ -63,6 +64,7 @@ class IsMultipleSubmissionTest
             .contract(Contract.ORIGINAL)
             .submittedDate(Instant.now())
             .document("otherDocument")
+            .logLine("selfLogLine")
             ;
 
     Submission otherEmailToEmail = other.withEmail(self.getEmail());
