@@ -46,6 +46,7 @@ public class ParseSubmission {
                 .submittedDate(now.get())
                 .document(getAttachmentUrl(card))
                 .logLine(body.getOrDefault("logline", ""))
+                .genre(Genre.parse(body.getOrDefault("genre", Genre.Unknown.toString())))
                 ;
     }
 
