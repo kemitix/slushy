@@ -149,6 +149,13 @@ public class ParseSubmissionTest
         }
 
         @Test
+        @DisplayName("Parse Genre")
+        public void parseGenre() {
+            assertThat(parseSubmission.parse(card).getGenre())
+                    .isEqualTo(Genre.Unknown);
+        }
+
+        @Test
         @DisplayName("Attachment")
         public void attachment() {
             assertThat(parseSubmission.parse(card).getDocument())
@@ -218,6 +225,26 @@ public class ParseSubmissionTest
         public void parseLogLine() {
             assertThat(parseSubmission.parse(card).getLogLine())
                     .isEqualTo("This is a short summary of what the story is about.");
+        }
+
+    }
+
+    @Nested
+    @DisplayName("Valid Submission with a Genre")
+    public class ValidSubmissionWithGenreTests
+            extends ValidSubmissionTests {
+
+        @Override
+        protected URL getValidResource() {
+            return this.getClass()
+                    .getResource("valid-submission-with-genre.txt");
+        }
+
+        @Test
+        @DisplayName("Parse Genre")
+        public void parseGenre() {
+            assertThat(parseSubmission.parse(card).getGenre())
+                    .isEqualTo(Genre.ScienceFiction);
         }
 
     }

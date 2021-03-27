@@ -1,6 +1,7 @@
 package net.kemitix.slushy.app.multisub;
 
 import net.kemitix.slushy.app.Contract;
+import net.kemitix.slushy.app.Genre;
 import net.kemitix.slushy.app.ParseSubmission;
 import net.kemitix.slushy.app.Submission;
 import net.kemitix.slushy.app.WordLengthBand;
@@ -51,6 +52,7 @@ class IsMultipleSubmissionTest
             .submittedDate(Instant.now())
             .document("selfDocument")
             .logLine("selfLogLine")
+            .genre(Genre.Unknown)
             ;
     Submission other = Submission.builder()
             .id("otherId")
@@ -65,6 +67,7 @@ class IsMultipleSubmissionTest
             .submittedDate(Instant.now())
             .document("otherDocument")
             .logLine("selfLogLine")
+            .genre(Genre.Unknown)
             ;
 
     Submission otherEmailToEmail = other.withEmail(self.getEmail());
