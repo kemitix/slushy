@@ -35,20 +35,26 @@ public class ParseSubmissionTest
     private final ParseSubmission parseSubmission = new ParseSubmission();
 
     private final Now now = () -> Instant.ofEpochSecond(123456789);
-    private ValidFileTypes validFileTypes;
 
     @Mock TrelloBoard trelloBoard;
     @Mock ConvertAttachment convertAttachment;
-    @Mock Instance<AttachmentConverter> attachmentConverters;
+    @Mock
+    Instance<AttachmentConverter> attachmentConverters;
     @Mock AttachmentConverter attachmentConverter;
+    @Mock Instance<CardParser> cardParsers;
 
     @BeforeEach
     public void setUp() {
         parseSubmission.now = now;
         parseSubmission.trelloBoard = trelloBoard;
-        parseSubmission.cardBodyCleaner = new CardBodyCleaner();
-        validFileTypes = new ValidFileTypes(convertAttachment, attachmentConverters);
-        parseSubmission.validFileTypes = validFileTypes;
+        parseSubmission.cardParsers = cardParsers;
+        FormSubmitCoCardParser formSubmitCoCardParser = new FormSubmitCoCardParser();
+        formSubmitCoCardParser.cardBodyCleaner = new CardBodyCleaner();
+        given(cardParsers.stream()).willReturn(Stream.of(
+                formSubmitCoCardParser
+        ));
+        parseSubmission.validFileTypes =
+                new ValidFileTypes(convertAttachment, attachmentConverters);
         given(attachmentConverters.stream())
                 .willReturn(Stream.of(attachmentConverter));
         given(attachmentConverter.canConvertFrom())

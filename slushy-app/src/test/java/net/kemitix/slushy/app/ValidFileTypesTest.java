@@ -25,7 +25,8 @@ public class ValidFileTypesTest
 
     ValidFileTypes validFileTypes;
 
-    @Mock Instance<AttachmentConverter> attachmentConverters;
+    @Mock
+    Instance<AttachmentConverter> attachmentConverters;
     @Mock AttachmentConverter attachmentConverter;
 
     @BeforeEach

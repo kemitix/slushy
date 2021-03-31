@@ -8,25 +8,18 @@ import org.apache.camel.Handler;
 import org.apache.camel.Header;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.UnknownFormatConversionException;
 
 @ApplicationScoped
 public class ParseSubmission {
 
-    private static final Pattern HEADING =
-            Pattern.compile("^\\*{1,2}(?<heading>.*?):[\\*\\s]\\*$",
-                    Pattern.MULTILINE);
-
     @Inject Now now;
     @Inject TrelloBoard trelloBoard;
     @Inject ValidFileTypes validFileTypes;
-    @Inject CardBodyCleaner cardBodyCleaner;
+    @Inject Instance<CardParser> cardParsers;
 
     @Handler
     public Submission parse(
@@ -69,25 +62,12 @@ public class ParseSubmission {
     }
 
     private Map<String, String> parseBody(Card card) {
-        String body = cardBodyCleaner.clean(card.getDesc());
-        Map<String, String> values = new HashMap<>();
-        AtomicReference<String> header = new AtomicReference<>("preamble");
-        Arrays.stream(body.split("\n"))
-                .forEach(line -> {
-                    Matcher matcher = HEADING.matcher(line);
-                    if (matcher.matches()) {
-                        header.set(matcher.group("heading"));
-                    } else {
-                        if (!"".equals(line)) {
-                            String key = header.get();
-                            if (values.containsKey(key)) {
-                                values.put(key, values.get(key) + "\n\n" + line);
-                            } else {
-                                values.put(key, line);
-                            }
-                        }
-                    }
-                });
-        return values;
+        Map<String, String> o = cardParsers.stream()
+                .filter(parser -> parser.canHandle(card))
+                .findFirst()
+                .map(parser -> parser.parse(card))
+                .orElseThrow(() ->
+                        new UnknownCardFormatException(card));
+        return o;
     }
 }
