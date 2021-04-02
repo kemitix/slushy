@@ -1,6 +1,8 @@
-package net.kemitix.slushy.app;
+package net.kemitix.slushy.app.cardparsers;
 
 import com.julienvey.trello.domain.Card;
+import lombok.Setter;
+import net.kemitix.slushy.app.CardBodyCleaner;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -12,23 +14,29 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Card parser for froms submitted through https://formsubmit.co
+ * Card parser for forms submitted through https://formsubmit.co
  */
 @ApplicationScoped
 public class FormSubmitCoCardParser
         implements CardParser {
 
     private static final Pattern HEADING =
-            Pattern.compile("^\\*{1,2}(?<heading>.*?):[\\*\\s]\\*$",
+            Pattern.compile("^\\*{2}(?<heading>.*?):\\*{2}$",
                     Pattern.MULTILINE);
-    public static final String SIGNATURE = "[**FormSubmit Team**](https://formsubmit.co)";
+    private static final String SIGNATURE = "[**FormSubmit Team**](https://formsubmit.co)";
+    private static final Pattern HEADER_PATTERN = Pattern.compile("^\\*\\*(.*?):\\*\\*$");
 
+    @Setter
     @Inject
     CardBodyCleaner cardBodyCleaner;
 
     @Override
     public boolean canHandle(Card card) {
-        return card.getDesc().contains(SIGNATURE);
+        boolean containsSignature = card.getDesc().contains(SIGNATURE);
+        boolean matchesHeadingFormat = Arrays.stream(card.getDesc().split("\n"))
+                .anyMatch(line -> HEADER_PATTERN.matcher(line).matches());
+        return containsSignature
+                && matchesHeadingFormat;
     }
 
     @Override

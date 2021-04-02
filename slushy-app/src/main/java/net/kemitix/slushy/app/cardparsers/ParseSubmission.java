@@ -1,8 +1,15 @@
-package net.kemitix.slushy.app;
+package net.kemitix.slushy.app.cardparsers;
 
 import com.julienvey.trello.domain.Attachment;
 import com.julienvey.trello.domain.Card;
 import lombok.NonNull;
+import net.kemitix.slushy.app.Contract;
+import net.kemitix.slushy.app.Genre;
+import net.kemitix.slushy.app.Now;
+import net.kemitix.slushy.app.Submission;
+import net.kemitix.slushy.app.UnknownCardFormatException;
+import net.kemitix.slushy.app.ValidFileTypes;
+import net.kemitix.slushy.app.WordLengthBand;
 import net.kemitix.trello.TrelloBoard;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
@@ -10,15 +17,18 @@ import org.apache.camel.Header;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
+import java.util.List;
 import java.util.Map;
-import java.util.UnknownFormatConversionException;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class ParseSubmission {
 
-    @Inject Now now;
+    @Inject
+    Now now;
     @Inject TrelloBoard trelloBoard;
-    @Inject ValidFileTypes validFileTypes;
+    @Inject
+    ValidFileTypes validFileTypes;
     @Inject Instance<CardParser> cardParsers;
 
     @Handler
@@ -34,7 +44,7 @@ public class ParseSubmission {
                 .email(body.get("email"))
                 .paypal(body.get("paypal"))
                 .wordLength(WordLengthBand.parse(body.get("wordcount")))
-                .coverLetter(body.get("coverletter"))
+                .coverLetter(body.get("coverletter").strip())
                 .contract(Contract.parse(body.get("contract")))
                 .submittedDate(now.get())
                 .document(getAttachmentUrl(card))
@@ -62,7 +72,8 @@ public class ParseSubmission {
     }
 
     private Map<String, String> parseBody(Card card) {
-        Map<String, String> o = cardParsers.stream()
+        List<CardParser> list = cardParsers.stream().collect(Collectors.toList());
+        Map<String, String> o = list.stream()
                 .filter(parser -> parser.canHandle(card))
                 .findFirst()
                 .map(parser -> parser.parse(card))
