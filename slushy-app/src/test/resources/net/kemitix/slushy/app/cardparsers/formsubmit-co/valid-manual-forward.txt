@@ -1,0 +1,79 @@
+Someone just submitted your form on https://www.cossmass.com/.
+
+Here's what they had to say:
+*storytitle: *
+
+TEST Story Title
+
+------------------------------
+*wordcount: *
+
+short-short
+
+------------------------------
+*contract: *
+
+original
+
+------------------------------
+*genre: *
+
+ScienceFiction
+
+------------------------------
+*logline: *
+
+This is a short summary of what the story is about.
+
+------------------------------
+*name: *
+
+TEST Author Name
+
+------------------------------
+*byline: *
+
+TEST Author ByLine
+
+------------------------------
+*window: *
+
+general
+
+------------------------------
+*email: *
+
+my_email@example.com
+
+------------------------------
+*paypal: *
+
+paypal@example.com
+
+------------------------------
+*coverletter: *
+
+TEST Cover Letter
+
+More info.
+
+------------------------------
+*responsetime: *
+
+3 months
+
+------------------------------
+*upload: *
+
+THE DESK CLERK.doc
+
+------------------------------
+
+Submitted at Thu, Apr 1, 2021 3:01 AM (UTC)
+
+Sponsor <https://formsubmit.co/sponsor>
+
+[image: mailtie forwarding] *Free Email Forwarding for Your Custom Domain Learn more → <https://mailtie.com/?ref=formsubmit> *
+
+Your friends from,
+*FormSubmit Team* <https://formsubmit.co>

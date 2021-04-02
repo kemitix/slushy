@@ -20,6 +20,7 @@ public enum WordLengthBand {
                 .filter(b -> b.value.equals(wc))
                 .findFirst()
                 .orElseThrow(() ->
-                        new IllegalArgumentException("Invalid band: " + wordcount));
+                        new IllegalArgumentException(String.format(
+                                "Invalid band: [%s]", wordcount)));
     }
 }

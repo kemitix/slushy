@@ -2,7 +2,7 @@ package net.kemitix.slushy.app.multisub;
 
 import net.kemitix.slushy.app.Contract;
 import net.kemitix.slushy.app.Genre;
-import net.kemitix.slushy.app.ParseSubmission;
+import net.kemitix.slushy.app.cardparsers.ParseSubmission;
 import net.kemitix.slushy.app.Submission;
 import net.kemitix.slushy.app.WordLengthBand;
 import net.kemitix.trello.TrelloBoard;
@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.exceptions.misusing.UnnecessaryStubbingException;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;

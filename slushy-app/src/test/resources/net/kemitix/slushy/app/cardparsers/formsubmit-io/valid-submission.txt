@@ -1,0 +1,33 @@
+Hi there,
+
+                                            Someone just submitted a form on your website. The details are below:
+
+                                            Submitted on: Apr 03, 2021 12:41:55                                             Form Data:
+
+                                                        byline :                                                              TEST Author ByLine
+
+                                                        contract :                                                              original
+
+                                                        coverletter :                                                              TEST Cover Letter
+
+More info.
+
+                                                        email :                                                              my_email@example.com
+
+                                                        genre :                                                              ScienceFiction
+
+                                                        logline :                                                              This is a short summary of what the story is about.
+
+                                                        name :                                                              TEST Author Name
+
+                                                        paypal :                                                              paypal@example.com
+
+                                                        responsetime :                                                              3 months
+
+                                                        storytitle :                                                              TEST Story Title
+
+                                                        window :                                                              diversity
+
+                                                        wordcount :                                                              short-short
+
+                                            Best, Formsubmit.io team

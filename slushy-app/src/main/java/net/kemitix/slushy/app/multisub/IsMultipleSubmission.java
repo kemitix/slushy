@@ -3,7 +3,7 @@ package net.kemitix.slushy.app.multisub;
 import com.sun.istack.Nullable;
 import lombok.NonNull;
 import net.kemitix.slushy.app.Submission;
-import net.kemitix.slushy.app.ParseSubmission;
+import net.kemitix.slushy.app.cardparsers.ParseSubmission;
 import net.kemitix.trello.TrelloBoard;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;

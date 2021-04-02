@@ -1,32 +1,35 @@
-package net.kemitix.slushy.app;
+package net.kemitix.slushy.app.cardparsers;
 
 import com.julienvey.trello.domain.Attachment;
 import com.julienvey.trello.domain.Card;
 import lombok.NonNull;
+import net.kemitix.slushy.app.Contract;
+import net.kemitix.slushy.app.Genre;
+import net.kemitix.slushy.app.Now;
+import net.kemitix.slushy.app.Submission;
+import net.kemitix.slushy.app.UnknownCardFormatException;
+import net.kemitix.slushy.app.ValidFileTypes;
+import net.kemitix.slushy.app.WordLengthBand;
 import net.kemitix.trello.TrelloBoard;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class ParseSubmission {
 
-    private static final Pattern HEADING =
-            Pattern.compile("^\\*{1,2}(?<heading>.*?):[\\*\\s]\\*$",
-                    Pattern.MULTILINE);
-
-    @Inject Now now;
+    @Inject
+    Now now;
     @Inject TrelloBoard trelloBoard;
-    @Inject ValidFileTypes validFileTypes;
-    @Inject CardBodyCleaner cardBodyCleaner;
+    @Inject
+    ValidFileTypes validFileTypes;
+    @Inject Instance<CardParser> cardParsers;
 
     @Handler
     public Submission parse(
@@ -41,7 +44,7 @@ public class ParseSubmission {
                 .email(body.get("email"))
                 .paypal(body.get("paypal"))
                 .wordLength(WordLengthBand.parse(body.get("wordcount")))
-                .coverLetter(body.get("coverletter"))
+                .coverLetter(body.get("coverletter").strip())
                 .contract(Contract.parse(body.get("contract")))
                 .submittedDate(now.get())
                 .document(getAttachmentUrl(card))
@@ -69,25 +72,13 @@ public class ParseSubmission {
     }
 
     private Map<String, String> parseBody(Card card) {
-        String body = cardBodyCleaner.clean(card.getDesc());
-        Map<String, String> values = new HashMap<>();
-        AtomicReference<String> header = new AtomicReference<>("preamble");
-        Arrays.stream(body.split("\n"))
-                .forEach(line -> {
-                    Matcher matcher = HEADING.matcher(line);
-                    if (matcher.matches()) {
-                        header.set(matcher.group("heading"));
-                    } else {
-                        if (!"".equals(line)) {
-                            String key = header.get();
-                            if (values.containsKey(key)) {
-                                values.put(key, values.get(key) + "\n\n" + line);
-                            } else {
-                                values.put(key, line);
-                            }
-                        }
-                    }
-                });
-        return values;
+        List<CardParser> list = cardParsers.stream().collect(Collectors.toList());
+        Map<String, String> o = list.stream()
+                .filter(parser -> parser.canHandle(card))
+                .findFirst()
+                .map(parser -> parser.parse(card))
+                .orElseThrow(() ->
+                        new UnknownCardFormatException(card));
+        return o;
     }
 }

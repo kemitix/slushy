@@ -2,45 +2,53 @@ Someone just submitted your form on https://www.cossmass.com/submit/.
 
 Here's what they had to say:
 
-**storytitle:**
+*storytitle: *
 
 TEST Story Title
 
-**wordcount:**
+*wordcount: *
 
 short-short
 
-**contract:**
+*contract: *
 
 original
 
-**name:**
+*name: *
 
 TEST Author Name
 
-**byline:**
+*byline: *
 
 TEST Author ByLine
 
-**email:**
+*email: *
 
 my\_email@example.com
 
-**paypal:**
+*paypal: *
 
 paypal@example.com
 
-**responsetime:**
+*responsetime: *
 
 3 months
 
-**coverletter:**
+*genre: *
+
+ScienceFiction
+
+*logline: *
+
+This is a short summary of what the story is about.
+
+*coverletter: *
 
 TEST Cover Letter
 
 More info.
 
-**upload:**
+*upload: *
 
 Abigail.docx
 
