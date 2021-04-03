@@ -1,6 +1,8 @@
 package net.kemitix.slushy.app.inbox;
 
+import net.kemitix.slushy.app.Genre;
 import net.kemitix.slushy.app.Now;
+import net.kemitix.slushy.app.WordLengthBand;
 import net.kemitix.trello.TrelloCard;
 import net.kemitix.slushy.app.Submission;
 import net.kemitix.trello.TrelloBoard;
@@ -41,6 +43,9 @@ public class ReformatCardTest
         given(now.get()).willReturn(Instant.ofEpochSecond(1234567890));
         given(submission.getTitle()).willReturn(storyTitle);
         given(submission.getByline()).willReturn(authorByline);
+        given(submission.getWordLengthBand()).willReturn(WordLengthBand.LENGTH_LONG_SHORT);
+        given(submission.getGenre()).willReturn(Genre.Fantasy);
+        given(card.getDesc()).willReturn("");
     }
 
     @Test
