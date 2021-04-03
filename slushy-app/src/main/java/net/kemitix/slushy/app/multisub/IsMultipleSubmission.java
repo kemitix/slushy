@@ -2,6 +2,7 @@ package net.kemitix.slushy.app.multisub;
 
 import com.sun.istack.Nullable;
 import lombok.NonNull;
+import net.kemitix.slushy.app.SlushyHeader;
 import net.kemitix.slushy.app.Submission;
 import net.kemitix.slushy.app.cardparsers.ParseSubmission;
 import net.kemitix.trello.TrelloBoard;
@@ -25,7 +26,7 @@ public class IsMultipleSubmission {
     @Handler
     @Nullable
     RejectedMultipleSubmission test(
-            @NonNull @Header("SlushySubmission") Submission submission
+            @NonNull @Header(SlushyHeader.SUBMISSION) Submission submission
     ) {
         var matchSubmission = subComparator(submission);
         return Arrays.stream(multiSubConfig.getLists().split(","))

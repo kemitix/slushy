@@ -35,7 +35,7 @@ public class ReformatCard {
 
     @Handler
     Submission reformat(
-            @NonNull @Header("SlushySubmission") Submission submission,
+            @NonNull @Header(SlushyHeader.SUBMISSION) Submission submission,
             @NonNull @Header(SlushyHeader.CARD) TrelloCard card
     ) {
         // Name

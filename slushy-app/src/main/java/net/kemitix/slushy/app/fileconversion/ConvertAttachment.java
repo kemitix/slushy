@@ -1,6 +1,7 @@
 package net.kemitix.slushy.app.fileconversion;
 
 import lombok.extern.java.Log;
+import net.kemitix.slushy.app.SlushyHeader;
 import net.kemitix.slushy.app.Submission;
 import net.kemitix.trello.AttachmentDirectory;
 import net.kemitix.trello.LocalAttachment;
@@ -32,7 +33,7 @@ public class ConvertAttachment {
     @Handler
     public LocalAttachment convert(
             @Header("SlushyAttachment") LocalAttachment attachment,
-            @Header("SlushySubmission") Submission submission
+            @Header(SlushyHeader.SUBMISSION) Submission submission
     ) {
         return attachmentConverters.stream()
                 .filter(converter -> converter.canHandle(attachment))

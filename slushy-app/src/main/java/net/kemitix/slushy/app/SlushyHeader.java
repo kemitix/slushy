@@ -7,4 +7,9 @@ public class SlushyHeader {
      */
     public static final String CARD = "SlushyCard";
 
+    /**
+     * {@link Submission}
+     */
+    public static final String SUBMISSION = "SlushySubmission";
+
 }
