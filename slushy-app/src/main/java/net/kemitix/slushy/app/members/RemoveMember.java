@@ -3,6 +3,7 @@ package net.kemitix.slushy.app.members;
 import com.julienvey.trello.domain.Member;
 import lombok.NonNull;
 import lombok.extern.java.Log;
+import net.kemitix.slushy.app.SlushyHeader;
 import net.kemitix.trello.TrelloCard;
 import net.kemitix.trello.TrelloBoard;
 import org.apache.camel.Handler;
@@ -20,7 +21,7 @@ public class RemoveMember {
 
     @Handler
     TrelloCard removeFromCard(
-            @NonNull @Header("SlushyCard") TrelloCard card
+            @NonNull @Header(SlushyHeader.CARD) TrelloCard card
     ) {
         log.info(String.format("Remove %s from %s",
                 member.getFullName(), card.getName()));

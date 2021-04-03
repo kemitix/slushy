@@ -19,7 +19,7 @@ public class MoveCard {
 
     @Handler
     public void move(
-            @NonNull @Header("SlushyCard") TrelloCard card,
+            @NonNull @Header(SlushyHeader.CARD) TrelloCard card,
             @NonNull @Header("SlushyTargetList") String targetList
     ) {
         card.setIdList(trelloBoard.getListId(targetList));

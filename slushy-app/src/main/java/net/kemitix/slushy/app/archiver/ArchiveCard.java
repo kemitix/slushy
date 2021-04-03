@@ -2,6 +2,7 @@ package net.kemitix.slushy.app.archiver;
 
 import lombok.NonNull;
 import lombok.extern.java.Log;
+import net.kemitix.slushy.app.SlushyHeader;
 import net.kemitix.trello.TrelloCard;
 import net.kemitix.trello.TrelloBoard;
 import org.apache.camel.Handler;
@@ -18,7 +19,7 @@ public class ArchiveCard {
 
     @Handler
     void archiveCard(
-            @NonNull @Header("SlushyCard") TrelloCard card
+            @NonNull @Header(SlushyHeader.CARD) TrelloCard card
     ) {
         card.setClosed(true);
         trelloBoard.updateCard(card);

@@ -16,7 +16,7 @@ public class AddComment {
 
     @Handler
     void add(
-            @NonNull @Header("SlushyCard") TrelloCard card,
+            @NonNull @Header(SlushyHeader.CARD) TrelloCard card,
             @NonNull @Header("SlushyComment") String comment
     ) {
         card.addComment(comment);
