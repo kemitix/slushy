@@ -24,7 +24,7 @@ public class AttachmentLoader {
                 .findAttachments()
                 .map(Attachment::download)
                 .findFirst()
-                .orElseThrow();
+                .orElseGet(MissingAttachment::new);
     }
 
 }
