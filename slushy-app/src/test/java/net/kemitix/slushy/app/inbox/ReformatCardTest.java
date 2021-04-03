@@ -41,6 +41,7 @@ public class ReformatCardTest
         given(now.get()).willReturn(Instant.ofEpochSecond(1234567890));
         given(submission.getTitle()).willReturn(storyTitle);
         given(submission.getByline()).willReturn(authorByline);
+        given(card.getDesc()).willReturn("");
     }
 
     @Test

@@ -13,6 +13,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.Date;
 
 @ApplicationScoped
@@ -47,10 +48,42 @@ public class ReformatCard {
         card.setDue(new Date(now.get()
                 .plus(inboxConfig.getDueDays(), ChronoUnit.DAYS)
                 .atZone(ZoneOffset.ofHours(0)).toEpochSecond() * 1000));
+        // Description/Body
+        if (hasNoSummary(card)) {
+            insertSummary(submission, card);
+        }
         // Save
         trelloBoard.updateCard(card);
 
         return submission;
+    }
+
+    private boolean hasNoSummary(TrelloCard card) {
+        return !Arrays.asList(card.getDesc().split("\n"))
+                .contains("# Original");
+    }
+
+    private void insertSummary(Submission submission, TrelloCard card) {
+        String summary = String.format("> %s\n" +
+                        "\n" +
+                        "%s / %s\n" +
+                        "> %s\n" +
+                        "\n" +
+                        "- email: %s\n" +
+                        "- contract name: %s\n" +
+                        "- paypal: %s\n" +
+                        "\n" +
+                        "---\n" +
+                        "# Original\n",
+                submission.getLogLine(),
+                submission.getWordLengthBand().toString(),
+                submission.getGenre().toString(),
+                submission.getCoverLetter(),
+                submission.getEmail(),
+                submission.getRealName(),
+                submission.getPaypal()
+        );
+        card.setDesc(summary + card.getDesc());
     }
 
 }
