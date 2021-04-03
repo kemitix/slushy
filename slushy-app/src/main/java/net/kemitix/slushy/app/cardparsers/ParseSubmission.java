@@ -6,6 +6,7 @@ import lombok.NonNull;
 import net.kemitix.slushy.app.Contract;
 import net.kemitix.slushy.app.Genre;
 import net.kemitix.slushy.app.Now;
+import net.kemitix.slushy.app.SlushyHeader;
 import net.kemitix.slushy.app.Submission;
 import net.kemitix.slushy.app.UnknownCardFormatException;
 import net.kemitix.slushy.app.ValidFileTypes;
@@ -33,7 +34,7 @@ public class ParseSubmission {
 
     @Handler
     public Submission parse(
-            @NonNull @Header("SlushyCard") Card card
+            @NonNull @Header(SlushyHeader.CARD) Card card
     ) {
         Map<String, String> body = parseBody(card);
         return Submission.builder()

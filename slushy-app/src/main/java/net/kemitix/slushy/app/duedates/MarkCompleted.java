@@ -1,6 +1,7 @@
 package net.kemitix.slushy.app.duedates;
 
 import lombok.NonNull;
+import net.kemitix.slushy.app.SlushyHeader;
 import net.kemitix.trello.TrelloCard;
 import net.kemitix.trello.TrelloBoard;
 import org.apache.camel.Handler;
@@ -16,7 +17,7 @@ public class MarkCompleted {
 
     @Handler
     void completed(
-            @NonNull @Header("SlushyCard") TrelloCard card
+            @NonNull @Header(SlushyHeader.CARD) TrelloCard card
     ) {
         card.setDueComplete(true);
         trelloBoard.updateCard(card);

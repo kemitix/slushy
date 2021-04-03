@@ -2,6 +2,7 @@ package net.kemitix.slushy.app.inbox;
 
 import lombok.NonNull;
 import net.kemitix.slushy.app.Now;
+import net.kemitix.slushy.app.SlushyHeader;
 import net.kemitix.trello.TrelloCard;
 import net.kemitix.slushy.app.Submission;
 import net.kemitix.trello.TrelloBoard;
@@ -35,7 +36,7 @@ public class ReformatCard {
     @Handler
     Submission reformat(
             @NonNull @Header("SlushySubmission") Submission submission,
-            @NonNull @Header("SlushyCard") TrelloCard card
+            @NonNull @Header(SlushyHeader.CARD) TrelloCard card
     ) {
         // Name
         card.setName(String.format(

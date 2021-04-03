@@ -20,7 +20,7 @@ public class CardToSubmissionRoute
     public void configure() {
         from("direct:Slushy.CardToSubmission")
                 .routeId("Slushy.CardToSubmission")
-                .setHeader("SlushyCard").body()
+                .setHeader(SlushyHeader.CARD).body()
                 .setHeader("SlushySubmission").method(parseSubmission)
         ;
     }

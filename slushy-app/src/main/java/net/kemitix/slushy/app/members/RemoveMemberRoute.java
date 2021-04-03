@@ -1,5 +1,6 @@
 package net.kemitix.slushy.app.members;
 
+import net.kemitix.slushy.app.SlushyHeader;
 import org.apache.camel.builder.RouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -15,7 +16,7 @@ public class RemoveMemberRoute
     public void configure() {
         from("direct:Slushy.RemoveMember")
                 .routeId("Slushy.RemoveMember")
-                .setHeader("SlushyCard").method(removeMember)
+                .setHeader(SlushyHeader.CARD).method(removeMember)
         ;
     }
 
