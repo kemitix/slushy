@@ -101,15 +101,20 @@ public class ReformatCard {
                 ORIGINAL_MARKER
         ));
         String summary = String.format(summaryTemplate,
-                submission.getLogLine(),
+                blockQuote(submission.getLogLine()),
                 submission.getWordLengthBand().toString(),
                 submission.getGenre().toString(),
-                submission.getCoverLetter(),
+                blockQuote(submission.getCoverLetter()),
                 submission.getEmail(),
                 submission.getRealName(),
                 submission.getPaypal()
         );
         card.setDesc(summary + card.getDesc());
+    }
+
+    private String blockQuote(String text) {
+        String[] lines = text.split("\n");
+        return String.join("\n> ", lines);
     }
 
 }
