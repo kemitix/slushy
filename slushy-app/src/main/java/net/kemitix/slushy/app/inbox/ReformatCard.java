@@ -16,6 +16,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @ApplicationScoped
@@ -63,8 +64,9 @@ public class ReformatCard {
     }
 
     private boolean hasOutdatedSummary(TrelloCard card) {
-        return cardDescLines(card)
-                .noneMatch(LATEST_FORMAT_MARKER::startsWith);
+        List<String> lines = cardDescLines(card).collect(Collectors.toList());
+        return lines.stream()
+                .noneMatch(LATEST_FORMAT_MARKER::equals);
     }
 
     private boolean hasNoSummary(TrelloCard card) {
@@ -98,18 +100,21 @@ public class ReformatCard {
                 "",
                 "---",
                 LATEST_FORMAT_MARKER,
-                ORIGINAL_MARKER
+                ORIGINAL_MARKER,
+                ""
         ));
         String summary = String.format(summaryTemplate,
                 blockQuote(submission.getLogLine()),
-                submission.getWordLengthBand().toString(),
-                submission.getGenre().toString(),
+                submission.getWordLengthBand().getValue(),
+                submission.getGenre().getValue(),
                 blockQuote(submission.getCoverLetter()),
                 submission.getEmail(),
                 submission.getRealName(),
                 submission.getPaypal()
         );
-        card.setDesc(summary + card.getDesc());
+        String original = originalDescLines(card)
+                .collect(Collectors.joining("\n"));
+        card.setDesc(summary + original);
     }
 
     private String blockQuote(String text) {

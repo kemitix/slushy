@@ -56,7 +56,9 @@ public class ReformatCardTest
         given(submission.getByline()).willReturn(authorByline);
         given(submission.getWordLengthBand()).willReturn(WordLengthBand.LENGTH_LONG_SHORT);
         given(submission.getGenre()).willReturn(Genre.Fantasy);
-        given(card.getDesc()).willReturn("");
+        given(card.getDesc()).willReturn("desc");
+        given(submission.getLogLine()).willReturn("log line");
+        given(submission.getCoverLetter()).willReturn("cover letter");
     }
 
     @Test
