@@ -1,0 +1,78 @@
+> Log line
+
+SHORT / Fantasy
+> cover letter
+
+- email: author@email.com
+- contract name: Author name
+- paypal: author@email.com
+
+---
+# Original
+Easy form endpoints for your HTML forms
+
+Someone just submitted your form on https://www.cossmass.com/.
+
+Here's what they had to say:
+
+**storytitle:**
+
+Story Title
+
+**wordcount:**
+
+short-short
+
+**contract:**
+
+original
+
+**genre:**
+
+Fantasy
+
+**logline:**
+
+Log Line
+
+**name:**
+
+Author NAme
+
+**byline:**
+
+Author Byline
+
+**window:**
+
+diversity
+
+**email:**
+
+author@email.com
+
+**paypal:**
+
+author@email.com
+
+**coverletter:**
+
+cover letter
+
+**responsetime:**
+
+3 months
+
+**upload:**
+
+TheStory.docx
+
+Submitted at Thu, Apr 1, 2021 3:44 PM (UTC)
+
+[Sponsor](https://formsubmit.co/sponsor)
+
+![mailtie forwarding](https://i.ibb.co/cJbZsgN/reply-solid.png) **Free Email Forwarding for Your Custom Domain [Learn more →](https://mailtie.com/?ref=formsubmit)**
+
+Your friends from,
+
+[**FormSubmit Team**](https://formsubmit.co)
