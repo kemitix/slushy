@@ -1,30 +1,51 @@
 package net.kemitix.slushy.app.status;
 
 import lombok.extern.java.Log;
-import net.kemitix.slushy.app.ListProcessConfig;
 import net.kemitix.trello.TrelloBoard;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Log
 @ApplicationScoped
 public class LogStatus {
 
-    @Inject Instance<ListProcessConfig> listProcessConfigs;
+    public static final DateTimeFormatter DATE_TIME_FORMATTER =
+            DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG)
+                    .withLocale(Locale.UK)
+                    .withZone(ZoneId.systemDefault());
     @Inject TrelloBoard trelloBoard;
+    @Inject StatusConfig statusConfig;
 
     void status() {
+        log.info("Updating status card");
         List<String> status = new ArrayList<>();
-        status.add("Status:");
+        String dateTime = DATE_TIME_FORMATTER.format(Instant.now());
+        status.add("Last updated: " + dateTime);
+        status.add("---");
         trelloBoard.getListNames()
                 .forEach(listName ->
-                        status.add(String.format("%4d: %s",
+                        status.add(String.format("%4d: %s\n",
                                 trelloBoard.getListCards(listName).size(),
                                 listName)));
-        log.info(String.join("\n", status));
+        updateStatusCard(String.join("\n", status));
+    }
+
+    private void updateStatusCard(String message) {
+        trelloBoard.getListCards(statusConfig.getListName())
+                .stream()
+                .filter(card -> statusConfig.getCardName().equals(card.getName()))
+                .findFirst()
+                .ifPresent(statusCard -> {
+                    statusCard.setDesc(message);
+                    statusCard.update();
+                });
     }
 }
