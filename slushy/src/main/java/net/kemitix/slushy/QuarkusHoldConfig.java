@@ -16,7 +16,7 @@ public class QuarkusHoldConfig
 
     protected static final String CONFIG_PREFIX = "slushy.hold";
 
-    private Long dueDays;
+    private long dueDays;
 
     @Override
     public String getConfigPrefix() {
@@ -25,6 +25,7 @@ public class QuarkusHoldConfig
 
     @Override
     public void update(Properties properties) {
+        super.update(properties);
         update("due-days", Long::parseLong, v -> {this.dueDays = v;}, properties);
     }
 

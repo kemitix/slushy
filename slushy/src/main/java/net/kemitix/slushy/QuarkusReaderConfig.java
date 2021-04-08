@@ -25,6 +25,7 @@ public class QuarkusReaderConfig
 
     @Override
     public void update(Properties properties) {
+        super.update(properties);
         update("max-size", Integer::parseInt, this::setMaxSize, properties);
     }
 }

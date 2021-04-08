@@ -17,7 +17,7 @@ public class QuarkusInboxConfig
 
     protected static final String CONFIG_PREFIX = "slushy.inbox";
 
-    private Long dueDays;
+    private long dueDays;
 
     @Override
     public String getConfigPrefix() {
@@ -26,6 +26,7 @@ public class QuarkusInboxConfig
 
     @Override
     public void update(Properties properties) {
+        super.update(properties);
         update("due-days", Long::parseLong, this::setDueDays, properties);
     }
 }
