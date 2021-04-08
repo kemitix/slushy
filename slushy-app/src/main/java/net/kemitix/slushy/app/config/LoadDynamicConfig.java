@@ -2,6 +2,7 @@ package net.kemitix.slushy.app.config;
 
 import com.amazonaws.util.StringInputStream;
 import lombok.SneakyThrows;
+import lombok.extern.java.Log;
 import net.kemitix.trello.TrelloBoard;
 import net.kemitix.trello.TrelloCard;
 
@@ -12,6 +13,7 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.Properties;
 
+@Log
 @ApplicationScoped
 public class LoadDynamicConfig {
 
@@ -20,6 +22,7 @@ public class LoadDynamicConfig {
     @Inject Instance<DynamicConfig> dynamicConfigs;
 
     public void load() {
+        log.info("Detected Config Card update");
         findConfigProperties()
                 .ifPresent(properties -> {
                     dynamicConfigs.stream()
