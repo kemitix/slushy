@@ -12,5 +12,7 @@ public class QuarkusStatusConfig
         implements StatusConfig {
 
     private int logPeriod;
+    private String listName = System.getenv("SLUSHY_STATUS_LIST");
+    private String cardName = System.getenv("SLUSHY_STATUS_CARD");
 
 }
