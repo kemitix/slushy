@@ -1,5 +1,6 @@
 package net.kemitix.slushy.app.trello.queue;
 
+import net.kemitix.slushy.app.config.DynamicConfigConfig;
 import net.kemitix.slushy.app.inbox.InboxConfig;
 import net.kemitix.trello.LoadCard;
 import org.apache.camel.builder.RouteBuilder;
@@ -7,6 +8,7 @@ import org.apache.camel.support.processor.idempotent.MemoryIdempotentRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.List;
 
 @ApplicationScoped
 public class WebHookTrelloRoute
@@ -14,14 +16,17 @@ public class WebHookTrelloRoute
 
     private final InboxConfig inboxConfig;
     private final LoadCard loadCard;
+    private final DynamicConfigConfig dynamicConfigConfig;
 
     @Inject
     public WebHookTrelloRoute(
             InboxConfig inboxConfig,
-            LoadCard loadCard
+            LoadCard loadCard,
+            DynamicConfigConfig dynamicConfigConfig
     ) {
         this.inboxConfig = inboxConfig;
         this.loadCard = loadCard;
+        this.dynamicConfigConfig = dynamicConfigConfig;
     }
 
     @Override
@@ -41,8 +46,17 @@ public class WebHookTrelloRoute
 
                 .setHeader("ActionType").jsonpath("body-json.action.type")
                 .setHeader("TranslationKey").jsonpath("body-json.action.display.translationKey")
+                .setHeader("ListName").jsonpath("body-json.action.data.list.name")
+                .setHeader("CardName").jsonpath("body-json.action.data.card.name")
 
                 .choice()
+
+                // updated config card
+                .when().simple(updatedConfigCard())
+                .to("direct:Slushy.Dynamic.Config.Update")
+                .endChoice()
+
+                // emailed cards
                 .when().simple("${header.ActionType} == 'emailCard'")
                 .to("direct:Slushy.WebHook.Trello.ActionEmailCard")
                 .endChoice()
@@ -105,5 +119,14 @@ public class WebHookTrelloRoute
 //        //.process(exchange ->
 //        //        log.info(exchange.getIn().getBody(String.class)))
 //        ;
+    }
+
+    private String updatedConfigCard() {
+        var clauses = List.of(
+                "${header.ActionType} == 'updateCard'",
+                "${header.ListName} == '" + dynamicConfigConfig.getListName() + "'",
+                "${header.CardName} == '" + dynamicConfigConfig.getCardName() + "'"
+        );
+        return String.join(" && ", clauses);
     }
 }

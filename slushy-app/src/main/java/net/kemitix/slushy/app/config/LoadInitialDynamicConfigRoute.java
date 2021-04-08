@@ -15,6 +15,11 @@ public class LoadInitialDynamicConfigRoute
     public void configure() throws Exception {
         from("timer:load-initial-dynamic-config?repeatCount=1")
                 .routeId("load-initial-dynamic-config")
+                .to("direct:Slushy.Dynamic.Config.Update")
+        ;
+
+        from("direct:Slushy.Dynamic.Config.Update")
+                .routeId("Slushy.Dynamic.Config.Update")
                 .bean(loadDynamicConfig)
         ;
     }
