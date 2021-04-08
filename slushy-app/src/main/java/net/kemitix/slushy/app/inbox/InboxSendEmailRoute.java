@@ -8,7 +8,6 @@ import org.apache.camel.Predicate;
 import org.apache.camel.builder.RouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
-import java.util.List;
 
 @ApplicationScoped
 public class InboxSendEmailRoute

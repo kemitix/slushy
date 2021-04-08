@@ -19,7 +19,8 @@ public abstract class AbstractQuarkusRetryConfig
     @Override
     public void update(Properties properties) {
         super.update(properties);
-        update("scan-period", Long::parseLong, this::setScanPeriod, properties);
+        //Not dynamically updatable
+        //update("scan-period", Long::parseLong, this::setScanPeriod, properties);
         update("retry-delay", Long::parseLong, this::setRetryDelay, properties);
     }
 

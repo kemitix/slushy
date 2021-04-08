@@ -88,7 +88,7 @@ public class WebHookTrelloRoute
 
                 .log("Card Created in '${header.ListName}': '${header.SlushyCardName}'")
 
-                .setHeader("ListInbox").constant(inboxConfig.getSourceList())
+                .setHeader("ListInbox", inboxConfig::getSourceList)
                 .filter().simple("${header.ListName} == ${header.ListInbox}")
                 .to("direct:Slushy.Card.Inbox")
         ;

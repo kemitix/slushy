@@ -32,7 +32,7 @@ public class WithdrawTimerRoute
         fromF("timer:withdraw?period=%s", withdrawConfig.getScanPeriod())
                 .routeId("Slushy.Withdraw")
 
-                .setHeader("ListName").constant(withdrawConfig.getSourceList())
+                .setHeader("ListName", withdrawConfig::getSourceList)
                 .setBody().method(loadList)
                 .split(body())
 

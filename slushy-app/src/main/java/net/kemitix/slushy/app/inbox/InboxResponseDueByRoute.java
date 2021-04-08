@@ -26,8 +26,7 @@ public class InboxResponseDueByRoute
     public void configure() {
         from("direct:Slushy.Inbox.ResponseDueBy")
                 .routeId("Slushy.Inbox.ResponseDueBy")
-                .setHeader("SlushyDueInDays")
-                .constant(inboxConfig.getDueDays())
+                .setHeader("SlushyDueInDays", inboxConfig::getDueDays)
                 .bean(setDueInDays)
         ;
     }
