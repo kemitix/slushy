@@ -70,8 +70,8 @@ public class WebHookTrelloRoute
                 .to("direct:Slushy.WebHook.Trello.ActionMoveCardFromListToList")
                 .endChoice()
 
-                .otherwise()
-                .log("Ignoring: ${header.ActionType} / ${header.TranslationKey}")
+                //.otherwise()
+                //.log("Ignoring: ${header.ActionType} / ${header.TranslationKey}")
 
                 .end()
         ;
