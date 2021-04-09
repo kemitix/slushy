@@ -46,6 +46,7 @@ public class ReformatCardTest
     Submission submission = mock(Submission.class);
 
     // values
+    String cardId = UUID.randomUUID().toString();
     String storyTitle = UUID.randomUUID().toString();
     String authorByline = UUID.randomUUID().toString();
 
@@ -56,6 +57,7 @@ public class ReformatCardTest
         given(submission.getByline()).willReturn(authorByline);
         given(submission.getWordLengthBand()).willReturn(WordLengthBand.LENGTH_LONG_SHORT);
         given(submission.getGenre()).willReturn(Genre.Fantasy);
+        given(card.getIdShort()).willReturn(cardId);
         given(card.getDesc()).willReturn("desc");
         given(submission.getLogLine()).willReturn("log line");
         given(submission.getCoverLetter()).willReturn("cover letter");
@@ -80,7 +82,7 @@ public class ReformatCardTest
     @Test
     void setsCardName() {
         //given
-        String expectedName = storyTitle + " by " + authorByline;
+        String expectedName = cardId + " - " + storyTitle + " by " + authorByline;
         //when
         reformatCard.reformat(submission, card);
         //then

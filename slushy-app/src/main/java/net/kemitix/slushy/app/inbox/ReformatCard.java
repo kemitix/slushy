@@ -46,7 +46,8 @@ public class ReformatCard {
     ) {
         // Name
         card.setName(String.format(
-                "%s by %s",
+                "%s - %s by %s",
+                card.getIdShort(),
                 submission.getTitle(),
                 submission.getByline()));
         // Due Date
