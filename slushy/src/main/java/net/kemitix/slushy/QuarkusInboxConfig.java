@@ -1,15 +1,10 @@
 package net.kemitix.slushy;
 
 import io.quarkus.arc.config.ConfigProperties;
-import lombok.Getter;
 import lombok.Setter;
 import net.kemitix.slushy.app.inbox.InboxConfig;
-import org.apache.velocity.runtime.directive.Parse;
-
-import java.util.Properties;
 
 @Setter
-@Getter
 @ConfigProperties(prefix = QuarkusInboxConfig.CONFIG_PREFIX)
 public class QuarkusInboxConfig
         extends AbstractQuarkusListProcessingConfig
@@ -25,8 +20,9 @@ public class QuarkusInboxConfig
     }
 
     @Override
-    public void update(Properties properties) {
-        super.update(properties);
-        update("due-days", Long::parseLong, this::setDueDays, properties);
+    public long getDueDays() {
+        return findValue("due-days")
+                .map(Long::parseLong)
+                .orElse(dueDays);
     }
 }

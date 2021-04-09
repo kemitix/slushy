@@ -17,6 +17,9 @@ import java.util.Properties;
 @ApplicationScoped
 public class LoadDynamicConfig {
 
+    private final DynamicProperties dynamicProperties =
+            DynamicProperties.INSTANCE;
+
     @Inject DynamicConfigConfig config;
     @Inject TrelloBoard trelloBoard;
     @Inject Instance<DynamicConfig> dynamicConfigs;
@@ -24,12 +27,13 @@ public class LoadDynamicConfig {
     public void load() {
         log.info("Detected Config Card update");
         findConfigProperties()
-                .ifPresent(properties -> {
-                    dynamicConfigs.stream()
-                            .forEach(dynamicConfig -> {
-                                dynamicConfig.update(properties);
-                            });
-                });
+//                .ifPresent(properties -> {
+//                    dynamicConfigs.stream()
+//                            .forEach(dynamicConfig -> {
+//                                dynamicConfig.update(properties);
+//                            });
+//                });
+        ;
     }
 
     private Optional<Properties> findConfigProperties() {
@@ -49,9 +53,11 @@ public class LoadDynamicConfig {
 
     @SneakyThrows
     private Properties parseConfigCardDesc(String desc) {
-        Properties properties = new Properties();
         StringInputStream inStream = new StringInputStream(desc);
+        Properties properties = dynamicProperties.getProperties();
+        properties.clear();
         properties.load(inStream);
+        log.info("Loaded properties: " + properties);
         return properties;
     }
 

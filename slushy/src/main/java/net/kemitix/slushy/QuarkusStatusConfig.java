@@ -6,10 +6,7 @@ import lombok.Setter;
 import net.kemitix.slushy.app.config.AbstractDynamicConfig;
 import net.kemitix.slushy.app.status.StatusConfig;
 
-import java.util.Properties;
-
 @Setter
-@Getter
 @ConfigProperties(prefix = QuarkusStatusConfig.CONFIG_PREFIX)
 public class QuarkusStatusConfig
         extends AbstractDynamicConfig
@@ -18,17 +15,19 @@ public class QuarkusStatusConfig
     protected static final String CONFIG_PREFIX = "slushy.status";
 
     private int logPeriod;
+    @Getter
     private String listName = System.getenv("SLUSHY_STATUS_LIST");
+    @Getter
     private String cardName = System.getenv("SLUSHY_STATUS_CARD");
-
-    @Override
-    public void update(Properties properties) {
-        super.update(properties);
-        update("log-period", Integer::parseInt, this::setLogPeriod, properties);
-    }
 
     @Override
     public String getConfigPrefix() {
         return CONFIG_PREFIX;
+    }
+
+    @Override
+    public int getLogPeriod() {
+        return findIntegerValue("log-period")
+                .orElse(logPeriod);
     }
 }

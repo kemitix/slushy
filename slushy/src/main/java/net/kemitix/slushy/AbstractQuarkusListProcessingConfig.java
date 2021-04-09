@@ -1,13 +1,9 @@
 package net.kemitix.slushy;
 
-import lombok.Getter;
 import lombok.Setter;
 import net.kemitix.slushy.app.ListProcessConfig;
 
-import java.util.Properties;
-
 @Setter
-@Getter
 public abstract class AbstractQuarkusListProcessingConfig
         extends AbstractQuarkusRetryConfig
         implements ListProcessConfig {
@@ -18,11 +14,27 @@ public abstract class AbstractQuarkusListProcessingConfig
     private int requiredAgeHours;
 
     @Override
-    public void update(Properties properties) {
-        super.update(properties);
-        update("source-list", this::setSourceList, properties);
-        update("target-list", this::setTargetList, properties);
-        update("routing-slip", this::setRoutingSlip, properties);
-        update("required-age-hours", Integer::parseInt, this::setRequiredAgeHours, properties);
+    public String getSourceList() {
+        return findValue("source-list")
+                .orElse(sourceList);
     }
+
+    @Override
+    public String getTargetList() {
+        return findValue("target-list")
+                .orElse(targetList);
+    }
+
+    @Override
+    public String getRoutingSlip() {
+        return findValue("routing-slip")
+                .orElse(routingSlip);
+    }
+
+    @Override
+    public int getRequiredAgeHours() {
+        return findIntegerValue("required-age-hours")
+                .orElse(requiredAgeHours);
+    }
+
 }

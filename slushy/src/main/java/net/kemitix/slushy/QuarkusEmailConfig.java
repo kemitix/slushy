@@ -14,4 +14,5 @@ public class QuarkusEmailConfig
     public String getConfigPrefix() {
         return CONFIG_PREFIX;
     }
+
 }

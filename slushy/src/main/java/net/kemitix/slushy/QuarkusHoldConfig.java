@@ -1,14 +1,10 @@
 package net.kemitix.slushy;
 
 import io.quarkus.arc.config.ConfigProperties;
-import lombok.Getter;
 import lombok.Setter;
 import net.kemitix.slushy.app.hold.HoldConfig;
 
-import java.util.Properties;
-
 @Setter
-@Getter
 @ConfigProperties(prefix = QuarkusHoldConfig.CONFIG_PREFIX)
 public class QuarkusHoldConfig
         extends AbstractQuarkusListProcessingConfig
@@ -24,9 +20,9 @@ public class QuarkusHoldConfig
     }
 
     @Override
-    public void update(Properties properties) {
-        super.update(properties);
-        update("due-days", Long::parseLong, v -> {this.dueDays = v;}, properties);
+    public long getDueDays() {
+        return findLongValue("due-days")
+                .orElse(dueDays);
     }
 
 }

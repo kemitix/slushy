@@ -3,6 +3,8 @@ package net.kemitix.slushy.app.trello.queue;
 import net.kemitix.slushy.app.config.DynamicConfigConfig;
 import net.kemitix.slushy.app.inbox.InboxConfig;
 import net.kemitix.trello.LoadCard;
+import org.apache.camel.Exchange;
+import org.apache.camel.Predicate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.support.processor.idempotent.MemoryIdempotentRepository;
 
@@ -46,14 +48,12 @@ public class WebHookTrelloRoute
 
                 .setHeader("ActionType").jsonpath("body-json.action.type")
                 .setHeader("TranslationKey").jsonpath("body-json.action.display.translationKey")
-                .setHeader("ListName").jsonpath("body-json.action.data.list.name")
-                .setHeader("CardName").jsonpath("body-json.action.data.card.name")
 
                 .choice()
 
-                // updated config card
-                .when().simple(updatedConfigCard())
-                .to("direct:Slushy.Dynamic.Config.Update")
+                // updated card
+                .when().simple("${header.ActionType} == 'updateCard'")
+                .to("direct:Slushy.WebHook.Trello.UpdatedCard")
                 .endChoice()
 
                 // emailed cards
@@ -72,6 +72,21 @@ public class WebHookTrelloRoute
 
                 //.otherwise()
                 //.log("Ignoring: ${header.ActionType} / ${header.TranslationKey}")
+
+                .end()
+        ;
+
+        from("direct:Slushy.WebHook.Trello.UpdatedCard")
+                .routeId("Slushy.WebHook.Trello.UpdatedCard")
+                .setHeader("ListName").jsonpath("body-json.action.data.list.name")
+                .setHeader("CardName").jsonpath("body-json.action.data.card.name")
+
+                .choice()
+
+                // updated config card
+                .when().simple(updatedConfigCard())
+                .to("direct:Slushy.Dynamic.Config.Update")
+                .endChoice()
 
                 .end()
         ;
@@ -123,7 +138,6 @@ public class WebHookTrelloRoute
 
     private String updatedConfigCard() {
         var clauses = List.of(
-                "${header.ActionType} == 'updateCard'",
                 "${header.ListName} == '" + dynamicConfigConfig.getListName() + "'",
                 "${header.CardName} == '" + dynamicConfigConfig.getCardName() + "'"
         );
