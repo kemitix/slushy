@@ -19,12 +19,31 @@ public class AttachmentLoader {
     @Inject
     AttachmentDirectory attachmentDirectory;
 
-    public LocalAttachment load(Card card) {
-        return CardWithAttachments.create(card, trello, attachmentDirectory)
+    public LocalAttachment load(
+            Card card,
+            Submission submission
+    ) {
+        Card c = cardWithoutIdInName(card, submission);
+        return CardWithAttachments.create(c, trello, attachmentDirectory)
                 .findAttachments()
                 .map(Attachment::download)
                 .findFirst()
                 .orElseGet(MissingAttachment::new);
+    }
+
+    private Card cardWithoutIdInName(
+            Card card,
+            Submission submission
+    ) {
+        Card c = new Card();
+        c.setId(card.getId());
+        c.setIdShort(card.getIdShort());
+        c.setName(String.format("%s by %s", submission.getTitle(), submission.getByline()));
+        return c;
+    }
+
+    private String getName(Card card) {
+        return card.getName();
     }
 
 }
