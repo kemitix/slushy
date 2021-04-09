@@ -16,7 +16,7 @@ public class CardMovedWithdrawListenerRoute
     public void configure() throws Exception {
         from("seda:Slushy.WebHook.CardMoved?multipleConsumers=true")
                 .routeId("Slushy.WebHook.CardMoved.Withdrawn")
-                .setHeader("ListWithdrawn").constant(withdrawnConfig.getSourceList())
+                .setHeader("ListWithdrawn", withdrawnConfig::getSourceList)
                 .filter().simple("${header.SlushyMovedTo} == ${header.ListWithdrawn}")
                 .to("direct:Slushy.Card.Withdrawn")
         ;

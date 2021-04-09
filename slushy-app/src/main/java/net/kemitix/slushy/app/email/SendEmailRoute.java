@@ -35,7 +35,7 @@ public class SendEmailRoute
                 .messageIdRepository(MemoryIdempotentRepository::new)
 
                 .setHeader("SlushyRecipient").simple("${header.SlushySubmission.email}")
-                .setHeader("SlushySender").constant(trelloConfig.getSender())
+                .setHeader("SlushySender", trelloConfig::getSender)
                 .toD("velocity:net/kemitix/slushy/app/${header.SlushyEmailTemplate}/subject.txt")
                 .setHeader("SlushySubject").body()
                 .toD("velocity:net/kemitix/slushy/app/${header.SlushyEmailTemplate}/body.txt")

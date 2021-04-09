@@ -1,17 +1,28 @@
 package net.kemitix.slushy;
 
 import io.quarkus.arc.config.ConfigProperties;
-import lombok.Getter;
 import lombok.Setter;
 import net.kemitix.slushy.app.reader.ReaderConfig;
 
 @Setter
-@Getter
-@ConfigProperties(prefix = "slushy.reader")
+@ConfigProperties(prefix = QuarkusReaderConfig.CONFIG_PREFIX)
 public class QuarkusReaderConfig
         extends AbstractQuarkusListProcessingConfig
         implements ReaderConfig {
 
+    protected static final String CONFIG_PREFIX = "slushy.reader";
+
     private int maxSize;
+
+    @Override
+    public String getConfigPrefix() {
+        return CONFIG_PREFIX;
+    }
+
+    @Override
+    public int getMaxSize() {
+        return findIntegerValue("max-size")
+                .orElse(maxSize);
+    }
 
 }

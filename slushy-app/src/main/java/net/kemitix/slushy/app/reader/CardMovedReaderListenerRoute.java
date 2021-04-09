@@ -16,7 +16,7 @@ public class CardMovedReaderListenerRoute
     public void configure() throws Exception {
         from("seda:Slushy.WebHook.CardMoved?multipleConsumers=true")
                 .routeId("Slushy.WebHook.CardMoved.Reader")
-                .setHeader("ListName").constant(readerConfig.getSourceList())
+                .setHeader("ListName", readerConfig::getSourceList)
                 .filter().simple("${header.SlushyMovedTo} == ${header.ListName}")
                 .log("Card '${header.SlushyCardName}' added to ${header.ListName}")
                 .to("direct:Slushy.Reader")

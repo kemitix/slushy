@@ -21,7 +21,7 @@ public class ReaderRoute
 
                 .throttle(1).timePeriodMillis(TWENTY_SECONDS)
 
-                .setHeader("ListName").constant(readerConfig.getSourceList())
+                .setHeader("ListName", readerConfig::getSourceList)
                 .setBody().method(loadList)
                 .split(body())
                 .setHeader("SlushyRoutingSlip", readerConfig::getRoutingSlip)

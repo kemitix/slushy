@@ -19,7 +19,7 @@ public class CardMovedSlushListenerRoute
     public void configure() throws Exception {
         from("seda:Slushy.WebHook.CardMoved?multipleConsumers=true")
                 .routeId("Slushy.WebHook.CardMoved.Slush")
-                .setHeader("ListSlush").constant(readerConfig.getTargetList())
+                .setHeader("ListSlush", readerConfig::getTargetList)
                 .filter().simple("${header.SlushyMovedFrom} == ${header.ListSlush}")
                 .log("Card '${header.SlushyCardName}' removed from ${header.ListSlush}")
                 .bean(readerIsFull, "reset")
