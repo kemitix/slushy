@@ -41,8 +41,8 @@ public class SendToReaderRoute
                 .messageIdRepository(() ->
                         memoryIdempotentRepository(readerConfig.getMaxSize()))
 
-                .setHeader("SlushyRecipient").constant(trelloConfig.getReader())
-                .setHeader("SlushySender").constant(trelloConfig.getSender())
+                .setHeader("SlushyRecipient", trelloConfig::getReader)
+                .setHeader("SlushySender", trelloConfig::getSender)
                 .setHeader("SlushySubject").simple("Reader: ${header.SlushyCard.name}")
                 .bean(sendEmailAttachment)
 

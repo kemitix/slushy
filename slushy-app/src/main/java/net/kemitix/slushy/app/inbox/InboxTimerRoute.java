@@ -6,6 +6,7 @@ import org.apache.camel.builder.RouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.function.Function;
 
 @ApplicationScoped
 public class InboxTimerRoute
@@ -30,7 +31,7 @@ public class InboxTimerRoute
         fromF("timer:inbox?period=%s", inboxConfig.getScanPeriod())
                 .routeId("Slushy.Inbox")
 
-                .setHeader("ListName").constant(inboxConfig.getSourceList())
+                .setHeader("ListName", inboxConfig::getSourceList)
                 .setBody().method(loadList)
                 .split(body())
 

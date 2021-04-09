@@ -1,12 +1,16 @@
 package net.kemitix.slushy.app.trello.queue;
 
+import net.kemitix.slushy.app.config.DynamicConfigConfig;
 import net.kemitix.slushy.app.inbox.InboxConfig;
 import net.kemitix.trello.LoadCard;
+import org.apache.camel.Exchange;
+import org.apache.camel.Predicate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.support.processor.idempotent.MemoryIdempotentRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.List;
 
 @ApplicationScoped
 public class WebHookTrelloRoute
@@ -14,14 +18,17 @@ public class WebHookTrelloRoute
 
     private final InboxConfig inboxConfig;
     private final LoadCard loadCard;
+    private final DynamicConfigConfig dynamicConfigConfig;
 
     @Inject
     public WebHookTrelloRoute(
             InboxConfig inboxConfig,
-            LoadCard loadCard
+            LoadCard loadCard,
+            DynamicConfigConfig dynamicConfigConfig
     ) {
         this.inboxConfig = inboxConfig;
         this.loadCard = loadCard;
+        this.dynamicConfigConfig = dynamicConfigConfig;
     }
 
     @Override
@@ -43,6 +50,13 @@ public class WebHookTrelloRoute
                 .setHeader("TranslationKey").jsonpath("body-json.action.display.translationKey")
 
                 .choice()
+
+                // updated card
+                .when().simple("${header.ActionType} == 'updateCard'")
+                .to("direct:Slushy.WebHook.Trello.UpdatedCard")
+                .endChoice()
+
+                // emailed cards
                 .when().simple("${header.ActionType} == 'emailCard'")
                 .to("direct:Slushy.WebHook.Trello.ActionEmailCard")
                 .endChoice()
@@ -56,8 +70,23 @@ public class WebHookTrelloRoute
                 .to("direct:Slushy.WebHook.Trello.ActionMoveCardFromListToList")
                 .endChoice()
 
-                .otherwise()
-                .log("Ignoring: ${header.ActionType} / ${header.TranslationKey}")
+                //.otherwise()
+                //.log("Ignoring: ${header.ActionType} / ${header.TranslationKey}")
+
+                .end()
+        ;
+
+        from("direct:Slushy.WebHook.Trello.UpdatedCard")
+                .routeId("Slushy.WebHook.Trello.UpdatedCard")
+                .setHeader("ListName").jsonpath("body-json.action.data.list.name")
+                .setHeader("CardName").jsonpath("body-json.action.data.card.name")
+
+                .choice()
+
+                // updated config card
+                .when().simple(updatedConfigCard())
+                .to("direct:Slushy.Dynamic.Config.Update")
+                .endChoice()
 
                 .end()
         ;
@@ -74,7 +103,7 @@ public class WebHookTrelloRoute
 
                 .log("Card Created in '${header.ListName}': '${header.SlushyCardName}'")
 
-                .setHeader("ListInbox").constant(inboxConfig.getSourceList())
+                .setHeader("ListInbox", inboxConfig::getSourceList)
                 .filter().simple("${header.ListName} == ${header.ListInbox}")
                 .to("direct:Slushy.Card.Inbox")
         ;
@@ -105,5 +134,13 @@ public class WebHookTrelloRoute
 //        //.process(exchange ->
 //        //        log.info(exchange.getIn().getBody(String.class)))
 //        ;
+    }
+
+    private String updatedConfigCard() {
+        var clauses = List.of(
+                "${header.ListName} == '" + dynamicConfigConfig.getListName() + "'",
+                "${header.CardName} == '" + dynamicConfigConfig.getCardName() + "'"
+        );
+        return String.join(" && ", clauses);
     }
 }

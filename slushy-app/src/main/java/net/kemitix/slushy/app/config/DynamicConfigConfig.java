@@ -1,14 +1,8 @@
-package net.kemitix.slushy.app.status;
+package net.kemitix.slushy.app.config;
 
 import net.kemitix.slushy.app.CardIdentifierConfig;
 import net.kemitix.slushy.app.ListIdentifierConfig;
 
-public interface StatusConfig
+public interface DynamicConfigConfig
         extends ListIdentifierConfig, CardIdentifierConfig {
-
-    /**
-     * How often to report the status in seconds.
-     */
-    int getLogPeriod();
-
 }

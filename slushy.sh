@@ -12,6 +12,8 @@ docker run -d \
        -e SLUSHY_READER \
        -e SLUSHY_WEBHOOK \
        -e SLUSHY_QUEUE \
+       -e SLUSHY_CONFIG_LIST \
+       -e SLUSHY_CONFIG_CARD \
        -e SLUSHY_STATUS_LIST \
        -e SLUSHY_STATUS_CARD \
        -e AWS_ACCESS_KEY \
