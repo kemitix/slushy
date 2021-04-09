@@ -25,21 +25,9 @@ public class LoadDynamicConfig {
     @Inject Instance<DynamicConfig> dynamicConfigs;
 
     public void load() {
-        log.info("Detected Config Card update");
-        findConfigProperties()
-//                .ifPresent(properties -> {
-//                    dynamicConfigs.stream()
-//                            .forEach(dynamicConfig -> {
-//                                dynamicConfig.update(properties);
-//                            });
-//                });
-        ;
-    }
-
-    private Optional<Properties> findConfigProperties() {
-        return findConfigCard()
+        findConfigCard()
                 .map(TrelloCard::getDesc)
-                .map(this::parseConfigCardDesc);
+                .ifPresent(this::parseConfigCardDesc);
     }
 
     private Optional<TrelloCard> findConfigCard() {
@@ -52,13 +40,12 @@ public class LoadDynamicConfig {
     }
 
     @SneakyThrows
-    private Properties parseConfigCardDesc(String desc) {
+    private void parseConfigCardDesc(String desc) {
         StringInputStream inStream = new StringInputStream(desc);
         Properties properties = dynamicProperties.getProperties();
         properties.clear();
         properties.load(inStream);
         log.info("Loaded properties: " + properties);
-        return properties;
     }
 
 }

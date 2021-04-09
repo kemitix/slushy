@@ -3,8 +3,6 @@ package net.kemitix.slushy.app.trello.queue;
 import net.kemitix.slushy.app.config.DynamicConfigConfig;
 import net.kemitix.slushy.app.inbox.InboxConfig;
 import net.kemitix.trello.LoadCard;
-import org.apache.camel.Exchange;
-import org.apache.camel.Predicate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.support.processor.idempotent.MemoryIdempotentRepository;
 
@@ -47,7 +45,6 @@ public class WebHookTrelloRoute
                 .messageIdRepository(MemoryIdempotentRepository::new)
 
                 .setHeader("ActionType").jsonpath("body-json.action.type")
-                .setHeader("TranslationKey").jsonpath("body-json.action.display.translationKey")
 
                 .choice()
 
@@ -66,26 +63,29 @@ public class WebHookTrelloRoute
                 .to("direct:Slushy.WebHook.Trello.ActionEmailCard")
                 .endChoice()
 
-                .when().simple("${header.TranslationKey} == 'action_move_card_from_list_to_list'")
-                .to("direct:Slushy.WebHook.Trello.ActionMoveCardFromListToList")
-                .endChoice()
-
-                //.otherwise()
-                //.log("Ignoring: ${header.ActionType} / ${header.TranslationKey}")
+                .otherwise()
+                .log("Ignoring: ${header.ActionType}")
 
                 .end()
         ;
 
         from("direct:Slushy.WebHook.Trello.UpdatedCard")
                 .routeId("Slushy.WebHook.Trello.UpdatedCard")
-                .setHeader("ListName").jsonpath("body-json.action.data.list.name")
-                .setHeader("CardName").jsonpath("body-json.action.data.card.name")
+                .setHeader("ListName").jsonpath("body-json.action.data.list.name", true)
+                .setHeader("CardName").jsonpath("body-json.action.data.card.name", true)
+                .setHeader("ListBefore").jsonpath("body-json.action.data.listBefore.name", true)
+                .setHeader("ListAfter").jsonpath("body-json.action.data.listAfter.name", true)
 
                 .choice()
 
                 // updated config card
                 .when().simple(updatedConfigCard())
                 .to("direct:Slushy.Dynamic.Config.Update")
+                .endChoice()
+
+                // moved between lists
+                .when().simple("${header.ListBefore} != ${header.ListAfter}")
+                .to("direct:Slushy.WebHook.Trello.ActionMoveCardFromListToList")
                 .endChoice()
 
                 .end()
@@ -113,19 +113,27 @@ public class WebHookTrelloRoute
 
                 .setHeader("SlushyCardName").jsonpath("body-json.action.data.card.name")
 
-                .setHeader("ListBefore").jsonpath("body-json.action.data.listBefore")
-                .setHeader("ListAfter").jsonpath("body-json.action.data.listAfter")
-
                 .filter().simple("${header.ListBefore} != '' && ${header.ListAfter} != ''")
 
-                .setHeader("SlushyMovedFrom").jsonpath("body-json.action.data.listBefore.name")
-                .setHeader("SlushyMovedTo").jsonpath("body-json.action.data.listAfter.name")
+                .setHeader("SlushyMovedFrom").header("ListBefore")
+                .setHeader("SlushyMovedTo").header("ListAfter")
 
                 .setHeader("SlushyCardId").jsonpath("body-json.action.data.card.id")
                 .setBody().method(loadCard)
 
                 .log("Moved Card '${header.SlushyCardName}' from '${header.SlushyMovedFrom}' to '${header.SlushyMovedTo}'")
+
+                .setHeader("ListInbox", inboxConfig::getSourceList)
+
+                .choice()
+                .when().simple("${header.ListAfter} == ${header.ListInbox}")
+                .log("Moved to inbox")
+                .to("direct:Slushy.Card.Inbox")
+                .endChoice()
+
+                .otherwise()
                 .to("seda:Slushy.WebHook.CardMoved")
+                .end()
         ;
 
 //        from("direct:Slushy.WebHook.Unhandled")
