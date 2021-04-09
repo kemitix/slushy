@@ -20,6 +20,7 @@ public class LoadInitialDynamicConfigRoute
 
         from("direct:Slushy.Dynamic.Config.Update")
                 .routeId("Slushy.Dynamic.Config.Update")
+                .log("Loading updated Config Card")
                 .bean(loadDynamicConfig)
         ;
     }
