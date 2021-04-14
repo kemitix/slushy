@@ -14,10 +14,11 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-    <quarkus.version>1.12.2.Final</quarkus.version>
+    <quarkus.version>1.13.1.Final</quarkus.version>
     <surefire-plugin.version>2.22.2</surefire-plugin.version>
     <lombok.version>1.18.20</lombok.version>
     <camel.verion>3.8.0</camel.verion>
+    <camel-quarkus-aws-sqs.version>1.7.0</camel-quarkus-aws-sqs.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -104,6 +105,7 @@
     <dependency>
       <groupId>org.apache.camel.quarkus</groupId>
       <artifactId>camel-quarkus-aws-sqs</artifactId>
+      <version>${camel-quarkus-aws-sqs.version}</version>
       <exclusions>
         <exclusion>
           <groupId>com.amazonaws</groupId>
