@@ -29,6 +29,7 @@ public class ArchiveCardRoute
         from("direct:Slushy.ArchiveCard")
                 .routeId("Slushy.ArchiveCard")
                 .bean(archiveCard)
+                .to("direct:Slushy.Status.Update")
         ;
     }
 }

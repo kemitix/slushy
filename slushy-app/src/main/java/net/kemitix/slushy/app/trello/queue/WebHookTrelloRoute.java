@@ -56,11 +56,13 @@ public class WebHookTrelloRoute
                 // emailed cards
                 .when().simple("${header.ActionType} == 'emailCard'")
                 .to("direct:Slushy.WebHook.Trello.ActionEmailCard")
+                .to("direct:Slushy.Status.Update")
                 .endChoice()
 
                 // treat manually created cards as if they were emailed in
                 .when().simple("${header.ActionType} == 'createCard'")
                 .to("direct:Slushy.WebHook.Trello.ActionEmailCard")
+                .to("direct:Slushy.Status.Update")
                 .endChoice()
 
                 .otherwise()
@@ -86,6 +88,7 @@ public class WebHookTrelloRoute
                 // moved between lists
                 .when().simple("${header.ListBefore} != ${header.ListAfter}")
                 .to("direct:Slushy.WebHook.Trello.ActionMoveCardFromListToList")
+                .to("direct:Slushy.Status.Update")
                 .endChoice()
 
                 .end()
