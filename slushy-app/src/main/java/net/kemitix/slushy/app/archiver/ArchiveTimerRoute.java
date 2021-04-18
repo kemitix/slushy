@@ -8,8 +8,6 @@ import org.apache.camel.builder.RouteBuilder;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import static org.apache.camel.builder.Builder.bean;
-
 @ApplicationScoped
 public class ArchiveTimerRoute
         extends RouteBuilder {
@@ -39,7 +37,7 @@ public class ArchiveTimerRoute
                 .split(body())
 
                 .setHeader("SlushyRequiredAge", archiverConfig::getRequiredAgeHours)
-                .filter(bean(isRequiredAge))
+                .filter().method(isRequiredAge)
 
                 .setHeader("SlushyRoutingSlip", archiverConfig::getRoutingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))
