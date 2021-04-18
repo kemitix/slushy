@@ -88,6 +88,7 @@ public class WebHookTrelloRoute
                 // moved between lists
                 .when().simple("${header.ListBefore} != ${header.ListAfter}")
                 .to("direct:Slushy.WebHook.Trello.ActionMoveCardFromListToList")
+                .to("direct:Slushy.Status.Update")
                 .endChoice()
 
                 .end()
