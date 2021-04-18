@@ -62,6 +62,7 @@ public class WebHookTrelloRoute
                 // treat manually created cards as if they were emailed in
                 .when().simple("${header.ActionType} == 'createCard'")
                 .to("direct:Slushy.WebHook.Trello.ActionEmailCard")
+                .to("direct:Slushy.Status.Update")
                 .endChoice()
 
                 .otherwise()
