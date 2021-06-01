@@ -10,7 +10,7 @@ clean:
 	if [ -f .install ];then rm .install;fi
 
 dev:
-	mvn quarkus:dev -pl slushy \
+	mvn quarkus:dev \
 		-Dslushy.inbox.scan-period=30000 \
 		-Dslushy.reader.scan-period=30000 \
 		-Dslushy.reject.scan-period=30000 \
@@ -22,4 +22,4 @@ dev:
 		-Dslushy.withdraw.scan-period=30000
 
 docker: clean install
-	cd slushy && docker build -f src/main/docker/Dockerfile -t kemitix/slushy .
+	docker build -f src/main/docker/Dockerfile -t kemitix/slushy .
