@@ -18,7 +18,7 @@
         <tiles-maven-plugin.version>2.22</tiles-maven-plugin.version>
         <kemitix-tiles.version>2.10.0</kemitix-tiles.version>
 
-        <camel.version>3.10.0</camel.version>
+        <camel.version>3.9.0</camel.version>
         <lombok.version>1.18.20</lombok.version>
         <javax.mail.version>1.5.0-b01</javax.mail.version>
         <aws-java-sdk-ses.version>1.11.997</aws-java-sdk-ses.version>
