@@ -16,7 +16,7 @@ else
 fi
 
 mvn install
-docker build -f slushy/src/main/docker/Dockerfile -t kemitix/slushy slushy
+docker build -f src/main/docker/Dockerfile -t kemitix/slushy slushy
 
 docker stop slushy
 docker rm slushy
