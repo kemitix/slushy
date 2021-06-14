@@ -5,9 +5,12 @@ import lombok.Getter;
 import java.util.Arrays;
 
 public enum WordLengthBand {
-    LENGTH_SHORT_SHORT("short-short", "Short"),
-    LENGTH_LONG_SHORT("long-short", "Long"),
-    LENGTH_NOVELETTE("novelette", "Novelette"),
+    LENGTH_VERY_SHORT("very-short", "Very Short"),
+    LENGTH_SHORT_SHORT("short-short", "Short Short"),
+    LENGTH_LONG_SHORT("long-short", "Long Short"),
+    LENGTH_NOVELETTE("novelette", "Novelette"),// legacy
+    LENGTH_SHORT_NOVELETTE("short-novelette", "Short Novelette"),
+    LENGTH_LONG_NOVELETTE("long-novelette", "Long Novelette")
     ;
 
     private final String tag;
