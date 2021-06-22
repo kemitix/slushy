@@ -236,28 +236,39 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.fusesource.mvnplugins</groupId>
-                <artifactId>maven-graph-plugin</artifactId>
-                <version>${maven-graph-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>reactor</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <direction>LR</direction>
-                    <hideTransitive>true</hideTransitive>
-                    <hideVersion>true</hideVersion>
-                    <hideOptional>true</hideOptional>
-                    <hideScopes>test</hideScopes>
-                    <target>${project.basedir}/docs/images/reactor-graph.png</target>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>graphviz</id>
+            <!--  mvn -B -P graphviz validate -->
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.fusesource.mvnplugins</groupId>
+                        <artifactId>maven-graph-plugin</artifactId>
+                        <version>${maven-graph-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>reactor</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <direction>LR</direction>
+                            <hideTransitive>true</hideTransitive>
+                            <hideVersion>true</hideVersion>
+                            <hideOptional>true</hideOptional>
+                            <hideScopes>test</hideScopes>
+                            <target>${project.basedir}/docs/images/reactor-graph.png</target>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
