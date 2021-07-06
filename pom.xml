@@ -36,7 +36,7 @@
 
         <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
         <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-        <quarkus.version>1.13.7.Final</quarkus.version>
+        <quarkus.version>2.0.0.Final</quarkus.version>
         <maven.compiler.parameters>true</maven.compiler.parameters>
         <maven-graph-plugin.version>1.45</maven-graph-plugin.version>
     </properties>
