@@ -25,7 +25,6 @@ import static org.mockito.BDDMockito.given;
 class IsMultipleSubmissionTest
         implements WithAssertions {
 
-
     @Mock
     DynamicMultiSubProperties config;
 
