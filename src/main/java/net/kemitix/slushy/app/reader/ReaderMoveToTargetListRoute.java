@@ -10,17 +10,17 @@ import javax.inject.Inject;
 public class ReaderMoveToTargetListRoute
         extends RouteBuilder {
 
-    private final ReaderConfig readerConfig;
+    private final ReaderProperties readerProperties;
     private final MoveCard moveCard;
     private final ReaderIsFull readerIsFull;
 
     @Inject
     public ReaderMoveToTargetListRoute(
-            ReaderConfig readerConfig,
+            ReaderProperties readerProperties,
             MoveCard moveCard,
             ReaderIsFull readerIsFull
     ) {
-        this.readerConfig = readerConfig;
+        this.readerProperties = readerProperties;
         this.moveCard = moveCard;
         this.readerIsFull = readerIsFull;
     }
@@ -29,7 +29,7 @@ public class ReaderMoveToTargetListRoute
     public void configure() {
         from("direct:Slushy.Reader.MoveToTargetList")
                 .routeId("Slushy.Reader.MoveToTargetList")
-                .setHeader("SlushyTargetList", readerConfig::getTargetList)
+                .setHeader("SlushyTargetList", readerProperties::targetList)
                 .bean(moveCard)
                 .bean(readerIsFull, "reset")
         ;

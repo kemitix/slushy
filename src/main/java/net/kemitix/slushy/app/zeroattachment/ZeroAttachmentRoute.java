@@ -9,18 +9,18 @@ import javax.inject.Inject;
 public class ZeroAttachmentRoute
         extends RouteBuilder {
 
-    private final ZeroAttachmentConfig zeroAttachmentConfig;
+    private final ZeroAttachmentProperties zeroAttachmentProperties;
 
     @Inject
-    public ZeroAttachmentRoute(ZeroAttachmentConfig zeroAttachmentConfig) {
-        this.zeroAttachmentConfig = zeroAttachmentConfig;
+    public ZeroAttachmentRoute(ZeroAttachmentProperties zeroAttachmentProperties) {
+        this.zeroAttachmentProperties = zeroAttachmentProperties;
     }
 
     @Override
     public void configure() {
         from("direct:Slushy.ZeroAttachment")
                 .routeId("Slushy.ZeroAttachment")
-                .setHeader("SlushyRoutingSlip", zeroAttachmentConfig::getRoutingSlip)
+                .setHeader("SlushyRoutingSlip", zeroAttachmentProperties::routingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))
         ;
     }

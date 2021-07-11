@@ -1,13 +1,14 @@
 package net.kemitix.slushy.app.email;
 
-import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
-import com.amazonaws.services.simpleemail.model.RawMessage;
-import com.amazonaws.services.simpleemail.model.SendRawEmailRequest;
 import lombok.NonNull;
+import lombok.SneakyThrows;
 import lombok.extern.java.Log;
 import net.kemitix.trello.LocalAttachment;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
+import software.amazon.awssdk.core.SdkBytes;
+import software.amazon.awssdk.services.ses.SesClient;
+import software.amazon.awssdk.services.ses.model.RawMessage;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -31,7 +32,8 @@ import java.util.Properties;
 @ApplicationScoped
 public class SendEmailAttachment {
 
-    @Inject AmazonSimpleEmailService sesService;
+    @Inject
+    SesClient sesClient;
 
     @Handler
     public void send(
@@ -41,39 +43,28 @@ public class SendEmailAttachment {
             @NonNull @Header("SlushyReadableAttachment") LocalAttachment attachment
     ) throws MessagingException, IOException {
         log.info(String.format("send to %s, from %s", recipient, sender));
-        SendRawEmailRequest request =
-                requestWithAttachmentOnly(recipient, sender, attachment, subject);
         String name = attachment.getFilename().getName();
         log.info(String.format("Sending %s", name));
-        sesService.sendRawEmail(request);
+        sesClient.sendRawEmail(request -> request
+                .source(sender)
+                .destinations(recipient)
+                .rawMessage(rawMessage(recipient, sender, subject, attachment)));
     }
 
-    private SendRawEmailRequest requestWithAttachmentOnly(
+    @SneakyThrows
+    private RawMessage rawMessage(
             String recipient,
             String sender,
-            LocalAttachment attachment,
-            String subject
-    ) throws MessagingException, IOException {
-        RawMessage rawMessage = rawMessageWithAttachmentOnly(
-                recipient, sender, attachment, subject);
-        return new SendRawEmailRequest()
-                .withDestinations(recipient)
-                .withSource(sender)
-                .withRawMessage(rawMessage);
-    }
-
-    private RawMessage rawMessageWithAttachmentOnly(
-            String recipient,
-            String sender,
-            LocalAttachment attachment,
-            String subject
-    ) throws MessagingException, IOException {
-        byte[] messageStream = messageStream(
-                new InternetAddress(recipient),
-                new InternetAddress(sender),
-                mimeMultiPart(attachment),
-                subject);
-        return new RawMessage(ByteBuffer.wrap(messageStream));
+            String subject,
+            LocalAttachment attachment
+    ) {
+        return RawMessage.builder()
+                .data(SdkBytes.fromByteBuffer(ByteBuffer.wrap(messageStream(
+                        new InternetAddress(recipient),
+                        new InternetAddress(sender),
+                        mimeMultiPart(attachment),
+                        subject))))
+                .build();
     }
 
     private byte[] messageStream(

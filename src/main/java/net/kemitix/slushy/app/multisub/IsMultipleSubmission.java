@@ -17,7 +17,7 @@ import java.util.function.Function;
 @ApplicationScoped
 public class IsMultipleSubmission {
 
-    @Inject MultiSubConfig multiSubConfig;
+    @Inject DynamicMultiSubProperties multiSubProperties;
     @Inject TrelloBoard trelloBoard;
     @Inject ParseSubmission parseSubmission;
 
@@ -27,7 +27,7 @@ public class IsMultipleSubmission {
             @NonNull @Header(SlushyHeader.SUBMISSION) Submission submission
     ) {
         var matchSubmission = subComparator(submission);
-        return Arrays.stream(multiSubConfig.getLists().split(","))
+        return Arrays.stream(multiSubProperties.lists().split(","))
                 .map(String::trim)
                 .map(trelloBoard::getListCards)
                 .flatMap(Collection::stream)

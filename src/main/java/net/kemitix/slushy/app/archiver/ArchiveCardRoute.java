@@ -10,21 +10,21 @@ import javax.inject.Inject;
 public class ArchiveCardRoute
         extends RouteBuilder {
 
-    private final ArchiverConfig archiverConfig;
+    private final ArchiverProperties archiverProperties;
     private final ArchiveCard archiveCard;
 
     @Inject
     public ArchiveCardRoute(
-            ArchiverConfig archiverConfig,
+            ArchiverProperties archiverProperties,
             ArchiveCard archiveCard
     ) {
-        this.archiverConfig = archiverConfig;
+        this.archiverProperties = archiverProperties;
         this.archiveCard = archiveCard;
     }
 
     @Override
     public void configure() {
-        OnException.retry(this, archiverConfig);
+        OnException.retry(this, archiverProperties);
 
         from("direct:Slushy.ArchiveCard")
                 .routeId("Slushy.ArchiveCard")

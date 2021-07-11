@@ -11,22 +11,22 @@ public class InboxResponseDueByRoute
         extends RouteBuilder {
 
     private final SetDueInDays setDueInDays;
-    private final InboxConfig inboxConfig;
+    private final InboxProperties inboxProperties;
 
     @Inject
     public InboxResponseDueByRoute(
             SetDueInDays setDueInDays,
-            InboxConfig inboxConfig
+            InboxProperties inboxProperties
     ) {
         this.setDueInDays = setDueInDays;
-        this.inboxConfig = inboxConfig;
+        this.inboxProperties = inboxProperties;
     }
 
     @Override
     public void configure() {
         from("direct:Slushy.Inbox.ResponseDueBy")
                 .routeId("Slushy.Inbox.ResponseDueBy")
-                .setHeader("SlushyDueInDays", inboxConfig::getDueDays)
+                .setHeader("SlushyDueInDays", inboxProperties::dueDays)
                 .bean(setDueInDays)
         ;
     }

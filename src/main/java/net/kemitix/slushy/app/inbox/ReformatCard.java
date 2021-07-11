@@ -24,17 +24,17 @@ public class ReformatCard {
 
     public static final String ORIGINAL_MARKER = "# Original";
     public static final String LATEST_FORMAT_MARKER = "## Summary Format 2";
-    private final InboxConfig inboxConfig;
+    private final InboxProperties inboxProperties;
     private final Now now;
     private final TrelloBoard trelloBoard;
 
     @Inject
     public ReformatCard(
-            InboxConfig inboxConfig,
+            InboxProperties inboxProperties,
             Now now,
             TrelloBoard trelloBoard
     ) {
-        this.inboxConfig = inboxConfig;
+        this.inboxProperties = inboxProperties;
         this.now = now;
         this.trelloBoard = trelloBoard;
     }
@@ -52,7 +52,7 @@ public class ReformatCard {
                 submission.getByline()));
         // Due Date
         card.setDue(new Date(now.get()
-                .plus(inboxConfig.getDueDays(), ChronoUnit.DAYS)
+                .plus(inboxProperties.dueDays(), ChronoUnit.DAYS)
                 .atZone(ZoneOffset.ofHours(0)).toEpochSecond() * 1000));
         // Description/Body
         if (hasNoSummary(card) || hasOutdatedSummary(card)) {

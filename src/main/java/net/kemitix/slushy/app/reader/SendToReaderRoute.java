@@ -14,19 +14,19 @@ import static org.apache.camel.support.processor.idempotent.MemoryIdempotentRepo
 public class SendToReaderRoute
         extends RouteBuilder {
     private final TrelloConfig trelloConfig;
-    private final ReaderConfig readerConfig;
+    private final ReaderProperties readerProperties;
     private final SendEmailAttachment sendEmailAttachment;
     private final AddComment addComment;
 
     @Inject
     public SendToReaderRoute(
             TrelloConfig trelloConfig,
-            ReaderConfig readerConfig,
+            DynamicReaderConfig readerConfig,
             SendEmailAttachment sendEmailAttachment,
             AddComment addComment
     ) {
         this.trelloConfig = trelloConfig;
-        this.readerConfig = readerConfig;
+        this.readerProperties = readerConfig;
         this.sendEmailAttachment = sendEmailAttachment;
         this.addComment = addComment;
     }
@@ -39,7 +39,7 @@ public class SendToReaderRoute
                 .idempotentConsumer().simple("${header.SlushyCard.id}")
                 .skipDuplicate(true)
                 .messageIdRepository(() ->
-                        memoryIdempotentRepository(readerConfig.getMaxSize()))
+                        memoryIdempotentRepository(readerProperties.maxSize()))
 
                 .setHeader("SlushyRecipient", trelloConfig::getReader)
                 .setHeader("SlushySender", trelloConfig::getSender)

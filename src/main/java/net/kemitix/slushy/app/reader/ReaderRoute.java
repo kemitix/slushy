@@ -12,7 +12,7 @@ public class ReaderRoute
 
     public static final int TWENTY_SECONDS = 20000;
     @Inject LoadList loadList;
-    @Inject ReaderConfig readerConfig;
+    @Inject ReaderProperties readerProperties;
 
     @Override
     public void configure() throws Exception {
@@ -21,10 +21,10 @@ public class ReaderRoute
 
                 .throttle(1).timePeriodMillis(TWENTY_SECONDS)
 
-                .setHeader("ListName", readerConfig::getSourceList)
+                .setHeader("ListName", readerProperties::sourceList)
                 .setBody().method(loadList)
                 .split(body())
-                .setHeader("SlushyRoutingSlip", readerConfig::getRoutingSlip)
+                .setHeader("SlushyRoutingSlip", readerProperties::routingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))
         ;
     }

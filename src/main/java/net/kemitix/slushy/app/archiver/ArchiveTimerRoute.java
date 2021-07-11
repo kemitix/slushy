@@ -12,34 +12,34 @@ import javax.inject.Inject;
 public class ArchiveTimerRoute
         extends RouteBuilder {
 
-    private final ArchiverConfig archiverConfig;
+    private final ArchiverProperties archiverProperties;
     private final TrelloBoard trelloBoard;
     private final IsRequiredAge isRequiredAge;
 
     @Inject
     public ArchiveTimerRoute(
-            ArchiverConfig archiverConfig,
+            ArchiverProperties archiverProperties,
             TrelloBoard trelloBoard,
             IsRequiredAge isRequiredAge
     ) {
-        this.archiverConfig = archiverConfig;
+        this.archiverProperties = archiverProperties;
         this.trelloBoard = trelloBoard;
         this.isRequiredAge = isRequiredAge;
     }
 
     @Override
     public void configure() {
-        OnException.retry(this, archiverConfig);
+        OnException.retry(this, archiverProperties);
 
-        fromF("timer:archiver?period=%s", archiverConfig.getScanPeriod())
+        fromF("timer:archiver?period=%s", archiverProperties.scanPeriod())
                 .routeId("Slushy.Archiver")
-                .setBody(exchange -> trelloBoard.getListCards(archiverConfig.getSourceList()))
+                .setBody(exchange -> trelloBoard.getListCards(archiverProperties.sourceList()))
                 .split(body())
 
-                .setHeader("SlushyRequiredAge", archiverConfig::getRequiredAgeHours)
+                .setHeader("SlushyRequiredAge", archiverProperties::requiredAgeHours)
                 .filter().method(isRequiredAge)
 
-                .setHeader("SlushyRoutingSlip", archiverConfig::getRoutingSlip)
+                .setHeader("SlushyRoutingSlip", archiverProperties::routingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))
         ;
     }

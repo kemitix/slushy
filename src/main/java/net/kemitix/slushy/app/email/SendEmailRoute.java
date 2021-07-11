@@ -13,15 +13,14 @@ import javax.inject.Inject;
 public class SendEmailRoute
         extends RouteBuilder {
 
-    @Inject
-    TrelloConfig trelloConfig;
-    @Inject EmailConfig emailConfig;
+    @Inject TrelloConfig trelloConfig;
+    @Inject DynamicEmailProperties emailProperties;
     @Inject SendEmail sendEmail;
     @Inject AddComment addComment;
 
     @Override
     public void configure() {
-        OnException.retry(this, emailConfig);
+        OnException.retry(this, emailProperties);
         from("direct:Slushy.SendEmail")
                 .routeId("Slushy.SendEmail")
 

@@ -10,13 +10,13 @@ import javax.inject.Inject;
 public class CardMovedWithdrawListenerRoute
         extends RouteBuilder {
 
-    @Inject WithdrawConfig withdrawnConfig;
+    @Inject WithdrawProperties withdrawProperties;
 
     @Override
     public void configure() throws Exception {
         from("seda:Slushy.WebHook.CardMoved?multipleConsumers=true")
                 .routeId("Slushy.WebHook.CardMoved.Withdrawn")
-                .setHeader("ListWithdrawn", withdrawnConfig::getSourceList)
+                .setHeader("ListWithdrawn", withdrawProperties::sourceList)
                 .filter().simple("${header.SlushyMovedTo} == ${header.ListWithdrawn}")
                 .to("direct:Slushy.Card.Withdrawn")
         ;

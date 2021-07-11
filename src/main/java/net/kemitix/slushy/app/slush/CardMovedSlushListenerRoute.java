@@ -1,6 +1,6 @@
 package net.kemitix.slushy.app.slush;
 
-import net.kemitix.slushy.app.reader.ReaderConfig;
+import net.kemitix.slushy.app.reader.DynamicReaderConfig;
 import net.kemitix.slushy.app.reader.ReaderIsFull;
 import org.apache.camel.builder.RouteBuilder;
 
@@ -12,14 +12,14 @@ import javax.inject.Inject;
 public class CardMovedSlushListenerRoute
         extends RouteBuilder {
 
-    @Inject ReaderConfig readerConfig;
+    @Inject DynamicReaderConfig readerConfig;
     @Inject ReaderIsFull readerIsFull;
 
     @Override
     public void configure() throws Exception {
         from("seda:Slushy.WebHook.CardMoved?multipleConsumers=true")
                 .routeId("Slushy.WebHook.CardMoved.Slush")
-                .setHeader("ListSlush", readerConfig::getTargetList)
+                .setHeader("ListSlush", readerConfig::targetList)
                 .filter().simple("${header.SlushyMovedFrom} == ${header.ListSlush}")
                 .log("Card '${header.SlushyCardName}' removed from ${header.ListSlush}")
                 .bean(readerIsFull, "reset")

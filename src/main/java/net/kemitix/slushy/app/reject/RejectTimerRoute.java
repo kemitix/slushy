@@ -15,33 +15,33 @@ import static org.apache.camel.builder.Builder.bean;
 public class RejectTimerRoute
         extends RouteBuilder {
 
-    private final RejectConfig rejectConfig;
+    private final RejectProperties rejectProperties;
     private final TrelloBoard trelloBoard;
     private final IsRequiredAge isRequiredAge;
 
     @Inject
     public RejectTimerRoute(
-            RejectConfig rejectConfig,
+            RejectProperties rejectProperties,
             TrelloBoard trelloBoard,
             IsRequiredAge isRequiredAge
     ) {
-        this.rejectConfig = rejectConfig;
+        this.rejectProperties = rejectProperties;
         this.trelloBoard = trelloBoard;
         this.isRequiredAge = isRequiredAge;
     }
 
     @Override
     public void configure() {
-        OnException.retry(this, rejectConfig);
+        OnException.retry(this, rejectProperties);
 
-        fromF("timer:reject?period=%s", rejectConfig.getScanPeriod())
+        fromF("timer:reject?period=%s", rejectProperties.scanPeriod())
                 .routeId("Slushy.Reject")
-                .setBody(exchange -> trelloBoard.getListCards(rejectConfig.getSourceList()))
+                .setBody(exchange -> trelloBoard.getListCards(rejectProperties.sourceList()))
                 .split(body())
                 .convertBodyTo(TrelloCard.class)
-                .setHeader("SlushyRequiredAge", rejectConfig::getRequiredAgeHours)
+                .setHeader("SlushyRequiredAge", rejectProperties::requiredAgeHours)
                 .filter(bean(isRequiredAge))
-                .setHeader("SlushyRoutingSlip", rejectConfig::getRoutingSlip)
+                .setHeader("SlushyRoutingSlip", rejectProperties::routingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))
         ;
     }

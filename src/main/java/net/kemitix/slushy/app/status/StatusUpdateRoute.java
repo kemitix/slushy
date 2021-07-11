@@ -11,7 +11,6 @@ import java.time.Instant;
 public class StatusUpdateRoute
         extends RouteBuilder {
 
-    @Inject StatusConfig statusConfig;
     @Inject LogStatus logStatus;
 
     @Override

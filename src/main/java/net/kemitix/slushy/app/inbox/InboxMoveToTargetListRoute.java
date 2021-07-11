@@ -1,6 +1,5 @@
 package net.kemitix.slushy.app.inbox;
 
-import lombok.Getter;
 import lombok.extern.java.Log;
 import net.kemitix.slushy.app.MoveCard;
 import org.apache.camel.builder.RouteBuilder;
@@ -14,15 +13,15 @@ import java.util.function.Supplier;
 public class InboxMoveToTargetListRoute
         extends RouteBuilder {
 
-    private final InboxConfig inboxConfig;
+    private final InboxProperties inboxProperties;
     private final MoveCard moveCard;
 
     @Inject
     public InboxMoveToTargetListRoute(
-            InboxConfig inboxConfig,
+            InboxProperties inboxProperties,
             MoveCard moveCard
     ) {
-        this.inboxConfig = inboxConfig;
+        this.inboxProperties = inboxProperties;
         this.moveCard = moveCard;
     }
 
@@ -30,14 +29,14 @@ public class InboxMoveToTargetListRoute
     public void configure() {
         from("direct:Slushy.Inbox.MoveToTargetList")
                 .routeId("Slushy.Inbox.MoveToTargetList")
-                .setHeader("SlushyTargetList", getGetTargetList())
+                .setHeader("SlushyTargetList", getTargetListSupplier())
                 .bean(moveCard)
         ;
     }
 
-    private Supplier<Object> getGetTargetList() {
+    private Supplier<Object> getTargetListSupplier() {
         return () -> {
-            String targetList = inboxConfig.getTargetList();
+            String targetList = inboxProperties.targetList();
             log.info("GetTargetList = " + targetList);
             return targetList;
         };

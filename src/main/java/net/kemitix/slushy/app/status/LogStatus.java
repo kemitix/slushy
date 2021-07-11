@@ -22,7 +22,7 @@ public class LogStatus {
                     .withLocale(Locale.UK)
                     .withZone(ZoneId.systemDefault());
     @Inject TrelloBoard trelloBoard;
-    @Inject StatusConfig statusConfig;
+    @Inject DynamicStatusProperties statusProperties;
 
     void status() {
         log.info("Updating status card");
@@ -39,9 +39,9 @@ public class LogStatus {
     }
 
     private void updateStatusCard(String message) {
-        trelloBoard.getListCards(statusConfig.getListName())
+        trelloBoard.getListCards(statusProperties.listName())
                 .stream()
-                .filter(card -> statusConfig.getCardName().equals(card.getName()))
+                .filter(card -> statusProperties.cardName().equals(card.getName()))
                 .findFirst()
                 .ifPresent(statusCard -> {
                     statusCard.setDesc(message);

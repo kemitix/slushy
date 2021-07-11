@@ -27,7 +27,7 @@ class IsMultipleSubmissionTest
 
 
     @Mock
-    MultiSubConfig config;
+    DynamicMultiSubProperties config;
 
     @Mock
     ParseSubmission parser;
@@ -84,7 +84,7 @@ class IsMultipleSubmissionTest
 
     @BeforeEach
     void setUp() {
-        given(config.getLists()).willReturn("list");
+        given(config.lists()).willReturn("list");
         given(board.getListCards("list")).willReturn(cardList);
     }
 

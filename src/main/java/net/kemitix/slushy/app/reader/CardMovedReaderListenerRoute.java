@@ -10,13 +10,13 @@ import javax.inject.Inject;
 public class CardMovedReaderListenerRoute
         extends RouteBuilder {
 
-    @Inject ReaderConfig readerConfig;
+    @Inject ReaderProperties readerProperties;
 
     @Override
     public void configure() throws Exception {
         from("seda:Slushy.WebHook.CardMoved?multipleConsumers=true")
                 .routeId("Slushy.WebHook.CardMoved.Reader")
-                .setHeader("ListName", readerConfig::getSourceList)
+                .setHeader("ListName", readerProperties::sourceList)
                 .filter().simple("${header.SlushyMovedTo} == ${header.ListName}")
                 .log("Card '${header.SlushyCardName}' added to ${header.ListName}")
                 .to("direct:Slushy.Reader")

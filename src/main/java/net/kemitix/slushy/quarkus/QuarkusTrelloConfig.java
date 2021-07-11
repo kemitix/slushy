@@ -3,7 +3,7 @@ package net.kemitix.slushy.quarkus;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.java.Log;
-import net.kemitix.slushy.app.RetryConfig;
+import net.kemitix.slushy.app.RetryProperties;
 import net.kemitix.trello.TrelloConfig;
 
 import javax.annotation.PostConstruct;
@@ -28,7 +28,7 @@ public class QuarkusTrelloConfig
     private String reader = System.getenv("SLUSHY_READER");
     private String webhook = System.getenv("SLUSHY_WEBHOOK");
 
-    @Inject Instance<RetryConfig> retryConfigs;
+    @Inject Instance<RetryProperties> retryConfigs;
 
     @PostConstruct
     void init() {
@@ -43,8 +43,8 @@ public class QuarkusTrelloConfig
                 log.info(String.format(
                         "[%s] scan every %s; retry: %d times, every %s",
                         config.getClass().getSimpleName(),
-                        timeAsEnglish(config.getScanPeriod()),
-                        config.getMaxRetries(), timeAsEnglish(config.getRetryDelay()))));
+                        timeAsEnglish(config.scanPeriod()),
+                        config.maxRetries(), timeAsEnglish(config.retryDelay()))));
     }
 
     private String timeAsEnglish(long millis) {
