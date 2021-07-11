@@ -17,12 +17,4 @@ public class DynamicStatusProperties
                 .orElseGet(configMapping::logPeriod);
     }
 
-    public String listName() {
-        return System.getenv("SLUSHY_STATUS_LIST");
-    }
-
-    public String cardName() {
-        return System.getenv("SLUSHY_STATUS_CARD");
-    }
-
 }

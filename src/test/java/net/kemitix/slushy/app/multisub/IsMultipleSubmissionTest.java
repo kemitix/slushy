@@ -26,7 +26,7 @@ class IsMultipleSubmissionTest
         implements WithAssertions {
 
     @Mock
-    DynamicMultiSubProperties config;
+    MultiSubProperties config;
 
     @Mock
     ParseSubmission parser;

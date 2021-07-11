@@ -8,7 +8,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 @ApplicationScoped
-public class DynamicWithdrawConfig
+public class DynamicWithdrawProperties
         implements WithdrawProperties {
 
     @Inject WithdrawConfigMapping configMapping;

@@ -17,7 +17,7 @@ import java.util.function.Function;
 @ApplicationScoped
 public class IsMultipleSubmission {
 
-    @Inject DynamicMultiSubProperties multiSubProperties;
+    @Inject MultiSubProperties multiSubProperties;
     @Inject TrelloBoard trelloBoard;
     @Inject ParseSubmission parseSubmission;
 

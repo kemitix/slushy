@@ -3,7 +3,6 @@ package net.kemitix.slushy.api;
 import lombok.extern.java.Log;
 import net.kemitix.slushy.app.cardparsers.ParseSubmission;
 import net.kemitix.slushy.app.Submission;
-import net.kemitix.slushy.app.reader.DynamicReaderConfig;
 import net.kemitix.slushy.app.reader.ReaderProperties;
 import net.kemitix.trello.TrelloBoard;
 

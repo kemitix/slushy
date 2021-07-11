@@ -19,8 +19,7 @@ public class LoadDynamicConfig {
     private final DynamicProperties dynamicProperties =
             DynamicProperties.INSTANCE;
 
-    @Inject
-    DynamicConfigProperties config;
+    @Inject DynamicConfigProperties config;
     @Inject TrelloBoard trelloBoard;
 
     public void load() {

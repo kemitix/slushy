@@ -21,12 +21,12 @@ public class SendToReaderRoute
     @Inject
     public SendToReaderRoute(
             TrelloConfig trelloConfig,
-            DynamicReaderConfig readerConfig,
+            ReaderProperties readerProperties,
             SendEmailAttachment sendEmailAttachment,
             AddComment addComment
     ) {
         this.trelloConfig = trelloConfig;
-        this.readerProperties = readerConfig;
+        this.readerProperties = readerProperties;
         this.sendEmailAttachment = sendEmailAttachment;
         this.addComment = addComment;
     }
