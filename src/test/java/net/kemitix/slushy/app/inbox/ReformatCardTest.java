@@ -13,18 +13,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import javax.enterprise.inject.New;
-import javax.validation.valueextraction.UnwrapByDefault;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -34,12 +28,12 @@ public class ReformatCardTest
         implements WithAssertions {
 
     // collaborators
-    InboxConfig inboxConfig = mock(InboxConfig.class);
+    InboxProperties inboxProperties = mock(InboxProperties.class);
     Now now = mock(Now.class);
     TrelloBoard trelloBoard = mock(TrelloBoard.class);
 
     // subjects
-    ReformatCard reformatCard = new ReformatCard(inboxConfig, now, trelloBoard);
+    ReformatCard reformatCard = new ReformatCard(inboxProperties, now, trelloBoard);
 
     // parameters
     TrelloCard card = mock(TrelloCard.class);

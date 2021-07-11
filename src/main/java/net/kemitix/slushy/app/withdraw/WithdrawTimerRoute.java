@@ -7,32 +7,30 @@ import org.apache.camel.builder.RouteBuilder;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import static org.apache.camel.builder.Builder.bean;
-
 @ApplicationScoped
 public class WithdrawTimerRoute
         extends RouteBuilder {
 
-    private final WithdrawConfig withdrawConfig;
+    private final WithdrawProperties withdrawProperties;
     private final LoadList loadList;
 
     @Inject
     public WithdrawTimerRoute(
-            WithdrawConfig withdrawConfig,
+            WithdrawProperties withdrawProperties,
             LoadList loadList
     ) {
-        this.withdrawConfig = withdrawConfig;
+        this.withdrawProperties = withdrawProperties;
         this.loadList = loadList;
     }
 
     @Override
     public void configure() {
-        OnException.retry(this, withdrawConfig);
+        OnException.retry(this, withdrawProperties);
 
-        fromF("timer:withdraw?period=%s", withdrawConfig.getScanPeriod())
+        fromF("timer:withdraw?period=%s", withdrawProperties.scanPeriod())
                 .routeId("Slushy.Withdraw")
 
-                .setHeader("ListName", withdrawConfig::getSourceList)
+                .setHeader("ListName", withdrawProperties::sourceList)
                 .setBody().method(loadList)
                 .split(body())
 

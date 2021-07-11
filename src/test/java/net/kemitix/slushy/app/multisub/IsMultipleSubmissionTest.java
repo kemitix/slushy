@@ -25,9 +25,8 @@ import static org.mockito.BDDMockito.given;
 class IsMultipleSubmissionTest
         implements WithAssertions {
 
-
     @Mock
-    MultiSubConfig config;
+    MultiSubProperties config;
 
     @Mock
     ParseSubmission parser;
@@ -84,7 +83,7 @@ class IsMultipleSubmissionTest
 
     @BeforeEach
     void setUp() {
-        given(config.getLists()).willReturn("list");
+        given(config.lists()).willReturn("list");
         given(board.getListCards("list")).willReturn(cardList);
     }
 

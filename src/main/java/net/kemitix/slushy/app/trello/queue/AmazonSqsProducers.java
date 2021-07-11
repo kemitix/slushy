@@ -1,18 +1,15 @@
 package net.kemitix.slushy.app.trello.queue;
 
-import com.amazonaws.services.sqs.AmazonSQS;
-import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
+import io.quarkus.arc.Unremovable;
+import software.amazon.awssdk.services.sqs.SqsClient;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
-import javax.inject.Named;
 
-@ApplicationScoped
 public class AmazonSqsProducers {
 
     @Produces
-    @Named("amazonSQS")
-    AmazonSQS amazonSQS() {
-        return AmazonSQSClientBuilder.defaultClient();
+    @Unremovable
+    SqsClient amazonSQS() {
+        return SqsClient.create();
     }
 }

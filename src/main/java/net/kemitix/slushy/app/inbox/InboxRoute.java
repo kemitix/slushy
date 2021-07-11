@@ -2,7 +2,6 @@ package net.kemitix.slushy.app.inbox;
 
 import net.kemitix.slushy.app.IsRequiredAge;
 import net.kemitix.slushy.app.OnException;
-import net.kemitix.slushy.app.withdraw.WithdrawConfig;
 import org.apache.camel.builder.RouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -11,30 +10,30 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class InboxRoute
         extends RouteBuilder {
-    private final InboxConfig inboxConfig;
+    private final InboxProperties inboxProperties;
     private final IsRequiredAge isRequiredAge;
 
     @Inject
     public InboxRoute(
-            InboxConfig inboxConfig,
+            InboxProperties inboxProperties,
             IsRequiredAge isRequiredAge
     ) {
-        this.inboxConfig = inboxConfig;
+        this.inboxProperties = inboxProperties;
         this.isRequiredAge = isRequiredAge;
     }
 
     @Override
     public void configure() throws Exception {
-        OnException.retry(this, inboxConfig);
+        OnException.retry(this, inboxProperties);
 
         from("direct:Slushy.Card.Inbox")
                 .routeId("Slushy.Card.Inbox")
                 .log("Story arrived in Inbox")
 
-                .setHeader("SlushyRequiredAge", inboxConfig::getRequiredAgeHours)
+                .setHeader("SlushyRequiredAge", inboxProperties::requiredAgeHours)
                 .filter().method(isRequiredAge)
 
-                .setHeader("SlushyRoutingSlip", inboxConfig::getRoutingSlip)
+                .setHeader("SlushyRoutingSlip", inboxProperties::routingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))
         ;
     }

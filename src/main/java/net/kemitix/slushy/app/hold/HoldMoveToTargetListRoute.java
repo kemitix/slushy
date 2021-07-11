@@ -10,15 +10,15 @@ import javax.inject.Inject;
 public class HoldMoveToTargetListRoute
         extends RouteBuilder {
 
-    private final HoldConfig holdConfig;
+    private final HoldProperties holdProperties;
     private final MoveCard moveCard;
 
     @Inject
     public HoldMoveToTargetListRoute(
-            HoldConfig holdConfig,
+            HoldProperties holdProperties,
             MoveCard moveCard
     ) {
-        this.holdConfig = holdConfig;
+        this.holdProperties = holdProperties;
         this.moveCard = moveCard;
     }
 
@@ -26,7 +26,7 @@ public class HoldMoveToTargetListRoute
     public void configure() {
         from("direct:Slushy.Hold.MoveToTargetList")
                 .routeId("Slushy.Hold.MoveToTargetList")
-                .setHeader("SlushyTargetList", holdConfig::getTargetList)
+                .setHeader("SlushyTargetList", holdProperties::targetList)
                 .bean(moveCard)
         ;
     }

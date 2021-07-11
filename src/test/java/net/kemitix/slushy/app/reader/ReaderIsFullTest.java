@@ -17,7 +17,8 @@ import static org.mockito.BDDMockito.given;
 public class ReaderIsFullTest
         implements WithAssertions {
 
-    @Mock ReaderConfig readerConfig;
+    @Mock
+    ReaderProperties readerProperties;
     @Mock TrelloBoard trelloBoard;
 
     @InjectMocks ReaderIsFull readerIsFull;
@@ -37,13 +38,13 @@ public class ReaderIsFullTest
 
     private void givenListSize(int listSize) {
         String listName = "list-name";
-        given(readerConfig.getTargetList()).willReturn(listName);
+        given(readerProperties.targetList()).willReturn(listName);
         given(trelloBoard.getListCards(listName)).willReturn(targetList);
         given(targetList.size()).willReturn(listSize);
     }
 
     private void givenMaxListSize(int maxListSize) {
-        given(readerConfig.getMaxSize()).willReturn(maxListSize);
+        given(readerProperties.maxSize()).willReturn(maxListSize);
     }
 
     @Test

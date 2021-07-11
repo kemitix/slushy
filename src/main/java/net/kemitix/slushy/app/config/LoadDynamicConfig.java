@@ -1,13 +1,12 @@
 package net.kemitix.slushy.app.config;
 
-import com.amazonaws.util.StringInputStream;
 import lombok.SneakyThrows;
 import lombok.extern.java.Log;
 import net.kemitix.trello.TrelloBoard;
 import net.kemitix.trello.TrelloCard;
+import software.amazon.awssdk.utils.StringInputStream;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Optional;
@@ -20,9 +19,8 @@ public class LoadDynamicConfig {
     private final DynamicProperties dynamicProperties =
             DynamicProperties.INSTANCE;
 
-    @Inject DynamicConfigConfig config;
+    @Inject DynamicConfigProperties config;
     @Inject TrelloBoard trelloBoard;
-    @Inject Instance<DynamicConfig> dynamicConfigs;
 
     public void load() {
         findConfigCard()
@@ -31,11 +29,11 @@ public class LoadDynamicConfig {
     }
 
     private Optional<TrelloCard> findConfigCard() {
-        return Optional.ofNullable(config.getListName())
+        return Optional.ofNullable(config.listName())
                 .map(trelloBoard::getListCards)
                 .stream()
                 .flatMap(Collection::stream)
-                .filter(card -> config.getCardName().equals(card.getName()))
+                .filter(card -> config.cardName().equals(card.getName()))
                 .findFirst();
     }
 

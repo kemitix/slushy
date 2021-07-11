@@ -8,11 +8,11 @@ public class OnException {
 
     public static void retry(
             RouteBuilder routeBuilder,
-            RetryConfig config
+            RetryProperties config
     ) {
         routeBuilder
                 .onException(IOException.class)
-                .maximumRedeliveries(config.getMaxRetries())
-                .redeliveryDelay(config.getRetryDelay());
+                .maximumRedeliveries(config.maxRetries())
+                .redeliveryDelay(config.retryDelay());
     }
 }

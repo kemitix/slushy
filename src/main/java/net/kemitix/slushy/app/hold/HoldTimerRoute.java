@@ -14,21 +14,21 @@ import static org.apache.camel.builder.Builder.bean;
 public class HoldTimerRoute
         extends RouteBuilder {
 
-    @Inject HoldConfig holdConfig;
+    @Inject HoldProperties holdProperties;
     @Inject TrelloBoard trelloBoard;
     @Inject IsRequiredAge isRequiredAge;
 
     @Override
     public void configure() {
-        OnException.retry(this, holdConfig);
+        OnException.retry(this, holdProperties);
 
-        fromF("timer:hold?period=%s", holdConfig.getScanPeriod())
+        fromF("timer:hold?period=%s", holdProperties.scanPeriod())
                 .routeId("Slushy.Hold")
-                .setBody(exchange -> trelloBoard.getListCards(holdConfig.getSourceList()))
+                .setBody(exchange -> trelloBoard.getListCards(holdProperties.sourceList()))
                 .split(body())
-                .setHeader("SlushyRequiredAge", holdConfig::getRequiredAgeHours)
+                .setHeader("SlushyRequiredAge", holdProperties::requiredAgeHours)
                 .filter(bean(isRequiredAge))
-                .setHeader("SlushyRoutingSlip", holdConfig::getRoutingSlip)
+                .setHeader("SlushyRoutingSlip", holdProperties::routingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))
         ;
     }

@@ -1,14 +1,11 @@
 package net.kemitix.slushy.app.email;
 
-import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
-import com.amazonaws.services.simpleemail.model.Body;
-import com.amazonaws.services.simpleemail.model.Content;
-import com.amazonaws.services.simpleemail.model.Destination;
-import com.amazonaws.services.simpleemail.model.SendEmailRequest;
 import lombok.NonNull;
 import lombok.extern.java.Log;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
+import software.amazon.awssdk.services.ses.SesClient;
+import software.amazon.awssdk.services.ses.model.*;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -17,7 +14,7 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class SendEmail {
 
-    @Inject AmazonSimpleEmailService sesService;
+    @Inject SesClient sesClient;
 
     @Handler
     public void send(
@@ -30,7 +27,7 @@ public class SendEmail {
         SendEmailRequest request =
                 request(recipient, sender, subject, body, bodyHtml);
         log.info(String.format("Sending to %s: %s", recipient, subject));
-        sesService.sendEmail(request);
+        sesClient.sendEmail(request);
     }
 
     private SendEmailRequest request(
@@ -40,35 +37,19 @@ public class SendEmail {
             String bodyText,
             String bodyHtml
     ) {
-        return new SendEmailRequest()
-                .withDestination(to(recipient, sender))
-                .withSource(sender)
-                .withMessage(message(subject, body(bodyText, bodyHtml)));
-    }
-
-    private com.amazonaws.services.simpleemail.model.Message message(
-            String subject,
-            Body body
-    ) {
-        return new com.amazonaws.services.simpleemail.model.Message()
-                .withSubject(content(subject))
-                .withBody(body);
-    }
-
-    private Body body(String body, String bodyHtml) {
-        return new Body()
-                .withText(content(body))
-                .withHtml(content(bodyHtml));
-    }
-
-    private Destination to(String recipient, String sender) {
-        return new Destination()
-                .withToAddresses(recipient)
-                .withBccAddresses(sender);
-    }
-
-    private Content content(String subject) {
-        return new Content().withData(subject);
+        return SendEmailRequest.builder()
+                .destination(Destination.builder()
+                        .toAddresses(recipient, sender)
+                        .build())
+                .source(sender)
+                .message(Message.builder()
+                        .subject(Content.builder().data(subject).build())
+                        .body(Body.builder()
+                                .text(Content.builder().data(bodyText).build())
+                                .html(Content.builder().data(bodyHtml).build())
+                                .build())
+                        .build())
+                .build();
     }
 
 }

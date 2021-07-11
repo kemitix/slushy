@@ -6,32 +6,31 @@ import org.apache.camel.builder.RouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.function.Function;
 
 @ApplicationScoped
 public class InboxTimerRoute
         extends RouteBuilder {
 
-    private final InboxConfig inboxConfig;
+    private final InboxProperties inboxProperties;
     private final LoadList loadList;
 
     @Inject
     public InboxTimerRoute(
-            InboxConfig inboxConfig,
+            InboxProperties inboxProperties,
             LoadList loadList
     ) {
-        this.inboxConfig = inboxConfig;
+        this.inboxProperties = inboxProperties;
         this.loadList = loadList;
     }
 
     @Override
     public void configure() {
-        OnException.retry(this, inboxConfig);
+        OnException.retry(this, inboxProperties);
 
-        fromF("timer:inbox?period=%s", inboxConfig.getScanPeriod())
+        fromF("timer:inbox?period=%s", inboxProperties.scanPeriod())
                 .routeId("Slushy.Inbox")
 
-                .setHeader("ListName", inboxConfig::getSourceList)
+                .setHeader("ListName", inboxProperties::sourceList)
                 .setBody().method(loadList)
                 .split(body())
 

@@ -1,7 +1,7 @@
 package net.kemitix.slushy.app.trello.queue;
 
-import net.kemitix.slushy.app.config.DynamicConfigConfig;
-import net.kemitix.slushy.app.inbox.InboxConfig;
+import net.kemitix.slushy.app.config.ConfigProperties;
+import net.kemitix.slushy.app.inbox.InboxProperties;
 import net.kemitix.trello.LoadCard;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.support.processor.idempotent.MemoryIdempotentRepository;
@@ -14,19 +14,19 @@ import java.util.List;
 public class WebHookTrelloRoute
         extends RouteBuilder {
 
-    private final InboxConfig inboxConfig;
+    private final InboxProperties inboxProperties;
     private final LoadCard loadCard;
-    private final DynamicConfigConfig dynamicConfigConfig;
+    private final ConfigProperties configProperties;
 
     @Inject
     public WebHookTrelloRoute(
-            InboxConfig inboxConfig,
+            InboxProperties inboxProperties,
             LoadCard loadCard,
-            DynamicConfigConfig dynamicConfigConfig
+            ConfigProperties configProperties
     ) {
-        this.inboxConfig = inboxConfig;
+        this.inboxProperties = inboxProperties;
         this.loadCard = loadCard;
-        this.dynamicConfigConfig = dynamicConfigConfig;
+        this.configProperties = configProperties;
     }
 
     @Override
@@ -106,7 +106,7 @@ public class WebHookTrelloRoute
 
                 .log("Card Created in '${header.ListName}': '${header.SlushyCardName}'")
 
-                .setHeader("ListInbox", inboxConfig::getSourceList)
+                .setHeader("ListInbox", inboxProperties::sourceList)
                 .filter().simple("${header.ListName} == ${header.ListInbox}")
                 .to("direct:Slushy.Card.Inbox")
         ;
@@ -126,7 +126,7 @@ public class WebHookTrelloRoute
 
                 .log("Moved Card '${header.SlushyCardName}' from '${header.SlushyMovedFrom}' to '${header.SlushyMovedTo}'")
 
-                .setHeader("ListInbox", inboxConfig::getSourceList)
+                .setHeader("ListInbox", inboxProperties::sourceList)
 
                 .choice()
                 .when().simple("${header.ListAfter} == ${header.ListInbox}")
@@ -149,8 +149,8 @@ public class WebHookTrelloRoute
 
     private String updatedConfigCard() {
         var clauses = List.of(
-                "${header.ListName} == '" + dynamicConfigConfig.getListName() + "'",
-                "${header.CardName} == '" + dynamicConfigConfig.getCardName() + "'"
+                "${header.ListName} == '" + configProperties.listName() + "'",
+                "${header.CardName} == '" + configProperties.cardName() + "'"
         );
         return String.join(" && ", clauses);
     }

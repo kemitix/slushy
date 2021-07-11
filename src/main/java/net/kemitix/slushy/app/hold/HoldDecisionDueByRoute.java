@@ -11,22 +11,22 @@ public class HoldDecisionDueByRoute
         extends RouteBuilder {
 
     private final SetDueInDays setDueInDays;
-    private final HoldConfig holdConfig;
+    private final HoldProperties holdProperties;
 
     @Inject
     public HoldDecisionDueByRoute(
-            SetDueInDays setDueInDays,
-            HoldConfig holdConfig
+            HoldProperties holdProperties,
+            SetDueInDays setDueInDays
     ) {
         this.setDueInDays = setDueInDays;
-        this.holdConfig = holdConfig;
+        this.holdProperties = holdProperties;
     }
 
     @Override
     public void configure() {
         from("direct:Slushy.Hold.DecisionDueBy")
                 .routeId("Slushy.Hold.DecisionDueBy")
-                .setHeader("SlushyDueInDays", holdConfig::getDueDays)
+                .setHeader("SlushyDueInDays", holdProperties::dueDays)
                 .bean(setDueInDays)
         ;
     }

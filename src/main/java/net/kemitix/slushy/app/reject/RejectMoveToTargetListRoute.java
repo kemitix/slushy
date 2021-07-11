@@ -10,15 +10,15 @@ import javax.inject.Inject;
 public class RejectMoveToTargetListRoute
         extends RouteBuilder {
 
-    private final RejectConfig rejectConfig;
+    private final RejectProperties rejectProperties;
     private final MoveCard moveCard;
 
     @Inject
     public RejectMoveToTargetListRoute(
-            RejectConfig rejectConfig,
+            RejectProperties rejectProperties,
             MoveCard moveCard
     ) {
-        this.rejectConfig = rejectConfig;
+        this.rejectProperties = rejectProperties;
         this.moveCard = moveCard;
     }
 
@@ -26,7 +26,7 @@ public class RejectMoveToTargetListRoute
     public void configure() {
         from("direct:Slushy.Reject.MoveToTargetList")
                 .routeId("Slushy.Reject.MoveToTargetList")
-                .setHeader("SlushyTargetList", rejectConfig::getTargetList)
+                .setHeader("SlushyTargetList", rejectProperties::targetList)
                 .bean(moveCard)
         ;
     }

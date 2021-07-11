@@ -11,23 +11,23 @@ import javax.inject.Inject;
 public class ReaderTimerRoute
         extends RouteBuilder {
 
-    private final ReaderConfig readerConfig;
+    private final ReaderProperties readerProperties;
     private final TrelloBoard trelloBoard;
 
     @Inject
     public ReaderTimerRoute(
-            ReaderConfig readerConfig,
+            ReaderProperties readerProperties,
             TrelloBoard trelloBoard
     ) {
-        this.readerConfig = readerConfig;
+        this.readerProperties = readerProperties;
         this.trelloBoard = trelloBoard;
     }
 
     @Override
     public void configure() {
-        OnException.retry(this, readerConfig);
+        OnException.retry(this, readerProperties);
 
-        fromF("timer:reader?period=%s", readerConfig.getScanPeriod())
+        fromF("timer:reader?period=%s", readerProperties.scanPeriod())
                 .routeId("Slushy.Reader.Timer")
                 .to("direct:Slushy.Reader")
         ;

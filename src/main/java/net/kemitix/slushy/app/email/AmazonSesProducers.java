@@ -1,7 +1,6 @@
 package net.kemitix.slushy.app.email;
 
-import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
-import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder;
+import software.amazon.awssdk.services.ses.SesClient;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
@@ -10,7 +9,8 @@ public class AmazonSesProducers {
 
     @Produces
     @ApplicationScoped
-    AmazonSimpleEmailService amazonSimpleEmailService() {
-        return AmazonSimpleEmailServiceClientBuilder.defaultClient();
+    SesClient amazonSimpleEmailService() {
+        return SesClient.create();
     }
+
 }

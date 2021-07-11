@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @Log
 @ApplicationScoped
 public class ReaderIsFull {
-    private final ReaderConfig readerConfig;
+    private final ReaderProperties readerProperties;
     private final TrelloBoard trelloBoard;
 
     private final AtomicInteger size = new AtomicInteger(0);
@@ -23,17 +23,21 @@ public class ReaderIsFull {
     private final TemporalAmount cachePeriod = Duration.of(1, ChronoUnit.MINUTES);
 
     @Inject
-    public ReaderIsFull(ReaderConfig readerConfig, TrelloBoard trelloBoard) {
-        this.readerConfig = readerConfig;
+    public ReaderIsFull(
+            ReaderProperties readerProperties,
+            TrelloBoard trelloBoard
+    ) {
+        this.readerProperties = readerProperties;
         this.trelloBoard = trelloBoard;
     }
 
     boolean test() {
-        if (readerConfig.getMaxSize() == -1){
+        int maxSize = readerProperties.maxSize();
+        if (maxSize == -1){
             return false;
         }
         int listSize = getListSize();
-        return listSize >= readerConfig.getMaxSize();
+        return listSize >= maxSize;
     }
 
     void reset() {
@@ -42,7 +46,7 @@ public class ReaderIsFull {
 
     private int getListSize() {
         if (updated.get().plus(cachePeriod).isBefore(Instant.now())) {
-            size.set(trelloBoard.getListCards(readerConfig.getTargetList()).size());
+            size.set(trelloBoard.getListCards(readerProperties.targetList()).size());
             log.info(String.format("Fetched trello list size: %d", size.get()));
             updated.set(Instant.now());
         }

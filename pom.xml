@@ -16,9 +16,9 @@
 
     <properties>
         <tiles-maven-plugin.version>2.22</tiles-maven-plugin.version>
-        <kemitix-tiles.version>2.10.0</kemitix-tiles.version>
+        <kemitix-tiles.version>3.1.0</kemitix-tiles.version>
 
-        <camel.version>3.9.0</camel.version>
+        <camel.version>3.11.0</camel.version>
         <lombok.version>1.18.20</lombok.version>
         <javax.mail.version>1.5.0-b01</javax.mail.version>
         <aws-java-sdk-ses.version>1.12.19</aws-java-sdk-ses.version>
@@ -32,11 +32,11 @@
         <kemitix-trello.version>1.0.3</kemitix-trello.version>
         <commons-text.version>1.9</commons-text.version>
         <zt-exec.version>1.12</zt-exec.version>
-        <camel-quarkus-aws-sqs.version>1.7.0</camel-quarkus-aws-sqs.version>
+        <camel-quarkus.version>2.0.0</camel-quarkus.version>
 
         <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
         <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-        <quarkus.version>1.13.7.Final</quarkus.version>
+        <quarkus.version>2.0.0.Final</quarkus.version>
         <maven.compiler.parameters>true</maven.compiler.parameters>
         <maven-graph-plugin.version>1.45</maven-graph-plugin.version>
     </properties>
@@ -86,16 +86,6 @@
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-arc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.kemitix.aws</groupId>
-            <artifactId>kemitix-aws-java-sdk-ses-wrapper</artifactId>
-            <version>${aws-java-sdk-ses.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.kemitix.aws</groupId>
-            <artifactId>kemitix-aws-java-sdk-sqs-wrapper</artifactId>
-            <version>${aws-java-sdk-sqs.version}</version>
         </dependency>
         <dependency>
             <groupId>net.kemitix</groupId>
@@ -174,14 +164,13 @@
         </dependency>
         <dependency>
             <groupId>org.apache.camel.quarkus</groupId>
-            <artifactId>camel-quarkus-aws-sqs</artifactId>
-            <version>${camel-quarkus-aws-sqs.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.amazonaws</groupId>
-                    <artifactId>aws-java-sdk-sqs</artifactId>
-                </exclusion>
-            </exclusions>
+            <artifactId>camel-quarkus-aws2-sqs</artifactId>
+            <version>${camel-quarkus.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel.quarkus</groupId>
+            <artifactId>camel-quarkus-aws2-ses</artifactId>
+            <version>${camel-quarkus.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -206,6 +195,11 @@
             <artifactId>assertj-core</artifactId>
             <version>${assertj.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.kemitix.tiles</groupId>
+            <artifactId>version-tracker</artifactId>
+            <version>${kemitix-tiles.version}</version>
         </dependency>
     </dependencies>
 
@@ -236,6 +230,28 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.0.0-M3</version>
+                <executions>
+                    <execution>
+                        <id>enforce-maven</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>display-info</goal>
+                            <goal>enforce</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <rules>
+                        <requireMavenVersion>
+                            <version>3.8.1</version>
+                        </requireMavenVersion>
+                    </rules>
+                </configuration>
+            </plugin><!-- maven-enforcer-plugin -->
         </plugins>
     </build>
 

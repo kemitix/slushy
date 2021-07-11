@@ -11,30 +11,30 @@ import javax.inject.Inject;
 public class WithdrawRoute
         extends RouteBuilder {
 
-    private final WithdrawConfig withdrawConfig;
+    private final WithdrawProperties withdrawProperties;
     private final IsRequiredAge isRequiredAge;
 
     @Inject
     public WithdrawRoute(
-            WithdrawConfig withdrawConfig,
+            WithdrawProperties withdrawProperties,
             IsRequiredAge isRequiredAge
     ) {
-        this.withdrawConfig = withdrawConfig;
+        this.withdrawProperties = withdrawProperties;
         this.isRequiredAge = isRequiredAge;
     }
 
     @Override
     public void configure() throws Exception {
-        OnException.retry(this, withdrawConfig);
+        OnException.retry(this, withdrawProperties);
 
         from("direct:Slushy.Card.Withdrawn")
                 .routeId("Slushy.Card.Withdrawn")
                 .log("Story being Withdrawn")
 
-                .setHeader("SlushyRequiredAge", withdrawConfig::getRequiredAgeHours)
+                .setHeader("SlushyRequiredAge", withdrawProperties::requiredAgeHours)
                 .filter().method(isRequiredAge)
 
-                .setHeader("SlushyRoutingSlip", withdrawConfig::getRoutingSlip)
+                .setHeader("SlushyRoutingSlip", withdrawProperties::routingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))
         ;
     }
