@@ -16,7 +16,7 @@ docker run -d \
        -e SLUSHY_CONFIG_CARD \
        -e SLUSHY_STATUS_LIST \
        -e SLUSHY_STATUS_CARD \
-       -e AWS_ACCESS_KEY \
-       -e AWS_SECRET_KEY \
+       -e AWS_ACCESS_KEY_ID \
+       -e AWS_SECRET_ACCESS_KEY \
        -e AWS_REGION \
        kemitix/slushy
