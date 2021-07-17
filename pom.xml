@@ -16,7 +16,7 @@
 
     <properties>
         <tiles-maven-plugin.version>2.22</tiles-maven-plugin.version>
-        <kemitix-tiles.version>3.1.0</kemitix-tiles.version>
+        <kemitix-tiles.version>3.1.1</kemitix-tiles.version>
 
         <camel.version>3.11.0</camel.version>
         <lombok.version>1.18.20</lombok.version>
