@@ -32,7 +32,7 @@
         <kemitix-trello.version>1.0.3</kemitix-trello.version>
         <commons-text.version>1.9</commons-text.version>
         <zt-exec.version>1.12</zt-exec.version>
-        <camel-quarkus.version>2.0.0</camel-quarkus.version>
+        <camel-quarkus.version>2.1.0</camel-quarkus.version>
 
         <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
         <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
