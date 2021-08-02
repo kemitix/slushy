@@ -12,8 +12,7 @@ if [ ! -z "$(git status --short)" ];then
     echo "ERROR: worktree is not clean"
     exit 1
 fi
-echo "OKAY"
-exit 0
+
 docker stop slushy
 docker rm slushy
 purge-slushy-queue-live
