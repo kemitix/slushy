@@ -32,11 +32,10 @@
         <kemitix-trello.version>1.0.3</kemitix-trello.version>
         <commons-text.version>1.9</commons-text.version>
         <zt-exec.version>1.12</zt-exec.version>
-        <camel-quarkus.version>2.1.0</camel-quarkus.version>
 
         <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
         <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-        <quarkus.version>2.0.0.Final</quarkus.version>
+        <quarkus.version>2.1.1.Final</quarkus.version>
         <maven.compiler.parameters>true</maven.compiler.parameters>
         <maven-graph-plugin.version>1.45</maven-graph-plugin.version>
     </properties>
@@ -160,12 +159,10 @@
         <dependency>
             <groupId>org.apache.camel.quarkus</groupId>
             <artifactId>camel-quarkus-aws2-sqs</artifactId>
-            <version>${camel-quarkus.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.camel.quarkus</groupId>
             <artifactId>camel-quarkus-aws2-ses</artifactId>
-            <version>${camel-quarkus.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
