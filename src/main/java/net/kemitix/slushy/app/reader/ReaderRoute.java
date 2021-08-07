@@ -12,7 +12,7 @@ public class ReaderRoute
 
     public static final int TWENTY_SECONDS = 20000;
     @Inject LoadList loadList;
-    @Inject ReaderProperties readerProperties;
+    @Inject DynamicReaderProperties readerProperties;
 
     @Override
     public void configure() throws Exception {

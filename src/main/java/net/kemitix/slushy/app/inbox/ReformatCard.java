@@ -30,7 +30,7 @@ public class ReformatCard {
 
     @Inject
     public ReformatCard(
-            InboxProperties inboxProperties,
+            DynamicInboxProperties inboxProperties,
             Now now,
             TrelloBoard trelloBoard
     ) {

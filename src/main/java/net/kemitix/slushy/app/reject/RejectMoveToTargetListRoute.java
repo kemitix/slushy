@@ -15,7 +15,7 @@ public class RejectMoveToTargetListRoute
 
     @Inject
     public RejectMoveToTargetListRoute(
-            RejectProperties rejectProperties,
+            DynamicRejectProperties rejectProperties,
             MoveCard moveCard
     ) {
         this.rejectProperties = rejectProperties;

@@ -15,7 +15,7 @@ public class ArchiveCardRoute
 
     @Inject
     public ArchiveCardRoute(
-            ArchiverProperties archiverProperties,
+            DynamicArchiverProperties archiverProperties,
             ArchiveCard archiveCard
     ) {
         this.archiverProperties = archiverProperties;

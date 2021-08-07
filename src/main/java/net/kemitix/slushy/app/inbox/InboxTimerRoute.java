@@ -16,7 +16,7 @@ public class InboxTimerRoute
 
     @Inject
     public InboxTimerRoute(
-            InboxProperties inboxProperties,
+            DynamicInboxProperties inboxProperties,
             LoadList loadList
     ) {
         this.inboxProperties = inboxProperties;

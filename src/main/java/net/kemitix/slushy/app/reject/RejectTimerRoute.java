@@ -2,8 +2,8 @@ package net.kemitix.slushy.app.reject;
 
 import net.kemitix.slushy.app.IsRequiredAge;
 import net.kemitix.slushy.app.OnException;
-import net.kemitix.trello.TrelloCard;
 import net.kemitix.trello.TrelloBoard;
+import net.kemitix.trello.TrelloCard;
 import org.apache.camel.builder.RouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -21,7 +21,7 @@ public class RejectTimerRoute
 
     @Inject
     public RejectTimerRoute(
-            RejectProperties rejectProperties,
+            DynamicRejectProperties rejectProperties,
             TrelloBoard trelloBoard,
             IsRequiredAge isRequiredAge
     ) {

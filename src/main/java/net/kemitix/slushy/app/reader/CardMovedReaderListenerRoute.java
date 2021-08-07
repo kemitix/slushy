@@ -10,7 +10,7 @@ import javax.inject.Inject;
 public class CardMovedReaderListenerRoute
         extends RouteBuilder {
 
-    @Inject ReaderProperties readerProperties;
+    @Inject DynamicReaderProperties readerProperties;
 
     @Override
     public void configure() throws Exception {

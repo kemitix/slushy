@@ -15,7 +15,7 @@ public class InboxRoute
 
     @Inject
     public InboxRoute(
-            InboxProperties inboxProperties,
+            DynamicInboxProperties inboxProperties,
             IsRequiredAge isRequiredAge
     ) {
         this.inboxProperties = inboxProperties;

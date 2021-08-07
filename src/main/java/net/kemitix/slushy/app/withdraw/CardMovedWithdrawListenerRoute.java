@@ -10,7 +10,7 @@ import javax.inject.Inject;
 public class CardMovedWithdrawListenerRoute
         extends RouteBuilder {
 
-    @Inject WithdrawProperties withdrawProperties;
+    @Inject DynamicWithdrawProperties withdrawProperties;
 
     @Override
     public void configure() throws Exception {
