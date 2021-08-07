@@ -16,7 +16,7 @@ public class ReaderMoveToTargetListRoute
 
     @Inject
     public ReaderMoveToTargetListRoute(
-            ReaderProperties readerProperties,
+            DynamicReaderProperties readerProperties,
             MoveCard moveCard,
             ReaderIsFull readerIsFull
     ) {

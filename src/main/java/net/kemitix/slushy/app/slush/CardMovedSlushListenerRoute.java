@@ -1,7 +1,7 @@
 package net.kemitix.slushy.app.slush;
 
+import net.kemitix.slushy.app.reader.DynamicReaderProperties;
 import net.kemitix.slushy.app.reader.ReaderIsFull;
-import net.kemitix.slushy.app.reader.ReaderProperties;
 import org.apache.camel.builder.RouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -12,7 +12,8 @@ import javax.inject.Inject;
 public class CardMovedSlushListenerRoute
         extends RouteBuilder {
 
-    @Inject ReaderProperties readerConfig;
+    @Inject
+    DynamicReaderProperties readerConfig;
     @Inject ReaderIsFull readerIsFull;
 
     @Override

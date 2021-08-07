@@ -16,7 +16,7 @@ public class WithdrawTimerRoute
 
     @Inject
     public WithdrawTimerRoute(
-            WithdrawProperties withdrawProperties,
+            DynamicWithdrawProperties withdrawProperties,
             LoadList loadList
     ) {
         this.withdrawProperties = withdrawProperties;

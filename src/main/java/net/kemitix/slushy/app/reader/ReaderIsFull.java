@@ -24,7 +24,7 @@ public class ReaderIsFull {
 
     @Inject
     public ReaderIsFull(
-            ReaderProperties readerProperties,
+            DynamicReaderProperties readerProperties,
             TrelloBoard trelloBoard
     ) {
         this.readerProperties = readerProperties;

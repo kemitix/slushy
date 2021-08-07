@@ -18,7 +18,7 @@ public class ArchiveTimerRoute
 
     @Inject
     public ArchiveTimerRoute(
-            ArchiverProperties archiverProperties,
+            DynamicArchiverProperties archiverProperties,
             TrelloBoard trelloBoard,
             IsRequiredAge isRequiredAge
     ) {
