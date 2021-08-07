@@ -18,7 +18,7 @@ public class ReaderIsFullTest
         implements WithAssertions {
 
     @Mock
-    ReaderProperties readerProperties;
+    DynamicReaderProperties readerProperties;
     @Mock TrelloBoard trelloBoard;
 
     @InjectMocks ReaderIsFull readerIsFull;

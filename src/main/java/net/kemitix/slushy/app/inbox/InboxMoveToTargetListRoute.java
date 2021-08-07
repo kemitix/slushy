@@ -18,7 +18,7 @@ public class InboxMoveToTargetListRoute
 
     @Inject
     public InboxMoveToTargetListRoute(
-            InboxProperties inboxProperties,
+            DynamicInboxProperties inboxProperties,
             MoveCard moveCard
     ) {
         this.inboxProperties = inboxProperties;

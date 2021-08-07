@@ -14,7 +14,7 @@ import static org.apache.camel.builder.Builder.bean;
 public class HoldTimerRoute
         extends RouteBuilder {
 
-    @Inject HoldProperties holdProperties;
+    @Inject DynamicHoldProperties holdProperties;
     @Inject TrelloBoard trelloBoard;
     @Inject IsRequiredAge isRequiredAge;
 

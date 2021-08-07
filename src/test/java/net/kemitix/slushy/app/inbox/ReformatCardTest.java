@@ -3,10 +3,10 @@ package net.kemitix.slushy.app.inbox;
 import lombok.SneakyThrows;
 import net.kemitix.slushy.app.Genre;
 import net.kemitix.slushy.app.Now;
-import net.kemitix.slushy.app.WordLengthBand;
-import net.kemitix.trello.TrelloCard;
 import net.kemitix.slushy.app.Submission;
+import net.kemitix.slushy.app.WordLengthBand;
 import net.kemitix.trello.TrelloBoard;
+import net.kemitix.trello.TrelloCard;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -28,7 +28,7 @@ public class ReformatCardTest
         implements WithAssertions {
 
     // collaborators
-    InboxProperties inboxProperties = mock(InboxProperties.class);
+    DynamicInboxProperties inboxProperties = mock(DynamicInboxProperties.class);
     Now now = mock(Now.class);
     TrelloBoard trelloBoard = mock(TrelloBoard.class);
 

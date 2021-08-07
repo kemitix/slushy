@@ -15,7 +15,7 @@ public class HoldMoveToTargetListRoute
 
     @Inject
     public HoldMoveToTargetListRoute(
-            HoldProperties holdProperties,
+            DynamicHoldProperties holdProperties,
             MoveCard moveCard
     ) {
         this.holdProperties = holdProperties;

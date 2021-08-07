@@ -16,7 +16,7 @@ public class ReaderTimerRoute
 
     @Inject
     public ReaderTimerRoute(
-            ReaderProperties readerProperties,
+            DynamicReaderProperties readerProperties,
             TrelloBoard trelloBoard
     ) {
         this.readerProperties = readerProperties;

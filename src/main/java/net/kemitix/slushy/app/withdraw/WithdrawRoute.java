@@ -16,7 +16,7 @@ public class WithdrawRoute
 
     @Inject
     public WithdrawRoute(
-            WithdrawProperties withdrawProperties,
+            DynamicWithdrawProperties withdrawProperties,
             IsRequiredAge isRequiredAge
     ) {
         this.withdrawProperties = withdrawProperties;

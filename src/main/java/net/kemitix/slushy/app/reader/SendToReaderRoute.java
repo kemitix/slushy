@@ -1,8 +1,8 @@
 package net.kemitix.slushy.app.reader;
 
 import net.kemitix.slushy.app.AddComment;
-import net.kemitix.trello.TrelloConfig;
 import net.kemitix.slushy.app.email.SendEmailAttachment;
+import net.kemitix.trello.TrelloConfig;
 import org.apache.camel.builder.RouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -21,7 +21,7 @@ public class SendToReaderRoute
     @Inject
     public SendToReaderRoute(
             TrelloConfig trelloConfig,
-            ReaderProperties readerProperties,
+            DynamicReaderProperties readerProperties,
             SendEmailAttachment sendEmailAttachment,
             AddComment addComment
     ) {

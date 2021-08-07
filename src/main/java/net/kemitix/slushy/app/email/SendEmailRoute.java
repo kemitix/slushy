@@ -14,7 +14,7 @@ public class SendEmailRoute
         extends RouteBuilder {
 
     @Inject TrelloConfig trelloConfig;
-    @Inject EmailProperties emailProperties;
+    @Inject DynamicEmailProperties emailProperties;
     @Inject SendEmail sendEmail;
     @Inject AddComment addComment;
 

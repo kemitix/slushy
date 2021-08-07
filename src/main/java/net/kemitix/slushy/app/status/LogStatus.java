@@ -22,7 +22,7 @@ public class LogStatus {
                     .withLocale(Locale.UK)
                     .withZone(ZoneId.systemDefault());
     @Inject TrelloBoard trelloBoard;
-    @Inject StatusProperties statusProperties;
+    @Inject DynamicStatusProperties statusProperties;
 
     void status() {
         log.info("Updating status card");
