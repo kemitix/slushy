@@ -15,8 +15,7 @@ public class LoadAttachmentRoute
         from("direct:Slushy.LoadAttachment")
                 .routeId("Slushy.LoadAttachment")
 
-                .setHeader("SlushyAttachment")
-                .method(attachmentLoader, "load(${header.SlushyCard}, ${header.SlushySubmission})")
+                .setHeader("SlushyAttachment").method(attachmentLoader)
 
                 .choice()
                 .when(simple("${header.SlushyAttachment.isZero}"))

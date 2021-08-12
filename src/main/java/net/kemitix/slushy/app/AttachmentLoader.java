@@ -6,6 +6,8 @@ import net.kemitix.trello.Attachment;
 import net.kemitix.trello.AttachmentDirectory;
 import net.kemitix.trello.LocalAttachment;
 import net.kemitix.trello.CardWithAttachments;
+import org.apache.camel.Handler;
+import org.apache.camel.Header;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -19,9 +21,10 @@ public class AttachmentLoader {
     @Inject
     AttachmentDirectory attachmentDirectory;
 
+    @Handler
     public LocalAttachment load(
-            Card card,
-            Submission submission
+            @Header(SlushyHeader.CARD) Card card,
+            @Header(SlushyHeader.SUBMISSION) Submission submission
     ) {
         Card c = cardWithoutIdInName(card, submission);
         return CardWithAttachments.create(c, trello, attachmentDirectory)
