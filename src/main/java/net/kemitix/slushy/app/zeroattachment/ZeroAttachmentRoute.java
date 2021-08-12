@@ -12,7 +12,9 @@ public class ZeroAttachmentRoute
     private final ZeroAttachmentProperties zeroAttachmentProperties;
 
     @Inject
-    public ZeroAttachmentRoute(ZeroAttachmentProperties zeroAttachmentProperties) {
+    public ZeroAttachmentRoute(
+            DynamicZeroAttachmentProperties zeroAttachmentProperties
+    ) {
         this.zeroAttachmentProperties = zeroAttachmentProperties;
     }
 

@@ -15,7 +15,7 @@ public class HoldDecisionDueByRoute
 
     @Inject
     public HoldDecisionDueByRoute(
-            HoldProperties holdProperties,
+            DynamicHoldProperties holdProperties,
             SetDueInDays setDueInDays
     ) {
         this.setDueInDays = setDueInDays;

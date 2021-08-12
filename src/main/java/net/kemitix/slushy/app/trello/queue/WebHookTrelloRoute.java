@@ -1,6 +1,7 @@
 package net.kemitix.slushy.app.trello.queue;
 
 import net.kemitix.slushy.app.config.ConfigProperties;
+import net.kemitix.slushy.app.inbox.DynamicInboxProperties;
 import net.kemitix.slushy.app.inbox.InboxProperties;
 import net.kemitix.trello.LoadCard;
 import org.apache.camel.builder.RouteBuilder;
@@ -20,7 +21,7 @@ public class WebHookTrelloRoute
 
     @Inject
     public WebHookTrelloRoute(
-            InboxProperties inboxProperties,
+            DynamicInboxProperties inboxProperties,
             LoadCard loadCard,
             ConfigProperties configProperties
     ) {

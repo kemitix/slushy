@@ -16,7 +16,7 @@ public class InboxResponseDueByRoute
     @Inject
     public InboxResponseDueByRoute(
             SetDueInDays setDueInDays,
-            InboxProperties inboxProperties
+            DynamicInboxProperties inboxProperties
     ) {
         this.setDueInDays = setDueInDays;
         this.inboxProperties = inboxProperties;
