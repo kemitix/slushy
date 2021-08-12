@@ -27,11 +27,11 @@ public class AttachmentDownloadValidator {
             if (isHtmlFile(fileContents)
                     && isLogInToTrello(fileContents)) {
                 errorHolder.add("Attachment from Trello is a Login Screen");
-                return Optional.empty();
+                throw new TrelloLoginPageException();
             }
         } catch (IOException e) {
             errorHolder.add("Unexpected error loading local file: " + e.getMessage());
-            return Optional.empty();
+            throw new RuntimeException(e);
         }
         return Optional.of(localAttachment);
     }

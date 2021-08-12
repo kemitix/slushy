@@ -93,12 +93,9 @@ class AttachmentDownloadValidatorTest
         final AttachmentDownloadValidator sut = new AttachmentDownloadValidator(errorHolder);
 
         @Test
-        void canDetectAnHtmlFile() {
-            //when
-            final Optional<LocalAttachment> result = sut.apply(attachment);
-
-            //then
-            assertThat(result).isEmpty();
+        void canDetectAnHtmlLoginPage() {
+            assertThatExceptionOfType(TrelloLoginPageException.class)
+                    .isThrownBy(() -> sut.apply(attachment));
         }
 
         @Test
@@ -107,10 +104,12 @@ class AttachmentDownloadValidatorTest
             assumeThat(errorHolder.errors()).isEmpty();
 
             //when
-            sut.apply(attachment);
-
-            //then
-            assertThat(errorHolder.errors()).isNotEmpty();
+            try {
+                sut.apply(attachment);
+            } catch (TrelloLoginPageException e) {
+                //then
+                assertThat(errorHolder.errors()).isNotEmpty();
+            }
         }
     }
 
