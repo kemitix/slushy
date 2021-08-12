@@ -1,6 +1,7 @@
 package net.kemitix.slushy.app.reader;
 
 import net.kemitix.slushy.app.AttachmentLoader;
+import net.kemitix.slushy.app.TrelloLoginPageException;
 import org.apache.camel.builder.RouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -12,6 +13,11 @@ public class LoadAttachmentRoute
     @Inject AttachmentLoader attachmentLoader;
     @Override
     public void configure() {
+
+        onException(TrelloLoginPageException.class)
+                .to("direct:Slushy.Status.Update")
+        ;
+
         from("direct:Slushy.LoadAttachment")
                 .routeId("Slushy.LoadAttachment")
 
