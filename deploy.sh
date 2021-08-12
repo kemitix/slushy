@@ -19,4 +19,4 @@ mvn install
 docker build -f src/main/docker/Dockerfile -t kemitix/slushy .
 
 docker stop slushy && docker rm slushy
-echo source slushy.sh
+source slushy.sh
