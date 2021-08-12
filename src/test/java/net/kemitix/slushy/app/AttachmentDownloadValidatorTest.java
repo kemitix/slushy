@@ -2,6 +2,7 @@ package net.kemitix.slushy.app;
 
 import net.kemitix.trello.LocalAttachment;
 import org.assertj.core.api.WithAssertions;
+import org.assertj.core.api.WithAssumptions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -10,12 +11,15 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.time.Instant;
 import java.util.Optional;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 class AttachmentDownloadValidatorTest
-        implements WithAssertions {
+        implements WithAssertions, WithAssumptions {
+
+    private ErrorHolder errorHolder = new ErrorHolder(Instant::now);
 
     @Nested
     @DisplayName("Trello provides an attachment")
@@ -32,7 +36,7 @@ class AttachmentDownloadValidatorTest
         final long length = Files.copy(source, tempFile.toPath(), REPLACE_EXISTING);
         LocalAttachment attachment =
                 new LocalAttachment(tempFile, new File(fileName), length);
-        final AttachmentDownloadValidator sut = new AttachmentDownloadValidator();
+        final AttachmentDownloadValidator sut = new AttachmentDownloadValidator(errorHolder);
 
         @Test
         void passesNormalFile() {
@@ -59,7 +63,7 @@ class AttachmentDownloadValidatorTest
         final long length = Files.copy(source, tempFile.toPath(), REPLACE_EXISTING);
         LocalAttachment attachment =
                 new LocalAttachment(tempFile, new File(fileName), length);
-        final AttachmentDownloadValidator sut = new AttachmentDownloadValidator();
+        final AttachmentDownloadValidator sut = new AttachmentDownloadValidator(errorHolder);
 
         @Test
         void passesNormalFile() {
@@ -86,7 +90,7 @@ class AttachmentDownloadValidatorTest
         final long length = Files.copy(source, tempFile.toPath(), REPLACE_EXISTING);
         LocalAttachment attachment =
                 new LocalAttachment(tempFile, new File(fileName), length);
-        final AttachmentDownloadValidator sut = new AttachmentDownloadValidator();
+        final AttachmentDownloadValidator sut = new AttachmentDownloadValidator(errorHolder);
 
         @Test
         void canDetectAnHtmlFile() {
@@ -97,7 +101,17 @@ class AttachmentDownloadValidatorTest
             assertThat(result).isEmpty();
         }
 
-        //TODO reports login prompt
+        @Test
+        void reportsError() {
+            //given
+            assumeThat(errorHolder.errors()).isEmpty();
+
+            //when
+            sut.apply(attachment);
+
+            //then
+            assertThat(errorHolder.errors()).isNotEmpty();
+        }
     }
 
 }

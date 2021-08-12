@@ -3,6 +3,7 @@ package net.kemitix.slushy.app;
 import net.kemitix.trello.LocalAttachment;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,34 +13,36 @@ import java.util.Optional;
 @ApplicationScoped
 public class AttachmentDownloadValidator {
 
+    private final ErrorHolder errorHolder;
+
+    @Inject
+    public AttachmentDownloadValidator(final ErrorHolder errorHolder) {
+        this.errorHolder = errorHolder;
+    }
+
     public Optional<LocalAttachment> apply(LocalAttachment localAttachment) {
         try {
             final Path pathToFile = localAttachment.getFilename().toPath();
-            System.out.println("pathToFile = " + pathToFile);
-
             final byte[] fileContents = Files.readAllBytes(pathToFile);
-            final String header = new String(Arrays.copyOfRange(fileContents, 0, 9));
-            System.out.println("header = " + header);
-
-            if ("<!DOCTYPE".equals(header)) {
-                // could be a trello login screen - or an html file
-                // provide a wide range to search should their be any jitter in
-                // the positioning of the text.
-                final String stamp = new String(Arrays.copyOfRange(fileContents, 250, 350));
-                System.out.println("stamp = " + stamp);
-                if (stamp.contains("Log in to Trello")) {
-                    // it's a trello login screen
-                    //TODO report login screen
-                    return Optional.empty();
-                }
+            if (isHtmlFile(fileContents)
+                    && isLogInToTrello(fileContents)) {
+                errorHolder.add("Attachment from Trello is a Login Screen");
+                return Optional.empty();
             }
-
         } catch (IOException e) {
-            //TODO report error loading local file
-            e.printStackTrace();
+            errorHolder.add("Unexpected error loading local file: " + e.getMessage());
             return Optional.empty();
         }
         return Optional.of(localAttachment);
+    }
+
+    private boolean isLogInToTrello(byte[] fileContents) {
+        return new String(Arrays.copyOfRange(fileContents, 250, 350)).contains("Log in to Trello");
+    }
+
+    private boolean isHtmlFile(byte[] fileContents) {
+        return "<!DOCTYPE".equals(new String(
+                Arrays.copyOfRange(fileContents, 0, 9)));
     }
 
 }
