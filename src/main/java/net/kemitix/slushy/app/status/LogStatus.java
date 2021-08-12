@@ -20,7 +20,7 @@ public class LogStatus {
     public static final DateTimeFormatter DATE_TIME_FORMATTER =
             DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG)
                     .withLocale(Locale.UK)
-                    .withZone(ZoneId.systemDefault());
+                    .withZone(ZoneId.of("Europe/London"));
     @Inject TrelloBoard trelloBoard;
     @Inject DynamicStatusProperties statusProperties;
 
