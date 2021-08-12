@@ -21,6 +21,8 @@ public class AttachmentLoader {
     @Inject
     AttachmentDirectory attachmentDirectory;
 
+    private AttachmentDownloadValidator attachmentDownloadValidator;
+
     @Handler
     public LocalAttachment load(
             @Header(SlushyHeader.CARD) Card card,
@@ -31,6 +33,7 @@ public class AttachmentLoader {
                 .findAttachments()
                 .map(Attachment::download)
                 .findFirst()
+                .flatMap(attachmentDownloadValidator::apply)
                 .orElseGet(MissingAttachment::new);
     }
 
