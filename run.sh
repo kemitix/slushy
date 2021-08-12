@@ -13,8 +13,7 @@ if [ ! -z "$(git status --short)" ];then
     exit 1
 fi
 
-docker stop slushy
-docker rm slushy
+docker stop slushy && docker rm slushy
 purge-slushy-queue-live
 source slushy.sh
-time sh logs.sh 
+time sh logs.sh
