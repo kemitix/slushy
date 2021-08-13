@@ -33,7 +33,7 @@
         <commons-text.version>1.9</commons-text.version>
         <zt-exec.version>1.12</zt-exec.version>
 
-        <quarkus.version>2.1.1.Final</quarkus.version>
+        <quarkus.version>2.1.2.Final</quarkus.version>
         <maven.compiler.parameters>true</maven.compiler.parameters>
         <maven-graph-plugin.version>1.45</maven-graph-plugin.version>
     </properties>
