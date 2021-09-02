@@ -18,7 +18,7 @@
         <tiles-maven-plugin.version>2.22</tiles-maven-plugin.version>
         <kemitix-tiles.version>3.1.1</kemitix-tiles.version>
 
-        <camel.version>3.11.0</camel.version>
+        <camel.version>3.11.1</camel.version>
         <lombok.version>1.18.20</lombok.version>
         <javax.mail.version>1.5.0-b01</javax.mail.version>
         <aws-java-sdk-ses.version>1.12.19</aws-java-sdk-ses.version>
@@ -33,7 +33,7 @@
         <commons-text.version>1.9</commons-text.version>
         <zt-exec.version>1.12</zt-exec.version>
 
-        <quarkus.version>2.1.4.Final</quarkus.version>
+        <quarkus.version>2.2.1.Final</quarkus.version>
         <maven.compiler.parameters>true</maven.compiler.parameters>
         <maven-graph-plugin.version>1.45</maven-graph-plugin.version>
     </properties>
