@@ -29,6 +29,7 @@ RUN apt-get update && \
         wget=1.21-1+b1 \
         python3=3.9.2-3 \
         openjdk-11-jre \
+        xz-utils=5.2.5-2 \
     && rm -rf /var/lib/apt/lists/*
 
 # download and install calibre
