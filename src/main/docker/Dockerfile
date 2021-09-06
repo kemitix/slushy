@@ -26,8 +26,8 @@ FROM debian:stable
 # install wget and python required to download and install calibre, plus a JRE
 RUN apt-get update && \
     apt-get install -y \
-        wget=1.20.1-1.1 \
-        python3=3.7.3-1 \
+        wget=1.21-1+b1 \
+        python3=3.9.2-3 \
         openjdk-11-jre \
     && rm -rf /var/lib/apt/lists/*
 
