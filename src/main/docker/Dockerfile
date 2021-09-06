@@ -29,12 +29,13 @@ RUN apt-get update && \
         wget=1.21-1+b1 \
         python3=3.9.2-3 \
         openjdk-11-jre \
+        xz-utils=5.2.5-2 \
     && rm -rf /var/lib/apt/lists/*
 
 # download and install calibre
 RUN wget -nv -O- \
     https://download.calibre-ebook.com/linux-installer.sh | \
-    sh /dev/stdin version=5.19.0
+    sh /dev/stdin version=5.26.0
 
 WORKDIR /app
 
