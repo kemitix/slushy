@@ -35,7 +35,7 @@ RUN apt-get update && \
 # download and install calibre
 RUN wget -nv -O- \
     https://download.calibre-ebook.com/linux-installer.sh | \
-    sh /dev/stdin version=5.19.0
+    sh /dev/stdin version=5.26.0
 
 WORKDIR /app
 
