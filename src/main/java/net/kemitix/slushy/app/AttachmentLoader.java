@@ -27,7 +27,7 @@ public class AttachmentLoader {
     AttachmentDirectory attachmentDirectory;
 
     @Inject
-    private AttachmentDownloadValidator attachmentDownloadValidator;
+    AttachmentDownloadValidator attachmentDownloadValidator;
 
     @Handler
     public LocalAttachment load(
