@@ -183,6 +183,11 @@
             <artifactId>version-tracker</artifactId>
             <version>${kemitix-tiles.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.smallrye.config</groupId>
+            <artifactId>smallrye-config-core</artifactId>
+            <version>2.6.1</version>
+        </dependency>
     </dependencies>
 
     <build>
