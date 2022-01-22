@@ -1,4 +1,4 @@
-package net.kemitix.slushy.quarkus;
+package net.kemitix.slushy.environment;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +17,7 @@ import java.util.List;
 @Setter
 @Getter
 @ApplicationScoped
-public class QuarkusTrelloConfig
+public class TrelloConfigFromEnvironment
         implements TrelloConfig {
 
     private String trelloKey = System.getenv("TRELLO_KEY");
