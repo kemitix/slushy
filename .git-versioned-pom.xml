@@ -12,7 +12,7 @@
 
     <groupId>net.kemitix.slushy</groupId>
     <artifactId>slushy</artifactId>
-    <version>AUTO</version>
+    <version>root-0-g0000000</version>
 
     <properties>
         <tiles-maven-plugin.version>2.25</tiles-maven-plugin.version>
