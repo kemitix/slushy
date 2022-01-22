@@ -21,5 +21,8 @@ dev:
 		-Dslushy.archiver.required-age-hours=0 \
 		-Dslushy.withdraw.scan-period=30000
 
+TAG := kemitix/slushy:$(shell git describe --tags)
+
 docker: clean install
-	docker build -f src/main/docker/Dockerfile -t kemitix/slushy .
+	docker build -f src/main/docker/Dockerfile -t ${TAG} .
+	docker tag ${TAG} kemitix/slushy
