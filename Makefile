@@ -5,7 +5,10 @@ docker:
 	docker tag ${TAG} kemitix/slushy
 
 run: docker
-	docker run -it \
+	docker run -d \
+       --name slushy \
+       --restart always \
+       --expose 9990 \
        -e TRELLO_KEY \
        -e TRELLO_SECRET \
        -e SLUSHY_USER \
