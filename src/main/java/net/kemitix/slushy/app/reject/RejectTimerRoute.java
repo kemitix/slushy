@@ -32,7 +32,7 @@ public class RejectTimerRoute
                 .split(body())
                 .convertBodyTo(TrelloCard.class)
                 .setHeader("SlushyRequiredAge", rejectProperties::requiredAgeHours)
-                .filter(bean(isRequiredAge))
+                .filter(method(isRequiredAge))
                 .setHeader("SlushyRoutingSlip", rejectProperties::routingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))
         ;

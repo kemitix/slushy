@@ -30,7 +30,7 @@ public class HoldTimerRoute
                 .setBody(exchange -> slushyBoard.getListCards(holdProperties.sourceList()))
                 .split(body())
                 .setHeader("SlushyRequiredAge", holdProperties::requiredAgeHours)
-                .filter(bean(isRequiredAge))
+                .filter(method(isRequiredAge))
                 .setHeader("SlushyRoutingSlip", holdProperties::routingSlip)
                 .routingSlip(header("SlushyRoutingSlip"))
         ;
