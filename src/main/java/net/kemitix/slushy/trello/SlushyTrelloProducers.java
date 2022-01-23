@@ -5,7 +5,6 @@ import com.julienvey.trello.TrelloHttpClient;
 import com.julienvey.trello.domain.Member;
 import net.kemitix.trello.AttachmentDirectory;
 import net.kemitix.trello.AttachmentDirectoryImpl;
-import net.kemitix.trello.LoadCard;
 import net.kemitix.trello.TrelloConfig;
 import net.kemitix.trello.TrelloProducers;
 
@@ -41,12 +40,6 @@ public class SlushyTrelloProducers {
             TrelloConfig trelloConfig
     ) {
         return trelloProducers.member(trello, trelloConfig);
-    }
-
-    @Produces
-    @ApplicationScoped
-    LoadCard loadCard(SlushyBoard slushyBoard) {
-        return new LoadCard(slushyBoard.getTrelloBoard());
     }
 
     @Produces

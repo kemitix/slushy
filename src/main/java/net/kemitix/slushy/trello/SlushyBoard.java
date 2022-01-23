@@ -64,4 +64,8 @@ public class SlushyBoard {
     public List<Attachment> getAttachments(Card card) {
         return trelloBoard.getAttachments(card);
     }
+
+    public TrelloCard getCard(String cardId) {
+        return trelloBoard.getCard(cardId);
+    }
 }

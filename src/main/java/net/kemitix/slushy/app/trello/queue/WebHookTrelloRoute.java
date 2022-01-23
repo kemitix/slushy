@@ -2,8 +2,7 @@ package net.kemitix.slushy.app.trello.queue;
 
 import net.kemitix.slushy.app.config.ConfigProperties;
 import net.kemitix.slushy.app.inbox.DynamicInboxProperties;
-import net.kemitix.slushy.app.inbox.InboxProperties;
-import net.kemitix.trello.LoadCard;
+import net.kemitix.slushy.trello.CardLoader;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.support.processor.idempotent.MemoryIdempotentRepository;
 
@@ -15,20 +14,12 @@ import java.util.List;
 public class WebHookTrelloRoute
         extends RouteBuilder {
 
-    private final InboxProperties inboxProperties;
-    private final LoadCard loadCard;
-    private final ConfigProperties configProperties;
-
     @Inject
-    public WebHookTrelloRoute(
-            DynamicInboxProperties inboxProperties,
-            LoadCard loadCard,
-            ConfigProperties configProperties
-    ) {
-        this.inboxProperties = inboxProperties;
-        this.loadCard = loadCard;
-        this.configProperties = configProperties;
-    }
+    DynamicInboxProperties inboxProperties;
+    @Inject
+    CardLoader cardLoader;
+    @Inject
+    ConfigProperties configProperties;
 
     @Override
     public void configure() throws Exception {
@@ -103,7 +94,7 @@ public class WebHookTrelloRoute
                 .setHeader("ListName").jsonpath("body-json.action.data.list.name")
 
                 .setHeader("SlushyCardId").jsonpath("body-json.action.data.card.id")
-                .setBody().method(loadCard)
+                .setBody().method(cardLoader)
 
                 .log("Card Created in '${header.ListName}': '${header.SlushyCardName}'")
 
@@ -123,7 +114,7 @@ public class WebHookTrelloRoute
                 .setHeader("SlushyMovedTo").header("ListAfter")
 
                 .setHeader("SlushyCardId").jsonpath("body-json.action.data.card.id")
-                .setBody().method(loadCard)
+                .setBody().method(cardLoader)
 
                 .log("Moved Card '${header.SlushyCardName}' from '${header.SlushyMovedFrom}' to '${header.SlushyMovedTo}'")
 
