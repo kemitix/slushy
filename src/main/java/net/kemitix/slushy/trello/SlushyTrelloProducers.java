@@ -10,6 +10,7 @@ import net.kemitix.trello.TrelloProducers;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
+import java.io.IOException;
 
 @ApplicationScoped
 public class SlushyTrelloProducers {
@@ -44,7 +45,9 @@ public class SlushyTrelloProducers {
 
     @Produces
     @ApplicationScoped
-    AttachmentDirectory attachmentDirectory() {
-        return new AttachmentDirectoryImpl();
+    AttachmentDirectory attachmentDirectory() throws IOException {
+        final AttachmentDirectoryImpl attachmentDirectory = new AttachmentDirectoryImpl();
+        attachmentDirectory.init();
+        return attachmentDirectory;
     }
 }

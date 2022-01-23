@@ -27,6 +27,7 @@ public class SlushyBoard {
     @PostConstruct
     void init() {
         trelloBoard = new TrelloBoard(trello, trelloConfig);
+        trelloBoard.init();
     }
 
     public TrelloBoard getTrelloBoard() {
