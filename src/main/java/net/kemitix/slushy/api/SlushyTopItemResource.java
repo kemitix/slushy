@@ -12,12 +12,8 @@ import java.util.List;
 @Path("/slush/topitem")
 public class SlushyTopItemResource {
 
-    private final SlushyTopItem slushyTopItem;
-
     @Inject
-    public SlushyTopItemResource(SlushyTopItem slushyTopItem) {
-        this.slushyTopItem = slushyTopItem;
-    }
+    private SlushyTopItem slushyTopItem;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

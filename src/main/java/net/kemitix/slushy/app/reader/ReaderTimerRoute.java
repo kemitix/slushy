@@ -1,7 +1,7 @@
 package net.kemitix.slushy.app.reader;
 
 import net.kemitix.slushy.app.OnException;
-import net.kemitix.trello.TrelloBoard;
+import net.kemitix.slushy.trello.SlushyBoard;
 import org.apache.camel.builder.RouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -11,17 +11,10 @@ import javax.inject.Inject;
 public class ReaderTimerRoute
         extends RouteBuilder {
 
-    private final ReaderProperties readerProperties;
-    private final TrelloBoard trelloBoard;
-
     @Inject
-    public ReaderTimerRoute(
-            DynamicReaderProperties readerProperties,
-            TrelloBoard trelloBoard
-    ) {
-        this.readerProperties = readerProperties;
-        this.trelloBoard = trelloBoard;
-    }
+    DynamicReaderProperties readerProperties;
+    @Inject
+    SlushyBoard slushyBoard;
 
     @Override
     public void configure() {

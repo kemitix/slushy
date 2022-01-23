@@ -24,17 +24,10 @@ public class ValidFileTypes {
             "html", "htm"
     );
 
-    private final ConvertAttachment convertAttachment;
-    private final Instance<AttachmentConverter> attachmentConverters;
-
     @Inject
-    public ValidFileTypes(
-            ConvertAttachment convertAttachment,
-            Instance<AttachmentConverter> attachmentConverters
-    ) {
-        this.convertAttachment = convertAttachment;
-        this.attachmentConverters = attachmentConverters;
-    }
+    ConvertAttachment convertAttachment;
+    @Inject
+    Instance<AttachmentConverter> attachmentConverters;
 
     public List<String> get() {
         List<String> supported = new ArrayList<>(KINDLE_SUPPORTED);

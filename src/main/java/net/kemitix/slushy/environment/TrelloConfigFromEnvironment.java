@@ -1,4 +1,4 @@
-package net.kemitix.slushy.quarkus;
+package net.kemitix.slushy.environment;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,23 +12,29 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Log
 @Setter
 @Getter
 @ApplicationScoped
-public class QuarkusTrelloConfig
+public class TrelloConfigFromEnvironment
         implements TrelloConfig {
 
-    private String trelloKey = System.getenv("TRELLO_KEY");
-    private String trelloSecret = System.getenv("TRELLO_SECRET");
-    private String userName = System.getenv("SLUSHY_USER");
-    private String boardName = System.getenv("SLUSHY_BOARD");
-    private String sender = System.getenv("SLUSHY_SENDER");
-    private String reader = System.getenv("SLUSHY_READER");
-    private String webhook = System.getenv("SLUSHY_WEBHOOK");
+    private String trelloKey = requiredEnvironment("TRELLO_KEY");
+    private String trelloSecret = requiredEnvironment("TRELLO_SECRET");
+    private String userName = requiredEnvironment("SLUSHY_USER");
+    private String boardName = requiredEnvironment("SLUSHY_BOARD");
+    private String sender = requiredEnvironment("SLUSHY_SENDER");
+    private String reader = requiredEnvironment("SLUSHY_READER");
+    private String webhook = requiredEnvironment("SLUSHY_WEBHOOK");
 
     @Inject Instance<RetryProperties> retryConfigs;
+
+    private String requiredEnvironment(String key) {
+        return Objects.requireNonNull(System.getenv(key),
+                String.format("Required environment variable %s is not set", key));
+    }
 
     @PostConstruct
     void init() {

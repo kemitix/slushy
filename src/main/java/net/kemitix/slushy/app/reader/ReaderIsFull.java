@@ -1,7 +1,7 @@
 package net.kemitix.slushy.app.reader;
 
 import lombok.extern.java.Log;
-import net.kemitix.trello.TrelloBoard;
+import net.kemitix.slushy.trello.SlushyBoard;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -15,21 +15,15 @@ import java.util.concurrent.atomic.AtomicReference;
 @Log
 @ApplicationScoped
 public class ReaderIsFull {
-    private final ReaderProperties readerProperties;
-    private final TrelloBoard trelloBoard;
+
+    @Inject
+    DynamicReaderProperties readerProperties;
+    @Inject
+    SlushyBoard slushyBoard;
 
     private final AtomicInteger size = new AtomicInteger(0);
     private final AtomicReference<Instant> updated = new AtomicReference<>(Instant.MIN);
     private final TemporalAmount cachePeriod = Duration.of(1, ChronoUnit.MINUTES);
-
-    @Inject
-    public ReaderIsFull(
-            DynamicReaderProperties readerProperties,
-            TrelloBoard trelloBoard
-    ) {
-        this.readerProperties = readerProperties;
-        this.trelloBoard = trelloBoard;
-    }
 
     boolean test() {
         int maxSize = readerProperties.maxSize();
@@ -46,7 +40,7 @@ public class ReaderIsFull {
 
     private int getListSize() {
         if (updated.get().plus(cachePeriod).isBefore(Instant.now())) {
-            size.set(trelloBoard.getListCards(readerProperties.targetList()).size());
+            size.set(slushyBoard.getListCards(readerProperties.targetList()).size());
             log.info(String.format("Fetched trello list size: %d", size.get()));
             updated.set(Instant.now());
         }

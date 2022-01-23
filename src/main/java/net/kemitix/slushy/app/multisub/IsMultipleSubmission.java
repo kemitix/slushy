@@ -4,7 +4,7 @@ import lombok.NonNull;
 import net.kemitix.slushy.app.SlushyHeader;
 import net.kemitix.slushy.app.Submission;
 import net.kemitix.slushy.app.cardparsers.ParseSubmission;
-import net.kemitix.trello.TrelloBoard;
+import net.kemitix.slushy.trello.SlushyBoard;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
 
@@ -17,9 +17,12 @@ import java.util.function.Function;
 @ApplicationScoped
 public class IsMultipleSubmission {
 
-    @Inject DynamicMultiSubProperties multiSubProperties;
-    @Inject TrelloBoard trelloBoard;
-    @Inject ParseSubmission parseSubmission;
+    @Inject
+    DynamicMultiSubProperties multiSubProperties;
+    @Inject
+    SlushyBoard slushyBoard;
+    @Inject
+    ParseSubmission parseSubmission;
 
     // if email or paypal in any of slush, reject, hold, held
     @Handler
@@ -29,7 +32,7 @@ public class IsMultipleSubmission {
         var matchSubmission = subComparator(submission);
         return Arrays.stream(multiSubProperties.lists().split(","))
                 .map(String::trim)
-                .map(trelloBoard::getListCards)
+                .map(slushyBoard::getListCards)
                 .flatMap(Collection::stream)
                 .map(parseSubmission::parse)
                 .filter(matchSubmission::apply)

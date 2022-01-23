@@ -18,17 +18,10 @@ import java.util.Optional;
 @ApplicationScoped
 public class ConvertAttachment {
 
-    private final Instance<AttachmentConverter> attachmentConverters;
-    private final AttachmentDirectory attachmentDirectory;
-
     @Inject
-    public ConvertAttachment(
-            Instance<AttachmentConverter> attachmentConverters,
-            AttachmentDirectory attachmentDirectory
-    ) {
-        this.attachmentConverters = attachmentConverters;
-        this.attachmentDirectory = attachmentDirectory;
-    }
+    Instance<AttachmentConverter> attachmentConverters;
+    @Inject
+    AttachmentDirectory attachmentDirectory;
 
     @Handler
     public LocalAttachment convert(

@@ -5,7 +5,7 @@ import net.kemitix.slushy.app.Genre;
 import net.kemitix.slushy.app.cardparsers.ParseSubmission;
 import net.kemitix.slushy.app.Submission;
 import net.kemitix.slushy.app.WordLengthBand;
-import net.kemitix.trello.TrelloBoard;
+import net.kemitix.slushy.trello.SlushyBoard;
 import net.kemitix.trello.TrelloCard;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +32,7 @@ class IsMultipleSubmissionTest
     ParseSubmission parser;
 
     @Mock
-    TrelloBoard board;
+    SlushyBoard slushyBoard;
 
     @InjectMocks
     IsMultipleSubmission sut = new IsMultipleSubmission();
@@ -84,7 +84,7 @@ class IsMultipleSubmissionTest
     @BeforeEach
     void setUp() {
         given(config.lists()).willReturn("list");
-        given(board.getListCards("list")).willReturn(cardList);
+        given(slushyBoard.getListCards("list")).willReturn(cardList);
     }
 
     @Test

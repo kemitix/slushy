@@ -15,7 +15,7 @@ class ErrorHolderTest
     @Test
     void addedErrorsHaveIncrementingId() {
         //given
-        final ErrorHolder errorHolder = new ErrorHolder(Instant::now);
+        final ErrorHolder errorHolder = defaultErrorHolder();
 
         //when
         final ErrorHolder.Error error1 = errorHolder.add("error 1");
@@ -29,7 +29,7 @@ class ErrorHolderTest
     @Test
     void addAndGet() {
         //given
-        final ErrorHolder errorHolder = new ErrorHolder(Instant::now);
+        final ErrorHolder errorHolder = defaultErrorHolder();
 
         //when
         final ErrorHolder.Error error = errorHolder.add("message");
@@ -42,7 +42,7 @@ class ErrorHolderTest
     @Test
     void acknowledgedErrorIsGone() {
         //given
-        final ErrorHolder errorHolder = new ErrorHolder(Instant::now);
+        final ErrorHolder errorHolder = defaultErrorHolder();
         final ErrorHolder.Error error = errorHolder.add("message");
 
         //when
@@ -55,7 +55,7 @@ class ErrorHolderTest
     @Test
     void addOverMaxErrors() {
         //given
-        final ErrorHolder errorHolder = new ErrorHolder(Instant::now);
+        final ErrorHolder errorHolder = defaultErrorHolder();
         for (int i = 1; i <= 12; i++) {
             errorHolder.add("#" + i);
         }
@@ -75,7 +75,8 @@ class ErrorHolderTest
     void messagesExpire() {
         //given
         Now now = mock(Now.class);
-        final ErrorHolder errorHolder = new ErrorHolder(now);
+        final ErrorHolder errorHolder = new ErrorHolder();
+        errorHolder.now = now;
         given(now.get())
                 .willReturn(Instant.ofEpochSecond(1234)) // insertion time
                 .willReturn(Instant.ofEpochSecond(123456789)); // query time
@@ -88,6 +89,8 @@ class ErrorHolderTest
     }
 
     private ErrorHolder defaultErrorHolder() {
-        return new ErrorHolder(Instant::now);
+        final ErrorHolder errorHolder = new ErrorHolder();
+        errorHolder.now = Instant::now;
+        return errorHolder;
     }
 }

@@ -31,7 +31,9 @@ public class ValidFileTypesTest
 
     @BeforeEach
     public void setUp() {
-        validFileTypes = new ValidFileTypes(convertAttachment, attachmentConverters);
+        validFileTypes = new ValidFileTypes();
+        validFileTypes.convertAttachment = convertAttachment;
+        validFileTypes.attachmentConverters =  attachmentConverters;
     }
 
     @Test

@@ -12,12 +12,14 @@
 
     <groupId>net.kemitix.slushy</groupId>
     <artifactId>slushy</artifactId>
-    <version>3.3.0</version>
+    <version>4.0.0-SNAPSHOT</version>
+    <packaging>war</packaging>
 
     <properties>
         <tiles-maven-plugin.version>2.25</tiles-maven-plugin.version>
         <kemitix-tiles.version>3.2.0</kemitix-tiles.version>
 
+        <jakarta.jakartaee-api.version>8.0.0</jakarta.jakartaee-api.version>
         <camel.version>3.14.0</camel.version>
         <lombok.version>1.18.22</lombok.version>
         <javax.mail.version>1.5.0-b01</javax.mail.version>
@@ -27,11 +29,10 @@
         <odftoolkit.version>1.0.6</odftoolkit.version>
         <microprofile.version>5.0</microprofile.version>
         <resteasy-core-spi.version>4.6.0.Final</resteasy-core-spi.version>
-        <kemitix-trello.version>1.1.0</kemitix-trello.version>
+        <kemitix-trello.version>2.0.0</kemitix-trello.version>
         <commons-text.version>1.9</commons-text.version>
         <zt-exec.version>1.12</zt-exec.version>
 
-        <quarkus.version>2.6.3.Final</quarkus.version>
         <maven.compiler.parameters>true</maven.compiler.parameters>
         <maven-graph-plugin.version>1.45</maven-graph-plugin.version>
     </properties>
@@ -39,18 +40,10 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>io.quarkus.platform</groupId>
-                <artifactId>quarkus-bom</artifactId>
-                <version>${quarkus.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>io.quarkus.platform</groupId>
-                <artifactId>quarkus-camel-bom</artifactId>
-                <version>${quarkus.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
+                <groupId>jakarta.platform</groupId>
+                <artifactId>jakarta.jakartaee-api</artifactId>
+                <version>${jakarta.jakartaee-api.version}</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.apache.camel</groupId>
@@ -71,6 +64,16 @@
 
     <dependencies>
         <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.microprofile.config</groupId>
+            <artifactId>microprofile-config-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
             <version>${javax.mail.version}</version>
@@ -79,10 +82,7 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-arc</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.kemitix</groupId>
@@ -98,16 +98,13 @@
             <artifactId>microprofile-rest-client-api</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-cdi</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-core-spi</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-rest-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-resteasy-jsonb</artifactId>
+            <version>6.0.0.Final</version>
         </dependency>
         <dependency>
             <groupId>org.zeroturnaround</groupId>
@@ -120,52 +117,48 @@
             <version>${commons-text.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-resteasy</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-velocity</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.camel.quarkus</groupId>
-            <artifactId>camel-quarkus-core</artifactId>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.camel.quarkus</groupId>
-            <artifactId>camel-quarkus-seda</artifactId>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-seda</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.camel.quarkus</groupId>
-            <artifactId>camel-quarkus-timer</artifactId>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-timer</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.camel.quarkus</groupId>
-            <artifactId>camel-quarkus-direct</artifactId>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-direct</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.camel.quarkus</groupId>
-            <artifactId>camel-quarkus-bean</artifactId>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-bean</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.camel.quarkus</groupId>
-            <artifactId>camel-quarkus-jsonpath</artifactId>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-jsonpath</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.camel.quarkus</groupId>
-            <artifactId>camel-quarkus-log</artifactId>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-log</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.camel.quarkus</groupId>
-            <artifactId>camel-quarkus-platform-http</artifactId>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-platform-http</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.camel.quarkus</groupId>
-            <artifactId>camel-quarkus-aws2-sqs</artifactId>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-aws2-sqs</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.camel.quarkus</groupId>
-            <artifactId>camel-quarkus-aws2-ses</artifactId>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-aws2-ses</artifactId>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -196,11 +189,21 @@
             <artifactId>version-tracker</artifactId>
             <version>${kemitix-tiles.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.smallrye.config</groupId>
+            <artifactId>smallrye-config-core</artifactId>
+            <version>2.6.1</version>
+        </dependency>
     </dependencies>
 
     <build>
         <finalName>slushy</finalName>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.1</version>
+            </plugin>
             <plugin>
                 <groupId>io.repaint.maven</groupId>
                 <artifactId>tiles-maven-plugin</artifactId>
@@ -212,18 +215,6 @@
                         <tile>net.kemitix.tiles:compiler-jdk-lts:${kemitix-tiles.version}</tile>
                     </tiles>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>io.quarkus</groupId>
-                <artifactId>quarkus-maven-plugin</artifactId>
-                <version>${quarkus.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>build</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

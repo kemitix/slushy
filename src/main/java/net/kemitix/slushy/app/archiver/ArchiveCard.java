@@ -3,8 +3,8 @@ package net.kemitix.slushy.app.archiver;
 import lombok.NonNull;
 import lombok.extern.java.Log;
 import net.kemitix.slushy.app.SlushyHeader;
+import net.kemitix.slushy.trello.SlushyBoard;
 import net.kemitix.trello.TrelloCard;
-import net.kemitix.trello.TrelloBoard;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
 
@@ -15,14 +15,15 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class ArchiveCard {
 
-    @Inject TrelloBoard trelloBoard;
+    @Inject
+    SlushyBoard slushyBoard;
 
     @Handler
     void archiveCard(
             @NonNull @Header(SlushyHeader.CARD) TrelloCard card
     ) {
         card.setClosed(true);
-        trelloBoard.updateCard(card);
+        slushyBoard.updateCard(card);
         log.info("Archived: " + card.getName());
     }
 

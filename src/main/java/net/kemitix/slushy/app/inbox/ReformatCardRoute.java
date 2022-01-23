@@ -8,12 +8,9 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class ReformatCardRoute
         extends RouteBuilder {
-    private final ReformatCard reformatCard;
 
     @Inject
-    public ReformatCardRoute(ReformatCard reformatCard) {
-        this.reformatCard = reformatCard;
-    }
+    private ReformatCard reformatCard;
 
     @Override
     public void configure() {

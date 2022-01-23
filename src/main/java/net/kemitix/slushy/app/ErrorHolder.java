@@ -14,18 +14,14 @@ import java.util.stream.Collectors;
 @ApplicationScoped
 public class ErrorHolder {
 
+    @Inject
+    Now now;
+
     private final Integer maxCapacity = 10;
     private final Integer maxAgeSeconds = 1 * 24 * 60 * 60; // 1 day
 
-    private final Now now;
-
-    private AtomicInteger errorId = new AtomicInteger();
-    private Map<Integer, Error> errors = new HashMap<>();
-
-    @Inject
-    public ErrorHolder(Now now) {
-        this.now = now;
-    }
+    private final AtomicInteger errorId = new AtomicInteger();
+    private final Map<Integer, Error> errors = new HashMap<>();
 
     public Error add(String message) {
         final int id = errorId.incrementAndGet();

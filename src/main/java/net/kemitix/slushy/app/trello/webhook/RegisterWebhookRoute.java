@@ -9,12 +9,8 @@ import javax.inject.Inject;
 public class RegisterWebhookRoute
         extends RouteBuilder {
 
-    private final RegisterWebhook registerWebhook;
-
     @Inject
-    public RegisterWebhookRoute(RegisterWebhook registerWebhook) {
-        this.registerWebhook = registerWebhook;
-    }
+    private RegisterWebhook registerWebhook;
 
     @Override
     public void configure() {

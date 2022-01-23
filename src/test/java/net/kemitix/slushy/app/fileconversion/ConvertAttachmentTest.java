@@ -43,7 +43,9 @@ public class ConvertAttachmentTest
 
     @BeforeEach
     public void setUp() {
-        service = new ConvertAttachment(converters, attachmentDirectory);
+        service = new ConvertAttachment();
+        service.attachmentConverters = converters;
+        service.attachmentDirectory = attachmentDirectory;
     }
 
     @Test

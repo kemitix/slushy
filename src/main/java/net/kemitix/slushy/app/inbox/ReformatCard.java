@@ -4,7 +4,7 @@ import lombok.NonNull;
 import net.kemitix.slushy.app.Now;
 import net.kemitix.slushy.app.SlushyHeader;
 import net.kemitix.slushy.app.Submission;
-import net.kemitix.trello.TrelloBoard;
+import net.kemitix.slushy.trello.SlushyBoard;
 import net.kemitix.trello.TrelloCard;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
@@ -24,20 +24,13 @@ public class ReformatCard {
 
     public static final String ORIGINAL_MARKER = "# Original";
     public static final String LATEST_FORMAT_MARKER = "## Summary Format 2";
-    private final InboxProperties inboxProperties;
-    private final Now now;
-    private final TrelloBoard trelloBoard;
 
     @Inject
-    public ReformatCard(
-            DynamicInboxProperties inboxProperties,
-            Now now,
-            TrelloBoard trelloBoard
-    ) {
-        this.inboxProperties = inboxProperties;
-        this.now = now;
-        this.trelloBoard = trelloBoard;
-    }
+    InboxProperties inboxProperties;
+    @Inject
+    Now now;
+    @Inject
+    SlushyBoard slushyBoard;
 
     @Handler
     Submission reformat(
@@ -59,7 +52,7 @@ public class ReformatCard {
             insertSummary(submission, card);
         }
         // Save
-        trelloBoard.updateCard(card);
+        slushyBoard.updateCard(card);
 
         return submission;
     }

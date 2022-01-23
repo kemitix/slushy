@@ -1,7 +1,7 @@
 package net.kemitix.slushy.app.reader;
 
+import net.kemitix.slushy.trello.SlushyBoard;
 import net.kemitix.trello.TrelloCard;
-import net.kemitix.trello.TrelloBoard;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +19,8 @@ public class ReaderIsFullTest
 
     @Mock
     DynamicReaderProperties readerProperties;
-    @Mock TrelloBoard trelloBoard;
+    @Mock
+    SlushyBoard slushyBoard;
 
     @InjectMocks ReaderIsFull readerIsFull;
 
@@ -39,7 +40,7 @@ public class ReaderIsFullTest
     private void givenListSize(int listSize) {
         String listName = "list-name";
         given(readerProperties.targetList()).willReturn(listName);
-        given(trelloBoard.getListCards(listName)).willReturn(targetList);
+        given(slushyBoard.getListCards(listName)).willReturn(targetList);
         given(targetList.size()).willReturn(listSize);
     }
 

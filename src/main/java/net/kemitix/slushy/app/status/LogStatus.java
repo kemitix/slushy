@@ -2,7 +2,7 @@ package net.kemitix.slushy.app.status;
 
 import lombok.extern.java.Log;
 import net.kemitix.slushy.app.ErrorHolder;
-import net.kemitix.trello.TrelloBoard;
+import net.kemitix.slushy.trello.SlushyBoard;
 import net.kemitix.trello.TrelloCard;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -24,8 +24,10 @@ public class LogStatus {
             DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG)
                     .withLocale(Locale.UK)
                     .withZone(ZoneId.of("Europe/London"));
-    @Inject TrelloBoard trelloBoard;
-    @Inject DynamicStatusProperties statusProperties;
+    @Inject
+    SlushyBoard slushyBoard;
+    @Inject
+    DynamicStatusProperties statusProperties;
     @Inject
     ErrorHolder errorHolder;
 
@@ -36,10 +38,10 @@ public class LogStatus {
         String dateTime = DATE_TIME_FORMATTER.format(Instant.now());
         status.add("Last updated: " + dateTime);
         status.add("---");
-        trelloBoard.getListNames()
+        slushyBoard.getListNames()
                 .forEach(listName ->
                         status.add(String.format("%4d: %s\n",
-                                trelloBoard.getListCards(listName).size(),
+                                slushyBoard.getListCards(listName).size(),
                                 listName)));
         final List<ErrorHolder.Error> errors = errorHolder.errors();
         status.add("Errors: " + errors.size());
@@ -69,7 +71,7 @@ public class LogStatus {
     }
 
     private Optional<TrelloCard> findStatusCard() {
-        return trelloBoard.getListCards(statusProperties.listName())
+        return slushyBoard.getListCards(statusProperties.listName())
                 .stream()
                 .filter(card -> statusProperties.cardName().equals(card.getName()))
                 .findFirst();
