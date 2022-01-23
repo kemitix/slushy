@@ -24,20 +24,13 @@ public class ReformatCard {
 
     public static final String ORIGINAL_MARKER = "# Original";
     public static final String LATEST_FORMAT_MARKER = "## Summary Format 2";
-    private final InboxProperties inboxProperties;
-    private final Now now;
-    private final TrelloBoard trelloBoard;
 
     @Inject
-    public ReformatCard(
-            DynamicInboxProperties inboxProperties,
-            Now now,
-            TrelloBoard trelloBoard
-    ) {
-        this.inboxProperties = inboxProperties;
-        this.now = now;
-        this.trelloBoard = trelloBoard;
-    }
+    InboxProperties inboxProperties;
+    @Inject
+    Now now;
+    @Inject
+    TrelloBoard trelloBoard;
 
     @Handler
     Submission reformat(

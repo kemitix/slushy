@@ -13,12 +13,8 @@ import java.util.Optional;
 @ApplicationScoped
 public class AttachmentDownloadValidator {
 
-    private final ErrorHolder errorHolder;
-
     @Inject
-    public AttachmentDownloadValidator(final ErrorHolder errorHolder) {
-        this.errorHolder = errorHolder;
-    }
+    private ErrorHolder errorHolder;
 
     public Optional<LocalAttachment> apply(LocalAttachment localAttachment) {
         try {

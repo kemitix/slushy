@@ -11,12 +11,8 @@ import java.util.List;
 @ApplicationScoped
 public class LoadList {
 
-    private final TrelloBoard trelloBoard;
-
     @Inject
-    public LoadList(TrelloBoard trelloBoard) {
-        this.trelloBoard = trelloBoard;
-    }
+    private TrelloBoard trelloBoard;
 
     public List<TrelloCard> loadList(@Header("ListName") String listName) {
         return trelloBoard.getListCards(listName);

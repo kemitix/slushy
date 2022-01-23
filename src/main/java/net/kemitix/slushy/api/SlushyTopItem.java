@@ -16,20 +16,12 @@ import java.util.stream.Collectors;
 @ApplicationScoped
 public class SlushyTopItem {
 
-    private final TrelloBoard trelloBoard;
-    private final ReaderProperties readerProperties;
-    private final ParseSubmission parseSubmission;
-
     @Inject
-    public SlushyTopItem(
-            TrelloBoard trelloBoard,
-            DynamicReaderProperties readerProperties,
-            ParseSubmission parseSubmission
-    ) {
-        this.trelloBoard = trelloBoard;
-        this.readerProperties = readerProperties;
-        this.parseSubmission = parseSubmission;
-    }
+    private TrelloBoard trelloBoard;
+    @Inject
+    private DynamicReaderProperties readerProperties;
+    @Inject
+    private ParseSubmission parseSubmission;
 
     public List<Submission> topItem() {
         return trelloBoard.getListCards(readerProperties.targetList())

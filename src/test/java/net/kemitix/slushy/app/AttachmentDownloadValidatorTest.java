@@ -19,7 +19,13 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 class AttachmentDownloadValidatorTest
         implements WithAssertions, WithAssumptions {
 
-    private ErrorHolder errorHolder = new ErrorHolder(Instant::now);
+    private final ErrorHolder errorHolder = getErrorHolder();
+
+    private ErrorHolder getErrorHolder() {
+        final ErrorHolder errorHolder = new ErrorHolder();
+        errorHolder.now = Instant::now;
+        return errorHolder;
+    }
 
     @Nested
     @DisplayName("Trello provides an attachment")
@@ -36,7 +42,7 @@ class AttachmentDownloadValidatorTest
         final long length = Files.copy(source, tempFile.toPath(), REPLACE_EXISTING);
         LocalAttachment attachment =
                 new LocalAttachment(tempFile, new File(fileName), length);
-        final AttachmentDownloadValidator sut = new AttachmentDownloadValidator(errorHolder);
+        final AttachmentDownloadValidator sut = new AttachmentDownloadValidator();
 
         @Test
         void passesNormalFile() {
@@ -63,7 +69,7 @@ class AttachmentDownloadValidatorTest
         final long length = Files.copy(source, tempFile.toPath(), REPLACE_EXISTING);
         LocalAttachment attachment =
                 new LocalAttachment(tempFile, new File(fileName), length);
-        final AttachmentDownloadValidator sut = new AttachmentDownloadValidator(errorHolder);
+        final AttachmentDownloadValidator sut = new AttachmentDownloadValidator();
 
         @Test
         void passesNormalFile() {
@@ -90,7 +96,7 @@ class AttachmentDownloadValidatorTest
         final long length = Files.copy(source, tempFile.toPath(), REPLACE_EXISTING);
         LocalAttachment attachment =
                 new LocalAttachment(tempFile, new File(fileName), length);
-        final AttachmentDownloadValidator sut = new AttachmentDownloadValidator(errorHolder);
+        final AttachmentDownloadValidator sut = new AttachmentDownloadValidator();
 
         @Test
         void canDetectAnHtmlLoginPage() {

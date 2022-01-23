@@ -33,7 +33,7 @@ public class ReformatCardTest
     TrelloBoard trelloBoard = mock(TrelloBoard.class);
 
     // subjects
-    ReformatCard reformatCard = new ReformatCard(inboxProperties, now, trelloBoard);
+    ReformatCard reformatCard = new ReformatCard();
 
     // parameters
     TrelloCard card = mock(TrelloCard.class);
@@ -46,6 +46,10 @@ public class ReformatCardTest
 
     @BeforeEach
     void setUp() {
+        reformatCard.inboxProperties = inboxProperties;
+        reformatCard.now = now;
+        reformatCard.trelloBoard = trelloBoard;
+
         given(now.get()).willReturn(Instant.ofEpochSecond(1234567890));
         given(submission.getTitle()).willReturn(storyTitle);
         given(submission.getByline()).willReturn(authorByline);

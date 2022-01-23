@@ -15,21 +15,15 @@ import java.util.concurrent.atomic.AtomicReference;
 @Log
 @ApplicationScoped
 public class ReaderIsFull {
-    private final ReaderProperties readerProperties;
-    private final TrelloBoard trelloBoard;
+
+    @Inject
+    private DynamicReaderProperties readerProperties;
+    @Inject
+    private TrelloBoard trelloBoard;
 
     private final AtomicInteger size = new AtomicInteger(0);
     private final AtomicReference<Instant> updated = new AtomicReference<>(Instant.MIN);
     private final TemporalAmount cachePeriod = Duration.of(1, ChronoUnit.MINUTES);
-
-    @Inject
-    public ReaderIsFull(
-            DynamicReaderProperties readerProperties,
-            TrelloBoard trelloBoard
-    ) {
-        this.readerProperties = readerProperties;
-        this.trelloBoard = trelloBoard;
-    }
 
     boolean test() {
         int maxSize = readerProperties.maxSize();

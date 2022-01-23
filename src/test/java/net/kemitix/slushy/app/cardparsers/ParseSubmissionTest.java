@@ -13,7 +13,6 @@ import net.kemitix.slushy.app.fileconversion.ConvertAttachment;
 import net.kemitix.trello.TrelloBoard;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -45,7 +44,6 @@ public class ParseSubmissionTest
     private final Now now = () -> Instant.ofEpochSecond(123456789);
 
     @Mock TrelloBoard trelloBoard;
-    @Mock ConvertAttachment convertAttachment;
     @Mock Instance<AttachmentConverter> attachmentConverters;
     @Mock AttachmentConverter attachmentConverter;
     @Mock Instance<CardParser> cardParsers;
@@ -62,8 +60,7 @@ public class ParseSubmissionTest
                 cardParser(FormSubmitCoCardParser::new, cardBodyCleaner),
                 cardParser(FormSubmitIoCardParser::new, cardBodyCleaner)
         ));
-        parseSubmission.validFileTypes =
-                new ValidFileTypes(convertAttachment, attachmentConverters);
+        parseSubmission.validFileTypes = new ValidFileTypes();
         given(attachmentConverters.stream())
                 .willReturn(Stream.of(attachmentConverter));
         given(attachmentConverter.canConvertFrom())

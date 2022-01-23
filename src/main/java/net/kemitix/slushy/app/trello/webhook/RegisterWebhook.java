@@ -14,21 +14,13 @@ import javax.ws.rs.core.Response;
 @ApplicationScoped
 public class RegisterWebhook {
 
-    private final TrelloConfig trelloConfig;
-    private final TrelloBoard trelloBoard;
-
+    @Inject
+    private TrelloConfig trelloConfig;
+    @Inject
+    private TrelloBoard trelloBoard;
     @Inject
     @RestClient
     TrelloWebhookService trelloWebhookService;
-
-    @Inject
-    public RegisterWebhook(
-            TrelloConfig trelloConfig,
-            TrelloBoard trelloBoard
-    ) {
-        this.trelloConfig = trelloConfig;
-        this.trelloBoard = trelloBoard;
-    }
 
     //$.post("https://api.trello.com/1/tokens/{APIToken}/webhooks/?key={APIKey}", {
     //  description: "My first webhook",
