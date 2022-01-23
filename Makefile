@@ -1,15 +1,3 @@
-default: docker
-
-install: .install
-
-.install:
-	mvn install
-	touch .install
-
-clean:
-	mvn clean
-	if [ -f .install ];then rm .install;fi
-
 TAG := kemitix/slushy:$(shell git describe --tags)
 
 docker:
