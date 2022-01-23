@@ -9,8 +9,7 @@ import net.kemitix.slushy.app.Now;
 import net.kemitix.slushy.app.ValidFileTypes;
 import net.kemitix.slushy.app.WordLengthBand;
 import net.kemitix.slushy.app.fileconversion.AttachmentConverter;
-import net.kemitix.slushy.app.fileconversion.ConvertAttachment;
-import net.kemitix.trello.TrelloBoard;
+import net.kemitix.slushy.trello.SlushyBoard;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -43,15 +42,19 @@ public class ParseSubmissionTest
 
     private final Now now = () -> Instant.ofEpochSecond(123456789);
 
-    @Mock TrelloBoard trelloBoard;
-    @Mock Instance<AttachmentConverter> attachmentConverters;
-    @Mock AttachmentConverter attachmentConverter;
-    @Mock Instance<CardParser> cardParsers;
+    @Mock
+    SlushyBoard slushyBoard;
+    @Mock
+    Instance<AttachmentConverter> attachmentConverters;
+    @Mock
+    AttachmentConverter attachmentConverter;
+    @Mock
+    Instance<CardParser> cardParsers;
 
     @BeforeEach
     public void setUp() {
         parseSubmission.now = now;
-        parseSubmission.trelloBoard = trelloBoard;
+        parseSubmission.slushyBoard = slushyBoard;
         parseSubmission.cardParsers = cardParsers;
         CardBodyCleaner cardBodyCleaner = new CardBodyCleaner();
         given(cardParsers.stream()).willReturn(Stream.of(
@@ -98,7 +101,7 @@ public class ParseSubmissionTest
                         String.join("\n",
                                 Files.readAllLines(Paths.get(getValidResource().toURI())));
                 card.setDesc(validCardDescription);
-                given(trelloBoard.getAttachments(card))
+                given(slushyBoard.getAttachments(card))
                         .willReturn(List.of(new Attachment(documentUrl)));
             }
 
@@ -210,7 +213,7 @@ public class ParseSubmissionTest
             @ValueSource(strings = {"MOBI", "AZW", "DOC", "DOCX", "HTML", "HTM", "TXT"})
             public void acceptsKindleTypes(String type) {
                 documentUrl = "document." + type;
-                given(trelloBoard.getAttachments(card))
+                given(slushyBoard.getAttachments(card))
                         .willReturn(List.of(new Attachment(documentUrl)));
                 assertThat(parseSubmission.parse(card).getDocument())
                         .isEqualTo(documentUrl);
@@ -221,7 +224,7 @@ public class ParseSubmissionTest
             @ValueSource(strings = {"ODT", "RTF"})
             public void acceptsConvertibleTypes(String type) {
                 documentUrl = "document." + type;
-                given(trelloBoard.getAttachments(card))
+                given(slushyBoard.getAttachments(card))
                         .willReturn(List.of(new Attachment(documentUrl)));
                 assertThat(parseSubmission.parse(card).getDocument())
                         .isEqualTo(documentUrl);
@@ -231,7 +234,7 @@ public class ParseSubmissionTest
             @DisplayName("Reject invalid file type")
             public void rejectInvalidType() {
                 documentUrl = "document.JPG";
-                given(trelloBoard.getAttachments(card))
+                given(slushyBoard.getAttachments(card))
                         .willReturn(List.of(new Attachment(documentUrl)));
                 assertThat(parseSubmission.parse(card).getDocument())
                         .isNull();
@@ -294,7 +297,7 @@ public class ParseSubmissionTest
                         String.join("\n",
                                 Files.readAllLines(Paths.get(getValidResource().toURI())));
                 card.setDesc(validCardDescription);
-                given(trelloBoard.getAttachments(card))
+                given(slushyBoard.getAttachments(card))
                         .willReturn(List.of(new Attachment(documentUrl)));
             }
 
@@ -406,7 +409,7 @@ public class ParseSubmissionTest
             @ValueSource(strings = {"MOBI", "AZW", "DOC", "DOCX", "HTML", "HTM", "TXT"})
             public void acceptsKindleTypes(String type) {
                 documentUrl = "document." + type;
-                given(trelloBoard.getAttachments(card))
+                given(slushyBoard.getAttachments(card))
                         .willReturn(List.of(new Attachment(documentUrl)));
                 assertThat(parseSubmission.parse(card).getDocument())
                         .isEqualTo(documentUrl);
@@ -417,7 +420,7 @@ public class ParseSubmissionTest
             @ValueSource(strings = {"ODT", "RTF"})
             public void acceptsConvertibleTypes(String type) {
                 documentUrl = "document." + type;
-                given(trelloBoard.getAttachments(card))
+                given(slushyBoard.getAttachments(card))
                         .willReturn(List.of(new Attachment(documentUrl)));
                 assertThat(parseSubmission.parse(card).getDocument())
                         .isEqualTo(documentUrl);
@@ -427,7 +430,7 @@ public class ParseSubmissionTest
             @DisplayName("Reject invalid file type")
             public void rejectInvalidType() {
                 documentUrl = "document.JPG";
-                given(trelloBoard.getAttachments(card))
+                given(slushyBoard.getAttachments(card))
                         .willReturn(List.of(new Attachment(documentUrl)));
                 assertThat(parseSubmission.parse(card).getDocument())
                         .isNull();

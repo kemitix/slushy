@@ -1,7 +1,7 @@
 package net.kemitix.slushy.app;
 
+import net.kemitix.slushy.trello.SlushyBoard;
 import net.kemitix.trello.TrelloCard;
-import net.kemitix.trello.TrelloBoard;
 import org.apache.camel.Header;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -12,10 +12,10 @@ import java.util.List;
 public class LoadList {
 
     @Inject
-    private TrelloBoard trelloBoard;
+    SlushyBoard slushyBoard;
 
     public List<TrelloCard> loadList(@Header("ListName") String listName) {
-        return trelloBoard.getListCards(listName);
+        return slushyBoard.getListCards(listName);
     }
 
 }

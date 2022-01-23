@@ -4,7 +4,7 @@ import lombok.NonNull;
 import net.kemitix.slushy.app.Now;
 import net.kemitix.slushy.app.SlushyHeader;
 import net.kemitix.slushy.app.Submission;
-import net.kemitix.trello.TrelloBoard;
+import net.kemitix.slushy.trello.SlushyBoard;
 import net.kemitix.trello.TrelloCard;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
@@ -30,7 +30,7 @@ public class ReformatCard {
     @Inject
     Now now;
     @Inject
-    TrelloBoard trelloBoard;
+    SlushyBoard slushyBoard;
 
     @Handler
     Submission reformat(
@@ -52,7 +52,7 @@ public class ReformatCard {
             insertSummary(submission, card);
         }
         // Save
-        trelloBoard.updateCard(card);
+        slushyBoard.updateCard(card);
 
         return submission;
     }

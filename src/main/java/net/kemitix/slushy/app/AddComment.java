@@ -1,8 +1,8 @@
 package net.kemitix.slushy.app;
 
 import lombok.NonNull;
+import net.kemitix.slushy.trello.SlushyBoard;
 import net.kemitix.trello.TrelloCard;
-import net.kemitix.trello.TrelloBoard;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
 
@@ -12,7 +12,8 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class AddComment {
 
-    @Inject TrelloBoard trelloBoard;
+    @Inject
+    SlushyBoard slushyBoard;
 
     @Handler
     void add(
@@ -20,7 +21,7 @@ public class AddComment {
             @NonNull @Header("SlushyComment") String comment
     ) {
         card.addComment(comment);
-        trelloBoard.updateCard(card);
+        slushyBoard.updateCard(card);
     }
 
 }

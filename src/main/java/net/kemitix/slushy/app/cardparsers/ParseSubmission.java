@@ -11,7 +11,7 @@ import net.kemitix.slushy.app.Submission;
 import net.kemitix.slushy.app.UnknownCardFormatException;
 import net.kemitix.slushy.app.ValidFileTypes;
 import net.kemitix.slushy.app.WordLengthBand;
-import net.kemitix.trello.TrelloBoard;
+import net.kemitix.slushy.trello.SlushyBoard;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
 
@@ -27,10 +27,12 @@ public class ParseSubmission {
 
     @Inject
     Now now;
-    @Inject TrelloBoard trelloBoard;
+    @Inject
+    SlushyBoard slushyBoard;
     @Inject
     ValidFileTypes validFileTypes;
-    @Inject Instance<CardParser> cardParsers;
+    @Inject
+    Instance<CardParser> cardParsers;
 
     @Handler
     public Submission parse(
@@ -55,7 +57,7 @@ public class ParseSubmission {
     }
 
     private String getAttachmentUrl(Card card) {
-        return trelloBoard.getAttachments(card)
+        return slushyBoard.getAttachments(card)
                 .stream()
                 .map(Attachment::getUrl)
                 .filter(this::validExtension)

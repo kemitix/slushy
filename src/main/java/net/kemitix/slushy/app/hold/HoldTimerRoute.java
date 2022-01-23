@@ -2,7 +2,7 @@ package net.kemitix.slushy.app.hold;
 
 import net.kemitix.slushy.app.IsRequiredAge;
 import net.kemitix.slushy.app.OnException;
-import net.kemitix.trello.TrelloBoard;
+import net.kemitix.slushy.trello.SlushyBoard;
 import org.apache.camel.builder.RouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -14,9 +14,12 @@ import static org.apache.camel.builder.Builder.bean;
 public class HoldTimerRoute
         extends RouteBuilder {
 
-    @Inject DynamicHoldProperties holdProperties;
-    @Inject TrelloBoard trelloBoard;
-    @Inject IsRequiredAge isRequiredAge;
+    @Inject
+    DynamicHoldProperties holdProperties;
+    @Inject
+    SlushyBoard slushyBoard;
+    @Inject
+    IsRequiredAge isRequiredAge;
 
     @Override
     public void configure() {
@@ -24,7 +27,7 @@ public class HoldTimerRoute
 
         fromF("timer:hold?period=%s", holdProperties.scanPeriod())
                 .routeId("Slushy.Hold")
-                .setBody(exchange -> trelloBoard.getListCards(holdProperties.sourceList()))
+                .setBody(exchange -> slushyBoard.getListCards(holdProperties.sourceList()))
                 .split(body())
                 .setHeader("SlushyRequiredAge", holdProperties::requiredAgeHours)
                 .filter(bean(isRequiredAge))

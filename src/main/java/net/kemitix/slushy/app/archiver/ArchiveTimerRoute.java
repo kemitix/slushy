@@ -2,7 +2,7 @@ package net.kemitix.slushy.app.archiver;
 
 import net.kemitix.slushy.app.IsRequiredAge;
 import net.kemitix.slushy.app.OnException;
-import net.kemitix.trello.TrelloBoard;
+import net.kemitix.slushy.trello.SlushyBoard;
 import org.apache.camel.builder.RouteBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -12,20 +12,12 @@ import javax.inject.Inject;
 public class ArchiveTimerRoute
         extends RouteBuilder {
 
-    private final ArchiverProperties archiverProperties;
-    private final TrelloBoard trelloBoard;
-    private final IsRequiredAge isRequiredAge;
-
     @Inject
-    public ArchiveTimerRoute(
-            DynamicArchiverProperties archiverProperties,
-            TrelloBoard trelloBoard,
-            IsRequiredAge isRequiredAge
-    ) {
-        this.archiverProperties = archiverProperties;
-        this.trelloBoard = trelloBoard;
-        this.isRequiredAge = isRequiredAge;
-    }
+    DynamicArchiverProperties archiverProperties;
+    @Inject
+    SlushyBoard slushyBoard;
+    @Inject
+    IsRequiredAge isRequiredAge;
 
     @Override
     public void configure() {
@@ -33,7 +25,7 @@ public class ArchiveTimerRoute
 
         fromF("timer:archiver?period=%s", archiverProperties.scanPeriod())
                 .routeId("Slushy.Archiver")
-                .setBody(exchange -> trelloBoard.getListCards(archiverProperties.sourceList()))
+                .setBody(exchange -> slushyBoard.getListCards(archiverProperties.sourceList()))
                 .split(body())
 
                 .setHeader("SlushyRequiredAge", archiverProperties::requiredAgeHours)

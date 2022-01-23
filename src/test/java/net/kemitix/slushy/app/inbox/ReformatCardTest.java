@@ -5,7 +5,7 @@ import net.kemitix.slushy.app.Genre;
 import net.kemitix.slushy.app.Now;
 import net.kemitix.slushy.app.Submission;
 import net.kemitix.slushy.app.WordLengthBand;
-import net.kemitix.trello.TrelloBoard;
+import net.kemitix.slushy.trello.SlushyBoard;
 import net.kemitix.trello.TrelloCard;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +30,7 @@ public class ReformatCardTest
     // collaborators
     DynamicInboxProperties inboxProperties = mock(DynamicInboxProperties.class);
     Now now = mock(Now.class);
-    TrelloBoard trelloBoard = mock(TrelloBoard.class);
+    SlushyBoard slushyBoard = mock(SlushyBoard.class);
 
     // subjects
     ReformatCard reformatCard = new ReformatCard();
@@ -48,7 +48,7 @@ public class ReformatCardTest
     void setUp() {
         reformatCard.inboxProperties = inboxProperties;
         reformatCard.now = now;
-        reformatCard.trelloBoard = trelloBoard;
+        reformatCard.slushyBoard = slushyBoard;
 
         given(now.get()).willReturn(Instant.ofEpochSecond(1234567890));
         given(submission.getTitle()).willReturn(storyTitle);
@@ -85,7 +85,7 @@ public class ReformatCardTest
         reformatCard.reformat(submission, card);
         //then
         verify(card).setName(expectedName);
-        verify(trelloBoard).updateCard(card);
+        verify(slushyBoard).updateCard(card);
     }
 
     @Test
@@ -96,7 +96,7 @@ public class ReformatCardTest
         reformatCard.reformat(submission, card);
         //then
         verify(card).setDue(expectedDueDate);
-        verify(trelloBoard).updateCard(card);
+        verify(slushyBoard).updateCard(card);
     }
 
     @Nested

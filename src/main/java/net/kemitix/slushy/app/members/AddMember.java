@@ -4,8 +4,8 @@ import com.julienvey.trello.domain.Member;
 import lombok.NonNull;
 import lombok.extern.java.Log;
 import net.kemitix.slushy.app.SlushyHeader;
+import net.kemitix.slushy.trello.SlushyBoard;
 import net.kemitix.trello.TrelloCard;
-import net.kemitix.trello.TrelloBoard;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
 
@@ -16,8 +16,10 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class AddMember {
 
-    @Inject TrelloBoard trelloBoard;
-    @Inject Member member;
+    @Inject
+    SlushyBoard slushyBoard;
+    @Inject
+    Member member;
 
     @Handler
     TrelloCard addToCard(
@@ -27,7 +29,7 @@ public class AddMember {
         if (card.getIdMembers().contains(member.getId())) {
             return card;
         }
-        return trelloBoard.addMemberToCard(card, member);
+        return slushyBoard.addMemberToCard(card, member);
     }
 
 }

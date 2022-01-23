@@ -6,7 +6,6 @@ import com.julienvey.trello.domain.Member;
 import net.kemitix.trello.AttachmentDirectory;
 import net.kemitix.trello.AttachmentDirectoryImpl;
 import net.kemitix.trello.LoadCard;
-import net.kemitix.trello.TrelloBoard;
 import net.kemitix.trello.TrelloConfig;
 import net.kemitix.trello.TrelloProducers;
 
@@ -19,16 +18,7 @@ public class SlushyTrelloProducers {
     private final TrelloProducers trelloProducers = new TrelloProducers();
 
     @Produces
-    TrelloBoard trelloBoard(
-            Trello trello,
-            TrelloConfig trelloConfig
-    ) {
-        final TrelloBoard board = new TrelloBoard(trello, trelloConfig);
-        board.init();
-        return board;
-    }
-
-    @Produces
+    @ApplicationScoped
     Trello trello(
             TrelloConfig trelloConfig,
             TrelloHttpClient trelloHttpClient
@@ -39,11 +29,13 @@ public class SlushyTrelloProducers {
     }
 
     @Produces
+    @ApplicationScoped
     TrelloHttpClient trelloHttpClient() {
         return trelloProducers.trelloHttpClient();
     }
 
     @Produces
+    @ApplicationScoped
     Member member(
             Trello trello,
             TrelloConfig trelloConfig
@@ -52,11 +44,13 @@ public class SlushyTrelloProducers {
     }
 
     @Produces
-    LoadCard loadCard(TrelloBoard trelloBoard) {
-        return new LoadCard(trelloBoard);
+    @ApplicationScoped
+    LoadCard loadCard(SlushyBoard slushyBoard) {
+        return new LoadCard(slushyBoard.getTrelloBoard());
     }
 
     @Produces
+    @ApplicationScoped
     AttachmentDirectory attachmentDirectory() {
         return new AttachmentDirectoryImpl();
     }
