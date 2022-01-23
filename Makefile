@@ -1,3 +1,4 @@
+default: docker
 
 install: .install
 
@@ -23,6 +24,6 @@ dev:
 
 TAG := kemitix/slushy:$(shell git describe --tags)
 
-docker: clean install
-	docker build -f src/main/docker/Dockerfile -t ${TAG} .
-	docker tag ${TAG} kemitix/slushy
+docker:
+	docker build . -t ${TAG}	
+	# docker tag ${TAG} kemitix/slushy
