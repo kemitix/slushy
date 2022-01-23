@@ -104,7 +104,7 @@
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-core-spi</artifactId>
-            <version>4.7.3.Final</version>
+            <version>6.0.0.Final</version>
         </dependency>
         <dependency>
             <groupId>org.zeroturnaround</groupId>
