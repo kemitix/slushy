@@ -2,7 +2,6 @@ TAG := kemitix/slushy:$(shell git describe --tags)
 
 docker:
 	docker build . -t ${TAG}	
-	docker tag ${TAG} kemitix/slushy
 
 run: docker
 	docker run -d \

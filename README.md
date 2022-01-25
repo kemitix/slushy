@@ -5,7 +5,7 @@ Slushy pile agent
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/kemitix/slushy?style=for-the-badge)
 ![GitHub Release Date](https://img.shields.io/github/release-date/kemitix/slushy?style=for-the-badge)
 
-# Configuration
+## Configuration
 
 Define the following environment variables to configure Slushy:
 
@@ -20,6 +20,6 @@ Define the following environment variables to configure Slushy:
 - `SLUSHY_STATUS_LIST` - the Trello List to report the status into
 - `SLUSHY_STATUS_CARD` - the Trello Card to report the status into
 
-# Structure/Dependencies
+## Structure/Dependencies
 
 ![Dependency Graph](docs/images/reactor-graph.png)
