@@ -26,7 +26,7 @@ data "template_file" "slushy_webhook_policy_template" {
   template = file("policies/api-gateway-permission.json")
 
   vars = {
-    sqs_arn = aws_sqs_queue.slushy_webhook_queue.arn
+    sqs_arn   = aws_sqs_queue.slushy_webhook_queue.arn
   }
 }
 
@@ -38,8 +38,8 @@ resource "aws_iam_policy" "slushy_webhook_policy" {
 
 
 resource "aws_iam_role_policy_attachment" "slushy_webhook_policy_attachment" {
-  role       = aws_iam_role.slushy_webhook_role.name
-  policy_arn = aws_iam_policy.slushy_webhook_policy.arn
+  role       =  aws_iam_role.slushy_webhook_role.name
+  policy_arn =  aws_iam_policy.slushy_webhook_policy.arn
 }
 
 resource "aws_api_gateway_rest_api" "slushy_webhook_rest_api" {
@@ -106,10 +106,10 @@ EOF
 }
 
 resource "aws_api_gateway_integration" "slushy_webhook_mock_integration" {
-  rest_api_id = aws_api_gateway_rest_api.slushy_webhook_rest_api.id
-  resource_id = aws_api_gateway_resource.slushy_webhook_resource.id
-  http_method = aws_api_gateway_method.slushy_webhook_method_head.http_method
-  type        = "MOCK"
+  rest_api_id          = aws_api_gateway_rest_api.slushy_webhook_rest_api.id
+  resource_id          = aws_api_gateway_resource.slushy_webhook_resource.id
+  http_method          = aws_api_gateway_method.slushy_webhook_method_head.http_method
+  type                 = "MOCK"
 
   request_templates = {
     "application/json" = <<EOF
@@ -146,10 +146,10 @@ resource "aws_api_gateway_integration_response" "slushy_webhook_integration_resp
 }
 
 resource "aws_api_gateway_integration_response" "slushy_webhook_integration_head_response" {
-  rest_api_id = aws_api_gateway_rest_api.slushy_webhook_rest_api.id
-  resource_id = aws_api_gateway_resource.slushy_webhook_resource.id
-  http_method = aws_api_gateway_method.slushy_webhook_method_head.http_method
-  status_code = 200
+  rest_api_id       = aws_api_gateway_rest_api.slushy_webhook_rest_api.id
+  resource_id       = aws_api_gateway_resource.slushy_webhook_resource.id
+  http_method       = aws_api_gateway_method.slushy_webhook_method_head.http_method
+  status_code       = 200
 
   depends_on = [
     aws_api_gateway_integration.slushy_webhook_mock_integration
@@ -168,8 +168,8 @@ resource "aws_api_gateway_deployment" "slushy_webhook_deployment" {
   # Redeploy when there are new updates
   triggers = {
     redeployment = sha1(join(",", list(
-      jsonencode(aws_api_gateway_integration.slushy_webhook_sqs_integration),
-      jsonencode(aws_api_gateway_integration.slushy_webhook_mock_integration),
+    jsonencode(aws_api_gateway_integration.slushy_webhook_sqs_integration),
+    jsonencode(aws_api_gateway_integration.slushy_webhook_mock_integration),
     )))
   }
 
