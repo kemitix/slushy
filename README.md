@@ -6,7 +6,7 @@ https://img.shields.io/github/v/release/kemitix/slushy?style=for-the-badge)
 ![GitHub Release Date](
 https://img.shields.io/github/release-date/kemitix/slushy?style=for-the-badge)
 
-# Configuration
+## Configuration
 
 Define the following environment variables to configure Slushy:
 
@@ -21,7 +21,7 @@ Define the following environment variables to configure Slushy:
 * `SLUSHY_STATUS_LIST` - the Trello List to report the status into
 * `SLUSHY_STATUS_CARD` - the Trello Card to report the status into
 
-# Requirements
+## Requirements
 
 - Docker
 - Trello Account
@@ -39,7 +39,7 @@ in the `src/main/resources/META-INF/microprofile-config.properties` file:
 - Held
 - Withdraw
 
-# Workflow
+## Workflow
 
 The following is a summary, but details are customisable by updating the various `slushy.*.routing-slip` entries in the `microprofile-config.properties` file.
 
@@ -65,6 +65,6 @@ The Trello Board can have additional lists to manage the cards.
 Those additional lists are ignored by Slushy, unless they are included in `slushy.multisub.lists` to count against multiple submissions.
 For example: _To Re-read_
 
-# Structure/Dependencies
+## Structure/Dependencies
 
 ![Dependency Graph](docs/images/reactor-graph.png)
