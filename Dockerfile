@@ -30,6 +30,7 @@ RUN curl -L -O https://download.calibre-ebook.com/linux-installer.sh \
 ENV VERSION 26.0.1.Final
 ENV INSTALL_DIR /opt
 ENV WILDFLY_HOME ${INSTALL_DIR}/wildfly-preview-${VERSION}
+WORKDIR ${WILDFLY_HOME}
 ENV DEPLOYMENT_DIR ${WILDFLY_HOME}/standalone/deployments/
 ENV CONFIGURATION_DIR ${WILDFLY_HOME}/standalone/configuration
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
@@ -42,7 +43,7 @@ RUN useradd -b /opt -s /bin/sh -d ${INSTALL_DIR} serveradmin && echo serveradmin
     && chmod -R a+rw ${INSTALL_DIR}
 USER serveradmin
 ENV JAVA_OPTS=--enable-preview
-ENTRYPOINT ["${WILDFLY_HOME}/bin/standalone.sh", "-b=0.0.0.0", "-bmanagement=0.0.0.0"]
+ENTRYPOINT ["./bin/standalone.sh", "-b=0.0.0.0", "-bmanagement=0.0.0.0"]
 EXPOSE 8080
 EXPOSE 9990
 
