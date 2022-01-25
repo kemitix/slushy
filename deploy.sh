@@ -2,17 +2,17 @@
 
 set -e
 
-cd $(dirname $0)
+cd $(dirname "$0")
 
 git checkout master
 git reset --hard
 git pull origin master
 
-if [ $# -gt 0 ];then
-    echo "Deploying $1"
-    git co $1
+if [ $# -gt 0 ]; then
+	echo "Deploying $1"
+	git co "$1"
 else
-    echo "Deploying latest master"
+	echo "Deploying latest master"
 fi
 
 mvn install
