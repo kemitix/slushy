@@ -5,10 +5,16 @@ default: docker
 check:
 	./trunk check
 
-docker: check
+docker:
 	docker build . -t ${TAG}	
 
-run: docker
+stop:
+	docker stop slushy || true
+
+rm: stop
+	docker rm slushy || true
+
+run: rm
 	docker run -d \
        --name slushy \
        --restart always \
