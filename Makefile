@@ -1,6 +1,11 @@
 TAG := kemitix/slushy:$(shell git describe --tags)
 
-docker:
+default: docker
+
+check:
+	./trunk check
+
+docker: check
 	docker build . -t ${TAG}	
 
 run: docker
