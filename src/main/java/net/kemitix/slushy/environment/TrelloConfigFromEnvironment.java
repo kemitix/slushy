@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static net.kemitix.slushy.environment.EnvironmentUtil.requiredEnvironment;
+
 @Log
 @Setter
 @Getter
@@ -30,11 +32,6 @@ public class TrelloConfigFromEnvironment
     private String webhook = requiredEnvironment("SLUSHY_WEBHOOK");
 
     @Inject Instance<RetryProperties> retryConfigs;
-
-    private String requiredEnvironment(String key) {
-        return Objects.requireNonNull(System.getenv(key),
-                String.format("Required environment variable %s is not set", key));
-    }
 
     @PostConstruct
     void init() {

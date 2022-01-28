@@ -6,6 +6,8 @@ import org.apache.camel.builder.RouteBuilder;
 import javax.enterprise.context.ApplicationScoped;
 import java.util.Objects;
 
+import static net.kemitix.slushy.environment.EnvironmentUtil.requiredEnvironment;
+
 @Log
 @ApplicationScoped
 public class PollQueueRoute
@@ -13,11 +15,8 @@ public class PollQueueRoute
 
     @Override
     public void configure() throws Exception {
-        String queueName = Objects.requireNonNull(
-                System.getenv("SLUSHY_QUEUE"));
-        String region = Objects.requireNonNull(
-                System.getenv("AWS_REGION")
-        ).toLowerCase();
+        String queueName = requiredEnvironment("SLUSHY_QUEUE");
+        String region = requiredEnvironment("AWS_REGION").toLowerCase();
 
         errorHandler(deadLetterChannel("direct:dropInvalidPollQueueMessage"));
 
