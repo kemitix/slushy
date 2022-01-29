@@ -106,7 +106,7 @@
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-core-spi</artifactId>
-            <version>6.0.0.Beta1</version><!-- version provided by Wildfly 26.0.1.Final -->
+            <version>6.0.0.Final</version><!-- version provided by Wildfly 26.0.1.Final -->
             <scope>provided</scope>
         </dependency>
         <dependency>

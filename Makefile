@@ -35,3 +35,6 @@ run: rm
        -e AWS_SECRET_ACCESS_KEY \
        -e AWS_REGION \
        ${TAG}
+
+logs:
+	docker logs -f slushy
