@@ -8,7 +8,7 @@ RUN mvn package -Dmaven.test.skip -Declipselink.weave.skip
 ADD src src
 RUN mvn package
 
-FROM debian:stable-20211220 as run
+FROM debian:stable-20220125 as run
 
 # install wget and python required to download and install calibre, plus a JRE
 RUN apt-get update && \
