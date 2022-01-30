@@ -167,10 +167,10 @@ resource "aws_api_gateway_deployment" "slushy_webhook_deployment" {
 
   # Redeploy when there are new updates
   triggers = {
-    redeployment = sha1(join(",", list(
+    redeployment = sha1(join(",", tolist([
     jsonencode(aws_api_gateway_integration.slushy_webhook_sqs_integration),
     jsonencode(aws_api_gateway_integration.slushy_webhook_mock_integration),
-    )))
+    ])))
   }
 
   lifecycle {
