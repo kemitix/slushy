@@ -1,30 +1,12 @@
-FROM maven:3.8.4-openjdk-17-slim as build
-
-WORKDIR /build
-
-ADD pom.xml .
-RUN mvn package -Dmaven.test.skip -Declipselink.weave.skip
-
-ADD src src
-RUN mvn package
-
 FROM debian:stable-20220125 as run
 
-# install wget and python required to download and install calibre, plus a JRE
+# install curl to download calibre and wildfly
+# install unzip to install wildfly
 RUN apt-get update && \
     apt-get install -y \
-        wget \
-        curl \
-        unzip \
-        python3 \
-        openjdk-17-jre \
-        xz-utils \
+        curl=7.74.0-1.3+deb11u1 \
+        unzip=6.0-26 \
     && rm -rf /var/lib/apt/lists/*
-
-# download and install calibre
-RUN curl -L -O https://download.calibre-ebook.com/linux-installer.sh \
-    && sh linux-installer.sh version=5.35.0 \
-    && rm linux-installer.sh
 
 # download and install wildfly
 ENV VERSION 26.0.1.Final
@@ -45,6 +27,45 @@ ENV JAVA_OPTS=--enable-preview
 ENTRYPOINT ${WILDFLY_HOME}/bin/standalone.sh -b=0.0.0.0 -bmanagement=0.0.0.0
 EXPOSE 8080
 EXPOSE 9990
+
+# download and install calibre
+USER root
+# install python to install calibre
+# install xzutils to install calibre
+RUN apt-get update && \
+    apt-get install -y \
+        xz-utils=5.2.5-2 \
+        python3=3.9.2-3 \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN curl -L -O https://download.calibre-ebook.com/linux-installer.sh \
+    && sh linux-installer.sh version=5.35.0 \
+    && rm linux-installer.sh
+
+# install openjdk-17-jre-headless to run slushy
+# install libgl1 to run calibre
+RUN apt-get update && \
+    apt-get install -y \
+        openjdk-17-jre-headless=17~19-1 \
+        libgl1=1.3.2-1 \
+    && rm -rf /var/lib/apt/lists/*
+
+FROM maven:3.8.4-openjdk-17-slim as build
+
+WORKDIR /build
+
+# download dependencies
+ADD pom.xml .
+RUN mvn package -Dmaven.test.skip -Declipselink.weave.skip
+
+# compile
+ADD src src
+RUN mvn package
+
+# run
+FROM run
+
+USER serveradmin
 
 # deploy from build into wildfly
 WORKDIR ${DEPLOYMENT_DIR}
