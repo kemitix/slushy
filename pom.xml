@@ -16,7 +16,7 @@
     <packaging>war</packaging>
 
     <properties>
-        <tiles-maven-plugin.version>2.25</tiles-maven-plugin.version>
+        <tiles-maven-plugin.version>2.26</tiles-maven-plugin.version>
         <kemitix-tiles.version>3.2.0</kemitix-tiles.version>
 
         <jakarta.jakartaee-api.version>8.0.0</jakarta.jakartaee-api.version>
