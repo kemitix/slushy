@@ -1,9 +1,8 @@
 package net.kemitix.slushy.app.zeroattachment;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import net.kemitix.slushy.app.config.DynamicConfig;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
 @ApplicationScoped
 public class DynamicZeroAttachmentProperties

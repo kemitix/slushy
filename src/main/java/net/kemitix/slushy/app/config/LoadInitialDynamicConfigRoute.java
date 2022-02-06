@@ -2,8 +2,8 @@ package net.kemitix.slushy.app.config;
 
 import org.apache.camel.builder.RouteBuilder;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class LoadInitialDynamicConfigRoute

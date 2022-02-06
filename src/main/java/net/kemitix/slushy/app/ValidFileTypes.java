@@ -3,9 +3,9 @@ package net.kemitix.slushy.app;
 import net.kemitix.slushy.app.fileconversion.AttachmentConverter;
 import net.kemitix.slushy.app.fileconversion.ConvertAttachment;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Instance;
+import jakarta.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,16 +1,16 @@
 package net.kemitix.slushy.app.withdraw;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import org.apache.camel.builder.RouteBuilder;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
 // listens for card moves and accepts when card is moved into the Withdraw list
 @ApplicationScoped
 public class CardMovedWithdrawListenerRoute
         extends RouteBuilder {
 
-    @Inject DynamicWithdrawProperties withdrawProperties;
+    @Inject
+    DynamicWithdrawProperties withdrawProperties;
 
     @Override
     public void configure() throws Exception {

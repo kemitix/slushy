@@ -3,8 +3,7 @@ package net.kemitix.slushy.app.trello.queue;
 import lombok.extern.java.Log;
 import org.apache.camel.builder.RouteBuilder;
 
-import javax.enterprise.context.ApplicationScoped;
-import java.util.Objects;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import static net.kemitix.slushy.environment.EnvironmentUtil.requiredEnvironment;
 

@@ -4,13 +4,13 @@ import com.julienvey.trello.Trello;
 import com.julienvey.trello.domain.Attachment;
 import com.julienvey.trello.domain.Card;
 import com.julienvey.trello.domain.Member;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import net.kemitix.trello.TrelloBoard;
 import net.kemitix.trello.TrelloCard;
 import net.kemitix.trello.TrelloConfig;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.annotation.PostConstruct;
 import java.util.List;
 import java.util.stream.Stream;
 

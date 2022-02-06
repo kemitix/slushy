@@ -4,8 +4,8 @@ import com.julienvey.trello.domain.Card;
 import lombok.Setter;
 import net.kemitix.slushy.app.CardBodyCleaner;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;

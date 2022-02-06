@@ -1,5 +1,7 @@
 package net.kemitix.slushy.app.email;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import lombok.NonNull;
 import lombok.extern.java.Log;
 import org.apache.camel.Handler;
@@ -7,14 +9,12 @@ import org.apache.camel.Header;
 import software.amazon.awssdk.services.ses.SesClient;
 import software.amazon.awssdk.services.ses.model.*;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-
 @Log
 @ApplicationScoped
 public class SendEmail {
 
-    @Inject SesClient sesClient;
+    @Inject
+    SesClient sesClient;
 
     @Handler
     public void send(

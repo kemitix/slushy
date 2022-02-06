@@ -21,7 +21,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.enterprise.inject.Instance;
+import jakarta.enterprise.inject.Instance;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;

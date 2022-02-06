@@ -8,9 +8,9 @@ import net.kemitix.trello.LocalAttachment;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Instance;
+import jakarta.inject.Inject;
 import java.io.File;
 import java.util.Optional;
 

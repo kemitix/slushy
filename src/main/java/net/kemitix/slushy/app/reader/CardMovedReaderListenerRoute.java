@@ -1,16 +1,16 @@
 package net.kemitix.slushy.app.reader;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import org.apache.camel.builder.RouteBuilder;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
 // listens for card moves and accepts when card is added to the Reader list
 @ApplicationScoped
 public class CardMovedReaderListenerRoute
         extends RouteBuilder {
 
-    @Inject DynamicReaderProperties readerProperties;
+    @Inject
+    DynamicReaderProperties readerProperties;
 
     @Override
     public void configure() throws Exception {
