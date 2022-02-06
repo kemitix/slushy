@@ -2,8 +2,8 @@ package net.kemitix.slushy.app;
 
 import net.kemitix.trello.LocalAttachment;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

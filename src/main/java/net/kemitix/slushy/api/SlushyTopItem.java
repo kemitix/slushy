@@ -6,8 +6,8 @@ import net.kemitix.slushy.app.cardparsers.ParseSubmission;
 import net.kemitix.slushy.app.reader.DynamicReaderProperties;
 import net.kemitix.slushy.trello.SlushyBoard;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.util.List;
 import java.util.stream.Collectors;
 

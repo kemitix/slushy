@@ -1,11 +1,10 @@
 package net.kemitix.slushy.app.withdraw;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import net.kemitix.slushy.app.IsRequiredAge;
 import net.kemitix.slushy.app.OnException;
 import org.apache.camel.builder.RouteBuilder;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
 @ApplicationScoped
 public class WithdrawRoute

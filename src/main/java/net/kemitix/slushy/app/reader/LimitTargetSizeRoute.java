@@ -2,8 +2,8 @@ package net.kemitix.slushy.app.reader;
 
 import org.apache.camel.builder.RouteBuilder;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 /**
  * Aborts the routing slip if the target list already contains the max limit

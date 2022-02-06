@@ -4,8 +4,8 @@ import net.kemitix.trello.LoadCard;
 import net.kemitix.trello.TrelloCard;
 import org.apache.camel.Header;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
+import jakarta.annotation.PostConstruct;
+import jakarta.inject.Inject;
 import java.util.Objects;
 
 public class CardLoader {

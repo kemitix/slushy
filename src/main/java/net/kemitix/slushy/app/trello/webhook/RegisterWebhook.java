@@ -1,14 +1,14 @@
 package net.kemitix.slushy.app.trello.webhook;
 
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response;
 import lombok.extern.java.Log;
 import net.kemitix.slushy.trello.SlushyBoard;
 import net.kemitix.trello.TrelloConfig;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @Log
 @ApplicationScoped

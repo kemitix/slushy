@@ -6,8 +6,8 @@ import net.kemitix.trello.TrelloCard;
 import org.apache.camel.Converter;
 import org.apache.camel.TypeConverters;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class SlushyCardConverter implements TypeConverters {

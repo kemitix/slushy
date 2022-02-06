@@ -1,6 +1,6 @@
 package net.kemitix.slushy.app.config;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class DynamicConfigProperties

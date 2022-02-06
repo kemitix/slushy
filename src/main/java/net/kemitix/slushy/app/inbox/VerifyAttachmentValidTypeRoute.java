@@ -2,7 +2,7 @@ package net.kemitix.slushy.app.inbox;
 
 import org.apache.camel.builder.RouteBuilder;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class VerifyAttachmentValidTypeRoute

@@ -11,8 +11,8 @@ import net.kemitix.trello.TrelloConfig;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class AttachmentLoader {

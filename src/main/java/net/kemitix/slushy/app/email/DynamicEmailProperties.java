@@ -1,15 +1,15 @@
 package net.kemitix.slushy.app.email;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import net.kemitix.slushy.app.config.DynamicConfig;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
 @ApplicationScoped
 public class DynamicEmailProperties
         implements EmailProperties, DynamicConfig {
 
-    @Inject EmailConfigMapping configMapping;
+    @Inject
+    EmailConfigMapping configMapping;
 
     @Override
     public long scanPeriod() {

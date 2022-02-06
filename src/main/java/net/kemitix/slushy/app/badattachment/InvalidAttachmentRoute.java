@@ -3,8 +3,8 @@ package net.kemitix.slushy.app.badattachment;
 import net.kemitix.slushy.app.ValidFileTypes;
 import org.apache.camel.builder.RouteBuilder;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class InvalidAttachmentRoute

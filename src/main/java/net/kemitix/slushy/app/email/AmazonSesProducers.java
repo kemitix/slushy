@@ -1,9 +1,8 @@
 package net.kemitix.slushy.app.email;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
 import software.amazon.awssdk.services.ses.SesClient;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
 
 public class AmazonSesProducers {
 

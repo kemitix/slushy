@@ -1,18 +1,19 @@
 package net.kemitix.slushy.app.reader;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import net.kemitix.slushy.app.LoadList;
 import org.apache.camel.builder.RouteBuilder;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
 @ApplicationScoped
 public class ReaderRoute
         extends RouteBuilder {
 
     public static final int TWENTY_SECONDS = 20000;
-    @Inject LoadList loadList;
-    @Inject DynamicReaderProperties readerProperties;
+    @Inject
+    LoadList loadList;
+    @Inject
+    DynamicReaderProperties readerProperties;
 
     @Override
     public void configure() throws Exception {

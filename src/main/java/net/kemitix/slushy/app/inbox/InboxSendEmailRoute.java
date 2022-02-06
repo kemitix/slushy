@@ -7,7 +7,7 @@ import net.kemitix.trello.TrelloCard;
 import org.apache.camel.Predicate;
 import org.apache.camel.builder.RouteBuilder;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class InboxSendEmailRoute

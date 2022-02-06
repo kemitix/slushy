@@ -1,17 +1,17 @@
 package net.kemitix.slushy.app.withdraw;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import net.kemitix.slushy.app.DynamicListProcessConfig;
-import net.kemitix.slushy.app.inbox.InboxConfigMapping;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.annotation.PostConstruct;
 
 @ApplicationScoped
 public class DynamicWithdrawProperties
         implements WithdrawProperties {
 
-    @Inject WithdrawConfigMapping configMapping;
+    @Inject
+    WithdrawConfigMapping configMapping;
 
     DynamicListProcessConfig config;
 

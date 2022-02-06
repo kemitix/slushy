@@ -4,8 +4,8 @@ import net.kemitix.slushy.app.OnException;
 import net.kemitix.slushy.trello.SlushyBoard;
 import org.apache.camel.builder.RouteBuilder;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class ReaderTimerRoute

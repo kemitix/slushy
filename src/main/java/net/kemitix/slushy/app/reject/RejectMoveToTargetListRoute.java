@@ -3,8 +3,8 @@ package net.kemitix.slushy.app.reject;
 import net.kemitix.slushy.app.MoveCard;
 import org.apache.camel.builder.RouteBuilder;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class RejectMoveToTargetListRoute

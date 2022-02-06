@@ -4,8 +4,8 @@ import net.kemitix.slushy.app.AttachmentLoader;
 import net.kemitix.slushy.app.TrelloLoginPageException;
 import org.apache.camel.builder.RouteBuilder;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class LoadAttachmentRoute

@@ -5,8 +5,8 @@ import net.kemitix.slushy.app.email.SendEmailAttachment;
 import net.kemitix.trello.TrelloConfig;
 import org.apache.camel.builder.RouteBuilder;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import static org.apache.camel.support.processor.idempotent.MemoryIdempotentRepository.memoryIdempotentRepository;
 

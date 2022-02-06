@@ -1,15 +1,14 @@
 package net.kemitix.slushy.app;
 
 import com.julienvey.trello.domain.Card;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import lombok.NonNull;
 import lombok.extern.java.Log;
 import net.kemitix.slushy.trello.SlushyBoard;
 import net.kemitix.trello.TrelloCard;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
 @Log
 @ApplicationScoped

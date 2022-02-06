@@ -1,5 +1,7 @@
 package net.kemitix.slushy.app;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import lombok.NonNull;
 import lombok.extern.java.Log;
 import net.kemitix.trello.TrelloCard;
@@ -7,8 +9,6 @@ import org.apache.camel.Body;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -17,7 +17,8 @@ import java.time.temporal.ChronoUnit;
 @ApplicationScoped
 public class IsRequiredAge {
 
-    @Inject Now now;
+    @Inject
+    Now now;
 
     @Handler
     boolean isRested(

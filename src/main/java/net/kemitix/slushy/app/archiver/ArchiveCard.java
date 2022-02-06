@@ -8,8 +8,8 @@ import net.kemitix.trello.TrelloCard;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @Log
 @ApplicationScoped

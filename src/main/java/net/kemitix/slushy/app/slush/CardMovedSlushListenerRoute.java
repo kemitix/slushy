@@ -4,8 +4,8 @@ import net.kemitix.slushy.app.reader.DynamicReaderProperties;
 import net.kemitix.slushy.app.reader.ReaderIsFull;
 import org.apache.camel.builder.RouteBuilder;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 // listens for card moves and accepts when card is removed from the Slush list
 @ApplicationScoped
