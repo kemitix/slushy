@@ -9,8 +9,6 @@ import org.apache.camel.builder.RouteBuilder;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import static org.apache.camel.builder.Builder.bean;
-
 @ApplicationScoped
 public class RejectTimerRoute
         extends RouteBuilder {
