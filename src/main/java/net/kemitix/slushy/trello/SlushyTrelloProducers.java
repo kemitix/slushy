@@ -8,8 +8,8 @@ import net.kemitix.trello.AttachmentDirectoryImpl;
 import net.kemitix.trello.TrelloConfig;
 import net.kemitix.trello.TrelloProducers;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
 import java.io.IOException;
 
 @ApplicationScoped

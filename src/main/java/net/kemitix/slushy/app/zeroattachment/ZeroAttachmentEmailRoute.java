@@ -1,8 +1,7 @@
 package net.kemitix.slushy.app.zeroattachment;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import org.apache.camel.builder.RouteBuilder;
-
-import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class ZeroAttachmentEmailRoute

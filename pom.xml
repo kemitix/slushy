@@ -19,7 +19,7 @@
         <tiles-maven-plugin.version>2.25</tiles-maven-plugin.version>
         <kemitix-tiles.version>3.2.0</kemitix-tiles.version>
 
-        <jakarta.jakartaee-api.version>8.0.0</jakarta.jakartaee-api.version>
+        <jakarta.jakartaee-api.version>9.1.0</jakarta.jakartaee-api.version>
         <camel.version>3.15.0</camel.version>
         <lombok.version>1.18.22</lombok.version>
         <assertj.version>3.22.0</assertj.version>
@@ -112,7 +112,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.camel</groupId>
-            <artifactId>camel-cdi-jta</artifactId>
+            <artifactId>camel-jta</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jboss.resteasy</groupId>

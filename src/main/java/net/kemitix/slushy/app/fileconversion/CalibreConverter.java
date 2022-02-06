@@ -7,7 +7,7 @@ import net.kemitix.trello.Attachment;
 import net.kemitix.trello.LocalAttachment;
 import org.zeroturnaround.exec.ProcessExecutor;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;

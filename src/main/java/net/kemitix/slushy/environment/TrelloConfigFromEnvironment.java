@@ -6,13 +6,12 @@ import lombok.extern.java.Log;
 import net.kemitix.slushy.app.RetryProperties;
 import net.kemitix.trello.TrelloConfig;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Instance;
+import jakarta.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static net.kemitix.slushy.environment.EnvironmentUtil.requiredEnvironment;
 

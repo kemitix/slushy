@@ -1,22 +1,25 @@
 package net.kemitix.slushy.app.email;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import net.kemitix.slushy.app.AddComment;
 import net.kemitix.slushy.app.OnException;
 import net.kemitix.trello.TrelloConfig;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.support.processor.idempotent.MemoryIdempotentRepository;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-
 @ApplicationScoped
 public class SendEmailRoute
         extends RouteBuilder {
 
-    @Inject TrelloConfig trelloConfig;
-    @Inject DynamicEmailProperties emailProperties;
-    @Inject SendEmail sendEmail;
-    @Inject AddComment addComment;
+    @Inject
+    TrelloConfig trelloConfig;
+    @Inject
+    DynamicEmailProperties emailProperties;
+    @Inject
+    SendEmail sendEmail;
+    @Inject
+    AddComment addComment;
 
     @Override
     public void configure() {

@@ -1,8 +1,7 @@
 package net.kemitix.slushy.app;
 
+import jakarta.enterprise.inject.Vetoed;
 import net.kemitix.slushy.app.config.DynamicConfig;
-
-import javax.enterprise.inject.Vetoed;
 
 @Vetoed
 public class DynamicListProcessConfig

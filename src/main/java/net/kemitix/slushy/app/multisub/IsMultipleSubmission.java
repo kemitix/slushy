@@ -8,8 +8,8 @@ import net.kemitix.slushy.trello.SlushyBoard;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.function.Function;

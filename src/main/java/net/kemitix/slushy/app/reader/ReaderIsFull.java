@@ -3,8 +3,8 @@ package net.kemitix.slushy.app.reader;
 import lombok.extern.java.Log;
 import net.kemitix.slushy.trello.SlushyBoard;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
