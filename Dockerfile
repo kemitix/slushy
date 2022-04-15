@@ -46,7 +46,7 @@ RUN curl -L -O https://download.calibre-ebook.com/linux-installer.sh \
 # install libgl1 to run calibre
 RUN apt-get update && \
     apt-get install -y \
-        openjdk-17-jre-headless=17~19-1 \
+        openjdk-17-jre-headless=17.0.2+8-1~deb11u1 \
         libgl1=1.3.2-1 \
     && rm -rf /var/lib/apt/lists/*
 
