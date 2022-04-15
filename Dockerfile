@@ -9,7 +9,7 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 # download and install wildfly
-ENV VERSION 26.0.1.Final
+ENV VERSION 26.1.0.Final
 ENV INSTALL_DIR /opt
 ENV WILDFLY_HOME ${INSTALL_DIR}/wildfly-preview-${VERSION}
 WORKDIR ${WILDFLY_HOME}
