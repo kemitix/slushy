@@ -39,7 +39,7 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl -L -O https://download.calibre-ebook.com/linux-installer.sh \
-    && sh linux-installer.sh version=5.35.0 \
+    && sh linux-installer.sh version=5.40.0 \
     && rm linux-installer.sh
 
 # install openjdk-17-jre-headless to run slushy
