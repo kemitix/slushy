@@ -1,4 +1,4 @@
-FROM debian:stable-20220125 as run
+FROM debian:stable-20220328 as run
 
 # install curl to download calibre and wildfly
 # install unzip to install wildfly
