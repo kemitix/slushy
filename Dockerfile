@@ -1,4 +1,4 @@
-FROM debian:stable-20220125 as run
+FROM debian:stable-20220328 as run
 
 # install curl to download calibre and wildfly
 # install unzip to install wildfly
@@ -9,7 +9,7 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 # download and install wildfly
-ENV VERSION 26.0.1.Final
+ENV VERSION 26.1.0.Final
 ENV INSTALL_DIR /opt
 ENV WILDFLY_HOME ${INSTALL_DIR}/wildfly-preview-${VERSION}
 WORKDIR ${WILDFLY_HOME}
@@ -39,18 +39,18 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl -L -O https://download.calibre-ebook.com/linux-installer.sh \
-    && sh linux-installer.sh version=5.35.0 \
+    && sh linux-installer.sh version=5.40.0 \
     && rm linux-installer.sh
 
 # install openjdk-17-jre-headless to run slushy
 # install libgl1 to run calibre
 RUN apt-get update && \
     apt-get install -y \
-        openjdk-17-jre-headless=17~19-1 \
+        openjdk-17-jre-headless=17.0.2+8-1~deb11u1 \
         libgl1=1.3.2-1 \
     && rm -rf /var/lib/apt/lists/*
 
-FROM maven:3.8.4-openjdk-17-slim as build
+FROM maven:3.8.5-openjdk-17-slim as build
 
 WORKDIR /build
 
