@@ -1,0 +1,9 @@
+githubRepoOwner: kemitix
+githubRepoName: slushy
+githubHost: github.com
+requireChecks: true
+requireApproval: false
+githubRemote: origin
+githubBranch: master
+remoteBranches: []
+mergeMethod: rebase
