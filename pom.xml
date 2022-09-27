@@ -23,7 +23,7 @@
         <camel.version>3.15.0</camel.version>
         <lombok.version>1.18.24</lombok.version>
         <assertj.version>3.23.1</assertj.version>
-        <junit.version>5.9.0</junit.version>
+        <junit.version>5.9.1</junit.version>
         <mockito-junit-jupiter.version>4.8.0</mockito-junit-jupiter.version>
         <odftoolkit.version>1.0.6</odftoolkit.version>
         <microprofile.version>5.0</microprofile.version>
