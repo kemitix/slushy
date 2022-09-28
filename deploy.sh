@@ -15,7 +15,6 @@ else
     echo "Deploying latest master"
 fi
 
-mvn install
 docker build -f Dockerfile -t kemitix/slushy .
 
 docker stop slushy && docker rm slushy
