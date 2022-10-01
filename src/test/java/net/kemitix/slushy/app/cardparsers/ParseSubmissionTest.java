@@ -196,10 +196,12 @@ public class ParseSubmissionTest
 
             // Kindle Personal Documents Service:
             // https://www.amazon.co.uk/gp/help/customer/display.html?nodeId=200767340
-            //        Kindle Format (.MOBI, .AZW)
+            //        EPUB (.EPUB)
             //        Microsoft Word (.DOC, .DOCX)
             //        HTML (.HTML, .HTM)
             //        Text (.TXT)
+            // No longer supports the newest Kindle features and genrates a return email for each document sent to Kindle
+            //        Kindle Format (.MOBI, .AZW)
             // The following types claim to be supported by Kindle, but aren't
             //        RTF (.RTF)
             //        PDF (.PDF)
@@ -210,7 +212,7 @@ public class ParseSubmissionTest
             //        BMP (.BMP)
             @ParameterizedTest
             @DisplayName("Accepts Kindle supported types")
-            @ValueSource(strings = {"MOBI", "AZW", "DOC", "DOCX", "HTML", "HTM", "TXT"})
+            @ValueSource(strings = {"EPUB", "DOC", "DOCX", "HTML", "HTM", "TXT"})
             public void acceptsKindleTypes(String type) {
                 documentUrl = "document." + type;
                 given(slushyBoard.getAttachments(card))
@@ -221,7 +223,7 @@ public class ParseSubmissionTest
 
             @ParameterizedTest
             @DisplayName("Accepts convertible types")
-            @ValueSource(strings = {"ODT", "RTF"})
+            @ValueSource(strings = {"ODT", "RTF", "MOBI"})
             public void acceptsConvertibleTypes(String type) {
                 documentUrl = "document." + type;
                 given(slushyBoard.getAttachments(card))
@@ -392,10 +394,12 @@ public class ParseSubmissionTest
 
             // Kindle Personal Documents Service:
             // https://www.amazon.co.uk/gp/help/customer/display.html?nodeId=200767340
-            //        Kindle Format (.MOBI, .AZW)
+            //        EPUB (.EPUB)
             //        Microsoft Word (.DOC, .DOCX)
             //        HTML (.HTML, .HTM)
             //        Text (.TXT)
+            // No longer supports the newest Kindle features and genrates a return email for each document sent to Kindle
+            //        Kindle Format (.MOBI, .AZW)
             // The following types claim to be supported by Kindle, but aren't
             //        RTF (.RTF)
             //        PDF (.PDF)
@@ -406,7 +410,7 @@ public class ParseSubmissionTest
             //        BMP (.BMP)
             @ParameterizedTest
             @DisplayName("Accepts Kindle supported types")
-            @ValueSource(strings = {"MOBI", "AZW", "DOC", "DOCX", "HTML", "HTM", "TXT"})
+            @ValueSource(strings = {"EPUB", "DOC", "DOCX", "HTML", "HTM", "TXT"})
             public void acceptsKindleTypes(String type) {
                 documentUrl = "document." + type;
                 given(slushyBoard.getAttachments(card))
@@ -417,7 +421,7 @@ public class ParseSubmissionTest
 
             @ParameterizedTest
             @DisplayName("Accepts convertible types")
-            @ValueSource(strings = {"ODT", "RTF"})
+            @ValueSource(strings = {"ODT", "RTF", "MOBI"})
             public void acceptsConvertibleTypes(String type) {
                 documentUrl = "document." + type;
                 given(slushyBoard.getAttachments(card))

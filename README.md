@@ -48,7 +48,7 @@ The card is validated and a precis insert at the start of the Card's description
 The Card, if valid, and email is sent to the author, and it is then moved to the _Send to Reader_ list.
 For Cards that fail validation, an email is sent to the author and the Card is moved to the _Rejected_ list.
 
-Cards are taken from the _Send to Reader_ list and converted, using Calibre, into Mobi format and sent to the `SLUSHY_READER` email address, presumably the address for a Kindle device.
+Cards are taken from the _Send to Reader_ list and converted, using Calibre, into EPub format and sent to the `SLUSHY_READER` email address, presumably the address for a Kindle device.
 The Card is then moved to the _Slush_ list.
 The setting `slushy.reader.max-size` within the properties file determines the maximum number of cards that will be added to the _Slush_ list at any one time.
 If there is no space in the _Slush_ list, then no cards are taken from the _Send to Reader_ list until there is.
