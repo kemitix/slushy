@@ -52,10 +52,55 @@ public class CalibreConverter
                 .command("ebook-convert",
                         sourceFile.toPath().toString(),
                         targetFile.toPath().toString(),
-                        "--title", sourceFile.getName(),
-                        "--authors", submission.getByline(),
-                        "--series", "Slushy",
-                        "--series-index", submission.getId())
+                        "--smarten-punctuation", /*
+                        Convert plain quotes, dashes and ellipsis to their
+                        typographically correct equivalents. For details, see
+                        https://daringfireball.net/projects/smartypants */
+                        "--change-justification=justify", /*
+                        Change text justification. A value of "left" converts
+                        all justified text in the source to left aligned (i.e.
+                        unjustified) text. A value of "justify" converts all
+                        unjustified text to justified. A value of "original"
+                        (the default) does not change justification in the
+                        source file. Note that only some output formats
+                        support justification. */
+                        "--insert-blank-line", /*
+                        Insert a blank line between paragraphs. Will not work
+                        if the source file does not use paragraphs (<p> or
+                        <div> tags). */
+                        "--remove-paragraph-spacing", /*
+                        Remove spacing between paragraphs. Also sets an indent
+                        on paragraphs of 1.5em. Spacing removal will not work
+                        if the source file does not use paragraphs (<p> or
+                        <div> tags). */
+                        "--enable-heuristics", /*
+                        Enable heuristic processing. This option must be set
+                        for any heuristic processing to take place. */
+                        "--insert-metadata", /*
+                        Insert the book metadata at the start of the book.
+                        This is useful if your e-book reader does not support
+                        displaying/searching metadata directly. */
+                        "--use-auto-toc", /*
+                        Normally, if the source file already has a Table of
+                        Contents, it is used in preference to the auto-
+                        generated one. With this option, the auto-generated
+                        one is always used. */
+                        "--title", submission.getTitle(), /* <id> - <title> by <byline>.<source.ext>
+                        Set the title. */
+                        "--title-sort", submission.getTitle(), /*
+                        The version of the title to be used for sorting. */
+                        "--authors", submission.getByline(), /*
+                        Set the authors. Multiple authors should be separated
+                        by ampersands. */
+                        "--author-sort", submission.getByline(), /*
+                        String to be used when sorting by author. */
+                        "--comments", submission.getLogLine(), /*
+                        Set the e-book description. */
+                        "--series", "Slushy", /*
+                        Set the series this e-book belongs to. */
+                        "--series-index", submission.getId() /*
+                        Set the index of the book in this series. */
+                        )
                 .readOutput(true)
                 .execute()
                 .outputUTF8();
