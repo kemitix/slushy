@@ -94,7 +94,9 @@ public class CalibreConverter
                         by ampersands. */
                         "--author-sort", submission.getByline(), /*
                         String to be used when sorting by author. */
-                        "--comments", "%s\n<hr/>\n%s".formatted(
+                        "--comments", "%s - %s\n<hr/>%s\n<hr/>\n%s".formatted(
+                                submission.getGenre().getValue(),
+                                submission.getWordLengthBand().getValue(),
                                 submission.getLogLine(),
                                 submission.getCoverLetter()), /*
                         Set the e-book description. */
