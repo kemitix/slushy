@@ -4,8 +4,7 @@ Thank you for submitting your story, "${headers.SlushySubmission.title} by
  ${headers.SlushySubmission.byline}".
 
 We have read your story and we liked it.
-However, we haven't yet decided if we want to select it for inclusion in an
- upcoming issue.
+However, we haven't yet decided if we want to select it for publication.
 We appreciate your time, which is why we accept sim-subs, and encourage you to
  continue to submit your story to other markets.
 We will try to make a final decision as soon as possible and let you know.
