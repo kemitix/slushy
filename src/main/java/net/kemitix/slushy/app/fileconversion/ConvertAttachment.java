@@ -43,10 +43,10 @@ public class ConvertAttachment {
         File sourceFile = attachment.getFilename();
         String name = sourceFile.getName();
         log.info("Converting from " + name);
-        String mobiName = name.substring(0, name.lastIndexOf(".")) + ".mobi";
-        File mobiFile = attachmentDirectory.createFile(new File(mobiName));
-        log.info("Converting  to  " + mobiFile.getAbsolutePath());
-        return converter.convert(sourceFile, mobiFile, submission);
+        String epubName = name.substring(0, name.lastIndexOf(".")) + ".epub";
+        File epubFile = attachmentDirectory.createFile(new File(epubName));
+        log.info("Converting  to  " + epubFile.getAbsolutePath());
+        return converter.convert(sourceFile, epubFile, submission);
     }
 
 }

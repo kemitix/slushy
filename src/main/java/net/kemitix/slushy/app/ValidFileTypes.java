@@ -20,7 +20,7 @@ public class ValidFileTypes {
             "docx", "doc",
             "txt",
             "azw",
-            "mobi",
+            "epub",
             "html", "htm"
     );
 
