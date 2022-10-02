@@ -49,15 +49,15 @@ public class CalibreConverter
         log.info("ebook-convert");
         log.info("Source File: " + sourceFile);
         log.info("Target File: " + targetFile);
-        String output = new ProcessExecutor()
-                .command("ebook-convert",
-                        sourceFile.toPath().toString(),
-                        targetFile.toPath().toString(),
-                        "--smarten-punctuation", /*
+        String[] args = new String[]{
+                "ebook-convert",
+                sourceFile.toPath().toString(),
+                targetFile.toPath().toString(),
+                "--smarten-punctuation", /*
                         Convert plain quotes, dashes and ellipsis to their
                         typographically correct equivalents. For details, see
                         https://daringfireball.net/projects/smartypants */
-                        "--change-justification=justify", /*
+                "--change-justification=justify", /*
                         Change text justification. A value of "left" converts
                         all justified text in the source to left aligned (i.e.
                         unjustified) text. A value of "justify" converts all
@@ -65,47 +65,50 @@ public class CalibreConverter
                         (the default) does not change justification in the
                         source file. Note that only some output formats
                         support justification. */
-                        "--insert-blank-line", /*
+                "--insert-blank-line", /*
                         Insert a blank line between paragraphs. Will not work
                         if the source file does not use paragraphs (<p> or
                         <div> tags). */
-                        "--remove-paragraph-spacing", /*
+                "--remove-paragraph-spacing", /*
                         Remove spacing between paragraphs. Also sets an indent
                         on paragraphs of 1.5em. Spacing removal will not work
                         if the source file does not use paragraphs (<p> or
                         <div> tags). */
-                        "--enable-heuristics", /*
+                "--enable-heuristics", /*
                         Enable heuristic processing. This option must be set
                         for any heuristic processing to take place. */
-                        "--insert-metadata", /*
+                "--insert-metadata", /*
                         Insert the book metadata at the start of the book.
                         This is useful if your e-book reader does not support
                         displaying/searching metadata directly. */
-                        "--use-auto-toc", /*
+                "--use-auto-toc", /*
                         Normally, if the source file already has a Table of
                         Contents, it is used in preference to the auto-
                         generated one. With this option, the auto-generated
                         one is always used. */
-                        "--title", submission.getTitle(), /* <id> - <title> by <byline>.<source.ext>
+                "--title", submission.getTitle(), /* <id> - <title> by <byline>.<source.ext>
                         Set the title. */
-                        "--title-sort", submission.getTitle(), /*
+                "--title-sort", submission.getTitle(), /*
                         The version of the title to be used for sorting. */
-                        "--authors", submission.getByline(), /*
+                "--authors", submission.getByline(), /*
                         Set the authors. Multiple authors should be separated
                         by ampersands. */
-                        "--author-sort", submission.getByline(), /*
+                "--author-sort", submission.getByline(), /*
                         String to be used when sorting by author. */
-                        "--comments", "%s - %s\n<hr/>%s\n<hr/>\n%s".formatted(
-                                submission.getGenre().getValue(),
-                                submission.getWordLengthBand().getValue(),
-                                submission.getLogLine(),
-                                submission.getCoverLetter()), /*
+                "--comments", "%s - %s\n<hr/>%s\n<hr/>\n%s".formatted(
+                submission.getGenre().getValue(),
+                submission.getWordLengthBand().getValue(),
+                submission.getLogLine(),
+                submission.getCoverLetter()), /*
                         Set the e-book description. */
-                        "--series", "Slushy", /*
+                "--series", "Slushy", /*
                         Set the series this e-book belongs to. */
-                        "--series-index", submission.getId() /*
+                "--series-index", submission.getId() /*
                         Set the index of the book in this series. */
-                        )
+        };
+        log.info(String.join(" ", args));
+        String output = new ProcessExecutor()
+                .command(args)
                 .readOutput(true)
                 .execute()
                 .outputUTF8();
