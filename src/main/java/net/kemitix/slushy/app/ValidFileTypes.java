@@ -17,7 +17,7 @@ public class ValidFileTypes {
     // https://www.amazon.co.uk/gp/help/customer/display.html?nodeId=200767340
     // Excludes PDF and RTF as they are rejected despite the documentation
     public static final List<String> KINDLE_SUPPORTED = List.of(
-            "docx", "doc",
+            "docx",
             "txt",
             "azw",
             "epub",
