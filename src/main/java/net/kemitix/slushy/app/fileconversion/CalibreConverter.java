@@ -27,6 +27,7 @@ public class CalibreConverter
             "html",
             "htm",
             "txt",
+            "mobi",
             "azw"
     );
 
