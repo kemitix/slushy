@@ -34,7 +34,7 @@ public class WebHookTrelloRoute
 
                 .idempotentConsumer().jsonpath("body-json.action.id")
                 .skipDuplicate(true)
-                .messageIdRepository(MemoryIdempotentRepository::new)
+                .idempotentRepository(new MemoryIdempotentRepository())
 
                 .setHeader("ActionType").jsonpath("body-json.action.type")
 
