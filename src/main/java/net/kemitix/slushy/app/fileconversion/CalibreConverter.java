@@ -1,5 +1,6 @@
 package net.kemitix.slushy.app.fileconversion;
 
+import jakarta.inject.Inject;
 import lombok.SneakyThrows;
 import lombok.extern.java.Log;
 import net.kemitix.slushy.app.Submission;
@@ -10,6 +11,7 @@ import org.zeroturnaround.exec.ProcessExecutor;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +33,9 @@ public class CalibreConverter
             "azw"
     );
 
+    @Inject
+    DynamicConverterProperties converterProperties;
+
     @Override
     public boolean canHandle(Attachment attachment) {
         return canConvertFrom()
@@ -49,43 +54,10 @@ public class CalibreConverter
         log.info("ebook-convert");
         log.info("Source File: " + sourceFile);
         log.info("Target File: " + targetFile);
-        String[] args = new String[]{
+        List<String> args = new ArrayList<>(List.of(
                 "ebook-convert",
                 sourceFile.toPath().toString(),
                 targetFile.toPath().toString(),
-                "--smarten-punctuation", /*
-                        Convert plain quotes, dashes and ellipsis to their
-                        typographically correct equivalents. For details, see
-                        https://daringfireball.net/projects/smartypants */
-                "--change-justification=justify", /*
-                        Change text justification. A value of "left" converts
-                        all justified text in the source to left aligned (i.e.
-                        unjustified) text. A value of "justify" converts all
-                        unjustified text to justified. A value of "original"
-                        (the default) does not change justification in the
-                        source file. Note that only some output formats
-                        support justification. */
-                "--insert-blank-line", /*
-                        Insert a blank line between paragraphs. Will not work
-                        if the source file does not use paragraphs (<p> or
-                        <div> tags). */
-                "--remove-paragraph-spacing", /*
-                        Remove spacing between paragraphs. Also sets an indent
-                        on paragraphs of 1.5em. Spacing removal will not work
-                        if the source file does not use paragraphs (<p> or
-                        <div> tags). */
-                "--enable-heuristics", /*
-                        Enable heuristic processing. This option must be set
-                        for any heuristic processing to take place. */
-                "--insert-metadata", /*
-                        Insert the book metadata at the start of the book.
-                        This is useful if your e-book reader does not support
-                        displaying/searching metadata directly. */
-                "--use-auto-toc", /*
-                        Normally, if the source file already has a Table of
-                        Contents, it is used in preference to the auto-
-                        generated one. With this option, the auto-generated
-                        one is always used. */
                 "--title", submission.getTitle(), /* <id> - <title> by <byline>.<source.ext>
                         Set the title. */
                 "--title-sort", submission.getTitle(), /*
@@ -104,8 +76,26 @@ public class CalibreConverter
                 "--series", "Slushy", /*
                         Set the series this e-book belongs to. */
                 "--series-index", submission.getId() /*
-                        Set the index of the book in this series. */
-        };
+                        Set the index of the book in this series. */));
+        if (converterProperties.smartenPunctuation()) {
+            args.add("--smarten-punctuation");
+        }
+        args.add("--change-justification=%s".formatted(converterProperties.changeJustification()));
+        if (converterProperties.insertBlankLine()) {
+            args.add("--insert-blank-line");
+        }
+        if (converterProperties.removeParagraphSpacing()) {
+            args.add("--remove-paragraph-spacing");
+        }
+        if (converterProperties.enableHeuristics()) {
+            args.add("--enable-heuristics");
+        }
+        if (converterProperties.insertMetadata()) {
+            args.add("--insert-metadata");
+        }
+        if (converterProperties.useAutoToc()) {
+            args.add("--use-auto-toc");
+        }
         log.info(String.join(" ", args));
         String output = new ProcessExecutor()
                 .command(args)
