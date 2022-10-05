@@ -19,6 +19,11 @@ public interface DynamicConfig {
                 .map(Long::parseLong);
     }
 
+    default Optional<Boolean> findBooleanValue(String prefix, String name) {
+        return findValue(prefix, name)
+                .map(Boolean::parseBoolean);
+    }
+
     default Optional<Integer> findIntegerValue(String prefix, String name) {
         return findValue(prefix, name)
                 .map(Integer::parseInt);
