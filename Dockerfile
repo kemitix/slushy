@@ -50,7 +50,7 @@ RUN apt-get update && \
         libgl1 \
     && rm -rf /var/lib/apt/lists/*
 
-FROM maven:3.8.5-openjdk-17-slim as build
+FROM maven:3.8.6-openjdk-17-slim as build
 
 WORKDIR /build
 
