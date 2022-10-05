@@ -38,8 +38,7 @@ public class SendToReaderRoute
 
                 .idempotentConsumer().simple("${header.SlushyCard.id}")
                 .skipDuplicate(true)
-                .messageIdRepository(() ->
-                        memoryIdempotentRepository(readerProperties.maxSize()))
+                .idempotentRepository(memoryIdempotentRepository(readerProperties.maxSize()))
 
                 .setHeader("SlushyRecipient", trelloConfig::getReader)
                 .setHeader("SlushySender", trelloConfig::getSender)

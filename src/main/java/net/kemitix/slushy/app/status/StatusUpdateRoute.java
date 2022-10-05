@@ -21,7 +21,7 @@ public class StatusUpdateRoute
                 // Ignore additional messages sent within a second
                 .idempotentConsumer().method(this, "tick")
                 .skipDuplicate(true)
-                .messageIdRepository(MemoryIdempotentRepository::new)
+                .idempotentRepository(new MemoryIdempotentRepository())
 
                 .bean(logStatus)
         ;

@@ -34,7 +34,7 @@ public class SendEmailRoute
                         ":${header.SlushySubmission.email}" +
                         ":${header.SlushyCard.id}")
                 .skipDuplicate(true)
-                .messageIdRepository(MemoryIdempotentRepository::new)
+                .idempotentRepository(new MemoryIdempotentRepository())
 
                 .setHeader("SlushyRecipient").simple("${header.SlushySubmission.email}")
                 .setHeader("SlushySender", trelloConfig::getSender)
