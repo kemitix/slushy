@@ -28,7 +28,7 @@
         <odftoolkit.version>1.0.6</odftoolkit.version>
         <microprofile.version>5.0</microprofile.version>
         <resteasy-core-spi.version>4.6.0.Final</resteasy-core-spi.version>
-        <kemitix-trello.version>2.0.1</kemitix-trello.version>
+        <kemitix-trello.version>2.0.3</kemitix-trello.version>
         <commons-text.version>1.10.0</commons-text.version>
         <zt-exec.version>1.12</zt-exec.version>
 
