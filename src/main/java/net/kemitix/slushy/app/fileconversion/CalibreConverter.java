@@ -96,6 +96,9 @@ public class CalibreConverter
         if (converterProperties.useAutoToc()) {
             args.add("--use-auto-toc");
         }
+        if (converterProperties.filterCss().length() > 0) {
+            args.add("--filter-css=%s".formatted(converterProperties.filterCss()));
+        }
         log.info(String.join(" ", args));
         String output = new ProcessExecutor()
                 .command(args)

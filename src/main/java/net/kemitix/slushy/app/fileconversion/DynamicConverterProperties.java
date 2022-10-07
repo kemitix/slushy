@@ -52,4 +52,10 @@ public class DynamicConverterProperties
         return findBooleanValue(CalibraConverterConfigMapping.PREFIX, USE_AUTO_TOC)
                 .orElseGet(configMapping::useAutoToc);
     }
+
+    @Override
+    public String filterCss() {
+        return findValue(CalibraConverterConfigMapping.PREFIX, FILTER_CSS)
+                .orElseGet(configMapping::filterCss);
+    }
 }
