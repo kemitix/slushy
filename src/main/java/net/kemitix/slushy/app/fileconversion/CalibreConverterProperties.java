@@ -9,6 +9,7 @@ public interface CalibreConverterProperties {
     String ENABLE_HEURISTICS = "enable-heuristics";
     String INSERT_METADATA = "insert-metadata";
     String USE_AUTO_TOC = "use-auto-toc";
+    String FILTER_CSS = "filter-css";
 
     /**
      * Convert plain quotes, dashes and ellipsis to their
@@ -63,4 +64,13 @@ public interface CalibreConverterProperties {
      * one is always used.
      */
     boolean useAutoToc();
+
+    /**
+     * A comma separated list of CSS properties that will be
+     * removed from all CSS style rules. This is useful if
+     * the presence of some style information prevents it
+     * from being overridden on your device. For example:
+     * font-family,color,margin-left,margin-right
+     */
+    String filterCss();
 }
