@@ -41,13 +41,13 @@ public class SendEmailAttachment {
             @NonNull @Header("SlushySender") String sender,
             @NonNull @Header("SlushySubject") String subject,
             @NonNull @Header("SlushyReadableAttachment") LocalAttachment attachment
-    ) throws MessagingException, IOException {
+    ) {
         log.info(String.format("send to %s, from %s", recipient, sender));
         String name = attachment.getFilename().getName();
         log.info(String.format("Sending %s", name));
         sesClient.sendRawEmail(request -> request
                 .source(sender)
-                .destinations(recipient)
+                .destinations(recipient, sender)
                 .rawMessage(rawMessage(recipient, sender, subject, attachment)));
     }
 
@@ -95,6 +95,8 @@ public class SendEmailAttachment {
         message.setFrom(sender);
         message.setSubject(subject);
         message.setRecipient(Message.RecipientType.TO, recipient);
+        message.setRecipient(Message.RecipientType.CC, sender);
+        message.setHeader("X-Sender", "Slushy");
         message.setContent(content);
         return message;
     }
