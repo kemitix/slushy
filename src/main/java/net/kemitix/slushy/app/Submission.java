@@ -25,14 +25,15 @@ public class Submission {
     private final String document;
     private final String logLine;
     private final Genre genre;
+    private final Window window;
 
     public static Builder builder() {
         return id -> title -> byline -> realName -> email -> paypal
                 -> wordLengthBand -> coverLetter -> contract -> date
-                -> document -> logLine -> genre
+                -> document -> logLine -> genre -> window
                 -> new Submission(id, title, byline, realName, email, paypal,
-                wordLengthBand, coverLetter, contract, date, document, logLine,
-                genre);
+                wordLengthBand, coverLetter, contract, date, document, logLine, genre,
+                window);
     }
 
     public boolean hasDocument() {
@@ -52,6 +53,7 @@ public class Submission {
         interface Stage8 {Stage9 submittedDate(Instant submittedDate);}
         interface Stage9 {Stage10 document(String document);}
         interface Stage10 {Stage11 logLine(String logLine);}
-        interface Stage11 {Submission genre(Genre genre);}
+        interface Stage11 {Stage12 genre(Genre genre);}
+        interface Stage12 {Submission window(Window window);}
     }
 }

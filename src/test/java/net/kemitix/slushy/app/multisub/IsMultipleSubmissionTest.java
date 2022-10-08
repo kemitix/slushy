@@ -1,10 +1,7 @@
 package net.kemitix.slushy.app.multisub;
 
-import net.kemitix.slushy.app.Contract;
-import net.kemitix.slushy.app.Genre;
+import net.kemitix.slushy.app.*;
 import net.kemitix.slushy.app.cardparsers.ParseSubmission;
-import net.kemitix.slushy.app.Submission;
-import net.kemitix.slushy.app.WordLengthBand;
 import net.kemitix.slushy.trello.SlushyBoard;
 import net.kemitix.trello.TrelloCard;
 import org.assertj.core.api.WithAssertions;
@@ -51,6 +48,7 @@ class IsMultipleSubmissionTest
             .document("selfDocument")
             .logLine("selfLogLine")
             .genre(Genre.Unknown)
+            .window(Window.DIVERSITY)
             ;
     Submission other = Submission.builder()
             .id("otherId")
@@ -66,6 +64,7 @@ class IsMultipleSubmissionTest
             .document("otherDocument")
             .logLine("selfLogLine")
             .genre(Genre.Unknown)
+            .window(Window.GENERAL)
             ;
 
     Submission otherEmailToEmail = other.withEmail(self.getEmail());
