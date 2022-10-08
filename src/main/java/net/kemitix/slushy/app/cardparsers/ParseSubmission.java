@@ -3,14 +3,7 @@ package net.kemitix.slushy.app.cardparsers;
 import com.julienvey.trello.domain.Attachment;
 import com.julienvey.trello.domain.Card;
 import lombok.NonNull;
-import net.kemitix.slushy.app.Contract;
-import net.kemitix.slushy.app.Genre;
-import net.kemitix.slushy.app.Now;
-import net.kemitix.slushy.app.SlushyHeader;
-import net.kemitix.slushy.app.Submission;
-import net.kemitix.slushy.app.UnknownCardFormatException;
-import net.kemitix.slushy.app.ValidFileTypes;
-import net.kemitix.slushy.app.WordLengthBand;
+import net.kemitix.slushy.app.*;
 import net.kemitix.slushy.trello.SlushyBoard;
 import org.apache.camel.Handler;
 import org.apache.camel.Header;
@@ -53,6 +46,7 @@ public class ParseSubmission {
                 .document(getAttachmentUrl(card))
                 .logLine(body.getOrDefault("logline", ""))
                 .genre(Genre.parse(body.getOrDefault("genre", Genre.Unknown.toString())))
+                .window(Window.parse(body.get("window")))
                 ;
     }
 
