@@ -39,10 +39,14 @@ public class ReformatCard {
     ) {
         // Name
         card.setName(String.format(
-                "%s - %s by %s",
+                "%s - %s by %s [%s] [%s] [%s]",
                 card.getIdShort(),
                 submission.getTitle(),
-                submission.getByline()));
+                submission.getByline(),
+                submission.getGenre().getValue(),
+                submission.getWindow().getValue(),
+                submission.getWordLengthBand().getValue()
+        ));
         // Due Date
         card.setDue(new Date(now.get()
                 .plus(inboxProperties.dueDays(), ChronoUnit.DAYS)
