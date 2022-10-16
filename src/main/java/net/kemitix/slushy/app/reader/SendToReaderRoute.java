@@ -13,16 +13,19 @@ import static org.apache.camel.support.processor.idempotent.MemoryIdempotentRepo
 @ApplicationScoped
 public class SendToReaderRoute
         extends RouteBuilder {
+    private final DynamicReaderProperties readerProperties;
     private final TrelloConfig trelloConfig;
     private final SendEmailAttachment sendEmailAttachment;
     private final AddComment addComment;
 
     @Inject
     public SendToReaderRoute(
+            DynamicReaderProperties readerProperties,
             TrelloConfig trelloConfig,
             SendEmailAttachment sendEmailAttachment,
             AddComment addComment
     ) {
+        this.readerProperties = readerProperties;
         this.trelloConfig = trelloConfig;
         this.sendEmailAttachment = sendEmailAttachment;
         this.addComment = addComment;
@@ -33,7 +36,7 @@ public class SendToReaderRoute
         from("direct:Slushy.SendToReader")
                 .routeId("Slushy.SendToReader")
 
-                .setHeader("SlushyRecipient", trelloConfig::getReader)
+                .setHeader("SlushyRecipient", readerProperties::reader)
                 .setHeader("SlushySender", trelloConfig::getSender)
                 .setHeader("SlushySubject").simple("Reader: ${header.SlushyCard.name}")
                 .bean(sendEmailAttachment)

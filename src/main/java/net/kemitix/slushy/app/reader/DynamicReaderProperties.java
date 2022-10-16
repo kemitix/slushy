@@ -6,6 +6,7 @@ import net.kemitix.slushy.app.config.DynamicConfig;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import net.kemitix.trello.TrelloConfig;
 
 @ApplicationScoped
 public class DynamicReaderProperties
@@ -13,6 +14,8 @@ public class DynamicReaderProperties
 
     @Inject
     ReaderConfigMapping configMapping;
+    @Inject
+    TrelloConfig trelloConfig;
 
     DynamicListProcessConfig config;
 
@@ -57,4 +60,10 @@ public class DynamicReaderProperties
                 .orElseGet(configMapping::maxSize);
     }
 
+    @Override
+    public String reader() {
+        return findValue(ReaderConfigMapping.PREFIX, READER)
+                .filter(reader -> !"environment".equals(reader))
+                .orElseGet(trelloConfig::getReader);
+    }
 }
