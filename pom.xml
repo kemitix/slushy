@@ -35,7 +35,7 @@
         <maven.compiler.parameters>true</maven.compiler.parameters>
         <maven-graph-plugin.version>1.45</maven-graph-plugin.version>
         <jakarta.mail-api.version>2.1.0</jakarta.mail-api.version>
-        <resteasy.version>6.2.0.Final</resteasy.version>
+        <resteasy.version>6.2.1.Final</resteasy.version>
         <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
         <smallrye-config.version>3.0.0</smallrye-config.version>
         <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
